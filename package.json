@@ -1,0 +1,26 @@
+{
+  "name": "react-route-generator",
+  "version": "0.0.1",
+  "description": "Route generator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eddeee888/react-route-generator.git"
+  },
+  "keywords": [
+    "react-router",
+    "generator"
+  ],
+  "author": "Eddy Nguyen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eddeee888/react-route-generator/issues"
+  },
+  "homepage": "https://github.com/eddeee888/react-route-generator#readme",
+  "devDependencies": {
+    "typescript": "^3.7.5"
+  }
+}
