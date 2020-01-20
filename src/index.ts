@@ -71,7 +71,6 @@ function generate(config: Config): void {
         if (err) {
           throw err;
         }
-        console.log('Successfully generated fixtures!');
       });
     });
   });
