@@ -4,7 +4,9 @@
   "description": "Route generator",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "run": "node dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +23,10 @@
   },
   "homepage": "https://github.com/eddeee888/react-route-generator#readme",
   "devDependencies": {
+    "@types/node": "^13.1.8",
     "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "path-to-regexp": "^6.1.0"
   }
 }

@@ -1,14 +1,14 @@
-  
 {
-    "compilerOptions": {
-        "target": "es5",
-        "module": "commonjs",
-        "sourceMap": true,
-        "noImplicitAny": true,
-        "removeComments": true,
-        "preserveConstEnums": true,
-        "outDir": "dist",
-    },
-    "include": ["src/**/*"],
-    "exclude": ["node_modules", "**/*.test.ts"]
+  "compilerOptions": {
+    "target": "es6",
+    "lib": ["es5", "es6", "ES2017", "dom", "esnext.asynciterable"],
+    "module": "commonjs",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "outDir": "dist"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/*.test.ts"]
 }
