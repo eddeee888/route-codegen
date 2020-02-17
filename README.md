@@ -18,18 +18,26 @@ npm run build
 npm run generate
 ```
 
+## Or Do it all in one command!
+
+```
+npm run integration
+```
+
 ## How it works
 
 - Reads in the config
 - Go through each "app"
 - Look at the routes it needs to generate and destination folder
 - Generate each route into its own file in the destination folder ( this helps codesplitting )
-- The files are generated into `tests` folder for now
+- The files are generated into `tests/output` folder for now
 
 ## TODO
 
-- [ ] Bring over `createRoute` function which uses the generated types to generate the route objects
-- [ ] Add yaml file for config
-- [ ] Make this CLI
-- [ ] Break `index.ts` into smaller files
+- [x] Bring over `createRoute` function which uses the generated types to generate the route objects
+- [x] Break `index.ts` into smaller files
+- [x] Handle inter app routing
+- [x] Handle NextJS routing
+- [x] Add yaml file for config
+- [x] Make this CLI
 - [ ] Publish this

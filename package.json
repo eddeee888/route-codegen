@@ -2,31 +2,36 @@
   "name": "react-route-generator",
   "version": "0.0.1",
   "description": "Route generator",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "generate": "node dist/index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/eddeee888/react-route-generator.git"
+    "generate": "node dist/tests/run.js",
+    "test-integration": "rm -rf ./src/tests/output && npm run build && npm run generate",
+    "test-cli": "rm -rf ./src/tests/output && npm run build && node dist/index.js --config src/tests/routegen.yml"
   },
   "keywords": [
     "react-router",
     "generator"
   ],
-  "author": "Eddy Nguyen",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/eddeee888/react-route-generator/issues"
-  },
-  "homepage": "https://github.com/eddeee888/react-route-generator#readme",
   "devDependencies": {
+    "@types/js-yaml": "^3.12.2",
     "@types/node": "^13.1.8",
+    "@types/react": "^16.9.17",
+    "@types/react-dom": "^16.9.4",
+    "@types/react-router": "^5.1.4",
+    "@types/react-router-dom": "^5.1.3",
+    "@types/yargs": "^15.0.3",
     "typescript": "^3.7.5"
   },
   "dependencies": {
-    "path-to-regexp": "^6.1.0"
+    "js-yaml": "^3.13.1",
+    "next": "^9.2.1",
+    "path-to-regexp": "^6.1.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-router": "^5.1.2",
+    "yargs": "^15.1.0"
   }
 }
