@@ -17,9 +17,9 @@ function generateExternalRoutesConfig(apps: Record<string, AppConfig>): Record<s
     });
 
     externalRoutesConfig[appName] = {
+      ...defaultAppConfig,
       routes: currentAppRoutes,
       routingType: RoutingType.Default,
-      destinationDir: defaultAppConfig.destinationDir,
     };
   });
 
