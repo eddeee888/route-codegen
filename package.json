@@ -7,14 +7,14 @@
     "routegen": "./dist/index.js"
   },
   "files": [
-    "dist/**/*"
+    "dist/**/*",
+    "routeCreators/**/*"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "generate": "node dist/tests/run.js",
-    "test-integration": "rm -rf ./src/tests/output && npm run build && npm run generate",
-    "test-cli": "rm -rf ./src/tests/output && npm run build && node dist/index.js --config src/tests/routegen.yml",
+    "test:cli": "rm -rf ./tests/output && npm run build && node dist/index.js --config tests/routegen.yml",
     "pub": "yarn build && yarn publish"
   },
   "keywords": [

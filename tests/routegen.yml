@@ -3,23 +3,23 @@ apps:
     routes:
       user: /users/:id
     routingType: ReactRouter
-    destinationDir: src/tests/output/accounts/routes
+    destinationDir: tests/output/accounts/routes
 
   contests:
     routes:
       contest: /contests/:contestId
       entries: /contests/:contestId/entries/:entryId?
     routingType: ReactRouter
-    destinationDir: src/tests/output/contests/routes
+    destinationDir: tests/output/contests/routes
 
   projects:
     routes:
       project: /projects/:projectId/:tab(overview|activity|files|payments)?
     routingType: ReactRouter
-    destinationDir: src/tests/output/projects/routes
+    destinationDir: tests/output/projects/routes
 
   contestOverview:
     routes:
       overview: /contests/overview/:contestId
     routingType: NextJS
-    destinationDir: src/tests/output/contestOverview/routes
+    destinationDir: tests/output/contestOverview/routes

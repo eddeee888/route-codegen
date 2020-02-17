@@ -40,9 +40,15 @@ export const parseAppConfig = (appConfig: AppConfig): ParsedAppConfig => {
   const parsedConfig = {
     ...otherConfig,
     routingType: routingType,
-    reactRouterRouteCreator: reactRouterRouteCreator ? reactRouterRouteCreator : 'routeCreators/createReactRouterRoute',
-    externalRouteCreator: externalRouteCreator ? externalRouteCreator : 'routeCreators/createExternalRoute',
-    nextJsRouteCreator: nextJsRouteCreator ? nextJsRouteCreator : 'routeCreators/createNextJsRoute',
+    reactRouterRouteCreator: reactRouterRouteCreator
+      ? reactRouterRouteCreator
+      : 'react-route-generator/routeCreators/createReactRouterRoute',
+    externalRouteCreator: externalRouteCreator
+      ? externalRouteCreator
+      : 'react-route-generator/routeCreators/createExternalRoute',
+    nextJsRouteCreator: nextJsRouteCreator
+      ? nextJsRouteCreator
+      : 'react-route-generator/routeCreators/createNextJsRoute',
   };
 
   return parsedConfig;
