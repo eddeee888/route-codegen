@@ -40,4 +40,8 @@ npm run integration
 - [x] Handle NextJS routing
 - [x] Add yaml file for config
 - [x] Make this CLI
-- [ ] Publish this
+- [x] Publish
+- [ ] Make route creators more generic
+- [ ] Tests
+- [ ] Set up CI
+- [ ] Clean up

@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import yargs from 'yargs';
 import generate from './generate';
 import yaml from 'js-yaml';
