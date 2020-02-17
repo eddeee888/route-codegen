@@ -4,7 +4,56 @@ This is the MVP of the code generator for route types that are written in https:
 
 The generated types can be used to type generic `Route` component props
 
-## Build it!
+## Install
+
+```
+$ yarn add react-route-generator
+```
+
+Or
+
+```
+$ npm i react-route-generator
+```
+
+## Create config
+
+Add `routegen.yml` to project root. Example:
+
+```
+apps:
+  client:
+    routes:
+      login: /app/login
+      signup: /app/signup
+      logout: /app/logout
+      me: /app/me
+    routingType: ReactRouter
+    destinationDir: client/src/routes
+
+  client-seo:
+    routes:
+      home: /
+    routingType: NextJS
+    destinationDir: client-seo/src/routes
+
+```
+
+## Generate
+
+```
+$ yarn routegen
+```
+
+Or
+
+```
+$ npx routegen
+```
+
+## Developing
+
+### Build it!
 
 We need to build from TS -> JS to be able to run the generator. For the changes to reflect, after making changes in `src`, run the following:
 
@@ -12,19 +61,19 @@ We need to build from TS -> JS to be able to run the generator. For the changes 
 npm run build
 ```
 
-## Run it!
+### Run it!
 
 ```
 npm run generate
 ```
 
-## Or Do it all in one command!
+### Or Do it all in one command!
 
 ```
 npm run integration
 ```
 
-## How it works
+### How it works
 
 - Reads in the config
 - Go through each "app"
