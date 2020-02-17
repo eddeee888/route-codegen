@@ -90,7 +90,7 @@ npm run integration
 - [x] Add yaml file for config
 - [x] Make this CLI
 - [x] Publish
-- [ ] Make route creators more generic
+- [ ] Compile route creators to JS with `.d.ts` and make sure it can be imported
 - [ ] Tests
 - [ ] Set up CI
 - [ ] Clean up
