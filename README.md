@@ -6,13 +6,13 @@ The generated types can be used to type generic `Route` component props
 
 ## Install
 
-```
+```sh
 $ yarn add react-route-generator
 ```
 
 Or
 
-```
+```sh
 $ npm i react-route-generator
 ```
 
@@ -20,7 +20,7 @@ $ npm i react-route-generator
 
 Add `routegen.yml` to project root. Example:
 
-```
+```yml
 apps:
   client:
     routes:
@@ -36,18 +36,20 @@ apps:
       home: /
     routingType: NextJS
     destinationDir: client-seo/src/routes
-
+    reactRouterLinkCreatorPath: src/common/ui/createCustomReactRouterLink # Use on of these options if you want to custom how Link is created
+    nextJSLinkCreatorPath?: src/common/ui/createCustomNextJSLink
+    defaultLinkCreatorPath?: src/common/ui/createDefaultLink
 ```
 
 ## Generate
 
-```
+```sh
 $ yarn routegen
 ```
 
 Or
 
-```
+```sh
 $ npx routegen
 ```
 
@@ -57,19 +59,19 @@ $ npx routegen
 
 We need to build from TS -> JS to be able to run the generator. For the changes to reflect, after making changes in `src`, run the following:
 
-```
+```sh
 $ yarn run build
 ```
 
 ### Run it!
 
-```
+```sh
 $ yarn run generate
 ```
 
 ### Or Do it all in one command!
 
-```
+```sh
 $ yarn run test:cli
 ```
 
@@ -91,7 +93,7 @@ $ yarn run test:cli
 - [x] Make this CLI
 - [x] Publish
 - [x] Generate route / link creators
-- [ ] Generate url function needs to take URL query. Maybe pass this into each `createLink` as a function so route & link always have the same function.
+- [x] Generate url function needs to take URL query. Maybe pass this into each `createLink` as a function so route & link always have the same function.
 - [ ] Tests
 - [ ] Set up CI
 - [ ] Clean up
