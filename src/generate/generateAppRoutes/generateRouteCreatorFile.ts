@@ -5,7 +5,6 @@ const generateDefaultLinkFile = (utilsDir: string, functionName: string): void =
   let template = `/* This file was automatically generated and should not be edited. */\n`;
   template += `
     import React from 'react';
-    import React from 'react';
     import { generatePath } from 'react-router';
     
     type AnchorProps = React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>;
