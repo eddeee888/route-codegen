@@ -6,13 +6,13 @@ The generated types can be used to type generic `Route` component props
 
 ## Install
 
-```sh
+```bash
 $ yarn add react-route-generator
 ```
 
 Or
 
-```sh
+```bash
 $ npm i react-route-generator
 ```
 
@@ -36,20 +36,21 @@ apps:
       home: /
     routingType: NextJS
     destinationDir: client-seo/src/routes
-    reactRouterLinkCreatorPath: src/common/ui/createCustomReactRouterLink # Use on of these options if you want to custom how Link is created
+    # Use on of these options below if you want to custom how Link is created
+    reactRouterLinkCreatorPath: src/common/ui/createCustomReactRouterLink
     nextJSLinkCreatorPath?: src/common/ui/createCustomNextJSLink
     defaultLinkCreatorPath?: src/common/ui/createDefaultLink
 ```
 
 ## Generate
 
-```sh
+```bash
 $ yarn routegen
 ```
 
 Or
 
-```sh
+```bash
 $ npx routegen
 ```
 
@@ -59,19 +60,19 @@ $ npx routegen
 
 We need to build from TS -> JS to be able to run the generator. For the changes to reflect, after making changes in `src`, run the following:
 
-```sh
+```bash
 $ yarn run build
 ```
 
 ### Run it!
 
-```sh
+```bash
 $ yarn run generate
 ```
 
 ### Or Do it all in one command!
 
-```sh
+```bash
 $ yarn run test:cli
 ```
 
