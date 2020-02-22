@@ -43,7 +43,7 @@ const generateRouteTemplate = ({ routePattern, displayRouteName, keys, routeCrea
   }
 
   // Generate route object
-  template += `const ${displayRouteName} = createRoute<${interfaceName}>('${routePattern}');\n\n`;
+  template += `const ${displayRouteName} = createRoute<${interfaceName}>('${routePattern}');\n`;
   template += `export default ${displayRouteName};\n`;
 
   return template;
