@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link, LinkProps as ReactRouterLinkProps, generatePath } from 'react-router-dom';
 
 export interface LinkProps<P> extends Omit<ReactRouterLinkProps, 'to'> {

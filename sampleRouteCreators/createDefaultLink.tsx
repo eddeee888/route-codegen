@@ -7,11 +7,11 @@ export interface LinkProps<P> extends Omit<AnchorProps, 'href'> {
   params: P;
 }
 
-function createDefaultlLink<P = {}>(pattern: string) {
+function createDefaultLink<P = {}>(pattern: string) {
   return function RouteLink({ params, ...props }: LinkProps<P>) {
     const to = generatePath(pattern, params as any);
     return <a href={to} {...props} />;
   };
 }
 
-export default createDefaultlLink;
+export default createDefaultLink;

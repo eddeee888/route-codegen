@@ -5,6 +5,7 @@ const generateDefaultLinkFile = (utilsDir: string, functionName: string): void =
   let template = `/* This file was automatically generated and should not be edited. */\n`;
   template += `
     import React from 'react';
+    import React from 'react';
     import { generatePath } from 'react-router';
     
     type AnchorProps = React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>;
@@ -28,6 +29,7 @@ const generateDefaultLinkFile = (utilsDir: string, functionName: string): void =
 const generateNextJSLinkFile = (utilsDir: string, functionName: string): void => {
   let template = `/* This file was automatically generated and should not be edited. */\n`;
   template += `
+    import React from 'react';
     import { generatePath } from 'react-router';
     import LinkNext, { LinkProps as NextJSLinkProps } from 'next/link';
     
@@ -55,6 +57,7 @@ const generateNextJSLinkFile = (utilsDir: string, functionName: string): void =>
 const generateReactRouterLinkFile = (utilsDir: string, functionName: string): void => {
   let template = `/* This file was automatically generated and should not be edited. */\n`;
   template += `
+    import React from 'react';
     import { Link, LinkProps as ReactRouterLinkProps, generatePath } from 'react-router-dom';
 
     export interface LinkProps<P> extends Omit<ReactRouterLinkProps, 'to'> {

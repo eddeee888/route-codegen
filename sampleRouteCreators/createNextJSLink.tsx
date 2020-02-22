@@ -1,3 +1,4 @@
+import React from 'react';
 import { generatePath } from 'react-router';
 import LinkNext, { LinkProps as NextJSLinkProps } from 'next/link';
 
