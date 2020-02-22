@@ -1,27 +1,31 @@
-import { AppConfig, parseAppConfig, RoutingType } from './../config';
-import createRouteFile from './createRouteFile';
+import { AppConfig, parseAppConfig } from './../config';
+import generateRouteFile from './generateRouteFile';
+import generateRouteCreatorFile from './generateRouteCreatorFile';
 
 function generateAppRoutes(app: AppConfig): void {
   const {
     routes,
-    reactRouterRouteCreator,
-    nextJsRouteCreator,
-    externalRouteCreator,
     routingType,
     destinationDir,
+    reactRouterLinkCreator,
+    nextJSLinkCreator,
+    defaultLinkCreator,
   } = parseAppConfig(app);
 
   if (destinationDir) {
-    let routeCreator = externalRouteCreator;
-    if (routingType === RoutingType.NextJS) {
-      routeCreator = nextJsRouteCreator;
-    } else if (routingType === RoutingType.ReactRouter) {
-      routeCreator = reactRouterRouteCreator;
-    }
+    const routeCreator = `./utils/create${routingType}Route`;
 
     Object.entries(routes).forEach(([routeName, routePattern]) =>
-      createRouteFile({ routeName, routePattern, routeCreator, destinationDir })
+      generateRouteFile({ routeName, routePattern, routeCreator, destinationDir })
     );
+
+    generateRouteCreatorFile({
+      routingType,
+      destinationDir,
+      reactRouterLinkCreator,
+      nextJSLinkCreator,
+      defaultLinkCreator,
+    });
   }
 }
 

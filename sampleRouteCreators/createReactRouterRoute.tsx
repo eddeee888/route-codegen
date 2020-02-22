@@ -1,24 +1,15 @@
 import React from 'react';
 import { useRouteMatch, generatePath } from 'react-router';
-import { Link as DefaultLink, LinkProps as DefaultLinkProps } from 'react-router-dom';
+import createLink, { LinkProps } from './createReactRouterLink';
 
-interface RouteLinkProps<P> extends Omit<DefaultLinkProps, 'to'> {
-  params: P;
-}
-
-interface Route<P> {
+interface ReactRouterRoute<P> {
   pattern: string;
   generate: (inputParams: P) => string;
+  Link: React.FunctionComponent<LinkProps<P>>;
   useParams: () => P;
-  Link: (props: RouteLinkProps<P>) => any; // current type provided by react-router-dom does not allow us to use ReactNode
 }
 
-function createReactRouterRoute<P = {}>(pattern: string): Route<P> {
-  function RouteLink({ params, ...props }: RouteLinkProps<P>): any {
-    const to = generatePath(pattern, params as any);
-    return <DefaultLink {...props} to={to} />;
-  }
-
+function createReactRouterRoute<P = {}>(pattern: string): ReactRouterRoute<P> {
   return {
     pattern,
     generate: inputParams => generatePath(pattern, inputParams as any),
@@ -32,7 +23,7 @@ function createReactRouterRoute<P = {}>(pattern: string): Route<P> {
 
       return params;
     },
-    Link: RouteLink,
+    Link: createLink(pattern),
   };
 }
 

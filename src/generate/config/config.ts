@@ -8,33 +8,32 @@ export interface AppConfig {
   routes: Record<string, string>;
   routingType?: string;
   destinationDir?: string;
-  reactRouterRouteCreator?: string;
-  externalRouteCreator?: string;
-  nextJsRouteCreator?: string;
+  reactRouterLinkCreator?: string;
+  nextJSLinkCreator?: string;
+  defaultLinkCreator?: string;
 }
 
 export interface ParsedAppConfig {
   routes: Record<string, string>;
   routingType: RoutingType;
   destinationDir?: string;
-  reactRouterRouteCreator: string;
-  nextJsRouteCreator: string;
-  externalRouteCreator: string;
+  reactRouterLinkCreator?: string;
+  nextJSLinkCreator?: string;
+  defaultLinkCreator?: string;
 }
 
 export interface Config {
   apps: Record<string, AppConfig>;
 }
 
-export const parseAppConfig = (appConfig: AppConfig): ParsedAppConfig => {
-  const {
-    reactRouterRouteCreator,
-    externalRouteCreator,
-    nextJsRouteCreator,
-    routingType = 'Default',
-    ...otherConfig
-  } = appConfig;
-
+export const parseAppConfig = ({
+  reactRouterLinkCreator = './createReactRouterLink',
+  defaultLinkCreator = './createDefaultLink',
+  nextJSLinkCreator = './createNextJSLink',
+  routingType = 'Default',
+  routes,
+  destinationDir,
+}: AppConfig): ParsedAppConfig => {
   if (
     routingType !== RoutingType.NextJS &&
     routingType !== RoutingType.ReactRouter &&
@@ -43,18 +42,13 @@ export const parseAppConfig = (appConfig: AppConfig): ParsedAppConfig => {
     throw new Error('Routing type of an app must be either "NextJS" or "ReactRouter" or "Default"');
   }
 
-  const parsedConfig = {
-    ...otherConfig,
-    routingType: routingType,
-    reactRouterRouteCreator: reactRouterRouteCreator
-      ? reactRouterRouteCreator
-      : 'react-route-generator/routeCreators/createReactRouterRoute',
-    externalRouteCreator: externalRouteCreator
-      ? externalRouteCreator
-      : 'react-route-generator/routeCreators/createExternalRoute',
-    nextJsRouteCreator: nextJsRouteCreator
-      ? nextJsRouteCreator
-      : 'react-route-generator/routeCreators/createNextJsRoute',
+  const parsedConfig: ParsedAppConfig = {
+    routes,
+    destinationDir,
+    routingType,
+    reactRouterLinkCreator,
+    defaultLinkCreator,
+    nextJSLinkCreator,
   };
 
   return parsedConfig;

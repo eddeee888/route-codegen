@@ -1,5 +1,5 @@
 import { pathToRegexp, Key } from 'path-to-regexp';
-import { writeFile, mkdirSync } from 'fs';
+import { writeFileSync, mkdirSync } from 'fs';
 import generateRouteTemplate from './generateRouteTemplate';
 
 type CreateRouteFile = (params: {
@@ -25,11 +25,7 @@ const createRouteFile: CreateRouteFile = ({ routeName, routePattern, routeCreato
 
   mkdirSync(destinationDir, { recursive: true });
 
-  writeFile(destinationDir.concat('/', displayRouteName, '.ts'), template, err => {
-    if (err) {
-      throw err;
-    }
-  });
+  writeFileSync(destinationDir.concat('/', displayRouteName, '.ts'), template);
 };
 
 export default createRouteFile;
