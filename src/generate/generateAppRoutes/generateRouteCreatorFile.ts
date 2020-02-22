@@ -1,4 +1,4 @@
-import { RoutingType } from '../config';
+import { RoutingType, RouteLinkCreators } from '../config';
 import { mkdirSync, writeFileSync } from 'fs';
 
 const generateDefaultLinkFile = (utilsDir: string, functionName: string, generateUrlFunctionPath: string): void => {
@@ -83,18 +83,14 @@ const generateReactRouterLinkFile = (utilsDir: string, functionName: string, gen
 type GenerateRouteCreatorFile = (params: {
   routingType: RoutingType;
   utilsFolder: string;
-  reactRouterLinkCreatorPath: string;
-  nextJSLinkCreatorPath: string;
-  defaultLinkCreatorPath: string;
   generateUrlFunctionPath: string;
+  routeLinkCreators: RouteLinkCreators;
 }) => void;
 
 const generateRouteCreatorFile: GenerateRouteCreatorFile = ({
   routingType,
   utilsFolder,
-  reactRouterLinkCreatorPath,
-  nextJSLinkCreatorPath,
-  defaultLinkCreatorPath,
+  routeLinkCreators,
   generateUrlFunctionPath,
 }): void => {
   const functionName = `create${routingType}Route`;
@@ -104,16 +100,22 @@ const generateRouteCreatorFile: GenerateRouteCreatorFile = ({
   let createLinkFunctionPath = '';
   switch (routingType) {
     case RoutingType.ReactRouter:
-      createLinkFunctionPath = reactRouterLinkCreatorPath;
-      generateReactRouterLinkFile(utilsFolder, createLinkFunctionName, generateUrlFunctionPath);
+      createLinkFunctionPath = routeLinkCreators.ReactRouter.path;
+      if (routeLinkCreators.ReactRouter.shouldGenerateDefault) {
+        generateReactRouterLinkFile(utilsFolder, createLinkFunctionName, generateUrlFunctionPath);
+      }
       break;
     case RoutingType.NextJS:
-      createLinkFunctionPath = nextJSLinkCreatorPath;
-      generateNextJSLinkFile(utilsFolder, createLinkFunctionName, generateUrlFunctionPath);
+      createLinkFunctionPath = routeLinkCreators.NextJS.path;
+      if (routeLinkCreators.NextJS.shouldGenerateDefault) {
+        generateNextJSLinkFile(utilsFolder, createLinkFunctionName, generateUrlFunctionPath);
+      }
       break;
     default:
-      createLinkFunctionPath = defaultLinkCreatorPath;
-      generateDefaultLinkFile(utilsFolder, createLinkFunctionName, generateUrlFunctionPath);
+      createLinkFunctionPath = routeLinkCreators.Default.path;
+      if (routeLinkCreators.Default.shouldGenerateDefault) {
+        generateDefaultLinkFile(utilsFolder, createLinkFunctionName, generateUrlFunctionPath);
+      }
       break;
   }
 
