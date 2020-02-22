@@ -11,7 +11,6 @@ export interface AppConfig {
   reactRouterLinkCreatorPath?: string;
   nextJSLinkCreatorPath?: string;
   defaultLinkCreatorPath?: string;
-  generateUrlFunctionPath?: string;
 }
 
 export interface ParsedAppConfig {
@@ -22,7 +21,6 @@ export interface ParsedAppConfig {
   nextJSLinkCreatorPath: string;
   defaultLinkCreatorPath: string;
   generateUrlFunctionPath: string;
-  useDefaultGenerateUrlFunction: boolean;
 }
 
 export interface Config {
@@ -41,7 +39,6 @@ export const parseAppConfig = ({
   routingType = 'Default',
   routes,
   destinationDir,
-  generateUrlFunctionPath,
 }: AppConfig): ParsedAppConfig => {
   if (
     routingType !== RoutingType.NextJS &&
@@ -51,13 +48,6 @@ export const parseAppConfig = ({
     throw new Error('Routing type of an app must be either "NextJS" or "ReactRouter" or "Default"');
   }
 
-  let parsedGenerateUrlFunctionPath = GENERATE_URL_PATH;
-  let useDefaultGenerateUrlFunction = true;
-  if (!!generateUrlFunctionPath) {
-    parsedGenerateUrlFunctionPath = generateUrlFunctionPath;
-    useDefaultGenerateUrlFunction = false;
-  }
-
   const parsedConfig: ParsedAppConfig = {
     routes,
     destinationDir,
@@ -65,8 +55,7 @@ export const parseAppConfig = ({
     reactRouterLinkCreatorPath,
     defaultLinkCreatorPath,
     nextJSLinkCreatorPath,
-    generateUrlFunctionPath: parsedGenerateUrlFunctionPath,
-    useDefaultGenerateUrlFunction,
+    generateUrlFunctionPath: GENERATE_URL_PATH,
   };
 
   return parsedConfig;

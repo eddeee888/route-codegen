@@ -12,7 +12,6 @@ function generateAppRoutes(app: AppConfig): void {
     nextJSLinkCreatorPath,
     defaultLinkCreatorPath,
     generateUrlFunctionPath,
-    useDefaultGenerateUrlFunction,
   } = parseAppConfig(app);
 
   if (destinationDir) {
@@ -23,9 +22,7 @@ function generateAppRoutes(app: AppConfig): void {
       generateRouteFile({ routeName, routePattern, routeCreator, destinationDir })
     );
 
-    if (useDefaultGenerateUrlFunction) {
-      generateUrlDefaultFile(utilsFolder);
-    }
+    generateUrlDefaultFile(utilsFolder);
 
     generateRouteCreatorFile({
       routingType,

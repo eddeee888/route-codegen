@@ -68,7 +68,7 @@ const generateReactRouterLinkFile = (utilsDir: string, functionName: string, gen
     }
     
     function ${functionName}<P = {}>(pattern: string) {
-      return function ReactRouterLink({ params, ...props }: LinkProps<P>): any {
+      return function ReactRouterLink({ params, urlQuery, ...props }: LinkProps<P>): any {
         const to = generateUrl(pattern, params as any, urlQuery);
         return <Link {...props} to={to} />;
       };
