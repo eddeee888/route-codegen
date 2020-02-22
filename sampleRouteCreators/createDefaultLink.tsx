@@ -1,15 +1,16 @@
 import React from 'react';
-import { generatePath } from 'react-router';
+import generateUrl from './generateUrl';
 
 type AnchorProps = React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>;
 
 export interface LinkProps<P> extends Omit<AnchorProps, 'href'> {
   params: P;
+  urlQuery?: Record<string, string>;
 }
 
 function createDefaultLink<P = {}>(pattern: string) {
-  return function RouteLink({ params, ...props }: LinkProps<P>) {
-    const to = generatePath(pattern, params as any);
+  return function RouteLink({ params, urlQuery, ...props }: LinkProps<P>) {
+    const to = generateUrl(pattern, params as any, urlQuery);
     return <a href={to} {...props} />;
   };
 }

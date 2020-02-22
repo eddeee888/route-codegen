@@ -1,21 +1,22 @@
 import { RoutingType } from '../config';
 import { mkdirSync, writeFileSync } from 'fs';
 
-const generateDefaultLinkFile = (utilsDir: string, functionName: string): void => {
+const generateDefaultLinkFile = (utilsDir: string, functionName: string, generateUrlFunctionPath: string): void => {
   let template = `/* This file was automatically generated and should not be edited. */\n`;
   template += `
     import React from 'react';
-    import { generatePath } from 'react-router';
+    import generateUrl from '${generateUrlFunctionPath}';
     
     type AnchorProps = React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>;
     
     export interface LinkProps<P> extends Omit<AnchorProps, 'href'> {
       params: P;
+      urlQuery?: Record<string, string>;
     }
     
     function ${functionName}<P = {}>(pattern: string) {
-      return function RouteLink({ params, ...props }: LinkProps<P>) {
-        const to = generatePath(pattern, params as any);
+      return function RouteLink({ params, urlQuery, ...props }: LinkProps<P>) {
+        const to = generateUrl(pattern, params as any, urlQuery);
         return <a href={to} {...props} />;
       };
     }
@@ -25,21 +26,22 @@ const generateDefaultLinkFile = (utilsDir: string, functionName: string): void =
   writeFileSync(utilsDir.concat('/', `${functionName}.tsx`), template);
 };
 
-const generateNextJSLinkFile = (utilsDir: string, functionName: string): void => {
+const generateNextJSLinkFile = (utilsDir: string, functionName: string, generateUrlFunctionPath: string): void => {
   let template = `/* This file was automatically generated and should not be edited. */\n`;
   template += `
     import React from 'react';
-    import { generatePath } from 'react-router';
+    import generateUrl from '${generateUrlFunctionPath}';
     import LinkNext, { LinkProps as NextJSLinkProps } from 'next/link';
     
     export interface LinkProps<P> extends Omit<NextJSLinkProps, 'href'> {
       params: P;
       children: React.ReactNode;
+      urlQuery?: Record<string, string>;
     }
     
     function ${functionName}<P = {}>(pattern: string) {
-      return function NextJSLink({ params, children, ...props }: LinkProps<P>) {
-        const to = generatePath(pattern, params as any);
+      return function NextJSLink({ params, children, urlQuery, ...props }: LinkProps<P>) {
+        const to = generateUrl(pattern, params as any, urlQuery);
         return (
           <LinkNext href={to} {...props}>
             <a>{children}</a>
@@ -53,19 +55,21 @@ const generateNextJSLinkFile = (utilsDir: string, functionName: string): void =>
   writeFileSync(utilsDir.concat('/', `${functionName}.tsx`), template);
 };
 
-const generateReactRouterLinkFile = (utilsDir: string, functionName: string): void => {
+const generateReactRouterLinkFile = (utilsDir: string, functionName: string, generateUrlFunctionPath: string): void => {
   let template = `/* This file was automatically generated and should not be edited. */\n`;
   template += `
     import React from 'react';
-    import { Link, LinkProps as ReactRouterLinkProps, generatePath } from 'react-router-dom';
+    import generateUrl from '${generateUrlFunctionPath}';
+    import { Link, LinkProps as ReactRouterLinkProps } from 'react-router-dom';
 
     export interface LinkProps<P> extends Omit<ReactRouterLinkProps, 'to'> {
       params: P;
+      urlQuery?: Record<string, string>;
     }
     
     function ${functionName}<P = {}>(pattern: string) {
       return function ReactRouterLink({ params, ...props }: LinkProps<P>): any {
-        const to = generatePath(pattern, params as any);
+        const to = generateUrl(pattern, params as any, urlQuery);
         return <Link {...props} to={to} />;
       };
     }
@@ -78,39 +82,38 @@ const generateReactRouterLinkFile = (utilsDir: string, functionName: string): vo
 
 type GenerateRouteCreatorFile = (params: {
   routingType: RoutingType;
-  destinationDir: string;
-  reactRouterLinkCreator: string;
-  nextJSLinkCreator: string;
-  defaultLinkCreator: string;
+  utilsFolder: string;
+  reactRouterLinkCreatorPath: string;
+  nextJSLinkCreatorPath: string;
+  defaultLinkCreatorPath: string;
+  generateUrlFunctionPath: string;
 }) => void;
 
 const generateRouteCreatorFile: GenerateRouteCreatorFile = ({
   routingType,
-  destinationDir,
-  reactRouterLinkCreator,
-  nextJSLinkCreator,
-  defaultLinkCreator,
+  utilsFolder,
+  reactRouterLinkCreatorPath,
+  nextJSLinkCreatorPath,
+  defaultLinkCreatorPath,
+  generateUrlFunctionPath,
 }): void => {
   const functionName = `create${routingType}Route`;
   const resultInterfaceName = `${routingType}Route`;
   const createLinkFunctionName = `create${routingType}Link`;
 
-  const utilsFolder = destinationDir.concat('/', '/utils');
-  mkdirSync(utilsFolder, { recursive: true });
-
   let createLinkFunctionPath = '';
   switch (routingType) {
     case RoutingType.ReactRouter:
-      createLinkFunctionPath = reactRouterLinkCreator;
-      generateReactRouterLinkFile(utilsFolder, createLinkFunctionName);
+      createLinkFunctionPath = reactRouterLinkCreatorPath;
+      generateReactRouterLinkFile(utilsFolder, createLinkFunctionName, generateUrlFunctionPath);
       break;
     case RoutingType.NextJS:
-      createLinkFunctionPath = nextJSLinkCreator;
-      generateNextJSLinkFile(utilsFolder, createLinkFunctionName);
+      createLinkFunctionPath = nextJSLinkCreatorPath;
+      generateNextJSLinkFile(utilsFolder, createLinkFunctionName, generateUrlFunctionPath);
       break;
     default:
-      createLinkFunctionPath = defaultLinkCreator;
-      generateDefaultLinkFile(utilsFolder, createLinkFunctionName);
+      createLinkFunctionPath = defaultLinkCreatorPath;
+      generateDefaultLinkFile(utilsFolder, createLinkFunctionName, generateUrlFunctionPath);
       break;
   }
 
@@ -119,7 +122,7 @@ const generateRouteCreatorFile: GenerateRouteCreatorFile = ({
   // imports
   template += `
     import createLink, { LinkProps } from '${createLinkFunctionPath}';
-    import { generatePath } from 'react-router';
+    import generateUrl from '${generateUrlFunctionPath}';
     ${routingType === RoutingType.ReactRouter ? `import { useRouteMatch } from 'react-router';` : ''}
   `;
 
@@ -127,7 +130,7 @@ const generateRouteCreatorFile: GenerateRouteCreatorFile = ({
   template += `
     interface ${resultInterfaceName}<P> {
       pattern: string;
-      generate: (inputParams: P) => string;
+      generate: (inputParams: P, urlQuery: Record<string,string>) => string;
       Link: React.FunctionComponent<LinkProps<P>>;
       ${routingType === RoutingType.ReactRouter ? 'useParams: () => P;' : ''}
     }
@@ -135,7 +138,7 @@ const generateRouteCreatorFile: GenerateRouteCreatorFile = ({
     function ${functionName}<P = {}>(pattern: string): ${resultInterfaceName}<P> {
       return {
         pattern,
-        generate: params => generatePath(pattern, params as any),
+        generate: (inputParams, urlQuery) => generateUrl(pattern, inputParams as any, urlQuery),
         Link: createLink(pattern),
         ${
           routingType === RoutingType.ReactRouter

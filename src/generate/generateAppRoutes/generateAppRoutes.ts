@@ -1,30 +1,39 @@
 import { AppConfig, parseAppConfig } from './../config';
 import generateRouteFile from './generateRouteFile';
 import generateRouteCreatorFile from './generateRouteCreatorFile';
+import generateUrlDefaultFile from './generateUrlDefaultFile';
 
 function generateAppRoutes(app: AppConfig): void {
   const {
     routes,
     routingType,
     destinationDir,
-    reactRouterLinkCreator,
-    nextJSLinkCreator,
-    defaultLinkCreator,
+    reactRouterLinkCreatorPath,
+    nextJSLinkCreatorPath,
+    defaultLinkCreatorPath,
+    generateUrlFunctionPath,
+    useDefaultGenerateUrlFunction,
   } = parseAppConfig(app);
 
   if (destinationDir) {
     const routeCreator = `./utils/create${routingType}Route`;
+    const utilsFolder = destinationDir.concat('/', '/utils');
 
     Object.entries(routes).forEach(([routeName, routePattern]) =>
       generateRouteFile({ routeName, routePattern, routeCreator, destinationDir })
     );
 
+    if (useDefaultGenerateUrlFunction) {
+      generateUrlDefaultFile(utilsFolder);
+    }
+
     generateRouteCreatorFile({
       routingType,
-      destinationDir,
-      reactRouterLinkCreator,
-      nextJSLinkCreator,
-      defaultLinkCreator,
+      utilsFolder,
+      reactRouterLinkCreatorPath,
+      nextJSLinkCreatorPath,
+      defaultLinkCreatorPath,
+      generateUrlFunctionPath,
     });
   }
 }

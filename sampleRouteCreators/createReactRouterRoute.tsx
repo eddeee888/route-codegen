@@ -1,10 +1,11 @@
 import React from 'react';
-import { useRouteMatch, generatePath } from 'react-router';
+import { useRouteMatch } from 'react-router';
 import createLink, { LinkProps } from './createReactRouterLink';
+import generateUrl from './generateUrl';
 
 interface ReactRouterRoute<P> {
   pattern: string;
-  generate: (inputParams: P) => string;
+  generate: (inputParams: P, urlQuery?: Record<string, string>) => string;
   Link: React.FunctionComponent<LinkProps<P>>;
   useParams: () => P;
 }
@@ -12,7 +13,7 @@ interface ReactRouterRoute<P> {
 function createReactRouterRoute<P = {}>(pattern: string): ReactRouterRoute<P> {
   return {
     pattern,
-    generate: inputParams => generatePath(pattern, inputParams as any),
+    generate: (inputParams, urlQuery) => generateUrl(pattern, inputParams as any, urlQuery),
     useParams: () => {
       const { path, params } = useRouteMatch<P>();
 
