@@ -130,7 +130,7 @@ const generateRouteCreatorFile: GenerateRouteCreatorFile = ({
   template += `
     interface ${resultInterfaceName}<P> {
       pattern: string;
-      generate: (inputParams: P, urlQuery: Record<string,string>) => string;
+      generate: (inputParams: P, urlQuery?: Record<string,string>) => string;
       Link: React.FunctionComponent<LinkProps<P>>;
       ${routingType === RoutingType.ReactRouter ? 'useParams: () => P;' : ''}
     }
