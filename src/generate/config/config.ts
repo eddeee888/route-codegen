@@ -8,28 +8,34 @@ export interface AppConfig {
   routes: Record<string, string>;
   routingType?: string;
   destinationDir?: string;
-  reactRouterLinkCreator?: string;
-  nextJSLinkCreator?: string;
-  defaultLinkCreator?: string;
+  reactRouterLinkCreatorPath?: string;
+  nextJSLinkCreatorPath?: string;
+  defaultLinkCreatorPath?: string;
 }
+
+export type RouteLinkCreators = Record<RoutingType, { path: string; shouldGenerateDefault: boolean }>;
 
 export interface ParsedAppConfig {
   routes: Record<string, string>;
   routingType: RoutingType;
   destinationDir?: string;
-  reactRouterLinkCreator?: string;
-  nextJSLinkCreator?: string;
-  defaultLinkCreator?: string;
+  routeLinkCreators: RouteLinkCreators;
+  generateUrlFunctionPath: string;
 }
 
 export interface Config {
   apps: Record<string, AppConfig>;
 }
 
+const REACT_ROUTER_LINK_CREATOR_PATH = './createReactRouterLink';
+const DEFAULT_LINK_CREATOR_PATH = './createDefaultLink';
+const NEXTJS_LINK_CREATOR_PATH = './createNextJSLink';
+const GENERATE_URL_PATH = './generateUrl';
+
 export const parseAppConfig = ({
-  reactRouterLinkCreator = './createReactRouterLink',
-  defaultLinkCreator = './createDefaultLink',
-  nextJSLinkCreator = './createNextJSLink',
+  reactRouterLinkCreatorPath,
+  defaultLinkCreatorPath,
+  nextJSLinkCreatorPath,
   routingType = 'Default',
   routes,
   destinationDir,
@@ -46,9 +52,18 @@ export const parseAppConfig = ({
     routes,
     destinationDir,
     routingType,
-    reactRouterLinkCreator,
-    defaultLinkCreator,
-    nextJSLinkCreator,
+    routeLinkCreators: {
+      ReactRouter: reactRouterLinkCreatorPath
+        ? { path: reactRouterLinkCreatorPath, shouldGenerateDefault: false }
+        : { path: REACT_ROUTER_LINK_CREATOR_PATH, shouldGenerateDefault: true },
+      NextJS: nextJSLinkCreatorPath
+        ? { path: nextJSLinkCreatorPath, shouldGenerateDefault: false }
+        : { path: NEXTJS_LINK_CREATOR_PATH, shouldGenerateDefault: true },
+      Default: defaultLinkCreatorPath
+        ? { path: defaultLinkCreatorPath, shouldGenerateDefault: false }
+        : { path: DEFAULT_LINK_CREATOR_PATH, shouldGenerateDefault: true },
+    },
+    generateUrlFunctionPath: GENERATE_URL_PATH,
   };
 
   return parsedConfig;
