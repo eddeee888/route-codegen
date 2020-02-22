@@ -1,15 +1,15 @@
 import { Config } from './config';
 import generateExternalRoutesConfig from './generateExternalRoutesConfig';
-import processAppConfig from './../generate/processAppConfig';
+import generateAppRoutes from './generateAppRoutes';
 
 function generate(config: Config): void {
   // TODO: make this async maybe
 
   const { apps } = config;
-  Object.values(apps).forEach(processAppConfig);
+  Object.values(apps).forEach(generateAppRoutes);
 
   const otherApps = generateExternalRoutesConfig(apps);
-  Object.values(otherApps).forEach(processAppConfig);
+  Object.values(otherApps).forEach(generateAppRoutes);
 }
 
 export default generate;

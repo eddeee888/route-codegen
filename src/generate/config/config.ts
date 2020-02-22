@@ -6,8 +6,8 @@ export enum RoutingType {
 
 export interface AppConfig {
   routes: Record<string, string>;
-  routingType: string;
-  destinationDir: string;
+  routingType?: string;
+  destinationDir?: string;
   reactRouterRouteCreator?: string;
   externalRouteCreator?: string;
   nextJsRouteCreator?: string;
@@ -16,7 +16,7 @@ export interface AppConfig {
 export interface ParsedAppConfig {
   routes: Record<string, string>;
   routingType: RoutingType;
-  destinationDir: string;
+  destinationDir?: string;
   reactRouterRouteCreator: string;
   nextJsRouteCreator: string;
   externalRouteCreator: string;
@@ -27,7 +27,13 @@ export interface Config {
 }
 
 export const parseAppConfig = (appConfig: AppConfig): ParsedAppConfig => {
-  const { reactRouterRouteCreator, externalRouteCreator, nextJsRouteCreator, routingType, ...otherConfig } = appConfig;
+  const {
+    reactRouterRouteCreator,
+    externalRouteCreator,
+    nextJsRouteCreator,
+    routingType = 'Default',
+    ...otherConfig
+  } = appConfig;
 
   if (
     routingType !== RoutingType.NextJS &&

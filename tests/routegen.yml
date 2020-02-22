@@ -1,25 +1,26 @@
 apps:
-  accounts:
+  app:
     routes:
-      user: /users/:id
+      user: /app/users/:id
+      account: /app/account
     routingType: ReactRouter
-    destinationDir: tests/output/accounts/routes
+    destinationDir: tests/output/app/routes
 
-  contests:
+  auth:
     routes:
-      contest: /contests/:contestId
-      entries: /contests/:contestId/entries/:entryId?
-    routingType: ReactRouter
-    destinationDir: tests/output/contests/routes
-
-  projects:
-    routes:
-      project: /projects/:projectId/:tab(overview|activity|files|payments)?
-    routingType: ReactRouter
-    destinationDir: tests/output/projects/routes
-
-  contestOverview:
-    routes:
-      overview: /contests/overview/:contestId
+      login: /login
+      signup: /signup
     routingType: NextJS
-    destinationDir: tests/output/contestOverview/routes
+    destinationDir: tests/output/auth/routes
+
+  seo:
+    routes:
+      home: /
+      about: /about
+      terms: /terms-and-conditions
+    routingType: NextJS
+    destinationDir: tests/output/seo/routes
+
+  legacy:
+    routes:
+      legacy: /legacy/app

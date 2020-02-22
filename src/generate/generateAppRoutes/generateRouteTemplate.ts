@@ -8,7 +8,7 @@ interface Options {
   routeCreator: string;
 }
 
-const generateRouteFile = ({ routePattern, displayRouteName, keys, routeCreator }: Options): string => {
+const generateRouteTemplate = ({ routePattern, displayRouteName, keys, routeCreator }: Options): string => {
   const interfaceName = `${displayRouteName}Params`;
 
   let template = '/* This file was automatically generated and should not be edited. */\n';
@@ -46,4 +46,4 @@ const generateRouteFile = ({ routePattern, displayRouteName, keys, routeCreator 
   return template;
 };
 
-export default generateRouteFile;
+export default generateRouteTemplate;
