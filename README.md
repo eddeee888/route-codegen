@@ -58,19 +58,19 @@ $ npx routegen
 We need to build from TS -> JS to be able to run the generator. For the changes to reflect, after making changes in `src`, run the following:
 
 ```
-npm run build
+$ yarn run build
 ```
 
 ### Run it!
 
 ```
-npm run generate
+$ yarn run generate
 ```
 
 ### Or Do it all in one command!
 
 ```
-npm run integration
+$ yarn run test:cli
 ```
 
 ### How it works
@@ -90,7 +90,8 @@ npm run integration
 - [x] Add yaml file for config
 - [x] Make this CLI
 - [x] Publish
-- [ ] Compile route creators to JS with `.d.ts` and make sure it can be imported
+- [x] Generate route / link creators
+- [ ] Generate url function needs to take URL query. Maybe pass this into each `createLink` as a function so route & link always have the same function.
 - [ ] Tests
 - [ ] Set up CI
 - [ ] Clean up
