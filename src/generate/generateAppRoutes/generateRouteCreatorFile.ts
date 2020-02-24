@@ -125,7 +125,11 @@ const generateRouteCreatorFile: GenerateRouteCreatorFile = ({
   template += `
     import createLink, { LinkProps } from '${createLinkFunctionPath}';
     import generateUrl from '${generateUrlFunctionPath}';
-    ${routingType === RoutingType.ReactRouter ? `import { useRouteMatch } from 'react-router';` : ''}
+    ${
+      routingType === RoutingType.ReactRouter
+        ? `import { useRouteMatch } from 'react-router';\nimport { useHistory } from 'react-router';\n`
+        : ''
+    }
   `;
 
   // main function + type
@@ -134,7 +138,11 @@ const generateRouteCreatorFile: GenerateRouteCreatorFile = ({
       pattern: string;
       generate: (inputParams: P, urlQuery?: Record<string,string>) => string;
       Link: React.FunctionComponent<LinkProps<P>>;
-      ${routingType === RoutingType.ReactRouter ? 'useParams: () => P;' : ''}
+      ${
+        routingType === RoutingType.ReactRouter
+          ? `useParams: () => P;\nuseRedirect: (inputParams: P, urlQuery?: Record<string,string>) => () => void;\n`
+          : ''
+      }
     }
     
     function ${functionName}<P = {}>(pattern: string): ${resultInterfaceName}<P> {
@@ -144,8 +152,7 @@ const generateRouteCreatorFile: GenerateRouteCreatorFile = ({
         Link: createLink(pattern),
         ${
           routingType === RoutingType.ReactRouter
-            ? `
-        useParams: () => {
+            ? `useParams: () => {
           const { path, params } = useRouteMatch<P>();
     
           if (path !== pattern) {
@@ -154,6 +161,11 @@ const generateRouteCreatorFile: GenerateRouteCreatorFile = ({
           }
     
           return params;
+        },
+        useRedirect: (inputParams, urlQuery) => {
+          const history = useHistory();
+          const to = generateUrl(pattern, inputParams as any, urlQuery);
+          return () => history.push(to);
         },
         `
             : ''
