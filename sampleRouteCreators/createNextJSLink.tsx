@@ -5,7 +5,7 @@ import generateUrl from './generateUrl';
 export interface LinkProps<P> extends Omit<NextJSLinkProps, 'href'> {
   params: P;
   children: React.ReactNode;
-  urlQuery?: Record<string, string>;
+  urlQuery?: Partial<Record<string, string>>;
 }
 
 function createNextJSLink<P>(pattern: string) {

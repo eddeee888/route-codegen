@@ -1,6 +1,6 @@
 {
   "name": "react-route-generator",
-  "version": "0.0.18",
+  "version": "0.0.27",
   "description": "Route generator",
   "main": "dist/index.js",
   "bin": {
@@ -25,20 +25,12 @@
   "devDependencies": {
     "@types/js-yaml": "^3.12.2",
     "@types/node": "^13.1.8",
-    "@types/react": "^16.9.17",
-    "@types/react-dom": "^16.9.4",
-    "@types/react-router": "^5.1.4",
-    "@types/react-router-dom": "^5.1.3",
     "@types/yargs": "^15.0.3",
     "typescript": "^3.8.2"
   },
   "dependencies": {
     "js-yaml": "^3.13.1",
-    "next": "^9.2.1",
     "path-to-regexp": "^6.1.0",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-router": "^5.1.2",
     "yargs": "^15.1.0"
   }
 }

@@ -5,7 +5,7 @@ import generateUrl from './generateUrl';
 
 interface ReactRouterRoute<P> {
   pattern: string;
-  generate: (inputParams: P, urlQuery?: Record<string, string>) => string;
+  generate: (inputParams: P, urlQuery?: Partial<Record<string, string>>) => string;
   Link: React.FunctionComponent<LinkProps<P>>;
   useParams: () => P;
 }

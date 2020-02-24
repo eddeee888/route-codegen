@@ -29,6 +29,7 @@ apps:
       logout: /app/logout
       me: /app/me
     routingType: ReactRouter
+    generateReactRouterFunctions: false # Use this boolean if you don't want to create typed convenient functions/hooks such as `useParams` or `useRedirect`
     destinationDir: client/src/routes
 
   client-seo:
@@ -36,10 +37,18 @@ apps:
       home: /
     routingType: NextJS
     destinationDir: client-seo/src/routes
-    # Use on of these options below if you want to custom how Link is created
+    # Use on of these `reactRouterLinkCreatorPath`, `nextJSLinkCreatorPath`, `defaultLinkCreatorPath` options below if you want to custom how Link is created
     reactRouterLinkCreatorPath: src/common/ui/createCustomReactRouterLink
-    nextJSLinkCreatorPath?: src/common/ui/createCustomNextJSLink
-    defaultLinkCreatorPath?: src/common/ui/createDefaultLink
+    nextJSLinkCreatorPath: src/common/ui/createCustomNextJSLink
+    defaultLinkCreatorPath: src/common/ui/createDefaultLink
+
+  express-server:
+    generateLink: false
+    destinationDir: server/src/routes # an app without `routes` is still valid. In this case, this app can still generate url to other apps
+
+  legacy:
+    routes:
+      legacyApp: /legacy/app # leave out `destinationDir` if no route needs to be generated. Other apps still generate routes to this app
 ```
 
 ## Generate

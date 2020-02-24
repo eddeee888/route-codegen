@@ -10,7 +10,8 @@ apps:
     routes:
       login: /login
       signup: /signup
-    routingType: NextJS
+    routingType: ReactRouter
+    generateReactRouterFunctions: false
     destinationDir: tests/output/auth/routes
 
   seo:
@@ -24,3 +25,7 @@ apps:
   legacy:
     routes:
       legacy: /legacy/app
+
+  server:
+    generateLink: false
+    destinationDir: tests/output/server/routes
