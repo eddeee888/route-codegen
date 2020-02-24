@@ -4,7 +4,7 @@ import generateUrl from './generateUrl';
 
 export interface LinkProps<P> extends Omit<ReactRouterLinkProps, 'to'> {
   params: P;
-  urlQuery?: Record<string, string>;
+  urlQuery?: Partial<Record<string, string>>;
 }
 
 function createReactRouterLink<P = {}>(pattern: string) {

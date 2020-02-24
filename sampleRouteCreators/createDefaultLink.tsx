@@ -5,7 +5,7 @@ type AnchorProps = React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchor
 
 export interface LinkProps<P> extends Omit<AnchorProps, 'href'> {
   params: P;
-  urlQuery?: Record<string, string>;
+  urlQuery?: Partial<Record<string, string>>;
 }
 
 function createDefaultLink<P = {}>(pattern: string) {

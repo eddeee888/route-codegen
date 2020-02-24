@@ -137,7 +137,7 @@ const generateRouteCreatorFile: GenerateRouteCreatorFile = ({
   let routeReactRouterRows = '';
   if (shouldGenerateReactRouterRows) {
     importReactRouterRows = `import { useRouteMatch } from 'react-router';\nimport { useHistory } from 'react-router';\n`;
-    interfaceReactRouterRows = `useParams: () => P;\nuseRedirect: (inputParams: P, urlQuery?: Record<string,string>) => () => void;\n`;
+    interfaceReactRouterRows = `useParams: () => P;\nuseRedirect: (inputParams: P, urlQuery?: Partial<Record<string, string>>) => () => void;\n`;
     routeReactRouterRows = `useParams: () => {
       const { path, params } = useRouteMatch<P>();
 
