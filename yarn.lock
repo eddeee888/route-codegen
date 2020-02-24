@@ -126,6 +126,7 @@ path-exists@^4.0.0:
 path-to-regexp@^6.1.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-6.1.0.tgz#0b18f88b7a0ce0bfae6a25990c909ab86f512427"
+  integrity sha512-h9DqehX3zZZDCEm+xbfU0ZmwCGFCAAraPJWMXJ4+v32NjZJilVg3k1TcKsRgIb8IQ/izZSaydDc1OhJCZvs2Dw==
 
 require-directory@^2.1.1:
   version "2.1.1"
