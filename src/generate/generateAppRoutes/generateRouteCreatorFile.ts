@@ -1,5 +1,5 @@
 import { RoutingType, RouteLinkCreators } from '../config';
-import { mkdirSync, writeFileSync } from 'fs';
+import { writeFileSync } from 'fs';
 
 const generateDefaultLinkFile = (utilsDir: string, functionName: string, generateUrlFunctionPath: string): void => {
   let template = `/* This file was automatically generated and should not be edited. */\n`;
@@ -85,6 +85,8 @@ type GenerateRouteCreatorFile = (params: {
   utilsFolder: string;
   generateUrlFunctionPath: string;
   routeLinkCreators: RouteLinkCreators;
+  shouldGenerateLink: boolean;
+  shouldGenerateReactRouterFunctions: boolean;
 }) => void;
 
 const generateRouteCreatorFile: GenerateRouteCreatorFile = ({
@@ -92,44 +94,73 @@ const generateRouteCreatorFile: GenerateRouteCreatorFile = ({
   utilsFolder,
   routeLinkCreators,
   generateUrlFunctionPath,
+  shouldGenerateLink,
+  shouldGenerateReactRouterFunctions,
 }): void => {
   const functionName = `create${routingType}Route`;
   const resultInterfaceName = `${routingType}Route`;
   const createLinkFunctionName = `create${routingType}Link`;
 
-  let createLinkFunctionPath = '';
-  switch (routingType) {
-    case RoutingType.ReactRouter:
-      createLinkFunctionPath = routeLinkCreators.ReactRouter.path;
-      if (routeLinkCreators.ReactRouter.shouldGenerateDefault) {
-        generateReactRouterLinkFile(utilsFolder, createLinkFunctionName, generateUrlFunctionPath);
+  let importLinkRow = '';
+  let interfaceLinkRow = '';
+  let routeLinkRow = '';
+  if (shouldGenerateLink) {
+    let createLinkFunctionPath = '';
+    switch (routingType) {
+      case RoutingType.ReactRouter:
+        createLinkFunctionPath = routeLinkCreators.ReactRouter.path;
+        if (routeLinkCreators.ReactRouter.shouldGenerateDefault) {
+          generateReactRouterLinkFile(utilsFolder, createLinkFunctionName, generateUrlFunctionPath);
+        }
+        break;
+      case RoutingType.NextJS:
+        createLinkFunctionPath = routeLinkCreators.NextJS.path;
+        if (routeLinkCreators.NextJS.shouldGenerateDefault) {
+          generateNextJSLinkFile(utilsFolder, createLinkFunctionName, generateUrlFunctionPath);
+        }
+        break;
+      default:
+        createLinkFunctionPath = routeLinkCreators.Default.path;
+        if (routeLinkCreators.Default.shouldGenerateDefault) {
+          generateDefaultLinkFile(utilsFolder, createLinkFunctionName, generateUrlFunctionPath);
+        }
+        break;
+    }
+    importLinkRow = `import createLink, { LinkProps } from '${createLinkFunctionPath}'\n`;
+    interfaceLinkRow = 'Link: React.FunctionComponent<LinkProps<P>>;';
+    routeLinkRow = 'Link: createLink(pattern),';
+  }
+
+  const shouldGenerateReactRouterRows = routingType === RoutingType.ReactRouter && shouldGenerateReactRouterFunctions;
+  let importReactRouterRows = '';
+  let interfaceReactRouterRows = '';
+  let routeReactRouterRows = '';
+  if (shouldGenerateReactRouterRows) {
+    importReactRouterRows = `import { useRouteMatch } from 'react-router';\nimport { useHistory } from 'react-router';\n`;
+    interfaceReactRouterRows = `useParams: () => P;\nuseRedirect: (inputParams: P, urlQuery?: Record<string,string>) => () => void;\n`;
+    routeReactRouterRows = `useParams: () => {
+      const { path, params } = useRouteMatch<P>();
+
+      if (path !== pattern) {
+        const error = \`You are trying to use useParams for "${'${pattern}'}" in "${'${path}'}". Make sure you are using the right route link object!\`;
+        throw new Error(error);
       }
-      break;
-    case RoutingType.NextJS:
-      createLinkFunctionPath = routeLinkCreators.NextJS.path;
-      if (routeLinkCreators.NextJS.shouldGenerateDefault) {
-        generateNextJSLinkFile(utilsFolder, createLinkFunctionName, generateUrlFunctionPath);
-      }
-      break;
-    default:
-      createLinkFunctionPath = routeLinkCreators.Default.path;
-      if (routeLinkCreators.Default.shouldGenerateDefault) {
-        generateDefaultLinkFile(utilsFolder, createLinkFunctionName, generateUrlFunctionPath);
-      }
-      break;
+
+      return params;
+    },
+    useRedirect: (inputParams, urlQuery) => {
+      const history = useHistory();
+      const to = generateUrl(pattern, inputParams as any, urlQuery);
+      return () => history.push(to);
+    },`;
   }
 
   let template = `/* This file was automatically generated and should not be edited. */\n`;
 
   // imports
-  template += `
-    import createLink, { LinkProps } from '${createLinkFunctionPath}';
+  template += `${importLinkRow}
+    ${importReactRouterRows}
     import generateUrl from '${generateUrlFunctionPath}';
-    ${
-      routingType === RoutingType.ReactRouter
-        ? `import { useRouteMatch } from 'react-router';\nimport { useHistory } from 'react-router';\n`
-        : ''
-    }
   `;
 
   // main function + type
@@ -137,39 +168,16 @@ const generateRouteCreatorFile: GenerateRouteCreatorFile = ({
     interface ${resultInterfaceName}<P> {
       pattern: string;
       generate: (inputParams: P, urlQuery?: Record<string,string>) => string;
-      Link: React.FunctionComponent<LinkProps<P>>;
-      ${
-        routingType === RoutingType.ReactRouter
-          ? `useParams: () => P;\nuseRedirect: (inputParams: P, urlQuery?: Record<string,string>) => () => void;\n`
-          : ''
-      }
+      ${interfaceLinkRow}
+      ${interfaceReactRouterRows}
     }
     
     function ${functionName}<P = {}>(pattern: string): ${resultInterfaceName}<P> {
       return {
         pattern,
         generate: (inputParams, urlQuery) => generateUrl(pattern, inputParams as any, urlQuery),
-        Link: createLink(pattern),
-        ${
-          routingType === RoutingType.ReactRouter
-            ? `useParams: () => {
-          const { path, params } = useRouteMatch<P>();
-    
-          if (path !== pattern) {
-            const error = \`You are trying to use useParams for "${'${pattern}'}" in "${'${path}'}". Make sure you are using the right route link object!\`;
-            throw new Error(error);
-          }
-    
-          return params;
-        },
-        useRedirect: (inputParams, urlQuery) => {
-          const history = useHistory();
-          const to = generateUrl(pattern, inputParams as any, urlQuery);
-          return () => history.push(to);
-        },
-        `
-            : ''
-        }
+        ${routeLinkRow}
+        ${routeReactRouterRows}
       };
     }
     

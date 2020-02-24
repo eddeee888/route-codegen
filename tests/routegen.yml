@@ -24,3 +24,8 @@ apps:
   legacy:
     routes:
       legacy: /legacy/app
+
+  server:
+    generateLink: false
+    generateReactRouterFunctions: false
+    destinationDir: tests/output/server/routes

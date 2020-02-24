@@ -4,7 +4,15 @@ import generateRouteCreatorFile from './generateRouteCreatorFile';
 import generateUrlDefaultFile from './generateUrlDefaultFile';
 
 function generateAppRoutes(app: AppConfig): void {
-  const { routes, routingType, destinationDir, routeLinkCreators, generateUrlFunctionPath } = parseAppConfig(app);
+  const {
+    routes,
+    routingType,
+    destinationDir,
+    routeLinkCreators,
+    generateUrlFunctionPath,
+    shouldGenerateLink,
+    shouldGenerateReactRouterFunctions,
+  } = parseAppConfig(app);
 
   if (destinationDir) {
     const routeCreator = `./utils/create${routingType}Route`;
@@ -21,6 +29,8 @@ function generateAppRoutes(app: AppConfig): void {
       utilsFolder,
       routeLinkCreators,
       generateUrlFunctionPath,
+      shouldGenerateLink,
+      shouldGenerateReactRouterFunctions,
     });
   }
 }
