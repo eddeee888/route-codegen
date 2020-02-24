@@ -1,4 +1,27 @@
-import { generatePath } from 'react-router';
+import pathToRegexp from 'path-to-regexp';
+
+const cache = {};
+const cacheLimit = 10000;
+let cacheCount = 0;
+
+function compilePath(path: string): pathToRegexp.PathFunction<object> {
+  if (cache[path]) {
+    return cache[path];
+  }
+
+  const generator = pathToRegexp.compile(path);
+
+  if (cacheCount < cacheLimit) {
+    cache[path] = generator;
+    cacheCount++;
+  }
+
+  return generator;
+}
+
+function generatePath(path = '/', params = {}): string {
+  return path === '/' ? path : compilePath(path)(params);
+}
 
 export type GenerateUrl = <P>(pattern: string, inputParams: P, urlQuery?: Record<string, string>) => string;
 
