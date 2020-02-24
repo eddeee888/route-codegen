@@ -11,7 +11,7 @@ const generateDefaultLinkFile = (utilsDir: string, functionName: string, generat
     
     export interface LinkProps<P> extends Omit<AnchorProps, 'href'> {
       params: P;
-      urlQuery?: Record<string, string>;
+      urlQuery?: Partial<Record<string, string>>;
     }
     
     function ${functionName}<P = {}>(pattern: string) {
@@ -36,7 +36,7 @@ const generateNextJSLinkFile = (utilsDir: string, functionName: string, generate
     export interface LinkProps<P> extends Omit<NextJSLinkProps, 'href'> {
       params: P;
       children: React.ReactNode;
-      urlQuery?: Record<string, string>;
+      urlQuery?: Partial<Record<string, string>>;
     }
     
     function ${functionName}<P = {}>(pattern: string) {
@@ -64,7 +64,7 @@ const generateReactRouterLinkFile = (utilsDir: string, functionName: string, gen
 
     export interface LinkProps<P> extends Omit<ReactRouterLinkProps, 'to'> {
       params: P;
-      urlQuery?: Record<string, string>;
+      urlQuery?: Partial<Record<string, string>>;
     }
     
     function ${functionName}<P = {}>(pattern: string) {
@@ -167,7 +167,7 @@ const generateRouteCreatorFile: GenerateRouteCreatorFile = ({
   template += `
     interface ${resultInterfaceName}<P> {
       pattern: string;
-      generate: (inputParams: P, urlQuery?: Record<string,string>) => string;
+      generate: (inputParams: P, urlQuery?: Partial<Record<string, string>>) => string;
       ${interfaceLinkRow}
       ${interfaceReactRouterRows}
     }

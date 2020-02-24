@@ -34,7 +34,7 @@ export interface Config {
 const REACT_ROUTER_LINK_CREATOR_PATH = './createReactRouterLink';
 const DEFAULT_LINK_CREATOR_PATH = './createDefaultLink';
 const NEXTJS_LINK_CREATOR_PATH = './createNextJSLink';
-const GENERATE_URL_PATH = './generateUrl';
+const GENERATE_URL_PATH = 'react-route-generator/dist/generateUrl';
 
 export const parseAppConfig = ({
   reactRouterLinkCreatorPath,
