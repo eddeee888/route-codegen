@@ -1,5 +1,5 @@
 import { Key } from 'path-to-regexp';
-import isNormalPattern from './../../utils/isNormalPattern';
+import isNormalPattern from './../utils/isNormalPattern';
 
 interface Options {
   routePattern: string;

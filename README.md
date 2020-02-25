@@ -1,8 +1,6 @@
-# react-route-generator
+# route-codegen
 
-This is the MVP of the code generator for route types that are written in https://github.com/pillarjs/path-to-regexp which is what [react-router](https://github.com/ReactTraining/react-router) uses internally.
-
-The generated types can be used to type generic `Route` component props
+This generates route objects which can be used to manage inner and inter app routing. Given a route pattern, typescript interfaces are also generated automatically to make routing safe and easy to use.
 
 ## Install
 
@@ -18,7 +16,7 @@ $ npm i react-route-generator
 
 ## Create config
 
-Add `routegen.yml` to project root. Example:
+Add `route-codegen.yml` to project root. Example:
 
 ```yml
 apps:
@@ -54,13 +52,51 @@ apps:
 ## Generate
 
 ```bash
-$ yarn routegen
+$ yarn route-codegen
 ```
 
 Or
 
 ```bash
-$ npx routegen
+$ npx route-codegen
+```
+
+## Running it manually
+
+```ts
+// routegen.ts
+import { generate, Config, RoutingType } from 'route-codegen';
+
+const config: Config = {
+  apps: {
+    app: {
+      routes: {
+        user: '/app/users/:id',
+        account: '/app/account',
+      },
+      routingType: RoutingType.ReactRouter,
+      destinationDir: 'tests/output/app/routes',
+    },
+    seo: {
+      routes: {
+        home: '/',
+        about: '/about',
+        terms: '/terms-and-conditions',
+      },
+      routingType: RoutingType.NextJS,
+      destinationDir: 'tests/output/seo/routes',
+    },
+  },
+};
+
+generate(config);
+```
+
+Then run the following in the terminal
+
+```
+$ yarn tsc routegen.ts
+$ node routegen.js
 ```
 
 ## Developing

@@ -5,7 +5,7 @@ const generateDefaultLinkFile = (utilsDir: string, functionName: string, generat
   let template = `/* This file was automatically generated and should not be edited. */\n`;
   template += `
     import React from 'react';
-    import generateUrl from '${generateUrlFunctionPath}';
+    import { generateUrl } from '${generateUrlFunctionPath}';
     
     type AnchorProps = React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>;
     
@@ -30,7 +30,7 @@ const generateNextJSLinkFile = (utilsDir: string, functionName: string, generate
   let template = `/* This file was automatically generated and should not be edited. */\n`;
   template += `
     import React from 'react';
-    import generateUrl from '${generateUrlFunctionPath}';
+    import { generateUrl } from '${generateUrlFunctionPath}';
     import LinkNext, { LinkProps as NextJSLinkProps } from 'next/link';
     
     export interface LinkProps<P> extends Omit<NextJSLinkProps, 'href'> {
@@ -59,7 +59,7 @@ const generateReactRouterLinkFile = (utilsDir: string, functionName: string, gen
   let template = `/* This file was automatically generated and should not be edited. */\n`;
   template += `
     import React from 'react';
-    import generateUrl from '${generateUrlFunctionPath}';
+    import { generateUrl } from '${generateUrlFunctionPath}';
     import { Link, LinkProps as ReactRouterLinkProps } from 'react-router-dom';
 
     export interface LinkProps<P> extends Omit<ReactRouterLinkProps, 'to'> {
@@ -160,7 +160,7 @@ const generateRouteCreatorFile: GenerateRouteCreatorFile = ({
   // imports
   template += `${importLinkRow}
     ${importReactRouterRows}
-    import generateUrl from '${generateUrlFunctionPath}';
+    import { generateUrl } from '${generateUrlFunctionPath}';
   `;
 
   // main function + type
