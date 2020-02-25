@@ -64,29 +64,39 @@ $ npx route-codegen
 ## Running it manually
 
 ```ts
-import { generate, Config , RoutingType } from 'route-generator';
+// routegen.ts
+import { generate, Config, RoutingType } from 'route-codegen';
 
 const config: Config = {
   apps: {
-    routes: {
-      user: '/app/users/:id'
-      account: '/app/account'
+    app: {
+      routes: {
+        user: '/app/users/:id',
+        account: '/app/account',
+      },
+      routingType: RoutingType.ReactRouter,
+      destinationDir: 'tests/output/app/routes',
     },
-    routingType: RoutingType.ReactRouter,
-    destinationDir: 'tests/output/app/routes'
-  },
-  seo: {
-    routes: {
-      home: '/'
-      about: '/about'
-      terms: '/terms-and-conditions'
+    seo: {
+      routes: {
+        home: '/',
+        about: '/about',
+        terms: '/terms-and-conditions',
+      },
+      routingType: RoutingType.NextJS,
+      destinationDir: 'tests/output/seo/routes',
     },
-    routingType: RoutingType.NextJS
-    destinationDir: 'tests/output/seo/routes'
   },
-}
+};
 
 generate(config);
+```
+
+Then run the following in the terminal
+
+```
+$ yarn tsc routegen.ts
+$ node routegen.js
 ```
 
 ## Developing
