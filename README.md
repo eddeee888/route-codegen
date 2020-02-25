@@ -16,7 +16,7 @@ $ npm i react-route-generator
 
 ## Create config
 
-Add `routegen.yml` to project root. Example:
+Add `route-codegen.yml` to project root. Example:
 
 ```yml
 apps:
@@ -52,13 +52,13 @@ apps:
 ## Generate
 
 ```bash
-$ yarn routegen
+$ yarn route-codegen
 ```
 
 Or
 
 ```bash
-$ npx routegen
+$ npx route-codegen
 ```
 
 ## Running it manually

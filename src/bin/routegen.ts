@@ -6,7 +6,7 @@ import yaml from 'js-yaml';
 import { readFileSync } from 'fs';
 
 const argv = yargs.options({
-  config: { type: 'string', default: 'routegen.yml' },
+  config: { type: 'string', default: 'route-codegen.yml' },
 }).argv;
 
 try {
