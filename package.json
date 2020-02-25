@@ -1,6 +1,6 @@
 {
   "name": "route-codegen",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Route generator written in Typscript for React Router, NextJS, NodeJS and more",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
