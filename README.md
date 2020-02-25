@@ -1,8 +1,6 @@
-# react-route-generator
+# route-codegen
 
-This is the MVP of the code generator for route types that are written in https://github.com/pillarjs/path-to-regexp which is what [react-router](https://github.com/ReactTraining/react-router) uses internally.
-
-The generated types can be used to type generic `Route` component props
+This generates route objects which can be used to manage inner and inter app routing. Given a route pattern, typescript interfaces are also generated automatically to make routing safe and easy to use.
 
 ## Install
 
@@ -61,6 +59,34 @@ Or
 
 ```bash
 $ npx routegen
+```
+
+## Running it manually
+
+```ts
+import { generate, Config , RoutingType } from 'route-generator';
+
+const config: Config = {
+  apps: {
+    routes: {
+      user: '/app/users/:id'
+      account: '/app/account'
+    },
+    routingType: RoutingType.ReactRouter,
+    destinationDir: 'tests/output/app/routes'
+  },
+  seo: {
+    routes: {
+      home: '/'
+      about: '/about'
+      terms: '/terms-and-conditions'
+    },
+    routingType: RoutingType.NextJS
+    destinationDir: 'tests/output/seo/routes'
+  },
+}
+
+generate(config);
 ```
 
 ## Developing
