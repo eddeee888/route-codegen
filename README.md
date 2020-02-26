@@ -5,13 +5,13 @@ This generates route objects which can be used to manage inner and inter app rou
 ## Install
 
 ```bash
-$ yarn add react-route-generator
+$ yarn add route-codegen
 ```
 
 Or
 
 ```bash
-$ npm i react-route-generator
+$ npm i route-codegen
 ```
 
 ## Create config
@@ -65,7 +65,7 @@ $ npx route-codegen
 
 ```ts
 // routegen.ts
-import { generate, Config, RoutingType } from 'route-codegen';
+import generate, { Config, RoutingType } from 'route-codegen/dist/generate';
 
 const config: Config = {
   apps: {
