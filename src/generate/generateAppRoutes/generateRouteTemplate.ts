@@ -41,6 +41,7 @@ const generateRouteTemplate = ({
 
   // LinkProps interface
   const {
+    importReact,
     importLink,
     omittedLinkPropsTemplate,
     omittedLinkPropsInterfaceName,
@@ -54,6 +55,7 @@ const generateRouteTemplate = ({
 
   // imports
   const importsTemplate = generateImportsTemplate({
+    importReact,
     importLink,
     generateUrlFunctionPath,
     shouldGenerateUseRedirect,
@@ -71,6 +73,7 @@ const generateRouteTemplate = ({
 
   // RouteLinkProps interface
   const { routeLinkPropsInterfaceTemplate, routeLinkPropsInterfaceNameWithGeneric } = generateRouteLinkProps({
+    shouldGenerateLink,
     hasPathParams,
     urlPartsInterfaceName,
     omittedLinkPropsInterfaceName,
@@ -125,12 +128,14 @@ const generateRouteTemplate = ({
 };
 
 interface GenerateImportsTemplateParams {
+  importReact: string;
   importLink: string;
   generateUrlFunctionPath: string;
   shouldGenerateUseParams: boolean;
   shouldGenerateUseRedirect: boolean;
 }
 const generateImportsTemplate = ({
+  importReact,
   importLink,
   generateUrlFunctionPath,
   shouldGenerateUseParams,
@@ -138,8 +143,8 @@ const generateImportsTemplate = ({
 }: GenerateImportsTemplateParams): string => {
   const shouldImportFromReactRouter = shouldGenerateUseParams || shouldGenerateUseRedirect;
 
-  return `import React from 'react';
-    import { generateUrl } from '${generateUrlFunctionPath}';
+  return `import { generateUrl } from '${generateUrlFunctionPath}';
+    ${importReact}
     ${importLink}
     ${
       shouldImportFromReactRouter
@@ -235,12 +240,14 @@ const generateRouteObjectInterface = ({
 };
 
 interface GenerateRouteLinkPropsParams {
+  shouldGenerateLink: boolean;
   hasPathParams: boolean;
   urlPartsInterfaceName: string;
   routeLinkPropsInterfaceName: string;
   omittedLinkPropsInterfaceName: string;
 }
 const generateRouteLinkProps = ({
+  shouldGenerateLink,
   hasPathParams,
   urlPartsInterfaceName,
   omittedLinkPropsInterfaceName,
@@ -249,6 +256,13 @@ const generateRouteLinkProps = ({
   routeLinkPropsInterfaceTemplate: string;
   routeLinkPropsInterfaceNameWithGeneric: string;
 } => {
+  if (!shouldGenerateLink) {
+    return {
+      routeLinkPropsInterfaceNameWithGeneric: '',
+      routeLinkPropsInterfaceTemplate: '',
+    };
+  }
+
   const routeLinkPropsInterfaceTemplate = hasPathParams
     ? `type ${routeLinkPropsInterfaceName}<P> = ${omittedLinkPropsInterfaceName} & ${urlPartsInterfaceName}<P>;`
     : `type ${routeLinkPropsInterfaceName} = ${omittedLinkPropsInterfaceName} & ${urlPartsInterfaceName};`;
