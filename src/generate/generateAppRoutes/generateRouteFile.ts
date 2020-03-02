@@ -37,7 +37,7 @@ const createRouteFile: CreateRouteFile = ({
 
   mkdirSync(destinationDir, { recursive: true });
 
-  writeFileSync(destinationDir.concat('/', displayRouteName, '.ts'), template);
+  writeFileSync(destinationDir.concat('/', displayRouteName, '.tsx'), template);
 };
 
 export default createRouteFile;

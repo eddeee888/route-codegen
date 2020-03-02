@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "lib": ["es5", "es6", "ES2017", "dom", "esnext.asynciterable"],
+    "module": "commonjs",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "outDir": "distTest",
+    "declaration": true
+  },
+  "include": ["tests/**/*"],
+  "exclude": ["node_modules", "**/*.test.ts"]
+}

@@ -26,16 +26,20 @@ const generateRouteTemplate = ({
 
   const urlPartsInterfaceName = 'UrlParts';
   const routeLinkPropsInterfaceName = 'RouteLinkProps';
-
-  // imports
-  const importsTemplate = `import React from 'react';
-  import { generateUrl } from 'route-codegen';
-  import Link, { ${linkPropsInterfaceName} } from '${linkPath}';
-  `;
+  const routeObjectInterfaceName = `${routingType}Route`;
 
   const hasPathParams = keys.length > 0;
-  const shouldGenerateUseParams = shouldGenerateReactRouterFunctions && hasPathParams;
-  const shouldGenerateUseRedirect = shouldGenerateReactRouterFunctions;
+  const shouldGenerateUseParams =
+    routingType === RoutingType.ReactRouter && shouldGenerateReactRouterFunctions && hasPathParams;
+  const shouldGenerateUseRedirect = routingType === RoutingType.ReactRouter && shouldGenerateReactRouterFunctions;
+
+  // imports
+  const importsTemplate = generateImportsTemplate({
+    linkPropsInterfaceName,
+    linkPath,
+    shouldGenerateUseRedirect,
+    shouldGenerateUseParams,
+  });
 
   // Generate route interface
   const { pathParamsInterfaceTemplate, pathParamsInterfaceName } = generatePathParamsInterface(keys, displayRouteName);
@@ -53,8 +57,8 @@ const generateRouteTemplate = ({
     routeLinkPropsInterfaceName,
   });
 
-  const { routeObjectInterfaceTemplate, routeObjectInterfaceName } = generateRouteObjectInterface({
-    interfaceName: `${routingType}Route`,
+  const routeObjectInterfaceTemplate = generateRouteObjectInterface({
+    routeObjectInterfaceName,
     urlPartsInterfaceNameWithGeneric,
     routeLinkPropsInterfaceNameWithGeneric,
     hasPathParams,
@@ -65,6 +69,7 @@ const generateRouteTemplate = ({
 
   const routeObject = generateRouteObject({
     hasPathParams,
+    pathParamsInterfaceName,
     shouldGenerateLink,
     shouldGenerateUseParams,
     shouldGenerateUseRedirect,
@@ -90,6 +95,33 @@ const generateRouteTemplate = ({
   } = ${routeObject}
 
     export default ${displayRouteName};
+  `;
+};
+
+interface GenerateImportsTemplateParams {
+  linkPropsInterfaceName: string;
+  linkPath: string;
+  shouldGenerateUseParams: boolean;
+  shouldGenerateUseRedirect: boolean;
+}
+const generateImportsTemplate = ({
+  linkPropsInterfaceName,
+  linkPath,
+  shouldGenerateUseParams,
+  shouldGenerateUseRedirect,
+}: GenerateImportsTemplateParams): string => {
+  const shouldImportFromReactRouter = shouldGenerateUseParams || shouldGenerateUseRedirect;
+
+  return `import React from 'react';
+    import { generateUrl } from 'route-codegen';
+    import Link, { ${linkPropsInterfaceName} } from '${linkPath}';
+    ${
+      shouldImportFromReactRouter
+        ? `import { ${shouldGenerateUseParams ? 'useRouteMatch,' : ''} ${
+            shouldGenerateUseRedirect ? 'useHistory,' : ''
+          } } from 'react-router';`
+        : ''
+    }
   `;
 };
 
@@ -146,7 +178,7 @@ const generateUrlPartsInterface = (
 };
 
 interface GenerateRouteObjectInterfaceParams {
-  interfaceName: string;
+  routeObjectInterfaceName: string;
   urlPartsInterfaceNameWithGeneric: string;
   routeLinkPropsInterfaceNameWithGeneric: string;
   hasPathParams: boolean;
@@ -155,30 +187,25 @@ interface GenerateRouteObjectInterfaceParams {
   shouldGenerateUseRedirect: boolean;
 }
 const generateRouteObjectInterface = ({
-  interfaceName,
+  routeObjectInterfaceName,
   urlPartsInterfaceNameWithGeneric,
   routeLinkPropsInterfaceNameWithGeneric,
   hasPathParams,
   shouldGenerateLink,
   shouldGenerateUseParams,
   shouldGenerateUseRedirect,
-}: GenerateRouteObjectInterfaceParams): { routeObjectInterfaceTemplate: string; routeObjectInterfaceName: string } => {
-  const pathParamsGeneric = hasPathParams ? '<P>' : '';
-  const routeObjectInterfaceName = `${interfaceName}${pathParamsGeneric}`;
-  return {
-    routeObjectInterfaceTemplate: `
-      interface ${routeObjectInterfaceName} {
+}: GenerateRouteObjectInterfaceParams): string => {
+  return `
+      interface ${routeObjectInterfaceName}${hasPathParams ? '<P>' : ''} {
         pattern: string;
         generate: (urlParts: ${urlPartsInterfaceNameWithGeneric}) => string;
-        ${shouldGenerateLink ? `React.FunctionComponent<${routeLinkPropsInterfaceNameWithGeneric}>;` : ''}
+        ${shouldGenerateLink ? `Link: React.FunctionComponent<${routeLinkPropsInterfaceNameWithGeneric}>;` : ''}
         ${shouldGenerateUseParams ? 'useParams: () => P;' : ''}
         ${
           shouldGenerateUseRedirect ? `useRedirect: (urlParts: ${urlPartsInterfaceNameWithGeneric}) => () => void;` : ''
         }
       }
-  `,
-    routeObjectInterfaceName,
-  };
+  `;
 };
 
 interface GenerateRouteLinkPropsParams {
@@ -209,12 +236,14 @@ const generateRouteLinkProps = ({
 
 interface GenerateRouteObjectParams {
   hasPathParams: boolean;
+  pathParamsInterfaceName: string;
   shouldGenerateLink: boolean;
   shouldGenerateUseParams: boolean;
   shouldGenerateUseRedirect: boolean;
 }
 const generateRouteObject = ({
   hasPathParams,
+  pathParamsInterfaceName,
   shouldGenerateLink,
   shouldGenerateUseParams,
   shouldGenerateUseRedirect,
@@ -234,7 +263,7 @@ const generateRouteObject = ({
     }`;
 
   const useParamsFunction = `() => {
-      const { path, params } = useRouteMatch<RouteToUserInfoParams>();
+      const { path, params } = useRouteMatch<${pathParamsInterfaceName}>();
   
       if (path !== pattern) {
         const error = \`You are trying to use useParams for "${'${pattern}'}" in "${'${path}'}". Make sure you are using the right route link object!\`;

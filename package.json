@@ -12,7 +12,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "test:cli": "rm -rf ./tests/output && yarn tsc tests/*.ts --outDir distTest && node distTest/run.js --config tests/routegen.yml",
+    "test:cli": "rm -rf ./tests/output && yarn tsc --project tsconfig.test.json && node distTest/tests/run.js --config tests/routegen.yml",
     "pub": "rm -rf ./dist && yarn build && yarn publish"
   },
   "keywords": [

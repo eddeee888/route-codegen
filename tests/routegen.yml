@@ -1,7 +1,7 @@
 apps:
   app:
     routes:
-      user: /app/users/:id
+      user: /app/users/:id/subview(profile|pictures)?
       account: /app/account
     routingType: ReactRouter
     destinationDir: tests/output/app/routes
