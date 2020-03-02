@@ -1,7 +1,7 @@
 apps:
   app:
     routes:
-      user: /app/users/:id
+      user: /app/users/:id/:subview(profile|pictures)?
       account: /app/account
     routingType: ReactRouter
     destinationDir: tests/output/app/routes
@@ -12,15 +12,36 @@ apps:
       signup: /signup
     routingType: ReactRouter
     generateReactRouterFunctions: false
+    reactRouterLinkOptions:
+      path: common/components/Link
+      propsInterfaceName: LinkProps
+      hrefProp: to
+    defaultLinkOptions:
+      path: common/ui/Anchor
+      propsInterfaceName: AnchorProps
+      hrefProp: href
     destinationDir: tests/output/auth/routes
 
   seo:
     routes:
       home: /
       about: /about
-      terms: /terms-and-conditions
     routingType: NextJS
     destinationDir: tests/output/seo/routes
+
+  toc:
+    routes:
+      toc: /terms-and-conditions
+    routingType: NextJS
+    nextJSLinkOptions:
+      path: src/common/components/Link
+      propsInterfaceName: LinkProps
+      hrefProp: href
+    defaultLinkOptions:
+      path: src/common/ui/Anchor
+      propsInterfaceName: AnchorProps
+      hrefProp: href
+    destinationDir: tests/output/toc/routes
 
   legacy:
     routes:
