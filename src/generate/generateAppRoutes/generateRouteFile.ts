@@ -1,15 +1,25 @@
 import { pathToRegexp, Key } from 'path-to-regexp';
 import { writeFileSync, mkdirSync } from 'fs';
 import generateRouteTemplate from './generateRouteTemplate';
+import { RoutingType } from '../config';
 
 type CreateRouteFile = (params: {
   routeName: string;
   routePattern: string;
-  routeCreator: string;
   destinationDir: string;
+  routingType: RoutingType;
+  shouldGenerateLink: boolean;
+  shouldGenerateReactRouterFunctions: boolean;
 }) => void;
 
-const createRouteFile: CreateRouteFile = ({ routeName, routePattern, routeCreator, destinationDir }) => {
+const createRouteFile: CreateRouteFile = ({
+  routeName,
+  routePattern,
+  destinationDir,
+  routingType,
+  shouldGenerateLink,
+  shouldGenerateReactRouterFunctions,
+}) => {
   const keys: Key[] = [];
   const routeNameString = routeName.toString();
   const displayRouteName = `RouteTo${routeNameString[0].toUpperCase() + routeNameString.slice(1)}`;
@@ -20,7 +30,9 @@ const createRouteFile: CreateRouteFile = ({ routeName, routePattern, routeCreato
     routePattern,
     displayRouteName,
     keys,
-    routeCreator,
+    routingType,
+    shouldGenerateLink,
+    shouldGenerateReactRouterFunctions,
   });
 
   mkdirSync(destinationDir, { recursive: true });
