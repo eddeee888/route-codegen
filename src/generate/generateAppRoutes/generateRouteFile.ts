@@ -1,13 +1,15 @@
 import { pathToRegexp, Key } from 'path-to-regexp';
 import { writeFileSync, mkdirSync } from 'fs';
 import generateRouteTemplate from './generateRouteTemplate';
-import { RoutingType } from '../config';
+import { RoutingType, RouteLinkOptions } from '../config';
 
 type CreateRouteFile = (params: {
   routeName: string;
   routePattern: string;
   destinationDir: string;
   routingType: RoutingType;
+  routeLinkOptions: RouteLinkOptions;
+  generateUrlFunctionPath: string;
   shouldGenerateLink: boolean;
   shouldGenerateReactRouterFunctions: boolean;
 }) => void;
@@ -17,6 +19,8 @@ const createRouteFile: CreateRouteFile = ({
   routePattern,
   destinationDir,
   routingType,
+  routeLinkOptions,
+  generateUrlFunctionPath,
   shouldGenerateLink,
   shouldGenerateReactRouterFunctions,
 }) => {
@@ -31,6 +35,8 @@ const createRouteFile: CreateRouteFile = ({
     displayRouteName,
     keys,
     routingType,
+    routeLinkOptions,
+    generateUrlFunctionPath,
     shouldGenerateLink,
     shouldGenerateReactRouterFunctions,
   });

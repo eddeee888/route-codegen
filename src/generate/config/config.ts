@@ -8,20 +8,34 @@ export interface AppConfig {
   routes?: Record<string, string>;
   routingType?: string;
   destinationDir?: string;
-  reactRouterLinkCreatorPath?: string;
-  nextJSLinkCreatorPath?: string;
-  defaultLinkCreatorPath?: string;
+  reactRouterLinkOptions?: CustomLinkOptions;
+  nextJSLinkOptions?: CustomLinkOptions;
+  defaultLinkOptions?: CustomLinkOptions;
   generateLink?: boolean;
   generateReactRouterFunctions?: boolean;
 }
 
-export type RouteLinkCreators = Record<RoutingType, { path: string; shouldGenerateDefault: boolean }>;
+export interface CustomLinkOptions {
+  path: string;
+  hrefProp: string;
+  propsInterfaceName: string;
+}
+
+export type RouteLinkOptionsNoGenerateDefault = {
+  path: string;
+  hrefProp: string;
+  propsInterfaceName: string;
+  shouldGenerateDefault: false;
+};
+export type RouteLinkOptionsGenerateDefault = { shouldGenerateDefault: true };
+
+export type RouteLinkOptions = Record<RoutingType, RouteLinkOptionsNoGenerateDefault | RouteLinkOptionsGenerateDefault>;
 
 export interface ParsedAppConfig {
   routes: Record<string, string>;
   routingType: RoutingType;
   destinationDir?: string;
-  routeLinkCreators: RouteLinkCreators;
+  routeLinkOptions: RouteLinkOptions;
   generateUrlFunctionPath: string;
   shouldGenerateLink: boolean;
   shouldGenerateReactRouterFunctions: boolean;
@@ -31,18 +45,15 @@ export interface Config {
   apps: Record<string, AppConfig>;
 }
 
-const REACT_ROUTER_LINK_CREATOR_PATH = './createReactRouterLink';
-const DEFAULT_LINK_CREATOR_PATH = './createDefaultLink';
-const NEXTJS_LINK_CREATOR_PATH = './createNextJSLink';
 const GENERATE_URL_PATH = 'route-codegen';
 
 export const parseAppConfig = ({
-  reactRouterLinkCreatorPath,
-  defaultLinkCreatorPath,
-  nextJSLinkCreatorPath,
   routingType = 'Default',
   routes = {},
   destinationDir,
+  reactRouterLinkOptions,
+  nextJSLinkOptions,
+  defaultLinkOptions,
   generateLink = true,
   generateReactRouterFunctions = true,
 }: AppConfig): ParsedAppConfig => {
@@ -58,16 +69,33 @@ export const parseAppConfig = ({
     routes,
     destinationDir,
     routingType,
-    routeLinkCreators: {
-      ReactRouter: reactRouterLinkCreatorPath
-        ? { path: reactRouterLinkCreatorPath, shouldGenerateDefault: false }
-        : { path: REACT_ROUTER_LINK_CREATOR_PATH, shouldGenerateDefault: true },
-      NextJS: nextJSLinkCreatorPath
-        ? { path: nextJSLinkCreatorPath, shouldGenerateDefault: false }
-        : { path: NEXTJS_LINK_CREATOR_PATH, shouldGenerateDefault: true },
-      Default: defaultLinkCreatorPath
-        ? { path: defaultLinkCreatorPath, shouldGenerateDefault: false }
-        : { path: DEFAULT_LINK_CREATOR_PATH, shouldGenerateDefault: true },
+    routeLinkOptions: {
+      ReactRouter: reactRouterLinkOptions
+        ? {
+            shouldGenerateDefault: false,
+            path: reactRouterLinkOptions.path,
+            hrefProp: reactRouterLinkOptions.hrefProp,
+            propsInterfaceName: reactRouterLinkOptions.propsInterfaceName,
+          }
+        : {
+            shouldGenerateDefault: true,
+          },
+      NextJS: nextJSLinkOptions
+        ? {
+            shouldGenerateDefault: false,
+            path: nextJSLinkOptions.path,
+            hrefProp: nextJSLinkOptions.hrefProp,
+            propsInterfaceName: nextJSLinkOptions.propsInterfaceName,
+          }
+        : { shouldGenerateDefault: true },
+      Default: defaultLinkOptions
+        ? {
+            shouldGenerateDefault: false,
+            path: defaultLinkOptions.path,
+            hrefProp: defaultLinkOptions.hrefProp,
+            propsInterfaceName: defaultLinkOptions.propsInterfaceName,
+          }
+        : { shouldGenerateDefault: true },
     },
     generateUrlFunctionPath: GENERATE_URL_PATH,
     shouldGenerateLink: generateLink,
