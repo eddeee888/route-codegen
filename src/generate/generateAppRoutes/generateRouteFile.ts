@@ -43,7 +43,9 @@ const createRouteFile: CreateRouteFile = ({
 
   mkdirSync(destinationDir, { recursive: true });
 
-  writeFileSync(destinationDir.concat('/', displayRouteName, '.tsx'), template);
+  const extension = shouldGenerateLink ? '.tsx' : '.ts'; // If we don't have to generate link, it's not a react app so no .tsx is needed
+
+  writeFileSync(destinationDir.concat('/', displayRouteName, extension), template);
 };
 
 export default createRouteFile;
