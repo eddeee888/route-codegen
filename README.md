@@ -35,10 +35,19 @@ apps:
       home: /
     routingType: NextJS
     destinationDir: client-seo/src/routes
-    # Use on of these `reactRouterLinkCreatorPath`, `nextJSLinkCreatorPath`, `defaultLinkCreatorPath` options below if you want to custom how Link is created
-    reactRouterLinkCreatorPath: src/common/ui/createCustomReactRouterLink
-    nextJSLinkCreatorPath: src/common/ui/createCustomNextJSLink
-    defaultLinkCreatorPath: src/common/ui/createDefaultLink
+    # Use on of these `reactRouterLinkOptions`, `nextJSLinkOptions`, `defaultLinkOptions` options below if you want to custom how Link is created
+    reactRouterLinkOptions:
+      path: src/common/components/Link
+      propsInterfaceName: LinkProps
+      hrefProp: href
+    nextJSLinkOptions:
+      path: src/common/components/NextJSLink
+      propsInterfaceName: LinkProps
+      hrefProp: href
+    defaultLinkOptions:
+      path: src/common/ui/Anchor
+      propsInterfaceName: AnchorProps
+      hrefProp: href
 
   express-server:
     generateLink: false
@@ -109,13 +118,7 @@ We need to build from TS -> JS to be able to run the generator. For the changes 
 $ yarn run build
 ```
 
-### Run it!
-
-```bash
-$ yarn run generate
-```
-
-### Or Do it all in one command!
+### Build and run real config
 
 ```bash
 $ yarn run test:cli
