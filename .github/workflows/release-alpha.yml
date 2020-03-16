@@ -4,36 +4,36 @@ name: route-codegen release alpha
 #     types: [closed]
 on: [push, pull_request]
 jobs:
-  test-on-merge:
-    # if: github.event.pull_request.merged == true
-    runs-on: ubuntu-18.04
-    name: Test on merge
+  #   test-on-merge:
+  #     # if: github.event.pull_request.merged == true
+  #     runs-on: ubuntu-18.04
+  #     name: Test on merge
 
-    strategy:
-      matrix:
-        node-version: [10.x, 12.x]
+  #     strategy:
+  #       matrix:
+  #         node-version: [10.x, 12.x]
 
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v2
+  #     steps:
+  #       - name: Check out repository
+  #         uses: actions/checkout@v2
 
-      - name: Set up Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
+  #       - name: Set up Node.js ${{ matrix.node-version }}
+  #         uses: actions/setup-node@v1
+  #         with:
+  #           node-version: ${{ matrix.node-version }}
 
-      - name: Install packages
-        run: yarn --frozen-lockfile
+  #       - name: Install packages
+  #         run: yarn --frozen-lockfile
 
-      - name: Build
-        run: yarn build
+  #       - name: Build
+  #         run: yarn build
 
-      - name: Run tests
-        run: yarn test
+  #       - name: Run tests
+  #         run: yarn test
 
   release-alpha:
     # if: github.event.pull_request.merged == true
-    needs: test-on-merge
+    # needs: test-on-merge
     runs-on: ubuntu-18.04
     name: Release alpha
 
@@ -50,6 +50,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           registry-url: 'https://npm.pkg.github.com'
+          always-auth: true
 
       - name: Install packages
         run: yarn --frozen-lockfile
@@ -58,6 +59,8 @@ jobs:
         run: yarn build
 
       - name: Publish alpha
-        run: yarn publish --tag alpha
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
+          yarn publish --tag alpha
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
