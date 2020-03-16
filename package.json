@@ -1,6 +1,6 @@
 {
   "name": "route-codegen",
-  "version": "0.1.4-alpha.2",
+  "version": "0.1.4-alpha.6",
   "description": "Route generator written in Typscript for React Router, NextJS, NodeJS and more",
   "main": "./dist/index.js",
   "bin": {
@@ -13,6 +13,7 @@
     "test": "jest",
     "test:cli": "rm -rf ./tests/output && yarn tsc --project tsconfig.test.json && node distTest/tests/run.js --config tests/routegen.yml",
     "build": "rm -rf ./dist && tsc",
+    "pub": "NEW_VERSION=`yarn -s run get-prerelease-version` && yarn publish --new-version $NEW_VERSION --tag alpha",
     "get-prerelease-version": "yarn -s semver --increment prerelease --preid alpha $npm_package_version"
   },
   "keywords": [
