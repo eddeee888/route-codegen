@@ -49,9 +49,15 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+          registry-url: 'https://npm.pkg.github.com'
 
       - name: Install packages
         run: yarn --frozen-lockfile
 
       - name: Build
         run: yarn build
+
+      - name: Publish alpha
+        run: yarn publish --tag alpha
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
