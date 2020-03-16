@@ -1,16 +1,9 @@
 function prerelease() {
-    tag=$1
-    if [ "$tag" == "alpha" ] || [ -z "$tag" ]
-    then
-        yarn_prefix="info alpha: "
-    elif [ "$tag" == "latest" ]
-    then
-        yarn_prefix="info latest: "
-    fi
+    YARN_ALPHA_PREFIX="info alpha: "
     
-    current_version_line=`yarn tag list route-codegen | grep "$yarn_prefix"`
+    current_version_line=`yarn tag list route-codegen | grep "$YARN_ALPHA_PREFIX"`
 
-    current_version=${current_version_line#$yarn_prefix}
+    current_version=${current_version_line#$YARN_ALPHA_PREFIX}
 
     prerelease_version=`yarn -s semver --increment prerelease --preid alpha $current_version`
     
