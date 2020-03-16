@@ -1,5 +1,9 @@
 name: route-codegen CI
-on: [push]
+on:
+  push:
+    branches-ignore:
+      # Ignore the commits that are created when PR is merged into master
+      - 'master'
 jobs:
   test:
     name: Run tests
