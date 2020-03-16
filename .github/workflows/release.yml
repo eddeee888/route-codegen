@@ -3,34 +3,34 @@ on:
   release:
     types: [published]
 jobs:
-  #   test-on-publish:
-  #     runs-on: ubuntu-18.04
-  #     name: Test on publish
+test-on-publish:
+    runs-on: ubuntu-18.04
+    name: Test on publish
 
-  #     strategy:
-  #       matrix:
-  #         node-version: [10.x, 12.x]
+    strategy:
+    matrix:
+        node-version: [10.x, 12.x]
 
-  #     steps:
-  #       - name: Check out repository
-  #         uses: actions/checkout@v2
+    steps:
+    - name: Check out repository
+        uses: actions/checkout@v2
 
-  #       - name: Set up Node.js ${{ matrix.node-version }}
-  #         uses: actions/setup-node@v1
-  #         with:
-  #           node-version: ${{ matrix.node-version }}
+    - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+        node-version: ${{ matrix.node-version }}
 
-  #       - name: Install packages
-  #         run: yarn --frozen-lockfile
+    - name: Install packages
+        run: yarn --frozen-lockfile
 
-  #       - name: Build
-  #         run: yarn build
+    - name: Build
+        run: yarn build
 
-  #       - name: Run tests
-  #         run: yarn test
+    - name: Run tests
+        run: yarn test
 
   release:
-    # needs: test-on-publish
+    needs: test-on-publish
     runs-on: ubuntu-18.04
     name: Release
 
