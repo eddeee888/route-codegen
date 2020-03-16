@@ -59,6 +59,7 @@ jobs:
         run: yarn build
 
       - name: Publish alpha
+        # https://github.com/actions/setup-node/issues/81
         run: |
           echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
           yarn publish --tag alpha
