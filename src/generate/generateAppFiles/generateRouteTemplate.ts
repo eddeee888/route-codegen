@@ -7,7 +7,7 @@ import {
   RouteLinkOptionsGenerateDefault,
 } from '../config';
 
-interface Options {
+export interface GenerateRouteTemplateOptions {
   routePattern: string;
   displayRouteName: string;
   keys: Key[];
@@ -27,7 +27,7 @@ const generateRouteTemplate = ({
   generateUrlFunctionPath,
   shouldGenerateLink,
   shouldGenerateReactRouterFunctions,
-}: Options): string => {
+}: GenerateRouteTemplateOptions): string => {
   //TODO: bring this out
 
   const urlPartsInterfaceName = 'UrlParts';
@@ -162,23 +162,23 @@ const generatePathParamsInterface = (
 ): { pathParamsInterfaceTemplate: string; pathParamsInterfaceName: string } => {
   if (keys.length > 0) {
     const pathParamsInterfaceName = `${displayRouteName}PathParams`;
-    let template = `export interface ${pathParamsInterfaceName} {\n`;
+    let template = `export interface ${pathParamsInterfaceName} {`;
     keys.forEach(key => {
       const { pattern, name, modifier } = key;
 
       const fieldName = `${name}${modifier === '?' ? modifier : ''}`;
 
       if (isNormalPattern(pattern)) {
-        template += `  ${fieldName}: string;\n`;
+        template += `${fieldName}: string;`;
       } else {
         // Note: We are using enum here... this may not be safe
         const enumArray = pattern.split('|');
         if (enumArray.length > 0) {
-          template += `  ${fieldName}:`;
+          template += `${fieldName}:`;
           enumArray.forEach(enumValue => (template += `'${enumValue}'|`));
           // Remove last '|'
           template = template.slice(0, -1);
-          template += `;\n`;
+          template += `;`;
         }
       }
     });
@@ -198,11 +198,9 @@ const generateUrlPartsInterface = (
   urlPartsInterfaceName: string
 ): { urlPartsInterfaceTemplate: string; urlPartsInterfaceNameWithGeneric: string } => {
   const urlPartsInterfaceNameWithGeneric = `${urlPartsInterfaceName}${hasPathParams ? '<P>' : ''}`;
-  const urlPartsInterfaceTemplate = `
-  interface ${urlPartsInterfaceNameWithGeneric} {
-    ${hasPathParams ? 'path: P;' : ''}
-    urlQuery?: Partial<Record<string, string>>;
-  }
+  const urlPartsInterfaceTemplate = `interface ${urlPartsInterfaceNameWithGeneric} { ${
+    hasPathParams ? 'path: P;' : ''
+  } urlQuery?: Partial<Record<string, string>>; }
 `;
 
   return { urlPartsInterfaceTemplate, urlPartsInterfaceNameWithGeneric };
@@ -226,17 +224,13 @@ const generateRouteObjectInterface = ({
   shouldGenerateUseParams,
   shouldGenerateUseRedirect,
 }: GenerateRouteObjectInterfaceParams): string => {
-  return `
-      interface ${routeObjectInterfaceName}${hasPathParams ? '<P>' : ''} {
-        pattern: string;
-        generate: (urlParts: ${urlPartsInterfaceNameWithGeneric}) => string;
-        ${shouldGenerateLink ? `Link: React.FunctionComponent<${routeLinkPropsInterfaceNameWithGeneric}>;` : ''}
-        ${shouldGenerateUseParams ? 'useParams: () => P;' : ''}
-        ${
-          shouldGenerateUseRedirect ? `useRedirect: (urlParts: ${urlPartsInterfaceNameWithGeneric}) => () => void;` : ''
-        }
-      }
-  `;
+  return `interface ${routeObjectInterfaceName}${
+    hasPathParams ? '<P>' : ''
+  } { pattern: string; generate: (urlParts: ${urlPartsInterfaceNameWithGeneric}) => string; ${
+    shouldGenerateLink ? `Link: React.FunctionComponent<${routeLinkPropsInterfaceNameWithGeneric}>;` : ''
+  } ${shouldGenerateUseParams ? 'useParams: () => P;' : ''} ${
+    shouldGenerateUseRedirect ? `useRedirect: (urlParts: ${urlPartsInterfaceNameWithGeneric}) => () => void;` : ''
+  } }`;
 };
 
 interface GenerateRouteLinkPropsParams {
@@ -367,7 +361,7 @@ const generateLinkInterface = ({
   const option = routeLinkOptions[routingType];
   const omittedLinkPropsInterfaceName = 'OmittedLinkProps';
   const originalLinkPropsAlias = 'OriginalLinkProps';
-  const importReact = `import React from 'react'`;
+  const importReact = `import React from 'react';`;
 
   function shouldGenerateDefault(
     option: RouteLinkOptionsNoGenerateDefault | RouteLinkOptionsGenerateDefault
