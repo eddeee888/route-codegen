@@ -1,7 +1,7 @@
 name: route-codegen release alpha
 on:
   release:
-    types: [created]
+    types: [published]
 jobs:
   #   test-on-publish:
   #     runs-on: ubuntu-18.04
@@ -55,18 +55,21 @@ jobs:
       - name: Build
         run: yarn build
 
+      - name: Setup GIT
+        run: |
+          git switch -c master
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git config user.name "$GITHUB_ACTOR"
+
       - name: Publish new version
         # https://github.com/actions/setup-node/issues/81
         run: |
           echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
-          ./bin/release.sh
+          ./bin/release.sh ${{ github.event.release.tag_name }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
-      - name: Publish new alpha version
-          # https://github.com/actions/setup-node/issues/81
-          run: |
-            echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
-            ./bin/prerelease.sh
-          env:
-            NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+      - name: Update master
+        run: git push "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY"
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
