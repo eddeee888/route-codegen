@@ -1,0 +1,72 @@
+name: route-codegen release alpha
+on:
+  release:
+    types: [created]
+jobs:
+  #   test-on-publish:
+  #     runs-on: ubuntu-18.04
+  #     name: Test on publish
+
+  #     strategy:
+  #       matrix:
+  #         node-version: [10.x, 12.x]
+
+  #     steps:
+  #       - name: Check out repository
+  #         uses: actions/checkout@v2
+
+  #       - name: Set up Node.js ${{ matrix.node-version }}
+  #         uses: actions/setup-node@v1
+  #         with:
+  #           node-version: ${{ matrix.node-version }}
+
+  #       - name: Install packages
+  #         run: yarn --frozen-lockfile
+
+  #       - name: Build
+  #         run: yarn build
+
+  #       - name: Run tests
+  #         run: yarn test
+
+  release:
+    # needs: test-on-publish
+    runs-on: ubuntu-18.04
+    name: Release
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: 'https://npm.pkg.github.com'
+          always-auth: true
+
+      - name: Install packages
+        run: yarn --frozen-lockfile
+
+      - name: Build
+        run: yarn build
+
+      - name: Publish new version
+        # https://github.com/actions/setup-node/issues/81
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
+          ./bin/release.sh
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+
+      - name: Publish new alpha version
+          # https://github.com/actions/setup-node/issues/81
+          run: |
+            echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
+            ./bin/prerelease.sh
+          env:
+            NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
