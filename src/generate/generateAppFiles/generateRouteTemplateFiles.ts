@@ -3,7 +3,7 @@ import generateRouteTemplate from './generateRouteTemplate';
 import { RoutingType, RouteLinkOptions } from '../config';
 import { TemplateFile } from '../types';
 
-type GenerateRouteTemplatateFile = (params: {
+type GenerateRouteTemplateFiles = (params: {
   routeName: string;
   routePattern: string;
   destinationDir: string;
@@ -12,9 +12,9 @@ type GenerateRouteTemplatateFile = (params: {
   generateUrlFunctionPath: string;
   shouldGenerateLink: boolean;
   shouldGenerateReactRouterFunctions: boolean;
-}) => TemplateFile;
+}) => TemplateFile[];
 
-const generateRouteTemplateFile: GenerateRouteTemplatateFile = ({
+const generateRouteTemplateFiles: GenerateRouteTemplateFiles = ({
   routeName,
   routePattern,
   destinationDir,
@@ -43,12 +43,14 @@ const generateRouteTemplateFile: GenerateRouteTemplatateFile = ({
 
   const extension = shouldGenerateLink ? '.tsx' : '.ts'; // If we don't have to generate link, it's not a react app so no .tsx is needed
 
-  return {
+  const routeFile: TemplateFile = {
     template,
     filename: displayRouteName,
     extension,
     destinationDir,
   };
+
+  return [routeFile];
 };
 
-export default generateRouteTemplateFile;
+export default generateRouteTemplateFiles;

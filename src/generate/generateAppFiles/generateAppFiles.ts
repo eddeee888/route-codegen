@@ -1,5 +1,5 @@
 import { AppConfig, parseAppConfig } from './../config';
-import generateRouteTemplateFile from './generateRouteTemplateFile';
+import generateRouteTemplateFiles from './generateRouteTemplateFiles';
 import { TemplateFile } from '../types';
 
 function generateAppFiles(app: AppConfig): TemplateFile[] {
@@ -14,8 +14,8 @@ function generateAppFiles(app: AppConfig): TemplateFile[] {
   } = parseAppConfig(app);
 
   if (destinationDir) {
-    const files: TemplateFile[] = Object.entries(routes).map(([routeName, routePattern]) =>
-      generateRouteTemplateFile({
+    const files: TemplateFile[][] = Object.entries(routes).map(([routeName, routePattern]) =>
+      generateRouteTemplateFiles({
         routeName,
         routeLinkOptions,
         routePattern,
@@ -27,7 +27,7 @@ function generateAppFiles(app: AppConfig): TemplateFile[] {
       })
     );
 
-    return files;
+    return files.flat();
   }
 
   return [];
