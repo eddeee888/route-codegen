@@ -135,4 +135,4 @@ $ yarn run test:cli
 - Go through each "app"
 - Look at the routes it needs to generate and destination folder
 - Generate each route into its own file in the destination folder ( this helps codesplitting )
-- In dev, the files are generated into `tests/sampleOuput` folder. Check out the [generated code here](./tests/sampleOutput)
+- In dev, the files are generated into `tests/sampleOuput` folder. Check out the [config file here](./sample/routegen.yml) and the [generated code here](./sample/output)

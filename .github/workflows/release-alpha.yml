@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - 'master'
+    paths:
+      - 'src/**'
 jobs:
   test-on-merge:
     runs-on: ubuntu-18.04
