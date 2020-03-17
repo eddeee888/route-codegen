@@ -27,7 +27,9 @@ apps:
       logout: /app/logout
       me: /app/me
     routingType: ReactRouter
-    generateReactRouterFunctions: false # Use this boolean if you don't want to create typed convenient functions/hooks such as `useParams` or `useRedirect`
+    # Use generateReactRouterFunctions boolean if you don't want to
+    # create typed convenient functions/hooks such as `useParams` or `useRedirect`
+    generateReactRouterFunctions: false
     destinationDir: client/src/routes
 
   client-seo:
@@ -35,7 +37,8 @@ apps:
       home: /
     routingType: NextJS
     destinationDir: client-seo/src/routes
-    # Use on of these `reactRouterLinkOptions`, `nextJSLinkOptions`, `defaultLinkOptions` options below if you want to custom how Link is created
+    # Use one of these `reactRouterLinkOptions`, `nextJSLinkOptions`, `defaultLinkOptions`
+    # options below if you want to custom how Link is created
     reactRouterLinkOptions:
       path: src/common/components/Link
       propsInterfaceName: LinkProps
@@ -49,13 +52,15 @@ apps:
       propsInterfaceName: AnchorProps
       hrefProp: href
 
+  # an app without `routes` is still valid. In this case, this app can still generate url to other apps
   express-server:
     generateLink: false
-    destinationDir: server/src/routes # an app without `routes` is still valid. In this case, this app can still generate url to other apps
+    destinationDir: server/src/routes
 
+  # leave out `destinationDir` if no route needs to be generated. Other apps still generate routes to this app
   legacy:
     routes:
-      legacyApp: /legacy/app # leave out `destinationDir` if no route needs to be generated. Other apps still generate routes to this app
+      legacyApp: /legacy/app
 ```
 
 ## Generate
@@ -130,19 +135,4 @@ $ yarn run test:cli
 - Go through each "app"
 - Look at the routes it needs to generate and destination folder
 - Generate each route into its own file in the destination folder ( this helps codesplitting )
-- The files are generated into `tests/output` folder for now
-
-## TODO
-
-- [x] Bring over `createRoute` function which uses the generated types to generate the route objects
-- [x] Break `index.ts` into smaller files
-- [x] Handle inter app routing
-- [x] Handle NextJS routing
-- [x] Add yaml file for config
-- [x] Make this CLI
-- [x] Publish
-- [x] Generate route / link creators
-- [x] Generate url function needs to take URL query. Maybe pass this into each `createLink` as a function so route & link always have the same function.
-- [ ] Tests
-- [ ] Set up CI
-- [ ] Clean up
+- In dev, the files are generated into `tests/output` folder
