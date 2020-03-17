@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "test": "jest",
-    "test:cli": "rm -rf ./sample/output && yarn tsc --project tsconfig.test.json && node distTest/sample/run.js --config sample/routegen.yml && yarn format:prettier",
+    "test:cli": "rm -rf ./sample/output && yarn tsc --project tsconfig.sample.json && node distTest/sample/run.js --config sample/routegen.yml && yarn format:prettier",
     "format:prettier": "prettier --config .prettierrc --write \"{src,sample}/**/*.{ts,tsx}\"",
     "build": "rm -rf ./dist && tsc"
   },
