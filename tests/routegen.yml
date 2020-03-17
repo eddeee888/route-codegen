@@ -4,7 +4,7 @@ apps:
       user: /app/users/:id/:subview(profile|pictures)?
       account: /app/account
     routingType: ReactRouter
-    destinationDir: tests/output/app/routes
+    destinationDir: tests/sampleOutput/app/routes
 
   auth:
     routes:
@@ -20,14 +20,14 @@ apps:
       path: common/ui/Anchor
       propsInterfaceName: AnchorProps
       hrefProp: href
-    destinationDir: tests/output/auth/routes
+    destinationDir: tests/sampleOutput/auth/routes
 
   seo:
     routes:
       home: /
       about: /about
     routingType: NextJS
-    destinationDir: tests/output/seo/routes
+    destinationDir: tests/sampleOutput/seo/routes
 
   toc:
     routes:
@@ -41,7 +41,7 @@ apps:
       path: src/common/ui/Anchor
       propsInterfaceName: AnchorProps
       hrefProp: href
-    destinationDir: tests/output/toc/routes
+    destinationDir: tests/sampleOutput/toc/routes
 
   legacy:
     routes:
@@ -49,4 +49,4 @@ apps:
 
   server:
     generateLink: false
-    destinationDir: tests/output/server/routes
+    destinationDir: tests/sampleOutput/server/routes
