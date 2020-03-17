@@ -1,16 +1,19 @@
 import { TemplateFile } from '../types';
-import { Key } from 'path-to-regexp';
+import { Key, pathToRegexp } from 'path-to-regexp';
 import isNormalPattern from '../utils/isNormalPattern';
 import printImport from '../utils/printImport';
 
 type GenerateRoutePatternFile = (params: {
   routeName: string;
   routePattern: string;
-  keys: Key[];
+
   destinationDir: string;
 }) => [TemplateFile, { interfaceName: string; importLine: string }?];
 
-const generateRoutePatternFile: GenerateRoutePatternFile = ({ routePattern, keys, routeName, destinationDir }) => {
+const generateRoutePatternFile: GenerateRoutePatternFile = ({ routePattern, routeName, destinationDir }) => {
+  const keys: Key[] = [];
+  pathToRegexp(routePattern, keys);
+
   const filename = `patternTo${routeName}`;
   const pathParams = generatePathParamsInterface(keys, routeName);
 

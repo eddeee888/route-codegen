@@ -25,20 +25,19 @@ const generateRouteTemplateFiles: GenerateRouteTemplateFiles = ({
   shouldGenerateLink,
   shouldGenerateReactRouterFunctions,
 }) => {
-  const keys: Key[] = [];
   const routeNameString = routeName.toString();
   const routeNameCapitalised = routeNameString[0].toUpperCase() + routeNameString.slice(1);
   const displayRouteName = `RouteTo${routeNameCapitalised}`;
 
-  pathToRegexp(routePattern, keys);
-
   const [patternFile, patternInterface] = generateRoutePatternFile({
     routeName: routeNameCapitalised,
     routePattern,
-    keys,
     destinationDir,
   });
 
+  // TODO: keys are handled in generateRoutePatternFile
+  const keys: Key[] = [];
+  pathToRegexp(routePattern, keys);
   const template = generateRouteTemplate({
     routePattern,
     displayRouteName,
