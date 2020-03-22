@@ -6,7 +6,18 @@ const printImport = ({ namedImports, from, defaultImport }: Import): string => {
     ? '{' + namedImports.map(({ name, importAs }) => `${name}${importAs ? ` as ${importAs}` : ''},`).join('') + '}'
     : '';
 
-  return `import ${defaultImportTemplate} ${namedImportsTemplate} from '${from}'`;
+  let imports = '';
+  if (defaultImportTemplate && namedImportsTemplate) {
+    imports = `${defaultImportTemplate}, ${namedImportsTemplate}`;
+  } else if (defaultImportTemplate && !namedImportsTemplate) {
+    imports = defaultImportTemplate;
+  } else if (!defaultImportTemplate && namedImportsTemplate) {
+    imports = namedImportsTemplate;
+  } else {
+    throw new Error('Unable to printing an import line without default or named');
+  }
+
+  return `import ${imports} from '${from}'`;
 };
 
 export default printImport;
