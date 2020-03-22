@@ -1,6 +1,7 @@
 /* This file was automatically generated and should not be edited. */
-import { generateUrl } from 'route-codegen';
 import React from 'react';
+
+import { generateUrl } from 'route-codegen';
 
 import { patternLogin as pattern } from './patternLogin';
 

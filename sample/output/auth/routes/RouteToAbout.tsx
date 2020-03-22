@@ -1,7 +1,7 @@
 /* This file was automatically generated and should not be edited. */
-import { generateUrl } from 'route-codegen';
 import React from 'react';
 import Link, { AnchorProps as OriginalLinkProps } from 'common/ui/Anchor';
+import { generateUrl } from 'route-codegen';
 
 import { patternAbout as pattern } from './patternAbout';
 
