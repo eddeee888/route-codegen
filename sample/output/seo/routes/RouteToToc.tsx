@@ -2,7 +2,7 @@
 import { generateUrl } from 'route-codegen';
 import React from 'react';
 
-const pattern = '/terms-and-conditions';
+import { patternToc as pattern } from './patternToc';
 
 type OmittedLinkProps = Omit<
   React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>,

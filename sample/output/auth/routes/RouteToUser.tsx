@@ -3,12 +3,7 @@ import { generateUrl } from 'route-codegen';
 import React from 'react';
 import Link, { AnchorProps as OriginalLinkProps } from 'common/ui/Anchor';
 
-const pattern = '/app/users/:id/:subview(profile|pictures)?';
-
-export interface RouteToUserPathParams {
-  id: string;
-  subview?: 'profile' | 'pictures';
-}
+import { patternUser as pattern, UserPathParams } from './patternUser';
 
 type OmittedLinkProps = Omit<OriginalLinkProps, 'href'>;
 
@@ -25,7 +20,7 @@ interface DefaultRoute<P> {
   Link: React.FunctionComponent<RouteLinkProps<P>>;
 }
 
-const RouteToUser: DefaultRoute<RouteToUserPathParams> = {
+const RouteToUser: DefaultRoute<UserPathParams> = {
   pattern,
   generate: ({ path, urlQuery }) => generateUrl(pattern, path, urlQuery),
   Link: function RouteLink({ path, urlQuery, ...props }) {

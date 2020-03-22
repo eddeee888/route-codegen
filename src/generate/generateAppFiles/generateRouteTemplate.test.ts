@@ -4,28 +4,16 @@ import { RoutingType } from '../config';
 describe('generateRouteTemplate', () => {
   describe('react-router V5', () => {
     const options: GenerateRouteTemplateOptions = {
-      routePattern: '/app/users/:id/:subview?(profile|pictures)',
       routingType: RoutingType.ReactRouter,
+      routePatternNamedExports: {
+        filename: 'patternUser',
+        pathPatternName: 'patternUser',
+        pathParamsInterfaceName: 'UserPathParams',
+      },
       shouldGenerateLink: true,
       shouldGenerateReactRouterFunctions: true,
       displayRouteName: 'RouteToUser',
       generateUrlFunctionPath: 'route-codegen',
-      keys: [
-        {
-          name: 'id',
-          prefix: '/',
-          suffix: '',
-          pattern: '[^\\/#\\?]+?',
-          modifier: '',
-        },
-        {
-          name: 'subview',
-          prefix: '/',
-          suffix: '',
-          pattern: 'profile|pictures',
-          modifier: '?',
-        },
-      ],
       routeLinkOptions: {
         ReactRouter: {
           shouldGenerateDefault: true,
@@ -46,15 +34,14 @@ describe('generateRouteTemplate', () => {
       expect(template).toContain(`import React from 'react';`);
       expect(template).toContain(`import { Link, LinkProps as OriginalLinkProps } from 'react-router-dom';`);
       expect(template).toContain(`import { useRouteMatch, useHistory, } from 'react-router';`);
-      expect(template).toContain(`const pattern = '/app/users/:id/:subview?(profile|pictures)';`);
-      expect(template).toContain(`export interface RouteToUserPathParams {id: string;subview?:'profile'|'pictures';}`);
+      expect(template).toContain(`import  {patternUser as pattern,UserPathParams,} from './patternUser'`);
       expect(template).toContain(`type OmittedLinkProps = Omit<OriginalLinkProps, 'to'>;`);
       expect(template).toContain(`interface UrlParts<P> { path: P; urlQuery?: Partial<Record<string, string>>; }`);
       expect(template).toContain(`type RouteLinkProps<P> = OmittedLinkProps & UrlParts<P>;`);
       expect(template).toContain(
         `interface ReactRouterRoute<P> { pattern: string; generate: (urlParts: UrlParts<P>) => string; Link: React.FunctionComponent<RouteLinkProps<P>>; useParams: () => P; useRedirect: (urlParts: UrlParts<P>) => () => void; }`
       );
-      expect(template).toContain(`const RouteToUser: ReactRouterRoute<RouteToUserPathParams> = {
+      expect(template).toContain(`const RouteToUser: ReactRouterRoute<UserPathParams> = {
     pattern,
     generate: ({ path, urlQuery }) => generateUrl(pattern, path, urlQuery),
     Link: function RouteLink({ path, urlQuery, ...props }) {
@@ -62,7 +49,7 @@ describe('generateRouteTemplate', () => {
       return <Link {...props} to={to} />;
     },
     useParams: () => {
-      const { path, params } = useRouteMatch<RouteToUserPathParams>();
+      const { path, params } = useRouteMatch<UserPathParams>();
   
       if (path !== pattern) {
         const error = \`You are trying to use useParams for "${'${pattern}'}" in "${'${path}'}". Make sure you are using the right route link object!\`;
@@ -99,15 +86,14 @@ describe('generateRouteTemplate', () => {
       expect(template).toContain(`import React from 'react';`);
       expect(template).toContain(`import Link, { CustomLinkProps as OriginalLinkProps } from 'path-to-custom-link'`);
       expect(template).toContain(`import { useRouteMatch, useHistory, } from 'react-router';`);
-      expect(template).toContain(`const pattern = '/app/users/:id/:subview?(profile|pictures)';`);
-      expect(template).toContain(`export interface RouteToUserPathParams {id: string;subview?:'profile'|'pictures';}`);
+      expect(template).toContain(`import  {patternUser as pattern,UserPathParams,} from './patternUser'`);
       expect(template).toContain(`type OmittedLinkProps = Omit<OriginalLinkProps, 'someHrefProp'>;`);
       expect(template).toContain(`interface UrlParts<P> { path: P; urlQuery?: Partial<Record<string, string>>; }`);
       expect(template).toContain(`type RouteLinkProps<P> = OmittedLinkProps & UrlParts<P>;`);
       expect(template).toContain(
         `interface ReactRouterRoute<P> { pattern: string; generate: (urlParts: UrlParts<P>) => string; Link: React.FunctionComponent<RouteLinkProps<P>>; useParams: () => P; useRedirect: (urlParts: UrlParts<P>) => () => void; }`
       );
-      expect(template).toContain(`const RouteToUser: ReactRouterRoute<RouteToUserPathParams> = {
+      expect(template).toContain(`const RouteToUser: ReactRouterRoute<UserPathParams> = {
     pattern,
     generate: ({ path, urlQuery }) => generateUrl(pattern, path, urlQuery),
     Link: function RouteLink({ path, urlQuery, ...props }) {
@@ -115,7 +101,7 @@ describe('generateRouteTemplate', () => {
       return <Link {...props} someHrefProp={to} />;
     },
     useParams: () => {
-      const { path, params } = useRouteMatch<RouteToUserPathParams>();
+      const { path, params } = useRouteMatch<UserPathParams>();
   
       if (path !== pattern) {
         const error = \`You are trying to use useParams for "${'${pattern}'}" in "${'${path}'}". Make sure you are using the right route link object!\`;
@@ -141,15 +127,14 @@ describe('generateRouteTemplate', () => {
       expect(template).toContain(`import React from 'react';`);
       expect(template).toContain(`import { Link, LinkProps as OriginalLinkProps } from 'react-router-dom';`);
       expect(template).not.toContain(`import { useRouteMatch, useHistory, } from 'react-router';`);
-      expect(template).toContain(`const pattern = '/app/users/:id/:subview?(profile|pictures)';`);
-      expect(template).toContain(`export interface RouteToUserPathParams {id: string;subview?:'profile'|'pictures';}`);
+      expect(template).toContain(`import  {patternUser as pattern,UserPathParams,} from './patternUser'`);
       expect(template).toContain(`type OmittedLinkProps = Omit<OriginalLinkProps, 'to'>;`);
       expect(template).toContain(`interface UrlParts<P> { path: P; urlQuery?: Partial<Record<string, string>>; }`);
       expect(template).toContain(`type RouteLinkProps<P> = OmittedLinkProps & UrlParts<P>;`);
       expect(template).toContain(
         `interface ReactRouterRoute<P> { pattern: string; generate: (urlParts: UrlParts<P>) => string; Link: React.FunctionComponent<RouteLinkProps<P>>;   }`
       );
-      expect(template).toContain(`const RouteToUser: ReactRouterRoute<RouteToUserPathParams> = {
+      expect(template).toContain(`const RouteToUser: ReactRouterRoute<UserPathParams> = {
     pattern,
     generate: ({ path, urlQuery }) => generateUrl(pattern, path, urlQuery),
     Link: function RouteLink({ path, urlQuery, ...props }) {
@@ -159,11 +144,13 @@ describe('generateRouteTemplate', () => {
       expect(template).toContain(`export default RouteToUser;`);
     });
 
-    it('should generate if no dynamic path params', () => {
+    it('should generate if no path param interface', () => {
       const template = generateRouteTemplate({
         ...options,
-        keys: [],
-        routePattern: 'app/login',
+        routePatternNamedExports: {
+          filename: 'patternUser',
+          pathPatternName: 'patternUser',
+        },
       });
 
       expect(template).toContain('generate: ({ urlQuery }) => generateUrl(pattern, {}, urlQuery),');
@@ -179,28 +166,16 @@ describe('generateRouteTemplate', () => {
 
   describe('NextJS', () => {
     const options: GenerateRouteTemplateOptions = {
-      routePattern: '/app/users/:id/:subview?(profile|pictures)',
+      routePatternNamedExports: {
+        filename: 'patternUser',
+        pathPatternName: 'patternUser',
+        pathParamsInterfaceName: 'UserPathParams',
+      },
       routingType: RoutingType.NextJS,
       shouldGenerateLink: true,
       shouldGenerateReactRouterFunctions: false,
       displayRouteName: 'RouteToUser',
       generateUrlFunctionPath: 'route-codegen',
-      keys: [
-        {
-          name: 'id',
-          prefix: '/',
-          suffix: '',
-          pattern: '[^\\/#\\?]+?',
-          modifier: '',
-        },
-        {
-          name: 'subview',
-          prefix: '/',
-          suffix: '',
-          pattern: 'profile|pictures',
-          modifier: '?',
-        },
-      ],
       routeLinkOptions: {
         ReactRouter: {
           shouldGenerateDefault: true,
@@ -220,15 +195,14 @@ describe('generateRouteTemplate', () => {
       expect(template).toContain(`import { generateUrl } from 'route-codegen';`);
       expect(template).toContain(`import React from 'react';`);
       expect(template).toContain(`import Link, { LinkProps as OriginalLinkProps } from 'next/link';`);
-      expect(template).toContain(`const pattern = '/app/users/:id/:subview?(profile|pictures)';`);
-      expect(template).toContain(`export interface RouteToUserPathParams {id: string;subview?:'profile'|'pictures';}`);
+      expect(template).toContain(`import  {patternUser as pattern,UserPathParams,} from './patternUser'`);
       expect(template).toContain(`type OmittedLinkProps = Omit<OriginalLinkProps, 'href'>;`);
       expect(template).toContain(`interface UrlParts<P> { path: P; urlQuery?: Partial<Record<string, string>>; }`);
       expect(template).toContain(`type RouteLinkProps<P> = OmittedLinkProps & UrlParts<P>;`);
       expect(template).toContain(
         `interface NextJSRoute<P> { pattern: string; generate: (urlParts: UrlParts<P>) => string; Link: React.FunctionComponent<RouteLinkProps<P>>;`
       );
-      expect(template).toContain(`const RouteToUser: NextJSRoute<RouteToUserPathParams> = {
+      expect(template).toContain(`const RouteToUser: NextJSRoute<UserPathParams> = {
     pattern,
     generate: ({ path, urlQuery }) => generateUrl(pattern, path, urlQuery),
     Link: function RouteLink({ path, urlQuery, ...props }) {
@@ -254,15 +228,14 @@ describe('generateRouteTemplate', () => {
       expect(template).toContain(`import { generateUrl } from 'route-codegen';`);
       expect(template).toContain(`import React from 'react';`);
       expect(template).toContain(`import Link, { CustomLinkProps as OriginalLinkProps } from 'path-to-custom-link'`);
-      expect(template).toContain(`const pattern = '/app/users/:id/:subview?(profile|pictures)';`);
-      expect(template).toContain(`export interface RouteToUserPathParams {id: string;subview?:'profile'|'pictures';}`);
+      expect(template).toContain(`import  {patternUser as pattern,UserPathParams,} from './patternUser'`);
       expect(template).toContain(`type OmittedLinkProps = Omit<OriginalLinkProps, 'someHrefProp'>;`);
       expect(template).toContain(`interface UrlParts<P> { path: P; urlQuery?: Partial<Record<string, string>>; }`);
       expect(template).toContain(`type RouteLinkProps<P> = OmittedLinkProps & UrlParts<P>;`);
       expect(template).toContain(
         `interface NextJSRoute<P> { pattern: string; generate: (urlParts: UrlParts<P>) => string; Link: React.FunctionComponent<RouteLinkProps<P>>;`
       );
-      expect(template).toContain(`const RouteToUser: NextJSRoute<RouteToUserPathParams> = {
+      expect(template).toContain(`const RouteToUser: NextJSRoute<UserPathParams> = {
     pattern,
     generate: ({ path, urlQuery }) => generateUrl(pattern, path, urlQuery),
     Link: function RouteLink({ path, urlQuery, ...props }) {
@@ -274,8 +247,10 @@ describe('generateRouteTemplate', () => {
     it('should generate if no dynamic path params', () => {
       const template = generateRouteTemplate({
         ...options,
-        keys: [],
-        routePattern: 'app/login',
+        routePatternNamedExports: {
+          filename: 'patternLogin',
+          pathPatternName: 'patternLogin',
+        },
       });
 
       expect(template).toContain('generate: ({ urlQuery }) => generateUrl(pattern, {}, urlQuery),');
@@ -286,28 +261,16 @@ describe('generateRouteTemplate', () => {
 
   describe('Default / External links', () => {
     const options: GenerateRouteTemplateOptions = {
-      routePattern: '/app/users/:id/:subview?(profile|pictures)',
+      routePatternNamedExports: {
+        filename: 'patternUser',
+        pathPatternName: 'patternUser',
+        pathParamsInterfaceName: 'UserPathParams',
+      },
       routingType: RoutingType.Default,
       shouldGenerateLink: true,
       shouldGenerateReactRouterFunctions: false,
       displayRouteName: 'RouteToUser',
       generateUrlFunctionPath: 'route-codegen',
-      keys: [
-        {
-          name: 'id',
-          prefix: '/',
-          suffix: '',
-          pattern: '[^\\/#\\?]+?',
-          modifier: '',
-        },
-        {
-          name: 'subview',
-          prefix: '/',
-          suffix: '',
-          pattern: 'profile|pictures',
-          modifier: '?',
-        },
-      ],
       routeLinkOptions: {
         ReactRouter: {
           shouldGenerateDefault: true,
@@ -326,8 +289,7 @@ describe('generateRouteTemplate', () => {
 
       expect(template).toContain(`import { generateUrl } from 'route-codegen';`);
       expect(template).toContain(`import React from 'react';`);
-      expect(template).toContain(`const pattern = '/app/users/:id/:subview?(profile|pictures)';`);
-      expect(template).toContain(`export interface RouteToUserPathParams {id: string;subview?:'profile'|'pictures';}`);
+      expect(template).toContain(`import  {patternUser as pattern,UserPathParams,} from './patternUser'`);
       expect(template).toContain(
         `type OmittedLinkProps = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, 'href'>;`
       );
@@ -336,7 +298,7 @@ describe('generateRouteTemplate', () => {
       expect(template).toContain(
         `interface DefaultRoute<P> { pattern: string; generate: (urlParts: UrlParts<P>) => string; Link: React.FunctionComponent<RouteLinkProps<P>>;   }`
       );
-      expect(template).toContain(`const RouteToUser: DefaultRoute<RouteToUserPathParams> = {
+      expect(template).toContain(`const RouteToUser: DefaultRoute<UserPathParams> = {
     pattern,
     generate: ({ path, urlQuery }) => generateUrl(pattern, path, urlQuery),
     Link: function RouteLink({ path, urlQuery, ...props }) {
@@ -363,15 +325,14 @@ describe('generateRouteTemplate', () => {
       expect(template).toContain(`import { generateUrl } from 'route-codegen';`);
       expect(template).toContain(`import React from 'react';`);
       expect(template).toContain(`import Link, { CustomLinkProps as OriginalLinkProps } from 'path-to-custom-link'`);
-      expect(template).toContain(`const pattern = '/app/users/:id/:subview?(profile|pictures)';`);
-      expect(template).toContain(`export interface RouteToUserPathParams {id: string;subview?:'profile'|'pictures';}`);
+      expect(template).toContain(`import  {patternUser as pattern,UserPathParams,} from './patternUser'`);
       expect(template).toContain(`type OmittedLinkProps = Omit<OriginalLinkProps, 'someHrefProp'>;`);
       expect(template).toContain(`interface UrlParts<P> { path: P; urlQuery?: Partial<Record<string, string>>; }`);
       expect(template).toContain(`type RouteLinkProps<P> = OmittedLinkProps & UrlParts<P>;`);
       expect(template).toContain(
         `interface DefaultRoute<P> { pattern: string; generate: (urlParts: UrlParts<P>) => string; Link: React.FunctionComponent<RouteLinkProps<P>>;   }`
       );
-      expect(template).toContain(`const RouteToUser: DefaultRoute<RouteToUserPathParams> = {
+      expect(template).toContain(`const RouteToUser: DefaultRoute<UserPathParams> = {
     pattern,
     generate: ({ path, urlQuery }) => generateUrl(pattern, path, urlQuery),
     Link: function RouteLink({ path, urlQuery, ...props }) {
@@ -384,8 +345,10 @@ describe('generateRouteTemplate', () => {
     it('should generate if no dynamic path params', () => {
       const template = generateRouteTemplate({
         ...options,
-        keys: [],
-        routePattern: 'app/login',
+        routePatternNamedExports: {
+          filename: 'patternLogin',
+          pathPatternName: 'patternLogin',
+        },
       });
 
       expect(template).toContain('generate: ({ urlQuery }) => generateUrl(pattern, {}, urlQuery),');

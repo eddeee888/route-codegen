@@ -3,7 +3,7 @@ import { generateUrl } from 'route-codegen';
 import React from 'react';
 import Link, { LinkProps as OriginalLinkProps } from 'common/components/Link';
 
-const pattern = '/login';
+import { patternLogin as pattern } from './patternLogin';
 
 type OmittedLinkProps = Omit<OriginalLinkProps, 'to'>;
 

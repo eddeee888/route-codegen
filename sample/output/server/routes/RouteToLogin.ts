@@ -1,7 +1,7 @@
 /* This file was automatically generated and should not be edited. */
 import { generateUrl } from 'route-codegen';
 
-const pattern = '/login';
+import { patternLogin as pattern } from './patternLogin';
 
 interface UrlParts {
   urlQuery?: Partial<Record<string, string>>;

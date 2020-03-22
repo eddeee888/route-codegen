@@ -4,12 +4,7 @@ import React from 'react';
 import { Link, LinkProps as OriginalLinkProps } from 'react-router-dom';
 import { useRouteMatch, useHistory } from 'react-router';
 
-const pattern = '/app/users/:id/:subview(profile|pictures)?';
-
-export interface RouteToUserPathParams {
-  id: string;
-  subview?: 'profile' | 'pictures';
-}
+import { patternUser as pattern, UserPathParams } from './patternUser';
 
 type OmittedLinkProps = Omit<OriginalLinkProps, 'to'>;
 
@@ -28,7 +23,7 @@ interface ReactRouterRoute<P> {
   useRedirect: (urlParts: UrlParts<P>) => () => void;
 }
 
-const RouteToUser: ReactRouterRoute<RouteToUserPathParams> = {
+const RouteToUser: ReactRouterRoute<UserPathParams> = {
   pattern,
   generate: ({ path, urlQuery }) => generateUrl(pattern, path, urlQuery),
   Link: function RouteLink({ path, urlQuery, ...props }) {
@@ -36,7 +31,7 @@ const RouteToUser: ReactRouterRoute<RouteToUserPathParams> = {
     return <Link {...props} to={to} />;
   },
   useParams: () => {
-    const { path, params } = useRouteMatch<RouteToUserPathParams>();
+    const { path, params } = useRouteMatch<UserPathParams>();
 
     if (path !== pattern) {
       const error = `You are trying to use useParams for "${pattern}" in "${path}". Make sure you are using the right route link object!`;

@@ -1,7 +1,7 @@
 /* This file was automatically generated and should not be edited. */
 import { generateUrl } from 'route-codegen';
 
-const pattern = '/terms-and-conditions';
+import { patternToc as pattern } from './patternToc';
 
 interface UrlParts {
   urlQuery?: Partial<Record<string, string>>;

@@ -3,7 +3,7 @@ import { generateUrl } from 'route-codegen';
 import React from 'react';
 import Link, { LinkProps as OriginalLinkProps } from 'next/link';
 
-const pattern = '/';
+import { patternHome as pattern } from './patternHome';
 
 type OmittedLinkProps = Omit<OriginalLinkProps, 'href'>;
 

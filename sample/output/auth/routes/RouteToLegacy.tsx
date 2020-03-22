@@ -3,7 +3,7 @@ import { generateUrl } from 'route-codegen';
 import React from 'react';
 import Link, { AnchorProps as OriginalLinkProps } from 'common/ui/Anchor';
 
-const pattern = '/legacy/app';
+import { patternLegacy as pattern } from './patternLegacy';
 
 type OmittedLinkProps = Omit<OriginalLinkProps, 'href'>;
 

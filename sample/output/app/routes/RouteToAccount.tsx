@@ -4,7 +4,7 @@ import React from 'react';
 import { Link, LinkProps as OriginalLinkProps } from 'react-router-dom';
 import { useHistory } from 'react-router';
 
-const pattern = '/app/account';
+import { patternAccount as pattern } from './patternAccount';
 
 type OmittedLinkProps = Omit<OriginalLinkProps, 'to'>;
 

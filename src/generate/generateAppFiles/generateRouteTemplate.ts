@@ -1,16 +1,16 @@
-import { Key } from 'path-to-regexp';
-import isNormalPattern from './../utils/isNormalPattern';
 import {
   RoutingType,
   RouteLinkOptions,
   RouteLinkOptionsNoGenerateDefault,
   RouteLinkOptionsGenerateDefault,
 } from '../config';
+import { RoutePatternNamedExports } from './generateRoutePatternFile';
+import printImport from '../utils/printImport';
+import { NamedImport, Import } from '../types';
 
 export interface GenerateRouteTemplateOptions {
-  routePattern: string;
   displayRouteName: string;
-  keys: Key[];
+  routePatternNamedExports: RoutePatternNamedExports;
   routingType: RoutingType;
   routeLinkOptions: RouteLinkOptions;
   generateUrlFunctionPath: string;
@@ -19,9 +19,8 @@ export interface GenerateRouteTemplateOptions {
 }
 
 const generateRouteTemplate = ({
-  routePattern,
   displayRouteName,
-  keys,
+  routePatternNamedExports,
   routingType,
   routeLinkOptions,
   generateUrlFunctionPath,
@@ -34,9 +33,10 @@ const generateRouteTemplate = ({
   const routeLinkPropsInterfaceName = 'RouteLinkProps';
   const routeObjectInterfaceName = `${routingType}Route`;
 
-  const hasPathParams = keys.length > 0;
+  const pathParamsDetails = getPathParamsDetails(routePatternNamedExports.pathParamsInterfaceName);
+
   const shouldGenerateUseParams =
-    routingType === RoutingType.ReactRouter && shouldGenerateReactRouterFunctions && hasPathParams;
+    routingType === RoutingType.ReactRouter && shouldGenerateReactRouterFunctions && pathParamsDetails.hasPathParams;
   const shouldGenerateUseRedirect = routingType === RoutingType.ReactRouter && shouldGenerateReactRouterFunctions;
 
   // LinkProps interface
@@ -62,19 +62,16 @@ const generateRouteTemplate = ({
     shouldGenerateUseParams,
   });
 
-  // Generate route interface
-  const { pathParamsInterfaceTemplate, pathParamsInterfaceName } = generatePathParamsInterface(keys, displayRouteName);
-
   // UrlParts interface
   const { urlPartsInterfaceTemplate, urlPartsInterfaceNameWithGeneric } = generateUrlPartsInterface(
-    hasPathParams,
+    pathParamsDetails.hasPathParams,
     urlPartsInterfaceName
   );
 
   // RouteLinkProps interface
   const { routeLinkPropsInterfaceTemplate, routeLinkPropsInterfaceNameWithGeneric } = generateRouteLinkProps({
     shouldGenerateLink,
-    hasPathParams,
+    hasPathParams: pathParamsDetails.hasPathParams,
     urlPartsInterfaceName,
     omittedLinkPropsInterfaceName,
     routeLinkPropsInterfaceName,
@@ -85,7 +82,7 @@ const generateRouteTemplate = ({
     routeObjectInterfaceName,
     urlPartsInterfaceNameWithGeneric,
     routeLinkPropsInterfaceNameWithGeneric,
-    hasPathParams,
+    hasPathParams: pathParamsDetails.hasPathParams,
     shouldGenerateLink,
     shouldGenerateUseParams,
     shouldGenerateUseRedirect,
@@ -93,10 +90,12 @@ const generateRouteTemplate = ({
 
   // route object
   const routeObject = generateRouteObject({
-    hasPathParams,
+    hasPathParams: pathParamsDetails.hasPathParams,
     linkComponent,
     hrefProp,
-    pathParamsInterfaceName,
+    pathParamsInterfaceName: routePatternNamedExports.pathParamsInterfaceName
+      ? routePatternNamedExports.pathParamsInterfaceName
+      : '', //TODO: review this because this is already built into shouldGenerateUseParams
     shouldGenerateLink,
     shouldGenerateUseParams,
     shouldGenerateUseRedirect,
@@ -106,10 +105,7 @@ const generateRouteTemplate = ({
   return `
     /* This file was automatically generated and should not be edited. */
     ${importsTemplate}
-
-    const pattern = '${routePattern}';
-
-    ${pathParamsInterfaceTemplate}
+    ${printImport(getPathPatternImport(routePatternNamedExports))}
 
     ${omittedLinkPropsTemplate}
 
@@ -120,11 +116,37 @@ const generateRouteTemplate = ({
     ${routeObjectInterfaceTemplate}
 
     const ${displayRouteName}: ${routeObjectInterfaceName}${
-    hasPathParams ? `<${pathParamsInterfaceName}>` : ''
+    pathParamsDetails.hasPathParams ? `<${pathParamsDetails.pathParamsInterfaceName}>` : ''
   } = ${routeObject}
 
     export default ${displayRouteName};
   `;
+};
+
+const getPathParamsDetails = (
+  pathParamsInterfaceName: string | undefined
+): { hasPathParams: false } | { hasPathParams: true; pathParamsInterfaceName: string } => {
+  if (!!pathParamsInterfaceName) {
+    return { hasPathParams: true, pathParamsInterfaceName };
+  }
+
+  return { hasPathParams: false };
+};
+
+const getPathPatternImport = ({
+  filename,
+  pathPatternName,
+  pathParamsInterfaceName,
+}: RoutePatternNamedExports): Import => {
+  const namedImports: NamedImport[] = [{ name: pathPatternName, importAs: 'pattern' }];
+  if (!!pathParamsInterfaceName) {
+    namedImports.push({ name: pathParamsInterfaceName });
+  }
+
+  return {
+    namedImports,
+    from: `./${filename}`,
+  };
 };
 
 interface GenerateImportsTemplateParams {
@@ -154,43 +176,6 @@ const generateImportsTemplate = ({
         : ''
     }
   `;
-};
-
-const generatePathParamsInterface = (
-  keys: Key[],
-  displayRouteName: string
-): { pathParamsInterfaceTemplate: string; pathParamsInterfaceName: string } => {
-  if (keys.length > 0) {
-    const pathParamsInterfaceName = `${displayRouteName}PathParams`;
-    let template = `export interface ${pathParamsInterfaceName} {`;
-    keys.forEach(key => {
-      const { pattern, name, modifier } = key;
-
-      const fieldName = `${name}${modifier === '?' ? modifier : ''}`;
-
-      if (isNormalPattern(pattern)) {
-        template += `${fieldName}: string;`;
-      } else {
-        // Note: We are using enum here... this may not be safe
-        const enumArray = pattern.split('|');
-        if (enumArray.length > 0) {
-          template += `${fieldName}:`;
-          enumArray.forEach(enumValue => (template += `'${enumValue}'|`));
-          // Remove last '|'
-          template = template.slice(0, -1);
-          template += `;`;
-        }
-      }
-    });
-    template += '}\n';
-
-    return {
-      pathParamsInterfaceTemplate: template,
-      pathParamsInterfaceName: pathParamsInterfaceName,
-    };
-  }
-
-  return { pathParamsInterfaceName: '', pathParamsInterfaceTemplate: '' };
 };
 
 const generateUrlPartsInterface = (
@@ -347,71 +332,70 @@ const generateLinkInterface = ({
   linkComponent: string;
   hrefProp: string;
 } => {
-  if (!shouldGenerateLink) {
-    return {
-      importReact: '',
-      importLink: '',
-      omittedLinkPropsTemplate: '',
-      omittedLinkPropsInterfaceName: '',
-      linkComponent: '',
-      hrefProp: '',
-    };
-  }
+  if (shouldGenerateLink) {
+    const option = routeLinkOptions[routingType];
+    const omittedLinkPropsInterfaceName = 'OmittedLinkProps';
+    const originalLinkPropsAlias = 'OriginalLinkProps';
+    const importReact = `import React from 'react';`;
 
-  const option = routeLinkOptions[routingType];
-  const omittedLinkPropsInterfaceName = 'OmittedLinkProps';
-  const originalLinkPropsAlias = 'OriginalLinkProps';
-  const importReact = `import React from 'react';`;
+    function shouldGenerateDefault(
+      option: RouteLinkOptionsNoGenerateDefault | RouteLinkOptionsGenerateDefault
+    ): option is RouteLinkOptionsGenerateDefault {
+      return option.shouldGenerateDefault;
+    }
 
-  function shouldGenerateDefault(
-    option: RouteLinkOptionsNoGenerateDefault | RouteLinkOptionsGenerateDefault
-  ): option is RouteLinkOptionsGenerateDefault {
-    return option.shouldGenerateDefault;
-  }
-
-  if (shouldGenerateDefault(option)) {
-    if (routingType === RoutingType.Default) {
-      const hrefProp = 'href';
+    if (shouldGenerateDefault(option)) {
+      if (routingType === RoutingType.Default) {
+        const hrefProp = 'href';
+        return {
+          importReact,
+          importLink: '',
+          omittedLinkPropsTemplate: `type ${omittedLinkPropsInterfaceName} = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, '${hrefProp}'>;`,
+          omittedLinkPropsInterfaceName,
+          linkComponent: 'a',
+          hrefProp,
+        };
+      } else if (routingType === RoutingType.NextJS) {
+        const hrefProp = 'href';
+        return {
+          importReact,
+          importLink: `import Link, { LinkProps as ${originalLinkPropsAlias} } from 'next/link';`,
+          omittedLinkPropsTemplate: `type ${omittedLinkPropsInterfaceName} = Omit<${originalLinkPropsAlias}, '${hrefProp}'>;`,
+          omittedLinkPropsInterfaceName,
+          linkComponent: 'Link',
+          hrefProp,
+        };
+      } else if (routingType === RoutingType.ReactRouter) {
+        const hrefProp = 'to';
+        return {
+          importReact,
+          importLink: `import { Link, LinkProps as ${originalLinkPropsAlias} } from 'react-router-dom';`,
+          omittedLinkPropsTemplate: `type ${omittedLinkPropsInterfaceName} = Omit<${originalLinkPropsAlias}, '${hrefProp}'>;`,
+          omittedLinkPropsInterfaceName,
+          linkComponent: 'Link',
+          hrefProp,
+        };
+      }
+    } else {
+      const hrefProp = option.hrefProp;
       return {
         importReact,
-        importLink: '',
-        omittedLinkPropsTemplate: `type ${omittedLinkPropsInterfaceName} = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, '${hrefProp}'>;`,
-        omittedLinkPropsInterfaceName,
-        linkComponent: 'a',
-        hrefProp,
-      };
-    } else if (routingType === RoutingType.NextJS) {
-      const hrefProp = 'href';
-      return {
-        importReact,
-        importLink: `import Link, { LinkProps as ${originalLinkPropsAlias} } from 'next/link';`,
-        omittedLinkPropsTemplate: `type ${omittedLinkPropsInterfaceName} = Omit<${originalLinkPropsAlias}, '${hrefProp}'>;`,
-        omittedLinkPropsInterfaceName,
-        linkComponent: 'Link',
-        hrefProp,
-      };
-    } else if (routingType === RoutingType.ReactRouter) {
-      const hrefProp = 'to';
-      return {
-        importReact,
-        importLink: `import { Link, LinkProps as ${originalLinkPropsAlias} } from 'react-router-dom';`,
+        importLink: `import Link, { ${option.propsInterfaceName} as ${originalLinkPropsAlias} } from '${option.path}'`,
         omittedLinkPropsTemplate: `type ${omittedLinkPropsInterfaceName} = Omit<${originalLinkPropsAlias}, '${hrefProp}'>;`,
         omittedLinkPropsInterfaceName,
         linkComponent: 'Link',
         hrefProp,
       };
     }
-  } else {
-    const hrefProp = option.hrefProp;
-    return {
-      importReact,
-      importLink: `import Link, { ${option.propsInterfaceName} as ${originalLinkPropsAlias} } from '${option.path}'`,
-      omittedLinkPropsTemplate: `type ${omittedLinkPropsInterfaceName} = Omit<${originalLinkPropsAlias}, '${hrefProp}'>;`,
-      omittedLinkPropsInterfaceName,
-      linkComponent: 'Link',
-      hrefProp,
-    };
   }
+  return {
+    importReact: '',
+    importLink: '',
+    omittedLinkPropsTemplate: '',
+    omittedLinkPropsInterfaceName: '',
+    linkComponent: '',
+    hrefProp: '',
+  };
 };
 
 export default generateRouteTemplate;

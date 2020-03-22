@@ -1,4 +1,3 @@
-import { pathToRegexp, Key } from 'path-to-regexp';
 import generateRouteTemplate from './generateRouteTemplate';
 import { RoutingType, RouteLinkOptions } from '../config';
 import { TemplateFile } from '../types';
@@ -29,19 +28,15 @@ const generateRouteTemplateFiles: GenerateRouteTemplateFiles = ({
   const routeNameCapitalised = routeNameString[0].toUpperCase() + routeNameString.slice(1);
   const displayRouteName = `RouteTo${routeNameCapitalised}`;
 
-  const [patternFile, patternInterface] = generateRoutePatternFile({
+  const [patternFile, routePatternNamedExports] = generateRoutePatternFile({
     routeName: routeNameCapitalised,
     routePattern,
     destinationDir,
   });
 
-  // TODO: keys are handled in generateRoutePatternFile
-  const keys: Key[] = [];
-  pathToRegexp(routePattern, keys);
   const template = generateRouteTemplate({
-    routePattern,
     displayRouteName,
-    keys,
+    routePatternNamedExports,
     routingType,
     routeLinkOptions,
     generateUrlFunctionPath,
