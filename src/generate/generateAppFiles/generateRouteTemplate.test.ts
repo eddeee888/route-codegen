@@ -30,10 +30,10 @@ describe('generateRouteTemplate', () => {
     it('should generate with default options', () => {
       const template = generateRouteTemplate({ ...options });
 
-      expect(template).toContain(`import { generateUrl } from 'route-codegen';`);
+      expect(template).toContain(`import  {generateUrl,} from 'route-codegen'`);
       expect(template).toContain(`import React  from 'react'`);
       expect(template).toContain(`import Link {LinkProps as OriginalLinkProps,} from 'react-router-dom'`);
-      expect(template).toContain(`import { useRouteMatch, useHistory, } from 'react-router';`);
+      expect(template).toContain(`import  {useRouteMatch,useHistory,} from 'react-router'`);
       expect(template).toContain(`import  {patternUser as pattern,UserPathParams,} from './patternUser'`);
       expect(template).toContain(`type OmittedLinkProps = Omit<OriginalLinkProps, 'to'>;`);
       expect(template).toContain(`interface UrlParts<P> { path: P; urlQuery?: Partial<Record<string, string>>; }`);
@@ -82,10 +82,10 @@ describe('generateRouteTemplate', () => {
         },
       });
 
-      expect(template).toContain(`import { generateUrl } from 'route-codegen';`);
+      expect(template).toContain(`import  {generateUrl,} from 'route-codegen'`);
       expect(template).toContain(`import React  from 'react'`);
       expect(template).toContain(`import Link {CustomLinkProps as OriginalLinkProps,} from 'path-to-custom-link'`);
-      expect(template).toContain(`import { useRouteMatch, useHistory, } from 'react-router';`);
+      expect(template).toContain(`import  {useRouteMatch,useHistory,} from 'react-router'`);
       expect(template).toContain(`import  {patternUser as pattern,UserPathParams,} from './patternUser'`);
       expect(template).toContain(`type OmittedLinkProps = Omit<OriginalLinkProps, 'someHrefProp'>;`);
       expect(template).toContain(`interface UrlParts<P> { path: P; urlQuery?: Partial<Record<string, string>>; }`);
@@ -123,10 +123,10 @@ describe('generateRouteTemplate', () => {
     it('should generate without react-router helper functions', () => {
       const template = generateRouteTemplate({ ...options, shouldGenerateReactRouterFunctions: false });
 
-      expect(template).toContain(`import { generateUrl } from 'route-codegen';`);
+      expect(template).toContain(`import  {generateUrl,} from 'route-codegen'`);
       expect(template).toContain(`import React  from 'react'`);
       expect(template).toContain(`import Link {LinkProps as OriginalLinkProps,} from 'react-router-dom'`);
-      expect(template).not.toContain(`import { useRouteMatch, useHistory, } from 'react-router';`);
+      expect(template).not.toContain(`import  {useRouteMatch,useHistory,} from 'react-router'`);
       expect(template).toContain(`import  {patternUser as pattern,UserPathParams,} from './patternUser'`);
       expect(template).toContain(`type OmittedLinkProps = Omit<OriginalLinkProps, 'to'>;`);
       expect(template).toContain(`interface UrlParts<P> { path: P; urlQuery?: Partial<Record<string, string>>; }`);
@@ -192,7 +192,7 @@ describe('generateRouteTemplate', () => {
     it('should generate with default options', () => {
       const template = generateRouteTemplate({ ...options });
 
-      expect(template).toContain(`import { generateUrl } from 'route-codegen';`);
+      expect(template).toContain(`import  {generateUrl,} from 'route-codegen'`);
       expect(template).toContain(`import React  from 'react'`);
       expect(template).toContain(`import Link {LinkProps as OriginalLinkProps,} from 'next/link'`);
       expect(template).toContain(`import  {patternUser as pattern,UserPathParams,} from './patternUser'`);
@@ -225,7 +225,7 @@ describe('generateRouteTemplate', () => {
         },
       });
 
-      expect(template).toContain(`import { generateUrl } from 'route-codegen';`);
+      expect(template).toContain(`import  {generateUrl,} from 'route-codegen'`);
       expect(template).toContain(`import React  from 'react'`);
       expect(template).toContain(`import Link {CustomLinkProps as OriginalLinkProps,} from 'path-to-custom-link'`);
       expect(template).toContain(`import  {patternUser as pattern,UserPathParams,} from './patternUser'`);
@@ -287,7 +287,7 @@ describe('generateRouteTemplate', () => {
     it('should generate with default options', () => {
       const template = generateRouteTemplate({ ...options });
 
-      expect(template).toContain(`import { generateUrl } from 'route-codegen';`);
+      expect(template).toContain(`import  {generateUrl,} from 'route-codegen'`);
       expect(template).toContain(`import React  from 'react'`);
       expect(template).toContain(`import  {patternUser as pattern,UserPathParams,} from './patternUser'`);
       expect(template).toContain(
@@ -322,7 +322,7 @@ describe('generateRouteTemplate', () => {
         },
       });
 
-      expect(template).toContain(`import { generateUrl } from 'route-codegen';`);
+      expect(template).toContain(`import  {generateUrl,} from 'route-codegen'`);
       expect(template).toContain(`import React  from 'react'`);
       expect(template).toContain(`import Link {CustomLinkProps as OriginalLinkProps,} from 'path-to-custom-link'`);
       expect(template).toContain(`import  {patternUser as pattern,UserPathParams,} from './patternUser'`);

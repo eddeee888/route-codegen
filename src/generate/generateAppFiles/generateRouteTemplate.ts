@@ -35,6 +35,7 @@ const generateRouteTemplate = ({
 
   const pathParamsDetails = getPathParamsDetails(routePatternNamedExports.pathParamsInterfaceName);
 
+  // TODO: update `shouldGenerateReactRouterFunctions` to only exist on ReactRouter options
   const shouldGenerateUseParams =
     routingType === RoutingType.ReactRouter && shouldGenerateReactRouterFunctions && pathParamsDetails.hasPathParams;
   const shouldGenerateUseRedirect = routingType === RoutingType.ReactRouter && shouldGenerateReactRouterFunctions;
@@ -51,15 +52,6 @@ const generateRouteTemplate = ({
     shouldGenerateLink,
     routingType,
     routeLinkOptions,
-  });
-
-  // imports
-  const importsTemplate = generateImportsTemplate({
-    importReact,
-    importLink,
-    generateUrlFunctionPath,
-    shouldGenerateUseRedirect,
-    shouldGenerateUseParams,
   });
 
   // UrlParts interface
@@ -104,7 +96,10 @@ const generateRouteTemplate = ({
   // Final template
   return `
     /* This file was automatically generated and should not be edited. */
-    ${importsTemplate}
+    ${importReact}
+    ${importLink}
+    ${printImport({ namedImports: [{ name: 'generateUrl' }], from: generateUrlFunctionPath })}
+    ${printImportReactRouter({ shouldGenerateUseParams, shouldGenerateUseRedirect })}
     ${printImport(getPathPatternImport(routePatternNamedExports))}
 
     ${omittedLinkPropsTemplate}
@@ -149,33 +144,30 @@ const getPathPatternImport = ({
   };
 };
 
-interface GenerateImportsTemplateParams {
-  importReact: string;
-  importLink: string;
-  generateUrlFunctionPath: string;
+interface PrintImportReactRouter {
   shouldGenerateUseParams: boolean;
   shouldGenerateUseRedirect: boolean;
 }
-const generateImportsTemplate = ({
-  importReact,
-  importLink,
-  generateUrlFunctionPath,
+const printImportReactRouter = ({
   shouldGenerateUseParams,
   shouldGenerateUseRedirect,
-}: GenerateImportsTemplateParams): string => {
+}: PrintImportReactRouter): string => {
   const shouldImportFromReactRouter = shouldGenerateUseParams || shouldGenerateUseRedirect;
 
-  return `import { generateUrl } from '${generateUrlFunctionPath}';
-    ${importReact}
-    ${importLink}
-    ${
-      shouldImportFromReactRouter
-        ? `import { ${shouldGenerateUseParams ? 'useRouteMatch,' : ''} ${
-            shouldGenerateUseRedirect ? 'useHistory,' : ''
-          } } from 'react-router';`
-        : ''
-    }
-  `;
+  if (!shouldImportFromReactRouter) {
+    return '';
+  }
+
+  const namedImports: NamedImport[] = [];
+  if (shouldGenerateUseParams) {
+    namedImports.push({ name: 'useRouteMatch' });
+  }
+
+  if (shouldGenerateUseRedirect) {
+    namedImports.push({ name: 'useHistory' });
+  }
+
+  return printImport({ namedImports, from: 'react-router' });
 };
 
 const generateUrlPartsInterface = (
