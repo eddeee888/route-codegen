@@ -4,11 +4,16 @@
     "lib": ["es5", "es6", "ES2017", "es2019", "dom", "esnext.asynciterable"],
     "module": "commonjs",
     "sourceMap": true,
+    "alwaysStrict": true,
+    "noImplicitThis": true,
     "noImplicitAny": true,
+    "noImplicitReturns": true,
     "removeComments": true,
     "preserveConstEnums": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+
     "esModuleInterop": true,
-    "jsx": "preserve",
     "outDir": "dist",
     "declaration": true
   },

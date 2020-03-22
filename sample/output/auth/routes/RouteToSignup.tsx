@@ -1,9 +1,9 @@
 /* This file was automatically generated and should not be edited. */
-import { generateUrl } from 'route-codegen';
 import React from 'react';
 import Link, { LinkProps as OriginalLinkProps } from 'common/components/Link';
+import { generateUrl } from 'route-codegen';
 
-const pattern = '/signup';
+import { patternSignup as pattern } from './patternSignup';
 
 type OmittedLinkProps = Omit<OriginalLinkProps, 'to'>;
 

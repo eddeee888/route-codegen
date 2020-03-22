@@ -1,9 +1,9 @@
 /* This file was automatically generated and should not be edited. */
-import { generateUrl } from 'route-codegen';
 import React from 'react';
 import Link, { AnchorProps as OriginalLinkProps } from 'common/ui/Anchor';
+import { generateUrl } from 'route-codegen';
 
-const pattern = '/app/account';
+import { patternAccount as pattern } from './patternAccount';
 
 type OmittedLinkProps = Omit<OriginalLinkProps, 'href'>;
 

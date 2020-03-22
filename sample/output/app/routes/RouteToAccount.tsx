@@ -1,10 +1,9 @@
 /* This file was automatically generated and should not be edited. */
-import { generateUrl } from 'route-codegen';
 import React from 'react';
-import { Link, LinkProps as OriginalLinkProps } from 'react-router-dom';
+import Link, { LinkProps as OriginalLinkProps } from 'react-router-dom';
+import { generateUrl } from 'route-codegen';
 import { useHistory } from 'react-router';
-
-const pattern = '/app/account';
+import { patternAccount as pattern } from './patternAccount';
 
 type OmittedLinkProps = Omit<OriginalLinkProps, 'to'>;
 

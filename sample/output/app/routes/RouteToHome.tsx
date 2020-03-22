@@ -1,8 +1,9 @@
 /* This file was automatically generated and should not be edited. */
-import { generateUrl } from 'route-codegen';
 import React from 'react';
 
-const pattern = '/';
+import { generateUrl } from 'route-codegen';
+
+import { patternHome as pattern } from './patternHome';
 
 type OmittedLinkProps = Omit<
   React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>,

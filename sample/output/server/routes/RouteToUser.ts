@@ -1,12 +1,8 @@
 /* This file was automatically generated and should not be edited. */
+
 import { generateUrl } from 'route-codegen';
 
-const pattern = '/app/users/:id/:subview(profile|pictures)?';
-
-export interface RouteToUserPathParams {
-  id: string;
-  subview?: 'profile' | 'pictures';
-}
+import { patternUser as pattern, UserPathParams } from './patternUser';
 
 interface UrlParts<P> {
   path: P;
@@ -18,7 +14,7 @@ interface DefaultRoute<P> {
   generate: (urlParts: UrlParts<P>) => string;
 }
 
-const RouteToUser: DefaultRoute<RouteToUserPathParams> = {
+const RouteToUser: DefaultRoute<UserPathParams> = {
   pattern,
   generate: ({ path, urlQuery }) => generateUrl(pattern, path, urlQuery),
 };
