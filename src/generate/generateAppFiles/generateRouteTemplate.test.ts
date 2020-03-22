@@ -32,7 +32,7 @@ describe('generateRouteTemplate', () => {
 
       expect(template).toContain(`import { generateUrl } from 'route-codegen';`);
       expect(template).toContain(`import React  from 'react'`);
-      expect(template).toContain(`import { Link, LinkProps as OriginalLinkProps } from 'react-router-dom';`);
+      expect(template).toContain(`import Link {LinkProps as OriginalLinkProps,} from 'react-router-dom'`);
       expect(template).toContain(`import { useRouteMatch, useHistory, } from 'react-router';`);
       expect(template).toContain(`import  {patternUser as pattern,UserPathParams,} from './patternUser'`);
       expect(template).toContain(`type OmittedLinkProps = Omit<OriginalLinkProps, 'to'>;`);
@@ -84,7 +84,7 @@ describe('generateRouteTemplate', () => {
 
       expect(template).toContain(`import { generateUrl } from 'route-codegen';`);
       expect(template).toContain(`import React  from 'react'`);
-      expect(template).toContain(`import Link, { CustomLinkProps as OriginalLinkProps } from 'path-to-custom-link'`);
+      expect(template).toContain(`import Link {CustomLinkProps as OriginalLinkProps,} from 'path-to-custom-link'`);
       expect(template).toContain(`import { useRouteMatch, useHistory, } from 'react-router';`);
       expect(template).toContain(`import  {patternUser as pattern,UserPathParams,} from './patternUser'`);
       expect(template).toContain(`type OmittedLinkProps = Omit<OriginalLinkProps, 'someHrefProp'>;`);
@@ -125,7 +125,7 @@ describe('generateRouteTemplate', () => {
 
       expect(template).toContain(`import { generateUrl } from 'route-codegen';`);
       expect(template).toContain(`import React  from 'react'`);
-      expect(template).toContain(`import { Link, LinkProps as OriginalLinkProps } from 'react-router-dom';`);
+      expect(template).toContain(`import Link {LinkProps as OriginalLinkProps,} from 'react-router-dom'`);
       expect(template).not.toContain(`import { useRouteMatch, useHistory, } from 'react-router';`);
       expect(template).toContain(`import  {patternUser as pattern,UserPathParams,} from './patternUser'`);
       expect(template).toContain(`type OmittedLinkProps = Omit<OriginalLinkProps, 'to'>;`);
@@ -194,7 +194,7 @@ describe('generateRouteTemplate', () => {
 
       expect(template).toContain(`import { generateUrl } from 'route-codegen';`);
       expect(template).toContain(`import React  from 'react'`);
-      expect(template).toContain(`import Link, { LinkProps as OriginalLinkProps } from 'next/link';`);
+      expect(template).toContain(`import Link {LinkProps as OriginalLinkProps,} from 'next/link'`);
       expect(template).toContain(`import  {patternUser as pattern,UserPathParams,} from './patternUser'`);
       expect(template).toContain(`type OmittedLinkProps = Omit<OriginalLinkProps, 'href'>;`);
       expect(template).toContain(`interface UrlParts<P> { path: P; urlQuery?: Partial<Record<string, string>>; }`);
@@ -227,7 +227,7 @@ describe('generateRouteTemplate', () => {
 
       expect(template).toContain(`import { generateUrl } from 'route-codegen';`);
       expect(template).toContain(`import React  from 'react'`);
-      expect(template).toContain(`import Link, { CustomLinkProps as OriginalLinkProps } from 'path-to-custom-link'`);
+      expect(template).toContain(`import Link {CustomLinkProps as OriginalLinkProps,} from 'path-to-custom-link'`);
       expect(template).toContain(`import  {patternUser as pattern,UserPathParams,} from './patternUser'`);
       expect(template).toContain(`type OmittedLinkProps = Omit<OriginalLinkProps, 'someHrefProp'>;`);
       expect(template).toContain(`interface UrlParts<P> { path: P; urlQuery?: Partial<Record<string, string>>; }`);
@@ -324,7 +324,7 @@ describe('generateRouteTemplate', () => {
 
       expect(template).toContain(`import { generateUrl } from 'route-codegen';`);
       expect(template).toContain(`import React  from 'react'`);
-      expect(template).toContain(`import Link, { CustomLinkProps as OriginalLinkProps } from 'path-to-custom-link'`);
+      expect(template).toContain(`import Link {CustomLinkProps as OriginalLinkProps,} from 'path-to-custom-link'`);
       expect(template).toContain(`import  {patternUser as pattern,UserPathParams,} from './patternUser'`);
       expect(template).toContain(`type OmittedLinkProps = Omit<OriginalLinkProps, 'someHrefProp'>;`);
       expect(template).toContain(`interface UrlParts<P> { path: P; urlQuery?: Partial<Record<string, string>>; }`);

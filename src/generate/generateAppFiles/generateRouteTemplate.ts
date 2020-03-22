@@ -357,9 +357,14 @@ const generateLinkInterface = ({
         };
       } else if (routingType === RoutingType.NextJS) {
         const hrefProp = 'href';
+        const importLink = printImport({
+          defaultImport: 'Link',
+          namedImports: [{ name: 'LinkProps', importAs: originalLinkPropsAlias }],
+          from: 'next/link',
+        });
         return {
           importReact,
-          importLink: `import Link, { LinkProps as ${originalLinkPropsAlias} } from 'next/link';`,
+          importLink,
           omittedLinkPropsTemplate: `type ${omittedLinkPropsInterfaceName} = Omit<${originalLinkPropsAlias}, '${hrefProp}'>;`,
           omittedLinkPropsInterfaceName,
           linkComponent: 'Link',
@@ -367,9 +372,14 @@ const generateLinkInterface = ({
         };
       } else if (routingType === RoutingType.ReactRouter) {
         const hrefProp = 'to';
+        const importLink = printImport({
+          defaultImport: 'Link',
+          namedImports: [{ name: 'LinkProps', importAs: originalLinkPropsAlias }],
+          from: 'react-router-dom',
+        });
         return {
           importReact,
-          importLink: `import { Link, LinkProps as ${originalLinkPropsAlias} } from 'react-router-dom';`,
+          importLink,
           omittedLinkPropsTemplate: `type ${omittedLinkPropsInterfaceName} = Omit<${originalLinkPropsAlias}, '${hrefProp}'>;`,
           omittedLinkPropsInterfaceName,
           linkComponent: 'Link',
@@ -378,9 +388,14 @@ const generateLinkInterface = ({
       }
     } else {
       const hrefProp = option.hrefProp;
+      const importLink = printImport({
+        defaultImport: 'Link',
+        namedImports: [{ name: option.propsInterfaceName, importAs: originalLinkPropsAlias }],
+        from: option.path,
+      });
       return {
         importReact,
-        importLink: `import Link, { ${option.propsInterfaceName} as ${originalLinkPropsAlias} } from '${option.path}'`,
+        importLink: importLink,
         omittedLinkPropsTemplate: `type ${omittedLinkPropsInterfaceName} = Omit<${originalLinkPropsAlias}, '${hrefProp}'>;`,
         omittedLinkPropsInterfaceName,
         linkComponent: 'Link',
