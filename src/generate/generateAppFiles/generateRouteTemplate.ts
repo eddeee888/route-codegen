@@ -336,7 +336,7 @@ const generateLinkInterface = ({
     const option = routeLinkOptions[routingType];
     const omittedLinkPropsInterfaceName = 'OmittedLinkProps';
     const originalLinkPropsAlias = 'OriginalLinkProps';
-    const importReact = `import React from 'react';`;
+    const importReact = printImport({ defaultImport: 'React', from: 'react' });
 
     function shouldGenerateDefault(
       option: RouteLinkOptionsNoGenerateDefault | RouteLinkOptionsGenerateDefault
