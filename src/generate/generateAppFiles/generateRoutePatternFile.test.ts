@@ -8,13 +8,13 @@ describe('generateRoutePatternFile', () => {
       routeName: 'Login',
     });
 
-    expect(templateFile.filename).toBe('patternToLogin');
+    expect(templateFile.filename).toBe('patternLogin');
     expect(templateFile.extension).toBe('.ts');
     expect(templateFile.destinationDir).toBe('path/to/routes');
-    expect(templateFile.template).toContain("export const patternToLogin = '/app/login'");
+    expect(templateFile.template).toContain("export const patternLogin = '/app/login'");
     expect(interfaceResult).toEqual({
-      pathPatternName: 'patternToLogin',
-      filename: 'patternToLogin',
+      pathPatternName: 'patternLogin',
+      filename: 'patternLogin',
     });
   });
 
@@ -25,19 +25,19 @@ describe('generateRoutePatternFile', () => {
       routeName: 'UserInfo',
     });
 
-    expect(templateFile.filename).toBe('patternToUserInfo');
+    expect(templateFile.filename).toBe('patternUserInfo');
     expect(templateFile.extension).toBe('.ts');
     expect(templateFile.destinationDir).toBe('path/to/routes');
     expect(templateFile.template).toContain(
-      "export const patternToUserInfo = '/app/users/:id/:subview(profile|pictures)'"
+      "export const patternUserInfo = '/app/users/:id/:subview(profile|pictures)'"
     );
     expect(templateFile.template).toContain(
       `export interface UserInfoPathParams {id: string;subview:'profile'|'pictures';}`
     );
     expect(interfaceResult).toEqual({
-      pathPatternName: 'patternToUserInfo',
+      pathPatternName: 'patternUserInfo',
       pathParamsInterfaceName: 'UserInfoPathParams',
-      filename: 'patternToUserInfo',
+      filename: 'patternUserInfo',
     });
   });
 });
