@@ -2,6 +2,7 @@ import generateRouteTemplate from './generateRouteTemplate';
 import { RoutingType, RouteLinkOptions } from '../config';
 import { TemplateFile } from '../types';
 import generateRoutePatternFile from './generateRoutePatternFile';
+import generateUseParamsFile from './generateUseParamsFile';
 
 type GenerateRouteTemplateFiles = (params: {
   routeName: string;
@@ -48,7 +49,24 @@ const generateRouteTemplateFiles: GenerateRouteTemplateFiles = ({
     destinationDir,
   };
 
-  return [patternFile, routeFile];
+  const files = [patternFile, routeFile];
+
+  if (
+    routingType === RoutingType.ReactRouterV5 &&
+    routeLinkOptions.ReactRouterV5.useParams &&
+    !!routePatternNamedExports.pathParamsInterfaceName
+  ) {
+    const useParamsFile = generateUseParamsFile({
+      routeName: routeNameCapitalised,
+      destinationDir,
+      pathParamsPatternName: routePatternNamedExports.pathPatternName,
+      pathParamsFilename: routePatternNamedExports.filename,
+      pathParamsInterfaceName: routePatternNamedExports.pathParamsInterfaceName,
+    });
+    files.push(useParamsFile);
+  }
+
+  return files;
 };
 
 export default generateRouteTemplateFiles;
