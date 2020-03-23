@@ -11,12 +11,15 @@ describe('generateRouteTemplate', () => {
         pathParamsInterfaceName: 'UserPathParams',
       },
       shouldGenerateLink: true,
-      shouldGenerateReactRouterFunctions: true,
       displayRouteName: 'RouteToUser',
       generateUrlFunctionPath: 'route-codegen',
       routeLinkOptions: {
         ReactRouterV5: {
-          shouldGenerateDefault: true,
+          path: 'react-router-dom',
+          hrefProp: 'to',
+          propsInterfaceName: 'LinkProps',
+          useRedirect: true,
+          useParams: true,
         },
         Default: {
           shouldGenerateDefault: true,
@@ -74,10 +77,11 @@ describe('generateRouteTemplate', () => {
         routeLinkOptions: {
           ...options.routeLinkOptions,
           ReactRouterV5: {
-            shouldGenerateDefault: false,
             hrefProp: 'someHrefProp',
             path: 'path-to-custom-link',
             propsInterfaceName: 'CustomLinkProps',
+            useParams: true,
+            useRedirect: true,
           },
         },
       });
@@ -121,7 +125,19 @@ describe('generateRouteTemplate', () => {
     });
 
     it('should generate without react-router helper functions', () => {
-      const template = generateRouteTemplate({ ...options, shouldGenerateReactRouterFunctions: false });
+      const template = generateRouteTemplate({
+        ...options,
+        routeLinkOptions: {
+          ...options.routeLinkOptions,
+          ReactRouterV5: {
+            hrefProp: 'someHrefProp',
+            path: 'path-to-custom-link',
+            propsInterfaceName: 'CustomLinkProps',
+            useParams: false,
+            useRedirect: false,
+          },
+        },
+      });
 
       expect(template).toContain(`import {generateUrl,} from 'route-codegen'`);
       expect(template).toContain(`import React from 'react'`);
@@ -173,12 +189,15 @@ describe('generateRouteTemplate', () => {
       },
       routingType: RoutingType.NextJS,
       shouldGenerateLink: true,
-      shouldGenerateReactRouterFunctions: false,
       displayRouteName: 'RouteToUser',
       generateUrlFunctionPath: 'route-codegen',
       routeLinkOptions: {
         ReactRouterV5: {
-          shouldGenerateDefault: true,
+          path: 'react-router-dom',
+          hrefProp: 'to',
+          propsInterfaceName: 'LinkProps',
+          useRedirect: true,
+          useParams: true,
         },
         Default: {
           shouldGenerateDefault: true,
@@ -268,12 +287,15 @@ describe('generateRouteTemplate', () => {
       },
       routingType: RoutingType.Default,
       shouldGenerateLink: true,
-      shouldGenerateReactRouterFunctions: false,
       displayRouteName: 'RouteToUser',
       generateUrlFunctionPath: 'route-codegen',
       routeLinkOptions: {
         ReactRouterV5: {
-          shouldGenerateDefault: true,
+          path: 'react-router-dom',
+          hrefProp: 'to',
+          propsInterfaceName: 'LinkProps',
+          useRedirect: true,
+          useParams: true,
         },
         Default: {
           shouldGenerateDefault: true,

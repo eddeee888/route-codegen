@@ -27,9 +27,6 @@ apps:
       logout: /app/logout
       me: /app/me
     routingType: ReactRouter
-    # Use generateReactRouterFunctions boolean if you don't want to
-    # create typed convenient functions/hooks such as `useParams` or `useRedirect`
-    generateReactRouterFunctions: false
     destinationDir: client/src/routes
 
   client-seo:
@@ -43,6 +40,8 @@ apps:
       path: src/common/components/Link
       propsInterfaceName: LinkProps
       hrefProp: href
+      useParams: true
+      useRedirect: true
     nextJSLinkOptions:
       path: src/common/components/NextJSLink
       propsInterfaceName: LinkProps

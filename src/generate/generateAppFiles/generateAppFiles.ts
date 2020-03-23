@@ -10,7 +10,6 @@ function generateAppFiles(app: AppConfig): TemplateFile[] {
     routeLinkOptions,
     generateUrlFunctionPath,
     shouldGenerateLink,
-    shouldGenerateReactRouterFunctions,
   } = parseAppConfig(app);
 
   if (destinationDir) {
@@ -22,7 +21,6 @@ function generateAppFiles(app: AppConfig): TemplateFile[] {
         destinationDir,
         routingType,
         shouldGenerateLink,
-        shouldGenerateReactRouterFunctions,
         generateUrlFunctionPath,
       })
     );

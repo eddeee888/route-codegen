@@ -11,11 +11,12 @@ apps:
       login: /login
       signup: /signup
     routingType: ReactRouterV5
-    generateReactRouterFunctions: false
-    reactRouterLinkOptions:
+    reactRouterV5LinkOptions:
       path: common/components/Link
       propsInterfaceName: LinkProps
       hrefProp: to
+      useParams: false
+      useRedirect: false
     defaultLinkOptions:
       path: common/ui/Anchor
       propsInterfaceName: AnchorProps

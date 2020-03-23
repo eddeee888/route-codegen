@@ -8,17 +8,23 @@ export interface AppConfig {
   routes?: Record<string, string>;
   routingType?: string;
   destinationDir?: string;
-  reactRouterLinkOptions?: CustomLinkOptions;
+  reactRouterV5LinkOptions?: LinkOptions & { useRedirect?: boolean; useParams?: boolean };
   nextJSLinkOptions?: CustomLinkOptions;
   defaultLinkOptions?: CustomLinkOptions;
   generateLink?: boolean;
-  generateReactRouterFunctions?: boolean;
 }
 
+// TODO: all of the fields are optional
 export interface CustomLinkOptions {
   path: string;
   hrefProp: string;
   propsInterfaceName: string;
+}
+
+interface LinkOptions {
+  path?: string;
+  hrefProp?: string;
+  propsInterfaceName?: string;
 }
 
 export type RouteLinkOptionsNoGenerateDefault = {
@@ -29,7 +35,11 @@ export type RouteLinkOptionsNoGenerateDefault = {
 };
 export type RouteLinkOptionsGenerateDefault = { shouldGenerateDefault: true };
 
-export type RouteLinkOptions = Record<RoutingType, RouteLinkOptionsNoGenerateDefault | RouteLinkOptionsGenerateDefault>;
+export type RouteLinkOptions = {
+  NextJS: RouteLinkOptionsNoGenerateDefault | RouteLinkOptionsGenerateDefault;
+  ReactRouterV5: ParsedReactRouterV5LinkOptions;
+  Default: RouteLinkOptionsNoGenerateDefault | RouteLinkOptionsGenerateDefault;
+};
 
 export interface ParsedAppConfig {
   routes: Record<string, string>;
@@ -38,24 +48,37 @@ export interface ParsedAppConfig {
   routeLinkOptions: RouteLinkOptions;
   generateUrlFunctionPath: string;
   shouldGenerateLink: boolean;
-  shouldGenerateReactRouterFunctions: boolean;
 }
 
 export interface Config {
   apps: Record<string, AppConfig>;
 }
 
+export interface ParsedReactRouterV5LinkOptions {
+  path: string;
+  hrefProp: string;
+  propsInterfaceName: string;
+  useRedirect: boolean;
+  useParams: boolean;
+}
+
 const GENERATE_URL_PATH = 'route-codegen';
+const defaultReactRouterV5LinkOptions: ParsedReactRouterV5LinkOptions = {
+  path: 'react-router-dom',
+  hrefProp: 'to',
+  propsInterfaceName: 'LinkProps',
+  useRedirect: true,
+  useParams: true,
+};
 
 export const parseAppConfig = ({
   routingType = 'Default',
   routes = {},
   destinationDir,
-  reactRouterLinkOptions,
+  reactRouterV5LinkOptions = {},
   nextJSLinkOptions,
   defaultLinkOptions,
   generateLink = true,
-  generateReactRouterFunctions = true,
 }: AppConfig): ParsedAppConfig => {
   if (
     routingType !== RoutingType.NextJS &&
@@ -70,16 +93,7 @@ export const parseAppConfig = ({
     destinationDir,
     routingType,
     routeLinkOptions: {
-      ReactRouterV5: reactRouterLinkOptions
-        ? {
-            shouldGenerateDefault: false,
-            path: reactRouterLinkOptions.path,
-            hrefProp: reactRouterLinkOptions.hrefProp,
-            propsInterfaceName: reactRouterLinkOptions.propsInterfaceName,
-          }
-        : {
-            shouldGenerateDefault: true,
-          },
+      ReactRouterV5: { ...defaultReactRouterV5LinkOptions, ...reactRouterV5LinkOptions },
       NextJS: nextJSLinkOptions
         ? {
             shouldGenerateDefault: false,
@@ -99,7 +113,6 @@ export const parseAppConfig = ({
     },
     generateUrlFunctionPath: GENERATE_URL_PATH,
     shouldGenerateLink: generateLink,
-    shouldGenerateReactRouterFunctions: generateReactRouterFunctions,
   };
 
   return parsedConfig;

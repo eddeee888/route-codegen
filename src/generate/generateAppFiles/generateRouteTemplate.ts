@@ -3,6 +3,7 @@ import {
   RouteLinkOptions,
   RouteLinkOptionsNoGenerateDefault,
   RouteLinkOptionsGenerateDefault,
+  ParsedReactRouterV5LinkOptions,
 } from '../config';
 import { RoutePatternNamedExports } from './generateRoutePatternFile';
 import printImport from '../utils/printImport';
@@ -15,7 +16,6 @@ export interface GenerateRouteTemplateOptions {
   routeLinkOptions: RouteLinkOptions;
   generateUrlFunctionPath: string;
   shouldGenerateLink: boolean;
-  shouldGenerateReactRouterFunctions: boolean;
 }
 
 const generateRouteTemplate = ({
@@ -25,7 +25,6 @@ const generateRouteTemplate = ({
   routeLinkOptions,
   generateUrlFunctionPath,
   shouldGenerateLink,
-  shouldGenerateReactRouterFunctions,
 }: GenerateRouteTemplateOptions): string => {
   //TODO: bring this out
 
@@ -37,8 +36,11 @@ const generateRouteTemplate = ({
 
   // TODO: update `shouldGenerateReactRouterFunctions` to only exist on ReactRouter options
   const shouldGenerateUseParams =
-    routingType === RoutingType.ReactRouterV5 && shouldGenerateReactRouterFunctions && pathParamsDetails.hasPathParams;
-  const shouldGenerateUseRedirect = routingType === RoutingType.ReactRouterV5 && shouldGenerateReactRouterFunctions;
+    routingType === RoutingType.ReactRouterV5 &&
+    routeLinkOptions.ReactRouterV5.useParams &&
+    pathParamsDetails.hasPathParams;
+  const shouldGenerateUseRedirect =
+    routingType === RoutingType.ReactRouterV5 && routeLinkOptions.ReactRouterV5.useRedirect;
 
   // LinkProps interface
   const {
@@ -331,9 +333,12 @@ const generateLinkInterface = ({
     const importReact = printImport({ defaultImport: 'React', from: 'react' });
 
     function shouldGenerateDefault(
-      option: RouteLinkOptionsNoGenerateDefault | RouteLinkOptionsGenerateDefault
+      option: RouteLinkOptionsNoGenerateDefault | RouteLinkOptionsGenerateDefault | ParsedReactRouterV5LinkOptions
     ): option is RouteLinkOptionsGenerateDefault {
-      return option.shouldGenerateDefault;
+      if ('shouldGenerateDefault' in option) {
+        return option.shouldGenerateDefault;
+      }
+      return false;
     }
 
     if (shouldGenerateDefault(option)) {
@@ -353,21 +358,6 @@ const generateLinkInterface = ({
           defaultImport: 'Link',
           namedImports: [{ name: 'LinkProps', importAs: originalLinkPropsAlias }],
           from: 'next/link',
-        });
-        return {
-          importReact,
-          importLink,
-          omittedLinkPropsTemplate: `type ${omittedLinkPropsInterfaceName} = Omit<${originalLinkPropsAlias}, '${hrefProp}'>;`,
-          omittedLinkPropsInterfaceName,
-          linkComponent: 'Link',
-          hrefProp,
-        };
-      } else if (routingType === RoutingType.ReactRouterV5) {
-        const hrefProp = 'to';
-        const importLink = printImport({
-          defaultImport: 'Link',
-          namedImports: [{ name: 'LinkProps', importAs: originalLinkPropsAlias }],
-          from: 'react-router-dom',
         });
         return {
           importReact,

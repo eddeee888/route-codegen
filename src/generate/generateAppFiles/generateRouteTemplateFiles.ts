@@ -11,7 +11,6 @@ type GenerateRouteTemplateFiles = (params: {
   routeLinkOptions: RouteLinkOptions;
   generateUrlFunctionPath: string;
   shouldGenerateLink: boolean;
-  shouldGenerateReactRouterFunctions: boolean;
 }) => TemplateFile[];
 
 const generateRouteTemplateFiles: GenerateRouteTemplateFiles = ({
@@ -22,7 +21,6 @@ const generateRouteTemplateFiles: GenerateRouteTemplateFiles = ({
   routeLinkOptions,
   generateUrlFunctionPath,
   shouldGenerateLink,
-  shouldGenerateReactRouterFunctions,
 }) => {
   const routeNameString = routeName.toString();
   const routeNameCapitalised = routeNameString[0].toUpperCase() + routeNameString.slice(1);
@@ -41,11 +39,8 @@ const generateRouteTemplateFiles: GenerateRouteTemplateFiles = ({
     routeLinkOptions,
     generateUrlFunctionPath,
     shouldGenerateLink,
-    shouldGenerateReactRouterFunctions,
   });
-
   const extension = shouldGenerateLink ? '.tsx' : '.ts'; // If we don't have to generate link, it's not a react app so no .tsx is needed
-
   const routeFile: TemplateFile = {
     template,
     filename: displayRouteName,
