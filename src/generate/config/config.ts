@@ -1,6 +1,6 @@
 export enum RoutingType {
   'NextJS' = 'NextJS',
-  'ReactRouter' = 'ReactRouter',
+  'ReactRouterV5' = 'ReactRouterV5',
   'Default' = 'Default',
 }
 
@@ -59,7 +59,7 @@ export const parseAppConfig = ({
 }: AppConfig): ParsedAppConfig => {
   if (
     routingType !== RoutingType.NextJS &&
-    routingType !== RoutingType.ReactRouter &&
+    routingType !== RoutingType.ReactRouterV5 &&
     routingType !== RoutingType.Default
   ) {
     throw new Error('Routing type of an app must be either "NextJS" or "ReactRouter" or "Default"');
@@ -70,7 +70,7 @@ export const parseAppConfig = ({
     destinationDir,
     routingType,
     routeLinkOptions: {
-      ReactRouter: reactRouterLinkOptions
+      ReactRouterV5: reactRouterLinkOptions
         ? {
             shouldGenerateDefault: false,
             path: reactRouterLinkOptions.path,

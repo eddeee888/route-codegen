@@ -4,7 +4,7 @@ import { RoutingType } from '../config';
 describe('generateRouteTemplate', () => {
   describe('react-router V5', () => {
     const options: GenerateRouteTemplateOptions = {
-      routingType: RoutingType.ReactRouter,
+      routingType: RoutingType.ReactRouterV5,
       routePatternNamedExports: {
         filename: 'patternUser',
         pathPatternName: 'patternUser',
@@ -15,7 +15,7 @@ describe('generateRouteTemplate', () => {
       displayRouteName: 'RouteToUser',
       generateUrlFunctionPath: 'route-codegen',
       routeLinkOptions: {
-        ReactRouter: {
+        ReactRouterV5: {
           shouldGenerateDefault: true,
         },
         Default: {
@@ -39,9 +39,9 @@ describe('generateRouteTemplate', () => {
       expect(template).toContain(`interface UrlParts<P> { path: P; urlQuery?: Partial<Record<string, string>>; }`);
       expect(template).toContain(`type RouteLinkProps<P> = OmittedLinkProps & UrlParts<P>;`);
       expect(template).toContain(
-        `interface ReactRouterRoute<P> { pattern: string; generate: (urlParts: UrlParts<P>) => string; Link: React.FunctionComponent<RouteLinkProps<P>>; useParams: () => P; useRedirect: (urlParts: UrlParts<P>) => () => void; }`
+        `interface ReactRouterV5Route<P> { pattern: string; generate: (urlParts: UrlParts<P>) => string; Link: React.FunctionComponent<RouteLinkProps<P>>; useParams: () => P; useRedirect: (urlParts: UrlParts<P>) => () => void; }`
       );
-      expect(template).toContain(`const RouteToUser: ReactRouterRoute<UserPathParams> = {
+      expect(template).toContain(`const RouteToUser: ReactRouterV5Route<UserPathParams> = {
     pattern,
     generate: ({ path, urlQuery }) => generateUrl(pattern, path, urlQuery),
     Link: function RouteLink({ path, urlQuery, ...props }) {
@@ -73,7 +73,7 @@ describe('generateRouteTemplate', () => {
         ...options,
         routeLinkOptions: {
           ...options.routeLinkOptions,
-          ReactRouter: {
+          ReactRouterV5: {
             shouldGenerateDefault: false,
             hrefProp: 'someHrefProp',
             path: 'path-to-custom-link',
@@ -91,9 +91,9 @@ describe('generateRouteTemplate', () => {
       expect(template).toContain(`interface UrlParts<P> { path: P; urlQuery?: Partial<Record<string, string>>; }`);
       expect(template).toContain(`type RouteLinkProps<P> = OmittedLinkProps & UrlParts<P>;`);
       expect(template).toContain(
-        `interface ReactRouterRoute<P> { pattern: string; generate: (urlParts: UrlParts<P>) => string; Link: React.FunctionComponent<RouteLinkProps<P>>; useParams: () => P; useRedirect: (urlParts: UrlParts<P>) => () => void; }`
+        `interface ReactRouterV5Route<P> { pattern: string; generate: (urlParts: UrlParts<P>) => string; Link: React.FunctionComponent<RouteLinkProps<P>>; useParams: () => P; useRedirect: (urlParts: UrlParts<P>) => () => void; }`
       );
-      expect(template).toContain(`const RouteToUser: ReactRouterRoute<UserPathParams> = {
+      expect(template).toContain(`const RouteToUser: ReactRouterV5Route<UserPathParams> = {
     pattern,
     generate: ({ path, urlQuery }) => generateUrl(pattern, path, urlQuery),
     Link: function RouteLink({ path, urlQuery, ...props }) {
@@ -132,9 +132,9 @@ describe('generateRouteTemplate', () => {
       expect(template).toContain(`interface UrlParts<P> { path: P; urlQuery?: Partial<Record<string, string>>; }`);
       expect(template).toContain(`type RouteLinkProps<P> = OmittedLinkProps & UrlParts<P>;`);
       expect(template).toContain(
-        `interface ReactRouterRoute<P> { pattern: string; generate: (urlParts: UrlParts<P>) => string; Link: React.FunctionComponent<RouteLinkProps<P>>;   }`
+        `interface ReactRouterV5Route<P> { pattern: string; generate: (urlParts: UrlParts<P>) => string; Link: React.FunctionComponent<RouteLinkProps<P>>;   }`
       );
-      expect(template).toContain(`const RouteToUser: ReactRouterRoute<UserPathParams> = {
+      expect(template).toContain(`const RouteToUser: ReactRouterV5Route<UserPathParams> = {
     pattern,
     generate: ({ path, urlQuery }) => generateUrl(pattern, path, urlQuery),
     Link: function RouteLink({ path, urlQuery, ...props }) {
@@ -177,7 +177,7 @@ describe('generateRouteTemplate', () => {
       displayRouteName: 'RouteToUser',
       generateUrlFunctionPath: 'route-codegen',
       routeLinkOptions: {
-        ReactRouter: {
+        ReactRouterV5: {
           shouldGenerateDefault: true,
         },
         Default: {
@@ -272,7 +272,7 @@ describe('generateRouteTemplate', () => {
       displayRouteName: 'RouteToUser',
       generateUrlFunctionPath: 'route-codegen',
       routeLinkOptions: {
-        ReactRouter: {
+        ReactRouterV5: {
           shouldGenerateDefault: true,
         },
         Default: {

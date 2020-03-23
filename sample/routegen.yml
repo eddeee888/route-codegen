@@ -3,14 +3,14 @@ apps:
     routes:
       user: /app/users/:id/:subview(profile|pictures)?
       account: /app/account
-    routingType: ReactRouter
+    routingType: ReactRouterV5
     destinationDir: sample/output/app/routes
 
   auth:
     routes:
       login: /login
       signup: /signup
-    routingType: ReactRouter
+    routingType: ReactRouterV5
     generateReactRouterFunctions: false
     reactRouterLinkOptions:
       path: common/components/Link

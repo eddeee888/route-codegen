@@ -14,7 +14,7 @@ interface UrlParts<P> {
 
 type RouteLinkProps<P> = OmittedLinkProps & UrlParts<P>;
 
-interface ReactRouterRoute<P> {
+interface ReactRouterV5Route<P> {
   pattern: string;
   generate: (urlParts: UrlParts<P>) => string;
   Link: React.FunctionComponent<RouteLinkProps<P>>;
@@ -22,7 +22,7 @@ interface ReactRouterRoute<P> {
   useRedirect: (urlParts: UrlParts<P>) => () => void;
 }
 
-const RouteToUser: ReactRouterRoute<UserPathParams> = {
+const RouteToUser: ReactRouterV5Route<UserPathParams> = {
   pattern,
   generate: ({ path, urlQuery }) => generateUrl(pattern, path, urlQuery),
   Link: function RouteLink({ path, urlQuery, ...props }) {

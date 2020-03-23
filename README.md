@@ -88,7 +88,7 @@ const config: Config = {
         user: '/app/users/:id',
         account: '/app/account',
       },
-      routingType: RoutingType.ReactRouter,
+      routingType: RoutingType.ReactRouterV5,
       destinationDir: 'tests/output/app/routes',
     },
     seo: {

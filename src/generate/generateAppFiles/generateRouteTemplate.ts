@@ -37,8 +37,8 @@ const generateRouteTemplate = ({
 
   // TODO: update `shouldGenerateReactRouterFunctions` to only exist on ReactRouter options
   const shouldGenerateUseParams =
-    routingType === RoutingType.ReactRouter && shouldGenerateReactRouterFunctions && pathParamsDetails.hasPathParams;
-  const shouldGenerateUseRedirect = routingType === RoutingType.ReactRouter && shouldGenerateReactRouterFunctions;
+    routingType === RoutingType.ReactRouterV5 && shouldGenerateReactRouterFunctions && pathParamsDetails.hasPathParams;
+  const shouldGenerateUseRedirect = routingType === RoutingType.ReactRouterV5 && shouldGenerateReactRouterFunctions;
 
   // LinkProps interface
   const {
@@ -362,7 +362,7 @@ const generateLinkInterface = ({
           linkComponent: 'Link',
           hrefProp,
         };
-      } else if (routingType === RoutingType.ReactRouter) {
+      } else if (routingType === RoutingType.ReactRouterV5) {
         const hrefProp = 'to';
         const importLink = printImport({
           defaultImport: 'Link',

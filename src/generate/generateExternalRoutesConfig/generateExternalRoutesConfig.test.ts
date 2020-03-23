@@ -10,7 +10,7 @@ describe('generateExternalRoutesConfig', () => {
           signup: '/app/signup',
         },
         destinationDir: 'main/src/routes',
-        routingType: RoutingType.ReactRouter,
+        routingType: RoutingType.ReactRouterV5,
       },
       seo: {
         routes: {
