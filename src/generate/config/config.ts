@@ -6,40 +6,26 @@ export enum RoutingType {
   'Default' = 'Default',
 }
 
-export interface AppConfig {
-  routes?: Record<string, string>;
-  routingType?: string;
-  destinationDir?: string;
-  reactRouterV5LinkOptions?: LinkOptions & { useRedirect?: boolean; useParams?: boolean };
-  nextJSLinkOptions?: LinkOptions;
-  defaultLinkOptions?: CustomLinkOptions;
-  generateLink?: boolean;
-}
-
-// TODO: all of the fields are optional
-export interface CustomLinkOptions {
-  path: string;
-  hrefProp: string;
-  propsInterfaceName: string;
-}
-
 interface LinkOptions {
   path?: string;
   hrefProp?: string;
   propsInterfaceName?: string;
 }
 
-export type RouteLinkOptionsNoGenerateDefault = {
-  path: string;
-  hrefProp: string;
-  propsInterfaceName: string;
-  shouldGenerateDefault: false;
-};
-export type RouteLinkOptionsGenerateDefault = { shouldGenerateDefault: true };
+export interface AppConfig {
+  routes?: Record<string, string>;
+  routingType?: string;
+  destinationDir?: string;
+  reactRouterV5LinkOptions?: LinkOptions & { useRedirect?: boolean; useParams?: boolean };
+  nextJSLinkOptions?: LinkOptions;
+  defaultLinkOptions?: LinkOptions;
+  generateLink?: boolean;
+}
 
 export interface ParsedReactRouterV5LinkOptions {
   path: string;
   hrefProp: string;
+  linkComponent: string;
   propsInterfaceName: string;
   useRedirect: boolean;
   useParams: boolean;
@@ -48,13 +34,22 @@ export interface ParsedReactRouterV5LinkOptions {
 export interface ParsedNextJSLinkOptions {
   path: string;
   hrefProp: string;
+  linkComponent: string;
+  propsInterfaceName: string;
+}
+
+export interface ParsedDefaultLinkOptions {
+  path: string;
+  inlineLinkPropsTemplate?: string; // This is ONLY when there's no option is passed in
+  linkComponent: string;
+  hrefProp: string;
   propsInterfaceName: string;
 }
 
 export type RouteLinkOptions = {
   NextJS: ParsedNextJSLinkOptions;
   ReactRouterV5: ParsedReactRouterV5LinkOptions;
-  Default: RouteLinkOptionsNoGenerateDefault | RouteLinkOptionsGenerateDefault;
+  Default: ParsedDefaultLinkOptions;
 };
 
 export interface ParsedAppConfig {
@@ -77,6 +72,7 @@ const IMPORT_GENERATE_URL: Import = {
 const defaultReactRouterV5LinkOptions: ParsedReactRouterV5LinkOptions = {
   path: 'react-router-dom',
   hrefProp: 'to',
+  linkComponent: 'Link',
   propsInterfaceName: 'LinkProps',
   useRedirect: true,
   useParams: true,
@@ -84,7 +80,15 @@ const defaultReactRouterV5LinkOptions: ParsedReactRouterV5LinkOptions = {
 const defaultNextJSLinkOptions: ParsedNextJSLinkOptions = {
   path: 'next/link',
   hrefProp: 'href',
+  linkComponent: 'Link',
   propsInterfaceName: 'LinkProps',
+};
+const defaultNormalLinkOptions: ParsedDefaultLinkOptions = {
+  path: '',
+  hrefProp: 'href',
+  propsInterfaceName: '',
+  linkComponent: 'a',
+  inlineLinkPropsTemplate: `type LinkProps = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, 'href'>;`,
 };
 
 export const parseAppConfig = ({
@@ -111,14 +115,9 @@ export const parseAppConfig = ({
     routeLinkOptions: {
       ReactRouterV5: { ...defaultReactRouterV5LinkOptions, ...reactRouterV5LinkOptions },
       NextJS: { ...defaultNextJSLinkOptions, ...nextJSLinkOptions },
-      Default: defaultLinkOptions
-        ? {
-            shouldGenerateDefault: false,
-            path: defaultLinkOptions.path,
-            hrefProp: defaultLinkOptions.hrefProp,
-            propsInterfaceName: defaultLinkOptions.propsInterfaceName,
-          }
-        : { shouldGenerateDefault: true },
+      Default: !defaultLinkOptions
+        ? { ...defaultNormalLinkOptions }
+        : { ...defaultNormalLinkOptions, ...defaultLinkOptions, inlineLinkPropsTemplate: undefined },
     },
     importGenerateUrl: IMPORT_GENERATE_URL,
     shouldGenerateLink: generateLink,

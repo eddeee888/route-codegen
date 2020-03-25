@@ -1,13 +1,6 @@
 import { TemplateFile, Import } from '../types';
 import printImport from '../utils/printImport';
-import {
-  RoutingType,
-  RouteLinkOptions,
-  RouteLinkOptionsNoGenerateDefault,
-  RouteLinkOptionsGenerateDefault,
-  ParsedReactRouterV5LinkOptions,
-  ParsedNextJSLinkOptions,
-} from '../config';
+import { RoutingType, RouteLinkOptions } from '../config';
 import { RoutePatternNamedExports } from './generateRoutePatternFile';
 
 export interface GenerateLinkFileParams {
@@ -32,17 +25,16 @@ const generateLinkFile: GenerateLinkFile = ({
   const functionName = `Link${routeName}`;
   const hasPathParams = !!pathParamsInterfaceName;
 
-  const { hrefProp, importLink, linkComponent, LinkPropsInterfaceName, LinkPropsTemplate } = generateLinkInterface({
+  const { hrefProp, importLink, linkComponent, LinkPropsInterfaceName, linkPropsTemplate } = generateLinkInterface({
     routingType,
     routeLinkOptions,
-    routeName,
   });
 
   const template = `${printImport({ defaultImport: 'React', from: 'react' })}
   ${printImport(importGenerateUrl)}
   ${importLink ? printImport(importLink) : ''}
   ${printImport({ namedImports: [{ name: pathPatternName }], from: `./${routePatternFilename}` })}
-  ${LinkPropsTemplate}
+  ${linkPropsTemplate}
   const ${functionName}: ${LinkPropsInterfaceName} = ({ ${hasPathParams ? 'path,' : ''} urlQuery, ...props }) => {
     const to = generateUrl(${pathPatternName}, ${hasPathParams ? 'path' : '{}'}, urlQuery);
     return <${linkComponent} {...props} ${hrefProp}={to} />;
@@ -63,65 +55,40 @@ const generateLinkFile: GenerateLinkFile = ({
 type GenerateLinkInterface = (params: {
   routingType: RoutingType;
   routeLinkOptions: RouteLinkOptions;
-  routeName: string;
 }) => {
   importLink?: Import;
-  LinkPropsTemplate: string;
+  linkPropsTemplate: string;
   LinkPropsInterfaceName: string;
   linkComponent: string;
   hrefProp: string;
 };
 
-const generateLinkInterface: GenerateLinkInterface = ({ routingType, routeLinkOptions, routeName }) => {
+const generateLinkInterface: GenerateLinkInterface = ({ routingType, routeLinkOptions }) => {
   const option = routeLinkOptions[routingType];
   const LinkPropsInterfaceName = 'LinkProps';
   const originalLinkPropsAlias = 'OriginalLinkProps';
 
-  // FIX THIS LOGIC
-  function shouldGenerateDefault(
-    option:
-      | RouteLinkOptionsNoGenerateDefault
-      | RouteLinkOptionsGenerateDefault
-      | ParsedReactRouterV5LinkOptions
-      | ParsedNextJSLinkOptions
-  ): option is RouteLinkOptionsGenerateDefault {
-    if ('shouldGenerateDefault' in option) {
-      return option.shouldGenerateDefault;
-    }
-    return false;
-  }
+  const hrefProp = option.hrefProp;
 
-  if (shouldGenerateDefault(option)) {
-    if (routingType === RoutingType.Default) {
-      const hrefProp = 'href';
-      return {
-        LinkPropsTemplate: `type ${LinkPropsInterfaceName} = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, '${hrefProp}'>;`,
-        LinkPropsInterfaceName,
-        linkComponent: 'a',
-        hrefProp,
-      };
-    }
-  } else {
-    const hrefProp = option.hrefProp;
-    const importLink: Import = {
-      defaultImport: 'Link',
-      namedImports: [{ name: option.propsInterfaceName, importAs: originalLinkPropsAlias }],
-      from: option.path,
-    };
-    return {
-      importLink,
-      LinkPropsTemplate: `type ${LinkPropsInterfaceName} = Omit<${originalLinkPropsAlias}, '${hrefProp}'>;`,
-      LinkPropsInterfaceName,
-      linkComponent: 'Link',
-      hrefProp,
-    };
+  let importLink: Import | undefined = {
+    defaultImport: option.linkComponent,
+    namedImports: [{ name: option.propsInterfaceName, importAs: originalLinkPropsAlias }],
+    from: option.path,
+  };
+  let linkPropsTemplate = `type ${LinkPropsInterfaceName} = Omit<${originalLinkPropsAlias}, '${hrefProp}'>;`;
+
+  // if there's inlineLinkPropsTemplate, we don't import anything
+  if ('inlineLinkPropsTemplate' in option && option.inlineLinkPropsTemplate) {
+    linkPropsTemplate = option.inlineLinkPropsTemplate;
+    importLink = undefined;
   }
 
   return {
-    LinkPropsTemplate: '',
-    LinkPropsInterfaceName: '',
-    linkComponent: '',
-    hrefProp: '',
+    importLink,
+    linkPropsTemplate,
+    LinkPropsInterfaceName,
+    linkComponent: option.linkComponent,
+    hrefProp,
   };
 };
 
