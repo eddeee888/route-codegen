@@ -1,16 +1,11 @@
 /* This file was automatically generated and should not be edited. */
 
 import { generateUrl } from 'route-codegen';
-
-import { patternLegacy as pattern } from './patternLegacy';
-
-interface UrlParts {
-  urlQuery?: Partial<Record<string, string>>;
-}
+import { patternLegacy as pattern, UrlPartsLegacy } from './patternLegacy';
 
 interface DefaultRoute {
   pattern: string;
-  generate: (urlParts: UrlParts) => string;
+  generate: (urlParts: UrlPartsLegacy) => string;
 }
 
 const RouteToLegacy: DefaultRoute = {

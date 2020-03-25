@@ -2,20 +2,15 @@
 import React from 'react';
 import Link, { AnchorProps as OriginalLinkProps } from 'src/common/ui/Anchor';
 import { generateUrl } from 'route-codegen';
-
-import { patternLogin as pattern } from './patternLogin';
+import { patternLogin as pattern, UrlPartsLogin } from './patternLogin';
 
 type OmittedLinkProps = Omit<OriginalLinkProps, 'href'>;
 
-interface UrlParts {
-  urlQuery?: Partial<Record<string, string>>;
-}
-
-type RouteLinkProps = OmittedLinkProps & UrlParts;
+type RouteLinkProps = OmittedLinkProps & UrlPartsLogin;
 
 interface DefaultRoute {
   pattern: string;
-  generate: (urlParts: UrlParts) => string;
+  generate: (urlParts: UrlPartsLogin) => string;
   Link: React.FunctionComponent<RouteLinkProps>;
 }
 

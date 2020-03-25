@@ -1,17 +1,11 @@
 /* This file was automatically generated and should not be edited. */
 
 import { generateUrl } from 'route-codegen';
-
-import { patternUser as pattern, PathParamsUser } from './patternUser';
-
-interface UrlParts<P> {
-  path: P;
-  urlQuery?: Partial<Record<string, string>>;
-}
+import { patternUser as pattern, UrlPartsUser, PathParamsUser } from './patternUser';
 
 interface DefaultRoute<P> {
   pattern: string;
-  generate: (urlParts: UrlParts<P>) => string;
+  generate: (urlParts: UrlPartsUser) => string;
 }
 
 const RouteToUser: DefaultRoute<PathParamsUser> = {

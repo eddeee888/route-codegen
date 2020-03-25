@@ -2,20 +2,15 @@
 import React from 'react';
 import Link, { LinkProps as OriginalLinkProps } from 'common/components/Link';
 import { generateUrl } from 'route-codegen';
-
-import { patternSignup as pattern } from './patternSignup';
+import { patternSignup as pattern, UrlPartsSignup } from './patternSignup';
 
 type OmittedLinkProps = Omit<OriginalLinkProps, 'to'>;
 
-interface UrlParts {
-  urlQuery?: Partial<Record<string, string>>;
-}
-
-type RouteLinkProps = OmittedLinkProps & UrlParts;
+type RouteLinkProps = OmittedLinkProps & UrlPartsSignup;
 
 interface ReactRouterV5Route {
   pattern: string;
-  generate: (urlParts: UrlParts) => string;
+  generate: (urlParts: UrlPartsSignup) => string;
   Link: React.FunctionComponent<RouteLinkProps>;
 }
 

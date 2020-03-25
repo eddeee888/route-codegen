@@ -1,16 +1,11 @@
 /* This file was automatically generated and should not be edited. */
 
 import { generateUrl } from 'route-codegen';
-
-import { patternAccount as pattern } from './patternAccount';
-
-interface UrlParts {
-  urlQuery?: Partial<Record<string, string>>;
-}
+import { patternAccount as pattern, UrlPartsAccount } from './patternAccount';
 
 interface DefaultRoute {
   pattern: string;
-  generate: (urlParts: UrlParts) => string;
+  generate: (urlParts: UrlPartsAccount) => string;
 }
 
 const RouteToAccount: DefaultRoute = {

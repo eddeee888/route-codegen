@@ -2,23 +2,18 @@
 import React from 'react';
 
 import { generateUrl } from 'route-codegen';
-
-import { patternLegacy as pattern } from './patternLegacy';
+import { patternLegacy as pattern, UrlPartsLegacy } from './patternLegacy';
 
 type OmittedLinkProps = Omit<
   React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>,
   'href'
 >;
 
-interface UrlParts {
-  urlQuery?: Partial<Record<string, string>>;
-}
-
-type RouteLinkProps = OmittedLinkProps & UrlParts;
+type RouteLinkProps = OmittedLinkProps & UrlPartsLegacy;
 
 interface DefaultRoute {
   pattern: string;
-  generate: (urlParts: UrlParts) => string;
+  generate: (urlParts: UrlPartsLegacy) => string;
   Link: React.FunctionComponent<RouteLinkProps>;
 }
 

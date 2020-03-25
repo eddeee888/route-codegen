@@ -8,11 +8,11 @@ describe('generateRouteTemplate', () => {
       routePatternNamedExports: {
         filename: 'patternUser',
         pathPatternName: 'patternUser',
-        pathParamsInterfaceName: 'UserPathParams',
+        pathParamsInterfaceName: 'PathParamsUser',
+        urlPartsInterfaceName: 'UrlPartsUser',
       },
       shouldGenerateLink: true,
       displayRouteName: 'RouteToUser',
-      generateUrlFunctionPath: 'route-codegen',
       routeLinkOptions: {
         ReactRouterV5: {
           path: 'react-router-dom',
@@ -28,6 +28,10 @@ describe('generateRouteTemplate', () => {
           shouldGenerateDefault: true,
         },
       },
+      importGenerateUrl: {
+        namedImports: [{ name: 'generateUrl' }],
+        from: 'route-codegen',
+      },
     };
 
     it('should generate with default options', () => {
@@ -36,8 +40,7 @@ describe('generateRouteTemplate', () => {
       expect(template).toContain(`import {generateUrl,} from 'route-codegen'`);
       expect(template).toContain(`import React from 'react'`);
       expect(template).toContain(`import Link, {LinkProps as OriginalLinkProps,} from 'react-router-dom'`);
-      expect(template).toContain(`import {useRouteMatch,useHistory,} from 'react-router'`);
-      expect(template).toContain(`import {patternUser as pattern,UserPathParams,} from './patternUser'`);
+      expect(template).toContain(`import {patternUser as pattern,PathParamsUser,} from './patternUser'`);
       expect(template).toContain(`type OmittedLinkProps = Omit<OriginalLinkProps, 'to'>;`);
       expect(template).toContain(`interface UrlParts<P> { path: P; urlQuery?: Partial<Record<string, string>>; }`);
       expect(template).toContain(`type RouteLinkProps<P> = OmittedLinkProps & UrlParts<P>;`);
@@ -166,6 +169,7 @@ describe('generateRouteTemplate', () => {
         routePatternNamedExports: {
           filename: 'patternUser',
           pathPatternName: 'patternUser',
+          urlPartsInterfaceName: 'UrlPartsUser',
         },
       });
 
@@ -185,12 +189,12 @@ describe('generateRouteTemplate', () => {
       routePatternNamedExports: {
         filename: 'patternUser',
         pathPatternName: 'patternUser',
-        pathParamsInterfaceName: 'UserPathParams',
+        pathParamsInterfaceName: 'PathParamsParts',
+        urlPartsInterfaceName: 'UserUrlParts',
       },
       routingType: RoutingType.NextJS,
       shouldGenerateLink: true,
       displayRouteName: 'RouteToUser',
-      generateUrlFunctionPath: 'route-codegen',
       routeLinkOptions: {
         ReactRouterV5: {
           path: 'react-router-dom',
@@ -205,6 +209,10 @@ describe('generateRouteTemplate', () => {
         NextJS: {
           shouldGenerateDefault: true,
         },
+      },
+      importGenerateUrl: {
+        namedImports: [{ name: 'generateUrl' }],
+        from: 'route-codegen',
       },
     };
 
@@ -269,6 +277,7 @@ describe('generateRouteTemplate', () => {
         routePatternNamedExports: {
           filename: 'patternLogin',
           pathPatternName: 'patternLogin',
+          urlPartsInterfaceName: 'UrlPartsLogin',
         },
       });
 
@@ -284,11 +293,11 @@ describe('generateRouteTemplate', () => {
         filename: 'patternUser',
         pathPatternName: 'patternUser',
         pathParamsInterfaceName: 'UserPathParams',
+        urlPartsInterfaceName: 'UrlPartsUser',
       },
       routingType: RoutingType.Default,
       shouldGenerateLink: true,
       displayRouteName: 'RouteToUser',
-      generateUrlFunctionPath: 'route-codegen',
       routeLinkOptions: {
         ReactRouterV5: {
           path: 'react-router-dom',
@@ -303,6 +312,10 @@ describe('generateRouteTemplate', () => {
         NextJS: {
           shouldGenerateDefault: true,
         },
+      },
+      importGenerateUrl: {
+        namedImports: [{ name: 'generateUrl' }],
+        from: 'route-codegen',
       },
     };
 
@@ -370,6 +383,7 @@ describe('generateRouteTemplate', () => {
         routePatternNamedExports: {
           filename: 'patternLogin',
           pathPatternName: 'patternLogin',
+          urlPartsInterfaceName: 'UrlPartsLogin',
         },
       });
 

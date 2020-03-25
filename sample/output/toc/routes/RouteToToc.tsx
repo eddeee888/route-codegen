@@ -2,20 +2,15 @@
 import React from 'react';
 import Link, { LinkProps as OriginalLinkProps } from 'src/common/components/Link';
 import { generateUrl } from 'route-codegen';
-
-import { patternToc as pattern } from './patternToc';
+import { patternToc as pattern, UrlPartsToc } from './patternToc';
 
 type OmittedLinkProps = Omit<OriginalLinkProps, 'href'>;
 
-interface UrlParts {
-  urlQuery?: Partial<Record<string, string>>;
-}
-
-type RouteLinkProps = OmittedLinkProps & UrlParts;
+type RouteLinkProps = OmittedLinkProps & UrlPartsToc;
 
 interface NextJSRoute {
   pattern: string;
-  generate: (urlParts: UrlParts) => string;
+  generate: (urlParts: UrlPartsToc) => string;
   Link: React.FunctionComponent<RouteLinkProps>;
 }
 

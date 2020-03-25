@@ -1,16 +1,11 @@
 /* This file was automatically generated and should not be edited. */
 
 import { generateUrl } from 'route-codegen';
-
-import { patternAbout as pattern } from './patternAbout';
-
-interface UrlParts {
-  urlQuery?: Partial<Record<string, string>>;
-}
+import { patternAbout as pattern, UrlPartsAbout } from './patternAbout';
 
 interface DefaultRoute {
   pattern: string;
-  generate: (urlParts: UrlParts) => string;
+  generate: (urlParts: UrlPartsAbout) => string;
 }
 
 const RouteToAbout: DefaultRoute = {
