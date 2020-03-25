@@ -3,7 +3,7 @@ import React from 'react';
 import Link, { AnchorProps as OriginalLinkProps } from 'src/common/ui/Anchor';
 import { generateUrl } from 'route-codegen';
 
-import { patternUser as pattern, pathParamsUser } from './patternUser';
+import { patternUser as pattern, PathParamsUser } from './patternUser';
 
 type OmittedLinkProps = Omit<OriginalLinkProps, 'href'>;
 
@@ -20,7 +20,7 @@ interface DefaultRoute<P> {
   Link: React.FunctionComponent<RouteLinkProps<P>>;
 }
 
-const RouteToUser: DefaultRoute<pathParamsUser> = {
+const RouteToUser: DefaultRoute<PathParamsUser> = {
   pattern,
   generate: ({ path, urlQuery }) => generateUrl(pattern, path, urlQuery),
   Link: function RouteLink({ path, urlQuery, ...props }) {

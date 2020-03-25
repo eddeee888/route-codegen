@@ -3,7 +3,7 @@ import React from 'react';
 import Link, { LinkProps as OriginalLinkProps } from 'react-router-dom';
 import { generateUrl } from 'route-codegen';
 import { useRouteMatch, useHistory } from 'react-router';
-import { patternUser as pattern, pathParamsUser } from './patternUser';
+import { patternUser as pattern, PathParamsUser } from './patternUser';
 
 type OmittedLinkProps = Omit<OriginalLinkProps, 'to'>;
 
@@ -22,7 +22,7 @@ interface ReactRouterV5Route<P> {
   useRedirect: (urlParts: UrlParts<P>) => () => void;
 }
 
-const RouteToUser: ReactRouterV5Route<pathParamsUser> = {
+const RouteToUser: ReactRouterV5Route<PathParamsUser> = {
   pattern,
   generate: ({ path, urlQuery }) => generateUrl(pattern, path, urlQuery),
   Link: function RouteLink({ path, urlQuery, ...props }) {
@@ -30,7 +30,7 @@ const RouteToUser: ReactRouterV5Route<pathParamsUser> = {
     return <Link {...props} to={to} />;
   },
   useParams: () => {
-    const { path, params } = useRouteMatch<pathParamsUser>();
+    const { path, params } = useRouteMatch<PathParamsUser>();
 
     if (path !== pattern) {
       const error = `You are trying to use useParams for "${pattern}" in "${path}". Make sure you are using the right route link object!`;

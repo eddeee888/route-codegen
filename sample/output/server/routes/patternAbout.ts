@@ -1,5 +1,5 @@
 export const patternAbout = '/about';
 
-export interface urlPartsAbout {
+export interface UrlPartsAbout {
   urlQuery?: Partial<Record<string, string>>;
 }

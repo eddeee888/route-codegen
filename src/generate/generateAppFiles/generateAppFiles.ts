@@ -8,7 +8,7 @@ function generateAppFiles(app: AppConfig): TemplateFile[] {
     routingType,
     destinationDir,
     routeLinkOptions,
-    generateUrlFunctionPath,
+    importGenerateUrl,
     shouldGenerateLink,
   } = parseAppConfig(app);
 
@@ -21,7 +21,7 @@ function generateAppFiles(app: AppConfig): TemplateFile[] {
         destinationDir,
         routingType,
         shouldGenerateLink,
-        generateUrlFunctionPath,
+        importGenerateUrl,
       })
     );
 

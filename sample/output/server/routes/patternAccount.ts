@@ -1,5 +1,5 @@
 export const patternAccount = '/app/account';
 
-export interface urlPartsAccount {
+export interface UrlPartsAccount {
   urlQuery?: Partial<Record<string, string>>;
 }

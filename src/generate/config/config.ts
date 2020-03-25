@@ -1,3 +1,5 @@
+import { Import } from '../types';
+
 export enum RoutingType {
   'NextJS' = 'NextJS',
   'ReactRouterV5' = 'ReactRouterV5',
@@ -46,7 +48,7 @@ export interface ParsedAppConfig {
   routingType: RoutingType;
   destinationDir?: string;
   routeLinkOptions: RouteLinkOptions;
-  generateUrlFunctionPath: string;
+  importGenerateUrl: Import;
   shouldGenerateLink: boolean;
 }
 
@@ -62,7 +64,10 @@ export interface ParsedReactRouterV5LinkOptions {
   useParams: boolean;
 }
 
-const GENERATE_URL_PATH = 'route-codegen';
+const IMPORT_GENERATE_URL: Import = {
+  namedImports: [{ name: 'generateUrl' }],
+  from: 'route-codegen',
+};
 const defaultReactRouterV5LinkOptions: ParsedReactRouterV5LinkOptions = {
   path: 'react-router-dom',
   hrefProp: 'to',
@@ -111,7 +116,7 @@ export const parseAppConfig = ({
           }
         : { shouldGenerateDefault: true },
     },
-    generateUrlFunctionPath: GENERATE_URL_PATH,
+    importGenerateUrl: IMPORT_GENERATE_URL,
     shouldGenerateLink: generateLink,
   };
 

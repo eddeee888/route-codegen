@@ -14,7 +14,7 @@ export interface GenerateRouteTemplateOptions {
   routePatternNamedExports: RoutePatternNamedExports;
   routingType: RoutingType;
   routeLinkOptions: RouteLinkOptions;
-  generateUrlFunctionPath: string;
+  importGenerateUrl: Import;
   shouldGenerateLink: boolean;
 }
 
@@ -23,7 +23,7 @@ const generateRouteTemplate = ({
   routePatternNamedExports,
   routingType,
   routeLinkOptions,
-  generateUrlFunctionPath,
+  importGenerateUrl,
   shouldGenerateLink,
 }: GenerateRouteTemplateOptions): string => {
   //TODO: bring this out
@@ -100,7 +100,7 @@ const generateRouteTemplate = ({
     /* This file was automatically generated and should not be edited. */
     ${importReact}
     ${importLink}
-    ${printImport({ namedImports: [{ name: 'generateUrl' }], from: generateUrlFunctionPath })}
+    ${printImport(importGenerateUrl)}
     ${printImportReactRouter({ shouldGenerateUseParams, shouldGenerateUseRedirect })}
     ${printImport(getPathPatternImport(routePatternNamedExports))}
 

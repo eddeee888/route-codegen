@@ -14,7 +14,7 @@ describe('generateRoutePatternFile', () => {
     expect(templateFile.template).toContain("export const patternLogin = '/app/login'");
     expect(interfaceResult).toEqual({
       pathPatternName: 'patternLogin',
-      urlPartsInterfaceName: 'urlPartsLogin',
+      urlPartsInterfaceName: 'UrlPartsLogin',
       filename: 'patternLogin',
     });
   });
@@ -33,16 +33,16 @@ describe('generateRoutePatternFile', () => {
       "export const patternUserInfo = '/app/users/:id/:subview(profile|pictures)'"
     );
     expect(templateFile.template).toContain(
-      `export interface pathParamsUserInfo {id: string;subview:'profile'|'pictures';}`
+      `export interface PathParamsUserInfo {id: string;subview:'profile'|'pictures';}`
     );
-    expect(templateFile.template).toContain(`export interface urlPartsUserInfo {
-    path: pathParamsUserInfo;
+    expect(templateFile.template).toContain(`export interface UrlPartsUserInfo {
+    path: PathParamsUserInfo;
     urlQuery?: Partial<Record<string, string>>;
   }`);
     expect(interfaceResult).toEqual({
       pathPatternName: 'patternUserInfo',
-      pathParamsInterfaceName: 'pathParamsUserInfo',
-      urlPartsInterfaceName: 'urlPartsUserInfo',
+      pathParamsInterfaceName: 'PathParamsUserInfo',
+      urlPartsInterfaceName: 'UrlPartsUserInfo',
       filename: 'patternUserInfo',
     });
   });

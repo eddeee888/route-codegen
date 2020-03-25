@@ -1,5 +1,5 @@
 export const patternHome = '/';
 
-export interface urlPartsHome {
+export interface UrlPartsHome {
   urlQuery?: Partial<Record<string, string>>;
 }

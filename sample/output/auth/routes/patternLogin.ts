@@ -1,5 +1,5 @@
 export const patternLogin = '/login';
 
-export interface urlPartsLogin {
+export interface UrlPartsLogin {
   urlQuery?: Partial<Record<string, string>>;
 }
