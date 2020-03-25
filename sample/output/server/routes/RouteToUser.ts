@@ -2,7 +2,7 @@
 
 import { generateUrl } from 'route-codegen';
 
-import { patternUser as pattern, UserPathParams } from './patternUser';
+import { patternUser as pattern, pathParamsUser } from './patternUser';
 
 interface UrlParts<P> {
   path: P;
@@ -14,7 +14,7 @@ interface DefaultRoute<P> {
   generate: (urlParts: UrlParts<P>) => string;
 }
 
-const RouteToUser: DefaultRoute<UserPathParams> = {
+const RouteToUser: DefaultRoute<pathParamsUser> = {
   pattern,
   generate: ({ path, urlQuery }) => generateUrl(pattern, path, urlQuery),
 };

@@ -5,6 +5,7 @@ import isNormalPattern from '../utils/isNormalPattern';
 export interface RoutePatternNamedExports {
   pathPatternName: string;
   pathParamsInterfaceName?: string;
+  urlPartsInterfaceName: string;
   filename: string;
 }
 
@@ -21,9 +22,11 @@ const generateRoutePatternFile: GenerateRoutePatternFile = ({ routePattern, rout
   const patternName = `pattern${routeName}`;
   const filename = patternName;
   const pathParams = generatePathParamsInterface(keys, routeName);
+  const urlParts = generateUrlPartsInterface(routeName, pathParams);
 
   const template = `export const ${patternName} = '${routePattern}';
-  ${pathParams ? pathParams.template : ''}`;
+  ${pathParams ? pathParams.template : ''}
+  ${urlParts.template}`;
 
   const result: [TemplateFile, RoutePatternNamedExports] = [
     {
@@ -35,6 +38,7 @@ const generateRoutePatternFile: GenerateRoutePatternFile = ({ routePattern, rout
     {
       pathPatternName: patternName,
       pathParamsInterfaceName: pathParams ? pathParams.interfaceName : undefined,
+      urlPartsInterfaceName: urlParts.interfaceName,
       filename,
     },
   ];
@@ -52,7 +56,7 @@ const generatePathParamsInterface = (keys: Key[], routeName: string): PathParams
     return;
   }
 
-  const pathParamsInterfaceName = `${routeName}PathParams`;
+  const pathParamsInterfaceName = `pathParams${routeName}`;
   let template = `export interface ${pathParamsInterfaceName} {`;
   keys.forEach(key => {
     const { pattern, name, modifier } = key;
@@ -79,6 +83,20 @@ const generatePathParamsInterface = (keys: Key[], routeName: string): PathParams
     template,
     interfaceName: pathParamsInterfaceName,
   };
+};
+
+const generateUrlPartsInterface = (
+  routeName: string,
+  pathParams: PathParamsInterfaceResult | undefined
+): { template: string; interfaceName: string } => {
+  const interfaceName = `urlParts${routeName}`;
+
+  const template = `export interface ${interfaceName} {
+    ${pathParams ? `path: ${pathParams.interfaceName};` : ''}
+    urlQuery?: Partial<Record<string, string>>;
+  }`;
+
+  return { template, interfaceName };
 };
 
 export default generateRoutePatternFile;

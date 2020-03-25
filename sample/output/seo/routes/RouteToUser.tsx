@@ -3,7 +3,7 @@ import React from 'react';
 
 import { generateUrl } from 'route-codegen';
 
-import { patternUser as pattern, UserPathParams } from './patternUser';
+import { patternUser as pattern, pathParamsUser } from './patternUser';
 
 type OmittedLinkProps = Omit<
   React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>,
@@ -23,7 +23,7 @@ interface DefaultRoute<P> {
   Link: React.FunctionComponent<RouteLinkProps<P>>;
 }
 
-const RouteToUser: DefaultRoute<UserPathParams> = {
+const RouteToUser: DefaultRoute<pathParamsUser> = {
   pattern,
   generate: ({ path, urlQuery }) => generateUrl(pattern, path, urlQuery),
   Link: function RouteLink({ path, urlQuery, ...props }) {
