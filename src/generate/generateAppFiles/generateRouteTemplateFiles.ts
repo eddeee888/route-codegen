@@ -19,7 +19,7 @@ type GenerateRouteTemplateFiles = (params: {
 const generateRouteTemplateFiles: GenerateRouteTemplateFiles = ({
   routeName: originalRouteName,
   routePattern,
-  destinationDir,
+  destinationDir: originalDestinationDir,
   routingType,
   routeLinkOptions,
   importGenerateUrl,
@@ -27,6 +27,7 @@ const generateRouteTemplateFiles: GenerateRouteTemplateFiles = ({
 }) => {
   const routeNameString = originalRouteName.toString();
   const routeName = routeNameString[0].toUpperCase() + routeNameString.slice(1);
+  const destinationDir = `${originalDestinationDir}/${originalRouteName}`;
 
   const [patternFile, routePatternNamedExports] = generateRoutePatternFile({
     routeName,
