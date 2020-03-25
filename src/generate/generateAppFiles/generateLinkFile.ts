@@ -6,17 +6,20 @@ import {
   RouteLinkOptionsNoGenerateDefault,
   RouteLinkOptionsGenerateDefault,
   ParsedReactRouterV5LinkOptions,
+  ParsedNextJSLinkOptions,
 } from '../config';
 import { RoutePatternNamedExports } from './generateRoutePatternFile';
 
-type GenerateLinkFile = (params: {
+export interface GenerateLinkFileParams {
   routeName: string;
   routingType: RoutingType;
   destinationDir: string;
   routeLinkOptions: RouteLinkOptions;
   routePatternNamedExports: RoutePatternNamedExports;
   importGenerateUrl: Import;
-}) => TemplateFile;
+}
+
+type GenerateLinkFile = (params: GenerateLinkFileParams) => TemplateFile;
 
 const generateLinkFile: GenerateLinkFile = ({
   routeName,
@@ -76,7 +79,11 @@ const generateLinkInterface: GenerateLinkInterface = ({ routingType, routeLinkOp
 
   // FIX THIS LOGIC
   function shouldGenerateDefault(
-    option: RouteLinkOptionsNoGenerateDefault | RouteLinkOptionsGenerateDefault | ParsedReactRouterV5LinkOptions
+    option:
+      | RouteLinkOptionsNoGenerateDefault
+      | RouteLinkOptionsGenerateDefault
+      | ParsedReactRouterV5LinkOptions
+      | ParsedNextJSLinkOptions
   ): option is RouteLinkOptionsGenerateDefault {
     if ('shouldGenerateDefault' in option) {
       return option.shouldGenerateDefault;
@@ -91,20 +98,6 @@ const generateLinkInterface: GenerateLinkInterface = ({ routingType, routeLinkOp
         LinkPropsTemplate: `type ${LinkPropsInterfaceName} = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, '${hrefProp}'>;`,
         LinkPropsInterfaceName,
         linkComponent: 'a',
-        hrefProp,
-      };
-    } else if (routingType === RoutingType.NextJS) {
-      const hrefProp = 'href';
-      const importLink: Import = {
-        defaultImport: 'Link',
-        namedImports: [{ name: 'LinkProps', importAs: originalLinkPropsAlias }],
-        from: 'next/link',
-      };
-      return {
-        importLink,
-        LinkPropsTemplate: `type ${LinkPropsInterfaceName} = Omit<${originalLinkPropsAlias}, '${hrefProp}'>;`,
-        LinkPropsInterfaceName,
-        linkComponent: 'Link',
         hrefProp,
       };
     }

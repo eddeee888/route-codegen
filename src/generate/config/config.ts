@@ -11,7 +11,7 @@ export interface AppConfig {
   routingType?: string;
   destinationDir?: string;
   reactRouterV5LinkOptions?: LinkOptions & { useRedirect?: boolean; useParams?: boolean };
-  nextJSLinkOptions?: CustomLinkOptions;
+  nextJSLinkOptions?: LinkOptions;
   defaultLinkOptions?: CustomLinkOptions;
   generateLink?: boolean;
 }
@@ -37,8 +37,22 @@ export type RouteLinkOptionsNoGenerateDefault = {
 };
 export type RouteLinkOptionsGenerateDefault = { shouldGenerateDefault: true };
 
+export interface ParsedReactRouterV5LinkOptions {
+  path: string;
+  hrefProp: string;
+  propsInterfaceName: string;
+  useRedirect: boolean;
+  useParams: boolean;
+}
+
+export interface ParsedNextJSLinkOptions {
+  path: string;
+  hrefProp: string;
+  propsInterfaceName: string;
+}
+
 export type RouteLinkOptions = {
-  NextJS: RouteLinkOptionsNoGenerateDefault | RouteLinkOptionsGenerateDefault;
+  NextJS: ParsedNextJSLinkOptions;
   ReactRouterV5: ParsedReactRouterV5LinkOptions;
   Default: RouteLinkOptionsNoGenerateDefault | RouteLinkOptionsGenerateDefault;
 };
@@ -56,14 +70,6 @@ export interface Config {
   apps: Record<string, AppConfig>;
 }
 
-export interface ParsedReactRouterV5LinkOptions {
-  path: string;
-  hrefProp: string;
-  propsInterfaceName: string;
-  useRedirect: boolean;
-  useParams: boolean;
-}
-
 const IMPORT_GENERATE_URL: Import = {
   namedImports: [{ name: 'generateUrl' }],
   from: 'route-codegen',
@@ -75,13 +81,18 @@ const defaultReactRouterV5LinkOptions: ParsedReactRouterV5LinkOptions = {
   useRedirect: true,
   useParams: true,
 };
+const defaultNextJSLinkOptions: ParsedNextJSLinkOptions = {
+  path: 'next/link',
+  hrefProp: 'href',
+  propsInterfaceName: 'LinkProps',
+};
 
 export const parseAppConfig = ({
   routingType = 'Default',
   routes = {},
   destinationDir,
   reactRouterV5LinkOptions = {},
-  nextJSLinkOptions,
+  nextJSLinkOptions = {},
   defaultLinkOptions,
   generateLink = true,
 }: AppConfig): ParsedAppConfig => {
@@ -99,14 +110,7 @@ export const parseAppConfig = ({
     routingType,
     routeLinkOptions: {
       ReactRouterV5: { ...defaultReactRouterV5LinkOptions, ...reactRouterV5LinkOptions },
-      NextJS: nextJSLinkOptions
-        ? {
-            shouldGenerateDefault: false,
-            path: nextJSLinkOptions.path,
-            hrefProp: nextJSLinkOptions.hrefProp,
-            propsInterfaceName: nextJSLinkOptions.propsInterfaceName,
-          }
-        : { shouldGenerateDefault: true },
+      NextJS: { ...defaultNextJSLinkOptions, ...nextJSLinkOptions },
       Default: defaultLinkOptions
         ? {
             shouldGenerateDefault: false,
