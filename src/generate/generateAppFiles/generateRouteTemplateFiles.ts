@@ -1,4 +1,3 @@
-import generateRouteTemplate from './generateRouteTemplate';
 import { RoutingType, RouteLinkOptions } from '../config';
 import { TemplateFile, Import } from '../types';
 import generateRoutePatternFile from './generateRoutePatternFile';
@@ -28,7 +27,6 @@ const generateRouteTemplateFiles: GenerateRouteTemplateFiles = ({
 }) => {
   const routeNameString = originalRouteName.toString();
   const routeName = routeNameString[0].toUpperCase() + routeNameString.slice(1);
-  const displayRouteName = `RouteTo${routeName}`;
 
   const [patternFile, routePatternNamedExports] = generateRoutePatternFile({
     routeName,
@@ -36,25 +34,9 @@ const generateRouteTemplateFiles: GenerateRouteTemplateFiles = ({
     destinationDir,
   });
 
-  const template = generateRouteTemplate({
-    displayRouteName,
-    routePatternNamedExports,
-    routingType,
-    routeLinkOptions,
-    importGenerateUrl,
-    shouldGenerateLink,
-  });
-  const extension = shouldGenerateLink ? '.tsx' : '.ts'; // If we don't have to generate link, it's not a react app so no .tsx is needed
-  const routeFile: TemplateFile = {
-    template,
-    filename: displayRouteName,
-    extension,
-    destinationDir,
-  };
-
   const genUrlFile = generateUrlFile({ importGenerateUrl, destinationDir, routeName, routePatternNamedExports });
 
-  const files = [patternFile, genUrlFile, routeFile];
+  const files = [patternFile, genUrlFile];
 
   if (routingType === RoutingType.ReactRouterV5) {
     if (routeLinkOptions.ReactRouterV5.useParams && !!routePatternNamedExports.pathParamsInterfaceName) {
