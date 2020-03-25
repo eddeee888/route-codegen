@@ -5,6 +5,7 @@ import generateRoutePatternFile from './generateRoutePatternFile';
 import generateUseParamsFile from './generateUseParamsFile';
 import generateUseRedirectFile from './generateUseRedirectFile';
 import generateUrlFile from './generateUrlFile';
+import generateLinkFile from './generateLinkFile';
 
 type GenerateRouteTemplateFiles = (params: {
   routeName: string;
@@ -75,6 +76,18 @@ const generateRouteTemplateFiles: GenerateRouteTemplateFiles = ({
       });
       files.push(useRedirectFile);
     }
+  }
+
+  if (shouldGenerateLink) {
+    const linkFile = generateLinkFile({
+      routeName,
+      destinationDir,
+      routeLinkOptions,
+      routingType,
+      routePatternNamedExports,
+      importGenerateUrl,
+    });
+    files.push(linkFile);
   }
 
   return files;
