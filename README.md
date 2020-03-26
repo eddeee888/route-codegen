@@ -125,7 +125,7 @@ $ yarn run build
 ### Build and run real config
 
 ```bash
-$ yarn run test:cli
+$ yarn run test:sample
 ```
 
 ### How it works

@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "test": "jest",
-    "test:cli": "rm -rf ./sample/output && yarn tsc --project tsconfig.sample.json && node distTest/sample/run.js --config sample/routegen.yml && yarn prettier --config .prettierrc --write \"sample/**/*.{ts,tsx}\"",
+    "test:sample": "rm -rf ./sample/output && yarn tsc --project tsconfig.sample.json && node distTest/sample/run.js --config sample/routegen.yml && yarn prettier --config .prettierrc --write \"sample/**/*.{ts,tsx}\"",
     "format:prettier": "prettier --config .prettierrc --write \"src/**/*.{ts,tsx}\"",
     "build": "rm -rf ./dist && tsc"
   },
