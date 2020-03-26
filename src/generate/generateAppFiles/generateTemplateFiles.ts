@@ -6,7 +6,7 @@ import generateUseRedirectFile from './generateUseRedirectFile';
 import generateUrlFile from './generateUrlFile';
 import generateLinkFile from './generateLinkFile';
 
-type GenerateRouteTemplateFiles = (params: {
+export interface GenerateTemplateFilesParams {
   routeName: string;
   routePattern: string;
   destinationDir: string;
@@ -14,9 +14,11 @@ type GenerateRouteTemplateFiles = (params: {
   routeLinkOptions: RouteLinkOptions;
   importGenerateUrl: Import;
   shouldGenerateLink: boolean;
-}) => TemplateFile[];
+}
 
-const generateRouteTemplateFiles: GenerateRouteTemplateFiles = ({
+type GenerateTemplateFiles = (params: GenerateTemplateFilesParams) => TemplateFile[];
+
+const generateTemplateFiles: GenerateTemplateFiles = ({
   routeName: originalRouteName,
   routePattern,
   destinationDir: originalDestinationDir,
@@ -76,4 +78,4 @@ const generateRouteTemplateFiles: GenerateRouteTemplateFiles = ({
   return files;
 };
 
-export default generateRouteTemplateFiles;
+export default generateTemplateFiles;
