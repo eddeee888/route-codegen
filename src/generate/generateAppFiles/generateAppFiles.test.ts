@@ -18,6 +18,24 @@ describe('generateAppFiles', () => {
       const files = generateAppFiles({ ...appConfig, destinationDir: undefined });
       expect(files).toHaveLength(0);
     });
+
+    it('should not generate Link if not needed', () => {
+      const files = generateAppFiles({ ...appConfig, generateLink: false });
+      expect(files).toHaveLength(4);
+      expect(files[0].destinationDir).toEqual('path/to/routes/login');
+      expect(files[0].filename).toEqual('patternLogin');
+      expect(files[0].extension).toEqual('.ts');
+      expect(files[1].destinationDir).toEqual('path/to/routes/login');
+      expect(files[1].filename).toEqual('generateUrlLogin');
+      expect(files[1].extension).toEqual('.ts');
+
+      expect(files[2].destinationDir).toEqual('path/to/routes/user');
+      expect(files[2].filename).toEqual('patternUser');
+      expect(files[2].extension).toEqual('.ts');
+      expect(files[3].destinationDir).toEqual('path/to/routes/user');
+      expect(files[3].filename).toEqual('generateUrlUser');
+      expect(files[3].extension).toEqual('.ts');
+    });
   });
 
   describe('Default', () => {
