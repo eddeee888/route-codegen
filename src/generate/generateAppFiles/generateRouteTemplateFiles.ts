@@ -39,6 +39,18 @@ const generateRouteTemplateFiles: GenerateRouteTemplateFiles = ({
 
   const files = [patternFile, genUrlFile];
 
+  if (shouldGenerateLink) {
+    const linkFile = generateLinkFile({
+      routeName,
+      destinationDir,
+      routeLinkOptions,
+      routingType,
+      routePatternNamedExports,
+      importGenerateUrl,
+    });
+    files.push(linkFile);
+  }
+
   if (routingType === RoutingType.ReactRouterV5) {
     if (routeLinkOptions.ReactRouterV5.useParams && !!routePatternNamedExports.pathParamsInterfaceName) {
       const useParamsFile = generateUseParamsFile({
@@ -59,18 +71,6 @@ const generateRouteTemplateFiles: GenerateRouteTemplateFiles = ({
       });
       files.push(useRedirectFile);
     }
-  }
-
-  if (shouldGenerateLink) {
-    const linkFile = generateLinkFile({
-      routeName,
-      destinationDir,
-      routeLinkOptions,
-      routingType,
-      routePatternNamedExports,
-      importGenerateUrl,
-    });
-    files.push(linkFile);
   }
 
   return files;
