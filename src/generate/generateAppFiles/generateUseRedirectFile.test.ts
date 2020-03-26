@@ -4,13 +4,13 @@ describe('generateUseRedirectFile', () => {
   it('should generate when there is no pathParams', () => {
     const templateFile = generateUseRedirectFile({
       routeName: 'Login',
-      routePatternNamedExports: {
+      patternNamedExports: {
         filename: 'patternLogin',
-        pathPatternName: 'patternLogin',
+        patternName: 'patternLogin',
         urlPartsInterfaceName: 'UrlPartsLogin',
       },
       destinationDir: 'path/to/routes',
-      generateUrlImport: {
+      importGenerateUrl: {
         from: 'route-codegen',
         namedImports: [{ name: 'generateUrl' }],
       },
@@ -29,14 +29,14 @@ describe('generateUseRedirectFile', () => {
   it('should generate when there is pathParams', () => {
     const templateFile = generateUseRedirectFile({
       routeName: 'UserInfo',
-      routePatternNamedExports: {
+      patternNamedExports: {
         filename: 'patternUserInfo',
-        pathPatternName: 'patternUserInfo',
+        patternName: 'patternUserInfo',
         urlPartsInterfaceName: 'UrlPartsUserInfo',
         pathParamsInterfaceName: 'PathParamsUserInfo',
       },
       destinationDir: 'path/to/routes',
-      generateUrlImport: {
+      importGenerateUrl: {
         from: 'route-codegen',
         namedImports: [{ name: 'generateUrl' }],
       },

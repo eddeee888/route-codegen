@@ -1,8 +1,8 @@
-import generateRoutePatternFile from './generateRoutePatternFile';
+import generatePatternFile from './generatePatternFile';
 
-describe('generateRoutePatternFile', () => {
+describe('generatePatternFile', () => {
   it('should generate correctly if no dynamic path', () => {
-    const [templateFile, interfaceResult] = generateRoutePatternFile({
+    const [templateFile, interfaceResult] = generatePatternFile({
       routePattern: '/app/login',
       destinationDir: 'path/to/routes',
       routeName: 'Login',
@@ -13,14 +13,14 @@ describe('generateRoutePatternFile', () => {
     expect(templateFile.destinationDir).toBe('path/to/routes');
     expect(templateFile.template).toContain("export const patternLogin = '/app/login'");
     expect(interfaceResult).toEqual({
-      pathPatternName: 'patternLogin',
+      patternName: 'patternLogin',
       urlPartsInterfaceName: 'UrlPartsLogin',
       filename: 'patternLogin',
     });
   });
 
   it('should generate correctly for routes with dynamic path', () => {
-    const [templateFile, interfaceResult] = generateRoutePatternFile({
+    const [templateFile, interfaceResult] = generatePatternFile({
       routePattern: '/app/users/:id/:subview(profile|pictures)',
       destinationDir: 'path/to/routes',
       routeName: 'UserInfo',
@@ -40,7 +40,7 @@ describe('generateRoutePatternFile', () => {
     urlQuery?: Partial<Record<string, string>>;
   }`);
     expect(interfaceResult).toEqual({
-      pathPatternName: 'patternUserInfo',
+      patternName: 'patternUserInfo',
       pathParamsInterfaceName: 'PathParamsUserInfo',
       urlPartsInterfaceName: 'UrlPartsUserInfo',
       filename: 'patternUserInfo',

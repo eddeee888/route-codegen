@@ -1,6 +1,6 @@
 import { RoutingType, RouteLinkOptions } from '../config';
 import { TemplateFile, Import } from '../types';
-import generateRoutePatternFile from './generateRoutePatternFile';
+import generatePatternFile from './generatePatternFile';
 import generateUseParamsFile from './generateUseParamsFile';
 import generateUseRedirectFile from './generateUseRedirectFile';
 import generateUrlFile from './generateUrlFile';
@@ -29,13 +29,13 @@ const generateRouteTemplateFiles: GenerateRouteTemplateFiles = ({
   const routeName = routeNameString[0].toUpperCase() + routeNameString.slice(1);
   const destinationDir = `${originalDestinationDir}/${originalRouteName}`;
 
-  const [patternFile, routePatternNamedExports] = generateRoutePatternFile({
+  const [patternFile, patternNamedExports] = generatePatternFile({
     routeName,
     routePattern,
     destinationDir,
   });
 
-  const genUrlFile = generateUrlFile({ importGenerateUrl, destinationDir, routeName, routePatternNamedExports });
+  const genUrlFile = generateUrlFile({ importGenerateUrl, destinationDir, routeName, patternNamedExports });
 
   const files = [patternFile, genUrlFile];
 
@@ -45,20 +45,20 @@ const generateRouteTemplateFiles: GenerateRouteTemplateFiles = ({
       destinationDir,
       routeLinkOptions,
       routingType,
-      routePatternNamedExports,
+      patternNamedExports,
       importGenerateUrl,
     });
     files.push(linkFile);
   }
 
   if (routingType === RoutingType.ReactRouterV5) {
-    if (routeLinkOptions.ReactRouterV5.useParams && !!routePatternNamedExports.pathParamsInterfaceName) {
+    if (routeLinkOptions.ReactRouterV5.useParams && !!patternNamedExports.pathParamsInterfaceName) {
       const useParamsFile = generateUseParamsFile({
         routeName,
         destinationDir,
-        pathParamsPatternName: routePatternNamedExports.pathPatternName,
-        pathParamsFilename: routePatternNamedExports.filename,
-        pathParamsInterfaceName: routePatternNamedExports.pathParamsInterfaceName,
+        patternName: patternNamedExports.patternName,
+        pathParamsFilename: patternNamedExports.filename,
+        pathParamsInterfaceName: patternNamedExports.pathParamsInterfaceName,
       });
       files.push(useParamsFile);
     }
@@ -66,7 +66,7 @@ const generateRouteTemplateFiles: GenerateRouteTemplateFiles = ({
       const useRedirectFile = generateUseRedirectFile({
         routeName,
         destinationDir,
-        routePatternNamedExports,
+        patternNamedExports,
         importGenerateUrl,
       });
       files.push(useRedirectFile);

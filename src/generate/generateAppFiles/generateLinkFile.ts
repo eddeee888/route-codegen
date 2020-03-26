@@ -1,14 +1,14 @@
 import { TemplateFile, Import } from '../types';
 import printImport from '../utils/printImport';
 import { RoutingType, RouteLinkOptions } from '../config';
-import { RoutePatternNamedExports } from './generateRoutePatternFile';
+import { PatternNamedExports } from './generatePatternFile';
 
 export interface GenerateLinkFileParams {
   routeName: string;
   routingType: RoutingType;
   destinationDir: string;
   routeLinkOptions: RouteLinkOptions;
-  routePatternNamedExports: RoutePatternNamedExports;
+  patternNamedExports: PatternNamedExports;
   importGenerateUrl: Import;
 }
 
@@ -19,7 +19,7 @@ const generateLinkFile: GenerateLinkFile = ({
   routingType,
   routeLinkOptions,
   destinationDir,
-  routePatternNamedExports: { pathPatternName, pathParamsInterfaceName, filename: routePatternFilename },
+  patternNamedExports: { patternName, pathParamsInterfaceName, filename: routePatternFilename },
   importGenerateUrl,
 }) => {
   const functionName = `Link${routeName}`;
@@ -33,10 +33,10 @@ const generateLinkFile: GenerateLinkFile = ({
   const template = `${printImport({ defaultImport: 'React', from: 'react' })}
   ${printImport(importGenerateUrl)}
   ${importLink ? printImport(importLink) : ''}
-  ${printImport({ namedImports: [{ name: pathPatternName }], from: `./${routePatternFilename}` })}
+  ${printImport({ namedImports: [{ name: patternName }], from: `./${routePatternFilename}` })}
   ${linkPropsTemplate}
   const ${functionName}: ${LinkPropsInterfaceName} = ({ ${hasPathParams ? 'path,' : ''} urlQuery, ...props }) => {
-    const to = generateUrl(${pathPatternName}, ${hasPathParams ? 'path' : '{}'}, urlQuery);
+    const to = generateUrl(${patternName}, ${hasPathParams ? 'path' : '{}'}, urlQuery);
     return <${linkComponent} {...props} ${hrefProp}={to} />;
   }
   export default ${functionName};

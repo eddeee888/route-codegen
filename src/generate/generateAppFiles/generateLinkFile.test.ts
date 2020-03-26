@@ -29,9 +29,9 @@ describe('generateLinkFile', () => {
       },
     },
     routeName: 'Login',
-    routePatternNamedExports: {
+    patternNamedExports: {
       filename: 'patternLogin',
-      pathPatternName: 'patternLogin',
+      patternName: 'patternLogin',
       urlPartsInterfaceName: 'UrlPartsLogin',
     },
     destinationDir: 'path/to/routes',
@@ -60,8 +60,8 @@ describe('generateLinkFile', () => {
       const templateFile = generateLinkFile({
         ...defaultParams,
         routingType: RoutingType.ReactRouterV5,
-        routePatternNamedExports: {
-          ...defaultParams.routePatternNamedExports,
+        patternNamedExports: {
+          ...defaultParams.patternNamedExports,
           pathParamsInterfaceName: 'PathParamsLogin',
         },
       });
@@ -105,8 +105,8 @@ describe('generateLinkFile', () => {
       const templateFile = generateLinkFile({
         ...defaultParams,
         routingType: RoutingType.NextJS,
-        routePatternNamedExports: {
-          ...defaultParams.routePatternNamedExports,
+        patternNamedExports: {
+          ...defaultParams.patternNamedExports,
           pathParamsInterfaceName: 'PathParamsLogin',
         },
       });
@@ -180,8 +180,8 @@ describe('generateLinkFile', () => {
       const templateFile = generateLinkFile({
         ...defaultParams,
         routingType: RoutingType.Default,
-        routePatternNamedExports: {
-          ...defaultParams.routePatternNamedExports,
+        patternNamedExports: {
+          ...defaultParams.patternNamedExports,
           pathParamsInterfaceName: 'PathParamsLogin',
         },
       });

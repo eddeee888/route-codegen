@@ -2,20 +2,20 @@ import { TemplateFile } from '../types';
 import { Key, pathToRegexp } from 'path-to-regexp';
 import isNormalPattern from '../utils/isNormalPattern';
 
-export interface RoutePatternNamedExports {
-  pathPatternName: string;
+export interface PatternNamedExports {
+  patternName: string;
   pathParamsInterfaceName?: string;
   urlPartsInterfaceName: string;
   filename: string;
 }
 
-type GenerateRoutePatternFile = (params: {
+type GeneratePatternFile = (params: {
   routeName: string;
   routePattern: string;
   destinationDir: string;
-}) => [TemplateFile, RoutePatternNamedExports];
+}) => [TemplateFile, PatternNamedExports];
 
-const generateRoutePatternFile: GenerateRoutePatternFile = ({ routePattern, routeName, destinationDir }) => {
+const generateRoutePatternFile: GeneratePatternFile = ({ routePattern, routeName, destinationDir }) => {
   const keys: Key[] = [];
   pathToRegexp(routePattern, keys);
 
@@ -28,7 +28,7 @@ const generateRoutePatternFile: GenerateRoutePatternFile = ({ routePattern, rout
   ${pathParams ? pathParams.template : ''}
   ${urlParts.template}`;
 
-  const result: [TemplateFile, RoutePatternNamedExports] = [
+  const result: [TemplateFile, PatternNamedExports] = [
     {
       template,
       filename,
@@ -36,7 +36,7 @@ const generateRoutePatternFile: GenerateRoutePatternFile = ({ routePattern, rout
       destinationDir,
     },
     {
-      pathPatternName: patternName,
+      patternName,
       pathParamsInterfaceName: pathParams ? pathParams.interfaceName : undefined,
       urlPartsInterfaceName: urlParts.interfaceName,
       filename,

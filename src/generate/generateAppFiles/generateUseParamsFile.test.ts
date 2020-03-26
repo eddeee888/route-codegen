@@ -5,7 +5,7 @@ describe('generateUseParamsFile', () => {
     const templateFile = generateUseParamsFile({
       pathParamsFilename: 'patternUser',
       pathParamsInterfaceName: 'UserPathParams',
-      pathParamsPatternName: 'patternUser',
+      patternName: 'patternUser',
       destinationDir: 'path/to/routes',
       routeName: 'User',
     });

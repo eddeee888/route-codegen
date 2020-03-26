@@ -4,7 +4,7 @@ import printImport from '../utils/printImport';
 type GenerateUseParamsFile = (params: {
   routeName: string;
   destinationDir: string;
-  pathParamsPatternName: string;
+  patternName: string;
   pathParamsInterfaceName: string;
   pathParamsFilename: string;
 }) => TemplateFile;
@@ -12,14 +12,14 @@ type GenerateUseParamsFile = (params: {
 const generateUseParamsFile: GenerateUseParamsFile = ({
   routeName,
   destinationDir,
-  pathParamsPatternName,
+  patternName,
   pathParamsInterfaceName,
   pathParamsFilename,
 }) => {
   const functionName = `useParams${routeName}`;
 
   const template = `${printImport({
-    namedImports: [{ name: pathParamsInterfaceName }, { name: pathParamsPatternName, importAs: 'pattern' }],
+    namedImports: [{ name: pathParamsInterfaceName }, { name: patternName, importAs: 'pattern' }],
     from: `./${pathParamsFilename}`,
   })}
     ${printImport({

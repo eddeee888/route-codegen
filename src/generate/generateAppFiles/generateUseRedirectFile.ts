@@ -1,17 +1,17 @@
-import { RoutePatternNamedExports } from './generateRoutePatternFile';
+import { PatternNamedExports } from './generatePatternFile';
 import printImport from '../utils/printImport';
 import { TemplateFile, Import } from '../types';
 
 type GenerateUseRedirectFile = (params: {
   routeName: string;
-  routePatternNamedExports: RoutePatternNamedExports;
+  patternNamedExports: PatternNamedExports;
   destinationDir: string;
   importGenerateUrl: Import;
 }) => TemplateFile;
 
 const generateUseRedirectFile: GenerateUseRedirectFile = ({
   routeName,
-  routePatternNamedExports,
+  patternNamedExports,
   destinationDir,
   importGenerateUrl,
 }) => {
@@ -22,18 +22,15 @@ const generateUseRedirectFile: GenerateUseRedirectFile = ({
     from: 'react-router',
   })}
   ${printImport({
-    namedImports: [
-      { name: routePatternNamedExports.urlPartsInterfaceName },
-      { name: routePatternNamedExports.pathPatternName },
-    ],
-    from: `./${routePatternNamedExports.filename}`,
+    namedImports: [{ name: patternNamedExports.urlPartsInterfaceName }, { name: patternNamedExports.patternName }],
+    from: `./${patternNamedExports.filename}`,
   })}
   ${printImport(importGenerateUrl)}
   
-  const ${functionName} = ( urlParts: ${routePatternNamedExports.urlPartsInterfaceName} ): (() => void) => {
+  const ${functionName} = ( urlParts: ${patternNamedExports.urlPartsInterfaceName} ): (() => void) => {
     const history = useHistory();
-    const to = generateUrl(${routePatternNamedExports.pathPatternName}, ${
-    routePatternNamedExports.pathParamsInterfaceName ? 'urlParts.path' : '{}'
+    const to = generateUrl(${patternNamedExports.patternName}, ${
+    patternNamedExports.pathParamsInterfaceName ? 'urlParts.path' : '{}'
   }, urlParts.urlQuery);
     return () => history.push(to);
   }

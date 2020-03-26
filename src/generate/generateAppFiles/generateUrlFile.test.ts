@@ -4,9 +4,9 @@ describe('generateUseParamsFile', () => {
   it('should generate correctly if no path params', () => {
     const templateFile = generateUrlFile({
       importGenerateUrl: { namedImports: [{ name: 'generateUrl' }], from: 'route-codegen' },
-      routePatternNamedExports: {
+      patternNamedExports: {
         filename: 'patternUser',
-        pathPatternName: 'patternUser',
+        patternName: 'patternUser',
         urlPartsInterfaceName: 'UrlPartsUser',
       },
       destinationDir: 'path/to/routes',
@@ -25,9 +25,9 @@ describe('generateUseParamsFile', () => {
   it('should generate correctly if has path params', () => {
     const templateFile = generateUrlFile({
       importGenerateUrl: { namedImports: [{ name: 'generateUrl' }], from: 'route-codegen' },
-      routePatternNamedExports: {
+      patternNamedExports: {
         filename: 'patternUser',
-        pathPatternName: 'patternUser',
+        patternName: 'patternUser',
         urlPartsInterfaceName: 'UrlPartsUser',
         pathParamsInterfaceName: 'PathParamsUser',
       },

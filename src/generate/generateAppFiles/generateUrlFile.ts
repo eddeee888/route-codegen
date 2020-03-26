@@ -1,17 +1,17 @@
 import { TemplateFile, Import } from '../types';
-import { RoutePatternNamedExports } from './generateRoutePatternFile';
+import { PatternNamedExports } from './generatePatternFile';
 import printImport from '../utils/printImport';
 
 type GenerateUrlFile = (params: {
   importGenerateUrl: Import;
-  routePatternNamedExports: RoutePatternNamedExports;
+  patternNamedExports: PatternNamedExports;
   routeName: string;
   destinationDir: string;
 }) => TemplateFile;
 
 const generateUrlFile: GenerateUrlFile = ({
   importGenerateUrl,
-  routePatternNamedExports: { pathPatternName, urlPartsInterfaceName, filename, pathParamsInterfaceName },
+  patternNamedExports: { patternName, urlPartsInterfaceName, filename, pathParamsInterfaceName },
   routeName,
   destinationDir,
 }) => {
@@ -20,10 +20,10 @@ const generateUrlFile: GenerateUrlFile = ({
 
   const template = `${printImport(importGenerateUrl)}
   ${printImport({
-    namedImports: [{ name: pathPatternName }, { name: urlPartsInterfaceName }],
+    namedImports: [{ name: patternName }, { name: urlPartsInterfaceName }],
     from: `./${filename}`,
   })}
-  const ${functionName} = ( urlParts: ${urlPartsInterfaceName} ) => generateUrl(${pathPatternName}, ${pathVariable}, urlParts.urlQuery);
+  const ${functionName} = ( urlParts: ${urlPartsInterfaceName} ) => generateUrl(${patternName}, ${pathVariable}, urlParts.urlQuery);
   export default ${functionName};
   `;
 
