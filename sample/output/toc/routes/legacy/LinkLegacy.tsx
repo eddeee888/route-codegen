@@ -1,13 +1,10 @@
 import React from 'react';
 import { generateUrl } from 'route-codegen';
-
+import Link, { AnchorProps } from 'src/common/ui/Anchor';
 import { patternLegacy } from './patternLegacy';
-type LinkProps = Omit<
-  React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>,
-  'href'
->;
-const LinkLegacy: React.FunctionComponent<LinkProps> = ({ urlQuery, ...props }) => {
+type LinkLegacyProps = Omit<AnchorProps, 'href'>;
+const LinkLegacy: React.FunctionComponent<LinkLegacyProps> = ({ urlQuery, ...props }) => {
   const to = generateUrl(patternLegacy, {}, urlQuery);
-  return <a {...props} href={to} />;
+  return <Link {...props} href={to} />;
 };
 export default LinkLegacy;

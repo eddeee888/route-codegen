@@ -34,22 +34,29 @@ apps:
       home: /
     routingType: NextJS
     destinationDir: client-seo/src/routes
-    # Use one of these `reactRouterLinkOptions`, `nextJSLinkOptions`, `defaultLinkOptions`
+    # Use one of these `reactRouterV5LinkOptions`, `nextJSLinkOptions`, `defaultLinkOptions`
     # options below if you want to custom how Link is created
-    reactRouterLinkOptions:
-      path: src/common/components/Link
-      propsInterfaceName: LinkProps
-      hrefProp: href
+    reactRouterV5LinkOptions:
+      importCustomLink:
+        componentDefaultImport: true
+        propsNamedImport: LinkProps
+        hrefProp: to
+        from: common/components/Link
       useParams: true
       useRedirect: true
     nextJSLinkOptions:
-      path: src/common/components/NextJSLink
-      propsInterfaceName: LinkProps
-      hrefProp: href
+      importCustomLink:
+        componentDefaultImport: true
+        propsNamedImport: LinkProps
+        hrefProp: href
+        from: src/common/components/NextJSLink
     defaultLinkOptions:
-      path: src/common/ui/Anchor
+      importCustomLink:
+        componentDefaultImport: true
+        propsNamedImport: AnchorProps
+        hrefProp: href
+        from: src/common/ui/Anchor
       propsInterfaceName: AnchorProps
-      hrefProp: href
 
   # an app without `routes` is still valid. In this case, this app can still generate url to other apps
   express-server:

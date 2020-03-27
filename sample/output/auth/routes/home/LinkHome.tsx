@@ -1,13 +1,10 @@
 import React from 'react';
 import { generateUrl } from 'route-codegen';
-
+import Link, { AnchorProps } from 'common/ui/Anchor';
 import { patternHome } from './patternHome';
-type LinkProps = Omit<
-  React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>,
-  'href'
->;
-const LinkHome: React.FunctionComponent<LinkProps> = ({ urlQuery, ...props }) => {
+type LinkHomeProps = Omit<AnchorProps, 'href'>;
+const LinkHome: React.FunctionComponent<LinkHomeProps> = ({ urlQuery, ...props }) => {
   const to = generateUrl(patternHome, {}, urlQuery);
-  return <a {...props} href={to} />;
+  return <Link {...props} href={to} />;
 };
 export default LinkHome;

@@ -1,13 +1,10 @@
 import React from 'react';
 import { generateUrl } from 'route-codegen';
-
+import Link, { AnchorProps } from 'common/ui/Anchor';
 import { patternToc } from './patternToc';
-type LinkProps = Omit<
-  React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>,
-  'href'
->;
-const LinkToc: React.FunctionComponent<LinkProps> = ({ urlQuery, ...props }) => {
+type LinkTocProps = Omit<AnchorProps, 'href'>;
+const LinkToc: React.FunctionComponent<LinkTocProps> = ({ urlQuery, ...props }) => {
   const to = generateUrl(patternToc, {}, urlQuery);
-  return <a {...props} href={to} />;
+  return <Link {...props} href={to} />;
 };
 export default LinkToc;
