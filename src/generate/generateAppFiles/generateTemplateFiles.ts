@@ -1,10 +1,11 @@
-import { RoutingType, RouteLinkOptions } from '../config';
+import { RoutingType } from '../config';
 import { TemplateFile, Import } from '../types';
 import generatePatternFile from './generatePatternFile';
 import generateUseParamsFile from './generateUseParamsFile';
 import generateUseRedirectFile from './generateUseRedirectFile';
 import generateUrlFile from './generateUrlFile';
 import generateLinkFile from './generateLinkFile';
+import { RouteLinkOptions } from './parseAppConfig';
 
 export interface GenerateTemplateFilesParams {
   routeName: string;

@@ -16,5 +16,5 @@ try {
   const configContent = yaml.safeLoad(ymlContent);
   generate(configContent);
 } catch (e) {
-  console.log(e);
+  console.log(`ERROR: ${e.message}`);
 }

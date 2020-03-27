@@ -7,5 +7,5 @@ try {
   let config = yaml.safeLoad(fileContents);
   generate(config);
 } catch (e) {
-  console.log(e);
+  console.log(`ERROR: ${e.message}`);
 }

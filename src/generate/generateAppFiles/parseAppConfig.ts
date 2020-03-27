@@ -1,5 +1,5 @@
 import { Import } from '../types';
-import { RoutingType, AppConfig, ImportCustomLink } from './config';
+import { RoutingType, AppConfig, ImportCustomLink } from '../config';
 
 export interface ParsedReactRouterV5LinkOptions {
   importLink: Import;
@@ -49,15 +49,18 @@ const IMPORT_GENERATE_URL: Import = {
   from: 'route-codegen',
 };
 
-export const parseAppConfig = ({
-  routingType = 'Default',
-  routes = {},
-  destinationDir,
-  reactRouterV5LinkOptions,
-  nextJSLinkOptions,
-  defaultLinkOptions,
-  generateLink = true,
-}: AppConfig): ParsedAppConfig => {
+export const parseAppConfig = (
+  appName: string,
+  {
+    routingType = 'Default',
+    routes = {},
+    destinationDir,
+    reactRouterV5LinkOptions,
+    nextJSLinkOptions,
+    defaultLinkOptions,
+    generateLink = true,
+  }: AppConfig
+): ParsedAppConfig => {
   if (
     routingType !== RoutingType.NextJS &&
     routingType !== RoutingType.ReactRouterV5 &&
@@ -71,9 +74,9 @@ export const parseAppConfig = ({
     destinationDir,
     routingType,
     routeLinkOptions: {
-      ReactRouterV5: prepareReactRouterV5LinkOptions(reactRouterV5LinkOptions),
-      NextJS: prepareNextJSLinkOptions(nextJSLinkOptions),
-      Default: prepareDefaultLinkOptions(defaultLinkOptions),
+      ReactRouterV5: prepareReactRouterV5LinkOptions(appName, reactRouterV5LinkOptions),
+      NextJS: prepareNextJSLinkOptions(appName, nextJSLinkOptions),
+      Default: prepareDefaultLinkOptions(appName, defaultLinkOptions),
     },
     importGenerateUrl: IMPORT_GENERATE_URL,
     shouldGenerateLink: generateLink,
@@ -83,6 +86,7 @@ export const parseAppConfig = ({
 };
 
 const prepareReactRouterV5LinkOptions = (
+  appName: string,
   options: AppConfig['reactRouterV5LinkOptions']
 ): ParsedReactRouterV5LinkOptions => {
   const defaultOptions: ParsedReactRouterV5LinkOptions = {
@@ -111,6 +115,7 @@ const prepareReactRouterV5LinkOptions = (
   }
 
   const { importLink, hrefProp, linkComponent, linkProps } = handleImportCustomLink(
+    appName,
     RoutingType.ReactRouterV5,
     options.importCustomLink
   );
@@ -125,7 +130,10 @@ const prepareReactRouterV5LinkOptions = (
   };
 };
 
-const prepareNextJSLinkOptions = (options: AppConfig['nextJSLinkOptions']): ParsedNextJSLinkOptions => {
+const prepareNextJSLinkOptions = (
+  appName: string,
+  options: AppConfig['nextJSLinkOptions']
+): ParsedNextJSLinkOptions => {
   const defaultOptions: ParsedNextJSLinkOptions = {
     importLink: {
       from: 'next/link',
@@ -141,6 +149,7 @@ const prepareNextJSLinkOptions = (options: AppConfig['nextJSLinkOptions']): Pars
   }
 
   const { importLink, hrefProp, linkComponent, linkProps } = handleImportCustomLink(
+    appName,
     RoutingType.NextJS,
     options.importCustomLink
   );
@@ -153,7 +162,10 @@ const prepareNextJSLinkOptions = (options: AppConfig['nextJSLinkOptions']): Pars
   };
 };
 
-const prepareDefaultLinkOptions = (options: AppConfig['defaultLinkOptions']): ParsedDefaultLinkOptions => {
+const prepareDefaultLinkOptions = (
+  appName: string,
+  options: AppConfig['defaultLinkOptions']
+): ParsedDefaultLinkOptions => {
   const defaultOptions: ParsedDefaultLinkOptions = {
     hrefProp: 'href',
     linkComponent: 'a',
@@ -167,6 +179,7 @@ const prepareDefaultLinkOptions = (options: AppConfig['defaultLinkOptions']): Pa
   }
 
   const { importLink, hrefProp, linkComponent, linkProps } = handleImportCustomLink(
+    appName,
     RoutingType.Default,
     options.importCustomLink
   );
@@ -180,27 +193,27 @@ const prepareDefaultLinkOptions = (options: AppConfig['defaultLinkOptions']): Pa
 };
 
 const handleImportCustomLink = (
+  appName: string,
   routingType: RoutingType,
   importCustomLink: ImportCustomLink
 ): { importLink: Import; hrefProp: string; linkComponent: string; linkProps: string } => {
+  const errorPath = `${appName}.${routingType}.importCustomLink`;
   const { from, componentDefaultImport, componentNamedImport, propsNamedImport, hrefProp } = importCustomLink;
   if (!from) {
-    throw new Error(`${routingType} - importCustomLink - "from" is required`);
+    throw new Error(`${errorPath} - "from" is required`);
   }
   if (!componentNamedImport && !componentDefaultImport) {
-    throw new Error(
-      `${routingType} - importCustomLink - either "componentNamedImport" or "componentDefaultImport" is required`
-    );
+    throw new Error(`${errorPath} - either "componentNamedImport" or "componentDefaultImport" is required`);
   }
   if (!propsNamedImport) {
-    throw new Error(`${routingType} - importCustomLink - "propsNamedImport is required`);
+    throw new Error(`${errorPath} - "propsNamedImport is required`);
   }
   if (!hrefProp) {
-    throw new Error(`${routingType} - importCustomLink - "hrefProp" is required`);
+    throw new Error(`${errorPath} - "hrefProp" is required`);
   }
   if (componentNamedImport && componentDefaultImport) {
     console.log(
-      `${routingType} - importCustomLink - "componentNamedImport" and "componentDefaultImport" are supplied. "componentDefaultImport" will be used`
+      `${errorPath} - "componentNamedImport" and "componentDefaultImport" are supplied. "componentDefaultImport" will be used`
     );
   }
 
