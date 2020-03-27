@@ -6,7 +6,7 @@ type LinkProps = Omit<
   React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>,
   'href'
 >;
-const LinkHome: LinkProps = ({ urlQuery, ...props }) => {
+const LinkHome: React.FunctionComponent<LinkProps> = ({ urlQuery, ...props }) => {
   const to = generateUrl(patternHome, {}, urlQuery);
   return <a {...props} href={to} />;
 };

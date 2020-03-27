@@ -1,9 +1,12 @@
 import React from 'react';
 import { generateUrl } from 'route-codegen';
-import a, { AnchorProps as OriginalLinkProps } from 'common/ui/Anchor';
+
 import { patternAccount } from './patternAccount';
-type LinkProps = Omit<OriginalLinkProps, 'href'>;
-const LinkAccount: LinkProps = ({ urlQuery, ...props }) => {
+type LinkProps = Omit<
+  React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>,
+  'href'
+>;
+const LinkAccount: React.FunctionComponent<LinkProps> = ({ urlQuery, ...props }) => {
   const to = generateUrl(patternAccount, {}, urlQuery);
   return <a {...props} href={to} />;
 };
