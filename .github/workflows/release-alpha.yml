@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x]
+        node-version: [12.x]
 
     steps:
       - name: Check out repository
@@ -31,32 +31,6 @@ jobs:
 
       - name: Run tests
         run: yarn test
-
-  release-alpha:
-    needs: test-on-merge
-    runs-on: ubuntu-18.04
-    name: Release alpha
-
-    strategy:
-      matrix:
-        node-version: [12.x]
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-          registry-url: 'https://npm.pkg.github.com'
-          always-auth: true
-
-      - name: Install packages
-        run: yarn --frozen-lockfile
-
-      - name: Build
-        run: yarn build
 
       - name: Publish alpha
         # https://github.com/actions/setup-node/issues/81

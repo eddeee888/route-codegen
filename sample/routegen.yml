@@ -3,19 +3,20 @@ apps:
     routes:
       user: /app/users/:id/:subview(profile|pictures)?
       account: /app/account
-    routingType: ReactRouter
+    routingType: ReactRouterV5
     destinationDir: sample/output/app/routes
 
   auth:
     routes:
       login: /login
       signup: /signup
-    routingType: ReactRouter
-    generateReactRouterFunctions: false
-    reactRouterLinkOptions:
+    routingType: ReactRouterV5
+    reactRouterV5LinkOptions:
       path: common/components/Link
       propsInterfaceName: LinkProps
       hrefProp: to
+      useParams: false
+      useRedirect: false
     defaultLinkOptions:
       path: common/ui/Anchor
       propsInterfaceName: AnchorProps

@@ -27,9 +27,6 @@ apps:
       logout: /app/logout
       me: /app/me
     routingType: ReactRouter
-    # Use generateReactRouterFunctions boolean if you don't want to
-    # create typed convenient functions/hooks such as `useParams` or `useRedirect`
-    generateReactRouterFunctions: false
     destinationDir: client/src/routes
 
   client-seo:
@@ -43,6 +40,8 @@ apps:
       path: src/common/components/Link
       propsInterfaceName: LinkProps
       hrefProp: href
+      useParams: true
+      useRedirect: true
     nextJSLinkOptions:
       path: src/common/components/NextJSLink
       propsInterfaceName: LinkProps
@@ -88,7 +87,7 @@ const config: Config = {
         user: '/app/users/:id',
         account: '/app/account',
       },
-      routingType: RoutingType.ReactRouter,
+      routingType: RoutingType.ReactRouterV5,
       destinationDir: 'tests/output/app/routes',
     },
     seo: {
@@ -126,7 +125,7 @@ $ yarn run build
 ### Build and run real config
 
 ```bash
-$ yarn run test:cli
+$ yarn run test:sample
 ```
 
 ### How it works
