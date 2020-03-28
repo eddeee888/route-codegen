@@ -7,25 +7,34 @@ describe('generateLinkFile', () => {
     routingType: RoutingType.ReactRouterV5,
     routeLinkOptions: {
       ReactRouterV5: {
-        path: 'src/common/Link',
-        hrefProp: 'to',
+        importLink: {
+          from: 'src/common/Link',
+          defaultImport: 'Link',
+          namedImports: [{ name: 'CustomLinkProps' }],
+        },
         linkComponent: 'Link',
-        propsInterfaceName: 'CustomLinkProps',
+        linkProps: 'CustomLinkProps',
+        hrefProp: 'to',
         useRedirect: true,
         useParams: true,
       },
       Default: {
         hrefProp: 'href',
         linkComponent: 'a',
-        path: '',
-        propsInterfaceName: '',
-        inlineLinkPropsTemplate: `type LinkProps = Omit<DefaultLinkProps, 'href'>;`,
+        inlineLinkProps: {
+          template: `type InlineLinkProps = Omit<React.SomeReallyLongReactHTMLProps, 'href'>;`,
+          linkProps: 'InlineLinkProps',
+        },
       },
       NextJS: {
-        path: 'src/NextJS/Link',
-        linkComponent: 'Link',
+        importLink: {
+          from: 'src/NextJS/Link',
+          defaultImport: 'Link',
+          namedImports: [{ name: 'NextJSLinkProps' }],
+        },
         hrefProp: 'customHref',
-        propsInterfaceName: 'NextJSLinkProps',
+        linkComponent: 'Link',
+        linkProps: 'NextJSLinkProps',
       },
     },
     routeName: 'Login',
@@ -46,10 +55,10 @@ describe('generateLinkFile', () => {
       expect(templateFile.destinationDir).toBe('path/to/routes');
       expect(templateFile.template).toContain(`import React from 'react'
   import {generateUrl,} from 'route-codegen'
-  import Link, {CustomLinkProps as OriginalLinkProps,} from 'src/common/Link'
+  import Link, {CustomLinkProps,} from 'src/common/Link'
   import {patternLogin,} from './patternLogin'
-  type LinkProps = Omit<OriginalLinkProps, 'to'>;
-  const LinkLogin: LinkProps = ({  urlQuery, ...props }) => {
+  type LinkLoginProps = Omit<CustomLinkProps, 'to'>;
+  const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({  urlQuery, ...props }) => {
     const to = generateUrl(patternLogin, {}, urlQuery);
     return <Link {...props} to={to} />;
   }
@@ -71,11 +80,46 @@ describe('generateLinkFile', () => {
       expect(templateFile.destinationDir).toBe('path/to/routes');
       expect(templateFile.template).toContain(`import React from 'react'
   import {generateUrl,} from 'route-codegen'
-  import Link, {CustomLinkProps as OriginalLinkProps,} from 'src/common/Link'
+  import Link, {CustomLinkProps,} from 'src/common/Link'
   import {patternLogin,} from './patternLogin'
-  type LinkProps = Omit<OriginalLinkProps, 'to'>;
-  const LinkLogin: LinkProps = ({ path, urlQuery, ...props }) => {
+  type LinkLoginProps = Omit<CustomLinkProps, 'to'>;
+  const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({ path, urlQuery, ...props }) => {
     const to = generateUrl(patternLogin, path, urlQuery);
+    return <Link {...props} to={to} />;
+  }
+  export default LinkLogin;`);
+    });
+
+    it('should generate correctly with named component import', () => {
+      const templateFile = generateLinkFile({
+        ...defaultParams,
+        routingType: RoutingType.ReactRouterV5,
+        routeLinkOptions: {
+          ...defaultParams.routeLinkOptions,
+          ReactRouterV5: {
+            importLink: {
+              from: 'src/common/Link',
+              namedImports: [{ name: 'CustomLinkProps' }, { name: 'CustomLink', importAs: 'Link' }],
+            },
+            linkComponent: 'Link',
+            linkProps: 'CustomLinkProps',
+            hrefProp: 'to',
+            useRedirect: true,
+            useParams: true,
+          },
+        },
+      });
+
+      expect(templateFile.filename).toBe('LinkLogin');
+      expect(templateFile.extension).toBe('.tsx');
+      expect(templateFile.destinationDir).toBe('path/to/routes');
+      expect(templateFile.template).toContain(`import React from 'react'
+  import {generateUrl,} from 'route-codegen'
+  import {CustomLinkProps,CustomLink as Link,} from 'src/common/Link'
+  import {patternLogin,} from './patternLogin'
+  type LinkLoginProps = Omit<CustomLinkProps, 'to'>;
+  const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({  urlQuery, ...props }) => {
+    const to = generateUrl(patternLogin, {}, urlQuery);
     return <Link {...props} to={to} />;
   }
   export default LinkLogin;`);
@@ -91,10 +135,10 @@ describe('generateLinkFile', () => {
       expect(templateFile.destinationDir).toBe('path/to/routes');
       expect(templateFile.template).toContain(`import React from 'react'
   import {generateUrl,} from 'route-codegen'
-  import Link, {NextJSLinkProps as OriginalLinkProps,} from 'src/NextJS/Link'
+  import Link, {NextJSLinkProps,} from 'src/NextJS/Link'
   import {patternLogin,} from './patternLogin'
-  type LinkProps = Omit<OriginalLinkProps, 'customHref'>;
-  const LinkLogin: LinkProps = ({  urlQuery, ...props }) => {
+  type LinkLoginProps = Omit<NextJSLinkProps, 'customHref'>;
+  const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({  urlQuery, ...props }) => {
     const to = generateUrl(patternLogin, {}, urlQuery);
     return <Link {...props} customHref={to} />;
   }
@@ -116,12 +160,45 @@ describe('generateLinkFile', () => {
       expect(templateFile.destinationDir).toBe('path/to/routes');
       expect(templateFile.template).toContain(`import React from 'react'
   import {generateUrl,} from 'route-codegen'
-  import Link, {NextJSLinkProps as OriginalLinkProps,} from 'src/NextJS/Link'
+  import Link, {NextJSLinkProps,} from 'src/NextJS/Link'
   import {patternLogin,} from './patternLogin'
-  type LinkProps = Omit<OriginalLinkProps, 'customHref'>;
-  const LinkLogin: LinkProps = ({ path, urlQuery, ...props }) => {
+  type LinkLoginProps = Omit<NextJSLinkProps, 'customHref'>;
+  const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({ path, urlQuery, ...props }) => {
     const to = generateUrl(patternLogin, path, urlQuery);
     return <Link {...props} customHref={to} />;
+  }
+  export default LinkLogin;`);
+    });
+
+    it('should generate correctly with named component import', () => {
+      const templateFile = generateLinkFile({
+        ...defaultParams,
+        routingType: RoutingType.NextJS,
+        routeLinkOptions: {
+          ...defaultParams.routeLinkOptions,
+          NextJS: {
+            importLink: {
+              from: 'src/common/Link',
+              namedImports: [{ name: 'CustomLinkProps' }, { name: 'CustomLink', importAs: 'Link' }],
+            },
+            linkComponent: 'Link',
+            linkProps: 'CustomLinkProps',
+            hrefProp: 'to',
+          },
+        },
+      });
+
+      expect(templateFile.filename).toBe('LinkLogin');
+      expect(templateFile.extension).toBe('.tsx');
+      expect(templateFile.destinationDir).toBe('path/to/routes');
+      expect(templateFile.template).toContain(`import React from 'react'
+  import {generateUrl,} from 'route-codegen'
+  import {CustomLinkProps,CustomLink as Link,} from 'src/common/Link'
+  import {patternLogin,} from './patternLogin'
+  type LinkLoginProps = Omit<CustomLinkProps, 'to'>;
+  const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({  urlQuery, ...props }) => {
+    const to = generateUrl(patternLogin, {}, urlQuery);
+    return <Link {...props} to={to} />;
   }
   export default LinkLogin;`);
     });
@@ -135,10 +212,14 @@ describe('generateLinkFile', () => {
         routeLinkOptions: {
           ...defaultParams.routeLinkOptions,
           Default: {
+            importLink: {
+              from: 'src/Default/Link',
+              defaultImport: 'Link',
+              namedImports: [{ name: 'CustomLinkProps' }],
+            },
             hrefProp: 'customDefaultHref',
             linkComponent: 'Link',
-            path: 'src/Default/Link',
-            propsInterfaceName: 'CustomLinkProps',
+            linkProps: 'CustomLinkProps',
           },
         },
       });
@@ -148,10 +229,10 @@ describe('generateLinkFile', () => {
       expect(templateFile.destinationDir).toBe('path/to/routes');
       expect(templateFile.template).toContain(`import React from 'react'
   import {generateUrl,} from 'route-codegen'
-  import Link, {CustomLinkProps as OriginalLinkProps,} from 'src/Default/Link'
+  import Link, {CustomLinkProps,} from 'src/Default/Link'
   import {patternLogin,} from './patternLogin'
-  type LinkProps = Omit<OriginalLinkProps, 'customDefaultHref'>;
-  const LinkLogin: LinkProps = ({  urlQuery, ...props }) => {
+  type LinkLoginProps = Omit<CustomLinkProps, 'customDefaultHref'>;
+  const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({  urlQuery, ...props }) => {
     const to = generateUrl(patternLogin, {}, urlQuery);
     return <Link {...props} customDefaultHref={to} />;
   }
@@ -168,8 +249,8 @@ describe('generateLinkFile', () => {
   import {generateUrl,} from 'route-codegen'
   
   import {patternLogin,} from './patternLogin'
-  type LinkProps = Omit<DefaultLinkProps, 'href'>;
-  const LinkLogin: LinkProps = ({  urlQuery, ...props }) => {
+  type InlineLinkProps = Omit<React.SomeReallyLongReactHTMLProps, 'href'>;
+  const LinkLogin: React.FunctionComponent<InlineLinkProps> = ({  urlQuery, ...props }) => {
     const to = generateUrl(patternLogin, {}, urlQuery);
     return <a {...props} href={to} />;
   }
@@ -193,10 +274,43 @@ describe('generateLinkFile', () => {
   import {generateUrl,} from 'route-codegen'
   
   import {patternLogin,} from './patternLogin'
-  type LinkProps = Omit<DefaultLinkProps, 'href'>;
-  const LinkLogin: LinkProps = ({ path, urlQuery, ...props }) => {
+  type InlineLinkProps = Omit<React.SomeReallyLongReactHTMLProps, 'href'>;
+  const LinkLogin: React.FunctionComponent<InlineLinkProps> = ({ path, urlQuery, ...props }) => {
     const to = generateUrl(patternLogin, path, urlQuery);
     return <a {...props} href={to} />;
+  }
+  export default LinkLogin;`);
+    });
+
+    it('should generate correctly with named component import', () => {
+      const templateFile = generateLinkFile({
+        ...defaultParams,
+        routingType: RoutingType.Default,
+        routeLinkOptions: {
+          ...defaultParams.routeLinkOptions,
+          Default: {
+            importLink: {
+              from: 'src/common/Link',
+              namedImports: [{ name: 'CustomLinkProps' }, { name: 'CustomLink', importAs: 'Link' }],
+            },
+            linkComponent: 'Link',
+            linkProps: 'CustomLinkProps',
+            hrefProp: 'to',
+          },
+        },
+      });
+
+      expect(templateFile.filename).toBe('LinkLogin');
+      expect(templateFile.extension).toBe('.tsx');
+      expect(templateFile.destinationDir).toBe('path/to/routes');
+      expect(templateFile.template).toContain(`import React from 'react'
+  import {generateUrl,} from 'route-codegen'
+  import {CustomLinkProps,CustomLink as Link,} from 'src/common/Link'
+  import {patternLogin,} from './patternLogin'
+  type LinkLoginProps = Omit<CustomLinkProps, 'to'>;
+  const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({  urlQuery, ...props }) => {
+    const to = generateUrl(patternLogin, {}, urlQuery);
+    return <Link {...props} to={to} />;
   }
   export default LinkLogin;`);
     });

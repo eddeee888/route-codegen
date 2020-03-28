@@ -12,15 +12,19 @@ apps:
       signup: /signup
     routingType: ReactRouterV5
     reactRouterV5LinkOptions:
-      path: common/components/Link
-      propsInterfaceName: LinkProps
-      hrefProp: to
+      importCustomLink:
+        componentDefaultImport: true
+        propsNamedImport: LinkProps
+        hrefProp: to
+        from: common/components/Link
       useParams: false
       useRedirect: false
     defaultLinkOptions:
-      path: common/ui/Anchor
-      propsInterfaceName: AnchorProps
-      hrefProp: href
+      importCustomLink:
+        componentNamedImport: CustomAnchor
+        propsNamedImport: AnchorProps
+        hrefProp: href
+        from: common/ui/Anchor
     destinationDir: sample/output/auth/routes
 
   seo:
@@ -35,13 +39,17 @@ apps:
       toc: /terms-and-conditions
     routingType: NextJS
     nextJSLinkOptions:
-      path: src/common/components/Link
-      propsInterfaceName: LinkProps
-      hrefProp: href
+      importCustomLink:
+        componentDefaultImport: true
+        propsNamedImport: LinkProps
+        hrefProp: href
+        from: src/common/components/Link
     defaultLinkOptions:
-      path: src/common/ui/Anchor
-      propsInterfaceName: AnchorProps
-      hrefProp: href
+      importCustomLink:
+        componentDefaultImport: true
+        propsNamedImport: AnchorProps
+        hrefProp: href
+        from: src/common/ui/Anchor
     destinationDir: sample/output/toc/routes
 
   legacy:

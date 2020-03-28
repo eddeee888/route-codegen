@@ -34,22 +34,29 @@ apps:
       home: /
     routingType: NextJS
     destinationDir: client-seo/src/routes
-    # Use one of these `reactRouterLinkOptions`, `nextJSLinkOptions`, `defaultLinkOptions`
+    # Use one of these `reactRouterV5LinkOptions`, `nextJSLinkOptions`, `defaultLinkOptions`
     # options below if you want to custom how Link is created
-    reactRouterLinkOptions:
-      path: src/common/components/Link
-      propsInterfaceName: LinkProps
-      hrefProp: href
+    reactRouterV5LinkOptions:
+      importCustomLink:
+        componentDefaultImport: true
+        propsNamedImport: LinkProps
+        hrefProp: to
+        from: common/components/Link
       useParams: true
       useRedirect: true
     nextJSLinkOptions:
-      path: src/common/components/NextJSLink
-      propsInterfaceName: LinkProps
-      hrefProp: href
+      importCustomLink:
+        componentDefaultImport: true
+        propsNamedImport: LinkProps
+        hrefProp: href
+        from: src/common/components/NextJSLink
     defaultLinkOptions:
-      path: src/common/ui/Anchor
+      importCustomLink:
+        componentNamedImport: CustomAnchorComponent
+        propsNamedImport: AnchorProps
+        hrefProp: href
+        from: src/common/ui/Anchor
       propsInterfaceName: AnchorProps
-      hrefProp: href
 
   # an app without `routes` is still valid. In this case, this app can still generate url to other apps
   express-server:
@@ -74,43 +81,13 @@ Or
 $ npx route-codegen
 ```
 
-## Running it manually
+### CLI Options
 
-```ts
-// routegen.ts
-import generate, { Config, RoutingType } from 'route-codegen/dist/generate';
+- `config`: link to the yml config file:
+  eg. `yarn route-codegen --config path/to/route-codegen.yml`
 
-const config: Config = {
-  apps: {
-    app: {
-      routes: {
-        user: '/app/users/:id',
-        account: '/app/account',
-      },
-      routingType: RoutingType.ReactRouterV5,
-      destinationDir: 'tests/output/app/routes',
-    },
-    seo: {
-      routes: {
-        home: '/',
-        about: '/about',
-        terms: '/terms-and-conditions',
-      },
-      routingType: RoutingType.NextJS,
-      destinationDir: 'tests/output/seo/routes',
-    },
-  },
-};
-
-generate(config);
-```
-
-Then run the following in the terminal
-
-```
-$ yarn tsc routegen.ts
-$ node routegen.js
-```
+- `stacktrace`: see full stacktrace of errors
+  e.g. `yarn route-codegen --stacktrace`
 
 ## Developing
 
@@ -122,7 +99,7 @@ We need to build from TS -> JS to be able to run the generator. For the changes 
 $ yarn run build
 ```
 
-### Build and run real config
+### Build and run sample config
 
 ```bash
 $ yarn run test:sample

@@ -15,12 +15,12 @@ describe('generateAppFiles', () => {
 
   describe('general config', () => {
     it('should not generate any file if no destinationDir', () => {
-      const files = generateAppFiles({ ...appConfig, destinationDir: undefined });
+      const files = generateAppFiles('testApp', { ...appConfig, destinationDir: undefined });
       expect(files).toHaveLength(0);
     });
 
     it('should not generate Link if not needed', () => {
-      const files = generateAppFiles({ ...appConfig, generateLink: false });
+      const files = generateAppFiles('testApp', { ...appConfig, generateLink: false });
       expect(files).toHaveLength(4);
       expect(files[0].destinationDir).toEqual('path/to/routes/login');
       expect(files[0].filename).toEqual('patternLogin');
@@ -40,7 +40,7 @@ describe('generateAppFiles', () => {
 
   describe('Default', () => {
     it('should generate files', () => {
-      const files = generateAppFiles({ ...appConfig, routingType: 'Default' });
+      const files = generateAppFiles('testApp', { ...appConfig, routingType: 'Default' });
 
       expect(files).toHaveLength(6);
       expect(files[0].destinationDir).toEqual('path/to/routes/login');
@@ -67,7 +67,7 @@ describe('generateAppFiles', () => {
 
   describe('NextJS', () => {
     it('should generate files', () => {
-      const files = generateAppFiles({ ...appConfig, routingType: 'NextJS' });
+      const files = generateAppFiles('testApp', { ...appConfig, routingType: 'NextJS' });
 
       expect(files).toHaveLength(6);
       expect(files[0].destinationDir).toEqual('path/to/routes/login');
@@ -94,7 +94,7 @@ describe('generateAppFiles', () => {
 
   describe('ReactRouterV5', () => {
     it('should generate files', () => {
-      const files = generateAppFiles({ ...appConfig, routingType: 'ReactRouterV5' });
+      const files = generateAppFiles('testApp', { ...appConfig, routingType: 'ReactRouterV5' });
 
       expect(files).toHaveLength(9);
       expect(files[0].destinationDir).toEqual('path/to/routes/login');
@@ -128,7 +128,7 @@ describe('generateAppFiles', () => {
     });
 
     it('should not generate useParams if not needed', () => {
-      const files = generateAppFiles({
+      const files = generateAppFiles('testApp', {
         ...appConfig,
         routingType: 'ReactRouterV5',
         reactRouterV5LinkOptions: { useParams: false },
@@ -163,7 +163,7 @@ describe('generateAppFiles', () => {
     });
 
     it('should not generate useRedirect if not needed', () => {
-      const files = generateAppFiles({
+      const files = generateAppFiles('testApp', {
         ...appConfig,
         routingType: 'ReactRouterV5',
         reactRouterV5LinkOptions: { useRedirect: false },

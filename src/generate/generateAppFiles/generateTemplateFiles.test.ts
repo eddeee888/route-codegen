@@ -16,25 +16,34 @@ describe('generateTemplateFiles', () => {
     destinationDir: 'path/to/routes',
     routeLinkOptions: {
       ReactRouterV5: {
-        path: 'src/common/Link',
+        importLink: {
+          from: 'src/common/Link',
+          defaultImport: 'Link',
+          namedImports: [{ name: 'CustomLinkProps' }],
+        },
         hrefProp: 'to',
         linkComponent: 'Link',
-        propsInterfaceName: 'CustomLinkProps',
+        linkProps: 'CustomLinkProps',
         useRedirect: true,
         useParams: true,
       },
       Default: {
         hrefProp: 'href',
         linkComponent: 'a',
-        path: '',
-        propsInterfaceName: '',
-        inlineLinkPropsTemplate: `type LinkProps = Omit<DefaultLinkProps, 'href'>;`,
+        inlineLinkProps: {
+          template: "type LinkProps = Omit<DefaultLinkProps, 'href'>;",
+          linkProps: 'LinkProps',
+        },
       },
       NextJS: {
-        path: 'src/NextJS/Link',
+        importLink: {
+          from: 'src/NextJS/Link',
+          defaultImport: 'Link',
+          namedImports: [{ name: 'NextJSLinkProps' }],
+        },
         linkComponent: 'Link',
         hrefProp: 'customHref',
-        propsInterfaceName: 'NextJSLinkProps',
+        linkProps: 'NextJSLinkProps',
       },
     },
   };

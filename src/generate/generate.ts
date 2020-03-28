@@ -15,10 +15,10 @@ function generate(config: Config): void {
 }
 
 function generateFilesToWrite(apps: Record<string, AppConfig>): TemplateFile[] {
-  const mainAppFiles = Object.values(apps).map(generateAppFiles);
+  const mainAppFiles = Object.entries(apps).map(([appName, appConfig]) => generateAppFiles(appName, appConfig));
 
   const otherApps = generateExternalRoutesConfig(apps);
-  const otherAppFiles = Object.values(otherApps).map(generateAppFiles);
+  const otherAppFiles = Object.entries(otherApps).map(([appName, appConfig]) => generateAppFiles(appName, appConfig));
 
   return [...mainAppFiles, ...otherAppFiles].flat();
 }
