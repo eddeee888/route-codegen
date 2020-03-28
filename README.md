@@ -1,8 +1,8 @@
 # route-codegen
 
-This generates route objects which can be used to manage inner and inter app routing. Given a route pattern, typescript interfaces are also generated automatically to make routing safe and easy to use.
+This library generates route modules which can be used to manage inner and inter app routing. Given a route pattern, linking components, typescript interfaces and helper functions / hooks are generated automatically to make routing safe and easy.
 
-## Install
+## Installation
 
 ```bash
 $ yarn add route-codegen
@@ -14,7 +14,7 @@ Or
 $ npm i route-codegen
 ```
 
-## Create config
+## Configuration
 
 Add `route-codegen.yml` to project root. Example:
 
@@ -26,7 +26,7 @@ apps:
       signup: /app/signup
       logout: /app/logout
       me: /app/me
-    routingType: ReactRouter
+    routingType: ReactRouterV5
     destinationDir: client/src/routes
 
   client-seo:
@@ -69,7 +69,7 @@ apps:
       legacyApp: /legacy/app
 ```
 
-## Generate
+## Generating route modules
 
 ```bash
 $ yarn route-codegen
@@ -96,19 +96,20 @@ $ npx route-codegen
 We need to build from TS -> JS to be able to run the generator. For the changes to reflect, after making changes in `src`, run the following:
 
 ```bash
-$ yarn run build
+$ yarn build
 ```
 
 ### Build and run sample config
 
 ```bash
-$ yarn run test:sample
+$ yarn test:sample
 ```
+
+- Sample config file here can be found [here](./sample/routegen.yml) and the [generated code here](./sample/output)
 
 ### How it works
 
-- Reads in the config
+- Read the config
 - Go through each "app"
-- Look at the routes it needs to generate and destination folder
-- Generate each route into its own file in the destination folder ( this helps codesplitting )
-- In dev, the files are generated into `tests/sampleOuput` folder. Check out the [config file here](./sample/routegen.yml) and the [generated code here](./sample/output)
+- Look at the routes needed to generate and destination folders
+- Generate each route functions into its own modules in the destination folder ( this helps codesplitting )
