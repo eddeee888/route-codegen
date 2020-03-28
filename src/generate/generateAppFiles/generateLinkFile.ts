@@ -20,7 +20,7 @@ const generateLinkFile: GenerateLinkFile = ({
   routingType,
   routeLinkOptions,
   destinationDir,
-  patternNamedExports: { patternName, pathParamsInterfaceName, filename: routePatternFilename },
+  patternNamedExports: { patternName, pathParamsInterfaceName, filename: routePatternFilename, urlPartsInterfaceName },
   importGenerateUrl,
 }) => {
   const functionName = `Link${routeName}`;
@@ -29,6 +29,7 @@ const generateLinkFile: GenerateLinkFile = ({
 
   const { hrefProp, importLink, linkComponent, linkPropsTemplate, linkPropsInterfaceName } = generateLinkInterface({
     defaultLinkPropsInterfaceName,
+    urlPartsInterfaceName,
     routingType,
     routeLinkOptions,
   });
@@ -36,7 +37,10 @@ const generateLinkFile: GenerateLinkFile = ({
   const template = `${printImport({ defaultImport: 'React', from: 'react' })}
   ${printImport(importGenerateUrl)}
   ${importLink ? printImport(importLink) : ''}
-  ${printImport({ namedImports: [{ name: patternName }], from: `./${routePatternFilename}` })}
+  ${printImport({
+    namedImports: [{ name: patternName }, { name: urlPartsInterfaceName }],
+    from: `./${routePatternFilename}`,
+  })}
   ${linkPropsTemplate}
   const ${functionName}: React.FunctionComponent<${linkPropsInterfaceName}> = ({ ${
     hasPathParams ? 'path,' : ''
@@ -61,6 +65,7 @@ type GenerateLinkInterface = (params: {
   routingType: RoutingType;
   routeLinkOptions: RouteLinkOptions;
   defaultLinkPropsInterfaceName: string;
+  urlPartsInterfaceName: string;
 }) => {
   importLink?: Import;
   linkPropsTemplate: string;
@@ -74,16 +79,17 @@ const generateLinkInterface: GenerateLinkInterface = ({
   routingType,
   routeLinkOptions,
   defaultLinkPropsInterfaceName,
+  urlPartsInterfaceName,
 }) => {
   const option = routeLinkOptions[routingType];
 
   const { hrefProp, linkProps, importLink } = option;
 
   // if there's inlineLinkPropsTemplate, we don't import anything
-  let linkPropsTemplate = `type ${defaultLinkPropsInterfaceName} = Omit<${linkProps}, '${hrefProp}'>;`;
+  let linkPropsTemplate = `type ${defaultLinkPropsInterfaceName} = Omit<${linkProps}, '${hrefProp}'> & ${urlPartsInterfaceName}`;
   let linkPropsInterfaceName = defaultLinkPropsInterfaceName;
   if ('inlineLinkProps' in option && option.inlineLinkProps) {
-    linkPropsTemplate = option.inlineLinkProps.template;
+    linkPropsTemplate = `${option.inlineLinkProps.template} & ${urlPartsInterfaceName}`;
     linkPropsInterfaceName = option.inlineLinkProps.linkProps;
   }
 

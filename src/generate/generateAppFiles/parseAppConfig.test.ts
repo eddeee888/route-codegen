@@ -16,8 +16,7 @@ describe('parseAppConfig', () => {
   const defaultParsedReactRouterV5RouteLinkOptions: ParsedReactRouterV5LinkOptions = {
     importLink: {
       from: 'react-router-dom',
-      defaultImport: 'Link',
-      namedImports: [{ name: 'LinkProps' }],
+      namedImports: [{ name: 'LinkProps' }, { name: 'Link' }],
     },
     linkComponent: 'Link',
     linkProps: 'LinkProps',
@@ -39,7 +38,7 @@ describe('parseAppConfig', () => {
     hrefProp: 'href',
     linkComponent: 'a',
     inlineLinkProps: {
-      template: `type LinkProps = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, 'href'>;`,
+      template: `type LinkProps = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, 'href'>`,
       linkProps: 'LinkProps',
     },
   };
@@ -73,7 +72,7 @@ describe('parseAppConfig', () => {
       expect(() =>
         parseAppConfig('sampleApp', { ...defaultAppConfig, routingType: 'WRONG_ROUTING_TYPE' })
       ).toThrowError(
-        'sampleApp.routingType - Routing type of an app must be either "NextJS" or "ReactRouter" or "Default"'
+        'sampleApp.routingType - Routing type of an app must be either "NextJS" or "ReactRouterV5" or "Default"'
       );
     });
 

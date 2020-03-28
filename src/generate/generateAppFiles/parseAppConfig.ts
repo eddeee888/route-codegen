@@ -70,7 +70,7 @@ const parseAppConfig = (
   ) {
     return throwError(
       [appName, 'routingType'],
-      'Routing type of an app must be either "NextJS" or "ReactRouter" or "Default"'
+      `Routing type of an app must be either "${RoutingType.NextJS}" or "${RoutingType.ReactRouterV5}" or "${RoutingType.Default}"`
     );
   }
 
@@ -97,8 +97,7 @@ const prepareReactRouterV5LinkOptions = (
   const defaultOptions: ParsedReactRouterV5LinkOptions = {
     importLink: {
       from: 'react-router-dom',
-      defaultImport: 'Link',
-      namedImports: [{ name: 'LinkProps' }],
+      namedImports: [{ name: 'LinkProps' }, { name: 'Link' }],
     },
     linkComponent: 'Link',
     linkProps: 'LinkProps',
@@ -175,7 +174,7 @@ const prepareDefaultLinkOptions = (
     hrefProp: 'href',
     linkComponent: 'a',
     inlineLinkProps: {
-      template: `type LinkProps = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, 'href'>;`,
+      template: `type LinkProps = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, 'href'>`,
       linkProps: 'LinkProps',
     },
   };
