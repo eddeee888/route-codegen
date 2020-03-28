@@ -7,14 +7,20 @@ import { readFileSync } from 'fs';
 
 const argv = yargs.options({
   config: { type: 'string', default: 'route-codegen.yml' },
+  stacktrace: { type: 'boolean', default: false },
 }).argv;
 
+const { config, stacktrace } = argv;
+
 try {
-  const { config } = argv;
   const ymlContent = readFileSync(config, 'utf8');
 
   const configContent = yaml.safeLoad(ymlContent);
   generate(configContent);
 } catch (e) {
-  console.log(`ERROR: ${e.message}`);
+  if (stacktrace) {
+    console.log(e);
+  } else {
+    console.log(`ERROR: ${e.message}`);
+  }
 }
