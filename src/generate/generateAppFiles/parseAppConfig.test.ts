@@ -16,8 +16,7 @@ describe('parseAppConfig', () => {
   const defaultParsedReactRouterV5RouteLinkOptions: ParsedReactRouterV5LinkOptions = {
     importLink: {
       from: 'react-router-dom',
-      defaultImport: 'Link',
-      namedImports: [{ name: 'LinkProps' }],
+      namedImports: [{ name: 'LinkProps' }, { name: 'Link' }],
     },
     linkComponent: 'Link',
     linkProps: 'LinkProps',
