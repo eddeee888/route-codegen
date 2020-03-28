@@ -1,5 +1,5 @@
 const throwError = (path: string[], message: string): never => {
-  throw new Error(`${path.join('.')} - ${message}`);
+  throw new Error(`ERROR: ${path.join('.')} - ${message}`);
 };
 
 export default throwError;
