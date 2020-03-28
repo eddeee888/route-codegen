@@ -38,7 +38,7 @@ describe('parseAppConfig', () => {
     hrefProp: 'href',
     linkComponent: 'a',
     inlineLinkProps: {
-      template: `type LinkProps = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, 'href'>;`,
+      template: `type LinkProps = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, 'href'>`,
       linkProps: 'LinkProps',
     },
   };
