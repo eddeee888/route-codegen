@@ -21,7 +21,7 @@ apps:
       useRedirect: false
     defaultLinkOptions:
       importCustomLink:
-        componentDefaultImport: true
+        componentNamedImport: CustomAnchor
         propsNamedImport: AnchorProps
         hrefProp: href
         from: common/ui/Anchor

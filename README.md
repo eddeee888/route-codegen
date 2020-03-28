@@ -52,7 +52,7 @@ apps:
         from: src/common/components/NextJSLink
     defaultLinkOptions:
       importCustomLink:
-        componentDefaultImport: true
+        componentNamedImport: CustomAnchorComponent
         propsNamedImport: AnchorProps
         hrefProp: href
         from: src/common/ui/Anchor

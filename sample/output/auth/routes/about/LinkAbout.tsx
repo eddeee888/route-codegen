@@ -1,6 +1,6 @@
 import React from 'react';
 import { generateUrl } from 'route-codegen';
-import Link, { AnchorProps } from 'common/ui/Anchor';
+import { AnchorProps, CustomAnchor as Link } from 'common/ui/Anchor';
 import { patternAbout } from './patternAbout';
 type LinkAboutProps = Omit<AnchorProps, 'href'>;
 const LinkAbout: React.FunctionComponent<LinkAboutProps> = ({ urlQuery, ...props }) => {
