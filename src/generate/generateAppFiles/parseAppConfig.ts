@@ -70,7 +70,7 @@ const parseAppConfig = (
   ) {
     return throwError(
       [appName, 'routingType'],
-      'Routing type of an app must be either "NextJS" or "ReactRouter" or "Default"'
+      `Routing type of an app must be either "${RoutingType.NextJS}" or "${RoutingType.ReactRouterV5}" or "${RoutingType.Default}"`
     );
   }
 

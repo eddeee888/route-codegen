@@ -73,7 +73,7 @@ describe('parseAppConfig', () => {
       expect(() =>
         parseAppConfig('sampleApp', { ...defaultAppConfig, routingType: 'WRONG_ROUTING_TYPE' })
       ).toThrowError(
-        'sampleApp.routingType - Routing type of an app must be either "NextJS" or "ReactRouter" or "Default"'
+        'sampleApp.routingType - Routing type of an app must be either "NextJS" or "ReactRouterV5" or "Default"'
       );
     });
 
