@@ -1,11 +1,12 @@
 import React from 'react';
 import { generateUrl } from 'route-codegen';
 
-import { patternAccount } from './patternAccount';
+import { patternAccount, UrlPartsAccount } from './patternAccount';
 type LinkProps = Omit<
   React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>,
   'href'
->;
+> &
+  UrlPartsAccount;
 const LinkAccount: React.FunctionComponent<LinkProps> = ({ urlQuery, ...props }) => {
   const to = generateUrl(patternAccount, {}, urlQuery);
   return <a {...props} href={to} />;

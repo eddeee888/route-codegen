@@ -1,8 +1,8 @@
 import React from 'react';
 import { generateUrl } from 'route-codegen';
 import Link, { LinkProps } from 'common/components/Link';
-import { patternSignup } from './patternSignup';
-type LinkSignupProps = Omit<LinkProps, 'to'>;
+import { patternSignup, UrlPartsSignup } from './patternSignup';
+type LinkSignupProps = Omit<LinkProps, 'to'> & UrlPartsSignup;
 const LinkSignup: React.FunctionComponent<LinkSignupProps> = ({ urlQuery, ...props }) => {
   const to = generateUrl(patternSignup, {}, urlQuery);
   return <Link {...props} to={to} />;
