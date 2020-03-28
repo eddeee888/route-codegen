@@ -4,7 +4,7 @@ const cache: Record<string, (data?: object) => string> = {};
 const cacheLimit = 10000;
 let cacheCount = 0;
 
-function compilePath(path: string): PathFunction {
+const compilePath = (path: string): PathFunction => {
   if (cache[path]) {
     return cache[path];
   }
@@ -17,11 +17,11 @@ function compilePath(path: string): PathFunction {
   }
 
   return generator;
-}
+};
 
-function generatePath(path = '/', params = {}): string {
+const generatePath = (path = '/', params = {}): string => {
   return path === '/' ? path : compilePath(path)(params);
-}
+};
 
 export type GenerateUrl = <P>(pattern: string, inputParams: P, urlQuery?: Partial<Record<string, string>>) => string;
 

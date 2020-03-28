@@ -1,7 +1,7 @@
-import { verbose } from '../../../bin/route-codegen';
+import { commandFlags } from '../../handleCommandFlags';
 
 const info = (path: string[], message: string): void => {
-  if (verbose) {
+  if (commandFlags.verbose) {
     console.info(`INFO: ${path.join('.')} - ${message}`);
   }
 };
