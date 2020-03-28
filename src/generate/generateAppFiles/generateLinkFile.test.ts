@@ -247,7 +247,7 @@ describe('generateLinkFile', () => {
       expect(templateFile.destinationDir).toBe('path/to/routes');
       expect(templateFile.template).toContain(`import React from 'react'
   import {generateUrl,} from 'route-codegen'
-
+  
   import {patternLogin,UrlPartsLogin,} from './patternLogin'
   type InlineLinkProps = Omit<React.SomeReallyLongReactHTMLProps, 'href'> & UrlPartsLogin
   const LinkLogin: React.FunctionComponent<InlineLinkProps> = ({  urlQuery, ...props }) => {
