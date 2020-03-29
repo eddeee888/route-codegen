@@ -93,7 +93,7 @@ const generateUrlPartsInterface = (
 
   const template = `export interface ${interfaceName} {
     ${pathParams ? `path: ${pathParams.interfaceName};` : ''}
-    urlQuery?: Partial<Record<string, string>>;
+    urlQuery?: Record<string, string>;
   }`;
 
   return { template, interfaceName };
