@@ -18,7 +18,7 @@
   ],
   "scripts": {
     "test": "jest",
-    "test:sample": "rm -rf ./sample/output && yarn build && node dist/bin/route-codegen.js --config sample/routegen.yml && yarn prettier --config .prettierrc --write \"sample/**/*.{ts,tsx}\"",
+    "test:sample": "rm -rf ./sample/output && yarn --silent build && node dist/bin/route-codegen.js --stacktrace --verbose --config sample/routegen.yml && yarn --silent prettier --config .prettierrc --write \"sample/**/*.{ts,tsx}\" --loglevel silent ",
     "build": "rm -rf ./dist && tsc",
     "format:prettier": "prettier --config .prettierrc --write \"src/**/*.{ts,tsx}\""
   },

@@ -3,7 +3,7 @@ import generateTemplateFiles from './generateTemplateFiles';
 import { TemplateFile } from '../types';
 import parseAppConfig from './parseAppConfig';
 
-function generateAppFiles(appName: string, app: AppConfig): TemplateFile[] {
+const generateAppFiles = (appName: string, app: AppConfig): TemplateFile[] => {
   const {
     routes,
     routingType,
@@ -30,6 +30,6 @@ function generateAppFiles(appName: string, app: AppConfig): TemplateFile[] {
   }
 
   return [];
-}
+};
 
 export default generateAppFiles;

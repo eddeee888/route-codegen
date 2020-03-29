@@ -1,7 +1,7 @@
 import { Import } from '../types';
 import { RoutingType, AppConfig, ImportCustomLink } from '../config';
 import throwError from '../utils/throwError';
-import log from '../utils/log';
+import info from '../utils/info';
 
 export interface ParsedReactRouterV5LinkOptions {
   importLink: Import;
@@ -107,10 +107,12 @@ const prepareReactRouterV5LinkOptions = (
   };
 
   if (!options) {
+    info([appName, 'reactRouterV5LinkOptions'], 'custom options not found... Using default');
     return { ...defaultOptions };
   }
 
   if (!options.importCustomLink) {
+    info([appName, 'reactRouterV5LinkOptions', 'importCustomLink'], 'custom options not found... Using default');
     return {
       ...defaultOptions,
       useParams: options.useParams !== undefined ? options.useParams : defaultOptions.useParams,
@@ -118,6 +120,7 @@ const prepareReactRouterV5LinkOptions = (
     };
   }
 
+  info([appName, 'reactRouterV5LinkOptions'], 'using custom link options');
   const { importLink, hrefProp, linkComponent, linkProps } = handleImportCustomLink(
     appName,
     'reactRouterV5LinkOptions',
@@ -149,9 +152,11 @@ const prepareNextJSLinkOptions = (
     hrefProp: 'href',
   };
   if (!options || !options.importCustomLink) {
+    info([appName, 'nextJSLinkOptions'], 'custom options not found... Using default');
     return { ...defaultOptions };
   }
 
+  info([appName, 'nextJSLinkOptions'], 'using custom link options');
   const { importLink, hrefProp, linkComponent, linkProps } = handleImportCustomLink(
     appName,
     'nextJSLinkOptions',
@@ -179,9 +184,11 @@ const prepareDefaultLinkOptions = (
     },
   };
   if (!options || !options.importCustomLink) {
+    info([appName, 'defaultLinkOptions'], 'custom options not found... Using default');
     return { ...defaultOptions };
   }
 
+  info([appName, 'defaultLinkOptions'], 'using custom link options');
   const { importLink, hrefProp, linkComponent, linkProps } = handleImportCustomLink(
     appName,
     'defaultLinkOptions',
@@ -216,7 +223,7 @@ const handleImportCustomLink = (
     return throwError(errorPath, '"hrefProp" is required');
   }
   if (componentNamedImport && componentDefaultImport) {
-    log(
+    info(
       errorPath,
       '"componentNamedImport" and "componentDefaultImport" are supplied. "componentDefaultImport" will be used'
     );

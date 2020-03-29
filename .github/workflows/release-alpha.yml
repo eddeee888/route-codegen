@@ -6,7 +6,7 @@ on:
     paths:
       - 'src/**'
 jobs:
-  test-on-merge:
+  publish-alpha-on-merge:
     runs-on: ubuntu-18.04
     name: Test on merge
 

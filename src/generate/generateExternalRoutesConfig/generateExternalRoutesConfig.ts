@@ -1,6 +1,6 @@
 import { AppConfig, RoutingType } from './../config';
 
-function generateExternalRoutesConfig(apps: Record<string, AppConfig>): Record<string, AppConfig> {
+const generateExternalRoutesConfig = (apps: Record<string, AppConfig>): Record<string, AppConfig> => {
   const externalRoutesConfig: Record<string, AppConfig> = {};
 
   Object.entries(apps).forEach(([appName, defaultAppConfig]) => {
@@ -24,6 +24,6 @@ function generateExternalRoutesConfig(apps: Record<string, AppConfig>): Record<s
   });
 
   return externalRoutesConfig;
-}
+};
 
 export default generateExternalRoutesConfig;
