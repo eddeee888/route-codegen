@@ -17,13 +17,13 @@ This library can help you avoid routing errors like this:
 If you only have one app, you can install at project root:
 
 ```bash
-$ yarn add route-codegen
+yarn add route-codegen
 ```
 
 Or
 
 ```bash
-$ npm i route-codegen
+npm i route-codegen
 ```
 
 Add `route-codegen.yml` to project root. Example:
@@ -46,25 +46,25 @@ More details about [config file](#configuration).
 If you have more than one app and want to manage all routes in one config file, you will need to run the cli command at project root. Run the following at project root:
 
 ```bash
-$ yarn add -D route-codegen
+yarn add -D route-codegen
 ```
 
 Or
 
 ```bash
-$ npm i --save-dev route-codegen
+npm i --save-dev route-codegen
 ```
 
 The library contains some utility functions for the generated files. Therefore, it also needs to be installed in each app:
 
 ```bash
-$ yarn add route-codegen
+yarn add route-codegen
 ```
 
 Or
 
 ```bash
-$ npm i route-codegen
+npm i route-codegen
 ```
 
 Add `route-codegen.yml` to project root. Example:
@@ -109,13 +109,13 @@ If you have custom links ( e.g. to apply styling on top of underlying link compo
 ## Generating route modules
 
 ```bash
-$ yarn route-codegen
+yarn route-codegen
 ```
 
 Or
 
 ```bash
-$ npx route-codegen
+npx route-codegen
 ```
 
 ### CLI Options
@@ -129,12 +129,28 @@ $ npx route-codegen
 Example
 
 ```bash
-$ yarn route-codegen --verbose --stacktrace --config path/to/routegen.yml
+yarn route-codegen --verbose --stacktrace --config path/to/routegen.yml
 ```
 
 ## Generated files
 
+### Pattern file
+
+[Example](./sample/output/app/routes/user/patternUser.ts)
+
+This file contains the pattern of a route and typescript interfaces that come with it.
+
+### Generate URL file
+
+[Exampe](./sample/output/app/routes/user/generateUrlUser.ts)
+
+This file contains a function to generate the URL of a particular route. Interfaces from the pattern files are used here to ensure type safety. This function is used in other components / functions of the route module to ensure URLs are generated the same way.
+
 ### Link component
+
+[react-router v5 example](./sample/output/app/routes/user/LinkUser.tsx)
+[NextJS example](./sample/output/seo/routes/home/LinkHome.tsx)
+[Default anchor example](./sample/output/app/routes/about/LinkAbout.tsx)
 
 Each routing framework has different API for their link. The generated `Link` component is an abstraction that handles:
 
@@ -161,29 +177,12 @@ The generated Link component has the same props so you can do the following in a
 <LinkUser path={{ id: '100' }} urlQuery={{ from: 'home' }} />
 ```
 
-## Developing
+### Other files
 
-### Build it!
+- `useParams`: Applicable for `react-router`. Uses `useParams`. The difference is this has path interface bound so the result is typed. [Example](./sample/output/app/routes/user/useParamsUser.ts)
 
-We need to build from TS -> JS to be able to run the generator. For the changes to reflect, after making changes in `src`, run the following:
+- `useRedirect`: Applicable for `react-router`. Uses `useHistory` internally. Creates a function to redirect the user to a route. [Example](./sample/output/app/routes/user/useRedirectUser.ts)
 
-```bash
-$ yarn build
-```
+## Development
 
-### Build and run sample config
-
-```bash
-$ yarn test:sample
-```
-
-Sample config file here can be found [here](./sample/routegen.yml) and the [generated code here](./sample/output)
-
-### How it works
-
-- Read the config.
-- Go through each "app".
-- Look at the routes needed to generate and destination folders.
-- Generate each route modules in the destination folder in different files ( this helps codesplitting ).
-- Detect client-side routing ( inner app ) and create components with client-side links based on `routingType` libraries / frameworks.
-- Detect server-side routing ( inter app ) and create components with `<a />` underneath.
+If you want to see how the codegen works, check out the [development guide](./docs/DEVELOPMENT.md).
