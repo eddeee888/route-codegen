@@ -37,7 +37,7 @@ describe('generatePatternFile', () => {
     );
     expect(templateFile.template).toContain(`export interface UrlPartsUserInfo {
     path: PathParamsUserInfo;
-    urlQuery?: Partial<Record<string, string>>;
+    urlQuery?: Record<string, string>;
   }`);
     expect(interfaceResult).toEqual({
       patternName: 'patternUserInfo',

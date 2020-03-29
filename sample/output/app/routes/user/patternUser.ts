@@ -6,5 +6,5 @@ export interface PathParamsUser {
 
 export interface UrlPartsUser {
   path: PathParamsUser;
-  urlQuery?: Partial<Record<string, string>>;
+  urlQuery?: Record<string, string>;
 }
