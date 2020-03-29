@@ -23,26 +23,18 @@ const generatePath = (path = '/', params = {}): string => {
   return path === '/' ? path : compilePath(path)(params);
 };
 
-export type GenerateUrl = <P>(pattern: string, inputParams: P, urlQuery?: Partial<Record<string, string>>) => string;
-
-const generateQueryString = (urlQuery?: Partial<Record<string, string>>): string => {
+const generateQueryString = (urlQuery?: Record<string, string>): string => {
   if (!urlQuery) {
     return '';
   }
 
-  let result = '?';
-  Object.keys(urlQuery).forEach(queryKey => {
-    result += `${queryKey}=${urlQuery[queryKey]}&`;
-  });
-  result = result.substring(0, result.length - 1);
-
-  return result;
+  const result = Object.entries(urlQuery).reduce((prev, [key, value]) => prev.concat(key, '=', value, '&'), '?');
+  // remove the final '&'
+  return result.substring(0, result.length - 1);
 };
 
-const generateUrl: GenerateUrl = <P>(
-  pattern: string,
-  inputParams: P,
-  urlQuery?: Partial<Record<string, string>>
-): string => generatePath(pattern, inputParams as any) + generateQueryString(urlQuery);
+export type GenerateUrl = <P>(pattern: string, inputParams: P, urlQuery?: Record<string, string>) => string;
+const generateUrl: GenerateUrl = (pattern, inputParams, urlQuery) =>
+  generatePath(pattern, inputParams as any) + generateQueryString(urlQuery);
 
 export default generateUrl;
