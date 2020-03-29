@@ -132,6 +132,35 @@ Example
 $ yarn route-codegen --verbose --stacktrace --config path/to/routegen.yml
 ```
 
+## Generated files
+
+### Link component
+
+Each routing framework has different API for their link. The generated `Link` component is an abstraction that handles:
+
+- destination of a link
+- path parameters
+- query strings
+- client-side vs server-side routing
+
+```typescript
+// react-router v5 ( client-side )
+<Link to="/users/100/profile?from=home" />
+
+// NextJS ( client-side )
+<Link href="/users/100/profile?from=home" />
+
+// Normal anchor ( server-side )
+<a href="/users/100/profile?from=home" />
+```
+
+The generated Link component has the same props so you can do the following in any app:
+
+```typescript
+// Works in any app
+<LinkUser path={{ id: '100' }} urlQuery={{ from: 'home' }} />
+```
+
 ## Developing
 
 ### Build it!
