@@ -149,7 +149,9 @@ This file contains a function to generate the URL of a particular route. Interfa
 ### Link component
 
 [react-router v5 example](./sample/output/app/routes/user/LinkUser.tsx)
+
 [NextJS example](./sample/output/seo/routes/home/LinkHome.tsx)
+
 [Default anchor example](./sample/output/app/routes/about/LinkAbout.tsx)
 
 Each routing framework has different API for their link. The generated `Link` component is an abstraction that handles:
