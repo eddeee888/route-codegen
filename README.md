@@ -41,7 +41,7 @@ apps:
 
 More details about [config file](#configuration).
 
-### Monorepo / multi-app projects
+### Monorepo / multi-app project
 
 If you have more than one app and want to manage all routes in one config file, you will need to run the cli command at project root. Run the following at project root:
 
