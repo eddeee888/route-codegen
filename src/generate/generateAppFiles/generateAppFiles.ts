@@ -16,6 +16,7 @@ const generateAppFiles = (appName: string, app: AppConfig): TemplateFile[] => {
   if (destinationDir) {
     const files: TemplateFile[][] = Object.entries(routes).map(([routeName, routePattern]) =>
       generateTemplateFiles({
+        appName,
         routeName,
         routeLinkOptions,
         routePattern,

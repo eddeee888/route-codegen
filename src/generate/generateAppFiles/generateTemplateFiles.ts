@@ -8,6 +8,7 @@ import generateLinkFile from './generateLinkFile';
 import { RouteLinkOptions } from './parseAppConfig';
 
 export interface GenerateTemplateFilesParams {
+  appName: string;
   routeName: string;
   routePattern: string;
   destinationDir: string;
@@ -20,6 +21,7 @@ export interface GenerateTemplateFilesParams {
 type GenerateTemplateFiles = (params: GenerateTemplateFilesParams) => TemplateFile[];
 
 const generateTemplateFiles: GenerateTemplateFiles = ({
+  appName,
   routeName: originalRouteName,
   routePattern,
   destinationDir: originalDestinationDir,
@@ -33,9 +35,11 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
   const destinationDir = `${originalDestinationDir}/${originalRouteName}`;
 
   const [patternFile, patternNamedExports] = generatePatternFile({
+    appName,
     routeName,
     routePattern,
     destinationDir,
+    routingType,
   });
 
   const genUrlFile = generateUrlFile({ importGenerateUrl, destinationDir, routeName, patternNamedExports });

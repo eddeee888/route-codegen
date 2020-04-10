@@ -5,6 +5,7 @@ import { RoutingType } from '../config';
 // Templates should be unit tested in `generate**File.test.ts`
 describe('generateTemplateFiles', () => {
   const params: GenerateTemplateFilesParams = {
+    appName: 'testApp',
     routeName: 'login',
     routePattern: '/login',
     routingType: RoutingType.Default,
