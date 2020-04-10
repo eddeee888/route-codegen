@@ -1,9 +1,9 @@
 import { TemplateFile } from '../types';
 import { Key, pathToRegexp } from 'path-to-regexp';
-import isNormalPattern from '../utils/isNormalPattern';
 import { RoutingType } from '../config';
-import isEnumKey from '../utils/isEnumKey';
 import throwError from '../utils/throwError';
+import getKeyType from '../utils/getKeyType';
+import { KeyType } from '../utils/getKeyType/getKeyType';
 
 export interface PatternNamedExports {
   patternName: string;
@@ -80,18 +80,21 @@ const generatePathParamsInterface = (keys: Key[], routeName: string): PathParams
 
     const fieldName = `${name}${modifier === '?' ? modifier : ''}`;
 
-    if (isNormalPattern(pattern)) {
-      template += `${fieldName}: string;`;
-    } else {
-      // Note: We are using enum here... this may not be safe
-      const enumArray = pattern.split('|');
-      if (enumArray.length > 0) {
-        template += `${fieldName}:`;
-        enumArray.forEach(enumValue => (template += `'${enumValue}'|`));
-        // Remove last '|'
-        template = template.slice(0, -1);
-        template += `;`;
-      }
+    switch (getKeyType(key)) {
+      case KeyType.normal:
+        template += `${fieldName}: string;`;
+        break;
+      case KeyType.enum:
+        // Note: We are using enum here... this may not be safe
+        const enumArray = pattern.split('|');
+        if (enumArray.length > 0) {
+          template += `${fieldName}:`;
+          enumArray.forEach(enumValue => (template += `'${enumValue}'|`));
+          // Remove last '|'
+          template = template.slice(0, -1);
+          template += `;`;
+        }
+        break;
     }
   });
   template += '}';
@@ -137,13 +140,14 @@ const generateNextJSPattern = (params: {
     }
 
     const matchedKey = keys.find(key => {
-      if (isNormalPattern(key.pattern) && routePart === `:${key.name}`) {
-        // Normal pattern e.g. ":id"
-        return true;
-      } else if (isEnumKey(key) && routePart === `:${key.name}(${key.pattern})`) {
-        return true;
+      switch (getKeyType(key)) {
+        case KeyType.normal:
+          return routePart === `:${key.name}`;
+        case KeyType.enum:
+          return routePart === `:${key.name}(${key.pattern})`;
+        default:
+          return false;
       }
-      return false;
     });
 
     // Cannot find a matchedKey for the routePart.. this shouldn't happen if we handle all the cases in ".find"
