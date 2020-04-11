@@ -1,7 +1,7 @@
 import { TemplateFile } from '../types';
 import printImport from '../utils/printImport';
 
-interface GenerateUseParamsFileParams {
+interface GenerateUseParamsFileReactRouterV5Params {
   routeName: string;
   destinationDir: string;
   patternName: string;
@@ -9,7 +9,7 @@ interface GenerateUseParamsFileParams {
   pathParamsFilename: string;
 }
 
-const generateUseParamsFile = (params: GenerateUseParamsFileParams): TemplateFile => {
+const generateUseParamsFileReactRouterV5 = (params: GenerateUseParamsFileReactRouterV5Params): TemplateFile => {
   const { routeName, destinationDir, patternName, pathParamsInterfaceName, pathParamsFilename } = params;
 
   const functionName = `useParams${routeName}`;
@@ -40,4 +40,4 @@ const generateUseParamsFile = (params: GenerateUseParamsFileParams): TemplateFil
   };
 };
 
-export default generateUseParamsFile;
+export default generateUseParamsFileReactRouterV5;
