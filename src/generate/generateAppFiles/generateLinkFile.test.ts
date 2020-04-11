@@ -42,6 +42,7 @@ describe('generateLinkFile', () => {
       filename: 'patternLogin',
       patternName: 'patternLogin',
       urlPartsInterfaceName: 'UrlPartsLogin',
+      patternNameNextJS: 'patternNextJSLogin',
     },
     destinationDir: 'path/to/routes',
   };
@@ -136,11 +137,11 @@ describe('generateLinkFile', () => {
       expect(templateFile.template).toContain(`import React from 'react'
   import {generateUrl,} from 'route-codegen'
   import Link, {NextJSLinkProps,} from 'src/NextJS/Link'
-  import {patternLogin,UrlPartsLogin,} from './patternLogin'
+  import {patternLogin,UrlPartsLogin,patternNextJSLogin,} from './patternLogin'
   type LinkLoginProps = Omit<NextJSLinkProps, 'customHref'> & UrlPartsLogin
   const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({  urlQuery, ...props }) => {
     const to = generateUrl(patternLogin, {}, urlQuery);
-    return <Link {...props} customHref={to} />;
+    return <Link {...props} customHref={patternNextJSLogin} as={to} />;
   }
   export default LinkLogin;`);
     });
@@ -161,11 +162,11 @@ describe('generateLinkFile', () => {
       expect(templateFile.template).toContain(`import React from 'react'
   import {generateUrl,} from 'route-codegen'
   import Link, {NextJSLinkProps,} from 'src/NextJS/Link'
-  import {patternLogin,UrlPartsLogin,} from './patternLogin'
+  import {patternLogin,UrlPartsLogin,patternNextJSLogin,} from './patternLogin'
   type LinkLoginProps = Omit<NextJSLinkProps, 'customHref'> & UrlPartsLogin
   const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({ path, urlQuery, ...props }) => {
     const to = generateUrl(patternLogin, path, urlQuery);
-    return <Link {...props} customHref={to} />;
+    return <Link {...props} customHref={patternNextJSLogin} as={to} />;
   }
   export default LinkLogin;`);
     });
@@ -194,13 +195,38 @@ describe('generateLinkFile', () => {
       expect(templateFile.template).toContain(`import React from 'react'
   import {generateUrl,} from 'route-codegen'
   import {CustomLinkProps,CustomLink as Link,} from 'src/common/Link'
-  import {patternLogin,UrlPartsLogin,} from './patternLogin'
+  import {patternLogin,UrlPartsLogin,patternNextJSLogin,} from './patternLogin'
   type LinkLoginProps = Omit<CustomLinkProps, 'to'> & UrlPartsLogin
   const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({  urlQuery, ...props }) => {
     const to = generateUrl(patternLogin, {}, urlQuery);
-    return <Link {...props} to={to} />;
+    return <Link {...props} to={patternNextJSLogin} as={to} />;
   }
   export default LinkLogin;`);
+    });
+
+    it('should throw error if no patternNameNextJS', () => {
+      expect(() =>
+        generateLinkFile({
+          ...defaultParams,
+          routingType: RoutingType.NextJS,
+          routeLinkOptions: {
+            ...defaultParams.routeLinkOptions,
+            NextJS: {
+              importLink: {
+                from: 'src/common/Link',
+                namedImports: [{ name: 'CustomLinkProps' }, { name: 'CustomLink', importAs: 'Link' }],
+              },
+              linkComponent: 'Link',
+              linkProps: 'CustomLinkProps',
+              hrefProp: 'to',
+            },
+          },
+          patternNamedExports: {
+            ...defaultParams.patternNamedExports,
+            patternNameNextJS: undefined,
+          },
+        })
+      ).toThrowError('[ERROR] Missing "patternNameNextJS". This is most likely a problem with route-codegen.');
     });
   });
 
