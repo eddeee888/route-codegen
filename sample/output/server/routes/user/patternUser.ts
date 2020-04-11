@@ -5,6 +5,7 @@ export interface PathParamsUser {
   id: string;
   subview?: 'profile' | 'pictures';
 }
+
 export interface UrlPartsUser {
   path: PathParamsUser;
   urlQuery?: Record<string, string>;

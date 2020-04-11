@@ -5,6 +5,10 @@ export interface PathParamsAbout {
   target: 'us' | 'you';
   topic: string;
 }
+export interface PathParamsNextJSAbout {
+  target: string;
+  topic: string;
+}
 export interface UrlPartsAbout {
   path: PathParamsAbout;
   urlQuery?: Record<string, string>;

@@ -69,7 +69,7 @@ describe('generateAppFiles', () => {
     it('should generate files', () => {
       const files = generateAppFiles('testApp', { ...appConfig, routingType: 'NextJS' });
 
-      expect(files).toHaveLength(6);
+      expect(files).toHaveLength(7);
       expect(files[0].destinationDir).toEqual('path/to/routes/login');
       expect(files[0].filename).toEqual('patternLogin');
       expect(files[0].extension).toEqual('.ts');
@@ -89,6 +89,9 @@ describe('generateAppFiles', () => {
       expect(files[5].destinationDir).toEqual('path/to/routes/user');
       expect(files[5].filename).toEqual('LinkUser');
       expect(files[5].extension).toEqual('.tsx');
+      expect(files[6].destinationDir).toEqual('path/to/routes/user');
+      expect(files[6].filename).toEqual('useParamsUser');
+      expect(files[6].extension).toEqual('.ts');
     });
   });
 

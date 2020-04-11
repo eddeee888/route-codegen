@@ -34,11 +34,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
   const routeName = routeNameString[0].toUpperCase() + routeNameString.slice(1);
   const destinationDir = `${originalDestinationDir}/${originalRouteName}`;
 
-  const keys: Key[] = [];
-  pathToRegexp(routePattern, keys);
-
   const [patternFile, patternNamedExports] = generatePatternFile({
-    keys,
     routeName,
     routePattern,
     destinationDir,
@@ -85,8 +81,8 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
   } else if (routingType === RoutingType.NextJS) {
     if (routeLinkOptions.NextJS.useParams && !!patternNamedExports.pathParamsInterfaceNameNextJS) {
       const useParamsFileNextJS = generateUseParamsFileNextJS({
-        keys,
         routeName,
+        routePattern,
         destinationDir,
         pathParamsFilename: patternNamedExports.filename,
         pathParamsInterfaceName: patternNamedExports.pathParamsInterfaceNameNextJS,

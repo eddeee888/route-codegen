@@ -7,10 +7,7 @@ describe('generateUseParamsFileNextJS', () => {
       pathParamsInterfaceName: 'PathParamsNextJSUser',
       destinationDir: 'path/to/routes',
       routeName: 'User',
-      keys: [
-        { name: 'id', modifier: '', pattern: '', prefix: '', suffix: '' },
-        { name: 'subview', modifier: '', pattern: '', prefix: '', suffix: '' },
-      ],
+      routePattern: '/users/:id/:subview(profile|pictures)',
     });
 
     expect(templateFile.filename).toBe('useParamsUser');

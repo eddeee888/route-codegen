@@ -1,18 +1,20 @@
 import { TemplateFile } from '../types';
 import printImport from '../utils/printImport';
-import { Key } from 'path-to-regexp';
+import getKeysFromRoutePattern from '../utils/getKeysFromRoutePattern';
 
 interface GenerateUseParamsFileNextJSParams {
   routeName: string;
+  routePattern: string;
   destinationDir: string;
   pathParamsInterfaceName: string;
   pathParamsFilename: string;
-  keys: Key[];
 }
 
 // NextJS useRouter simply returns all dynamic params as strings
 const generateUseParamsFileNextJS = (params: GenerateUseParamsFileNextJSParams): TemplateFile => {
-  const { routeName, destinationDir, pathParamsInterfaceName, pathParamsFilename, keys } = params;
+  const { routeName, routePattern, destinationDir, pathParamsInterfaceName, pathParamsFilename } = params;
+
+  const keys = getKeysFromRoutePattern(routePattern);
 
   const functionName = `useParams${routeName}`;
 

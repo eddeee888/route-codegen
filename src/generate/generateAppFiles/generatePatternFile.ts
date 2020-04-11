@@ -1,9 +1,10 @@
 import { TemplateFile } from '../types';
-import { Key, pathToRegexp } from 'path-to-regexp';
+import { Key } from 'path-to-regexp';
 import { RoutingType } from '../config';
 import throwError from '../utils/throwError';
 import getKeyType from '../utils/getKeyType';
 import { KeyType } from '../utils/getKeyType/getKeyType';
+import getKeysFromRoutePattern from '../utils/getKeysFromRoutePattern';
 
 export interface PatternNamedExports {
   patternName: string;
@@ -15,7 +16,6 @@ export interface PatternNamedExports {
 }
 
 export interface GenerateRoutePatternFileParams {
-  keys: Key[];
   routeName: string;
   routePattern: string;
   destinationDir: string;
@@ -23,7 +23,9 @@ export interface GenerateRoutePatternFileParams {
 }
 
 const generateRoutePatternFile = (params: GenerateRoutePatternFileParams): [TemplateFile, PatternNamedExports] => {
-  const { keys, routePattern, routeName, destinationDir, routingType } = params;
+  const { routePattern, routeName, destinationDir, routingType } = params;
+
+  const keys = getKeysFromRoutePattern(routePattern);
 
   const patternName = `pattern${routeName}`;
   const filename = patternName;
