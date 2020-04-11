@@ -21,7 +21,7 @@ export interface AppConfig {
   routingType?: string;
   destinationDir?: string;
   reactRouterV5LinkOptions?: LinkOptions & { useRedirect?: boolean; useParams?: boolean };
-  nextJSLinkOptions?: LinkOptions;
+  nextJSLinkOptions?: LinkOptions & { useParams?: boolean };
   defaultLinkOptions?: LinkOptions;
   generateLink?: boolean;
 }

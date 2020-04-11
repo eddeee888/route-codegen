@@ -33,6 +33,7 @@ describe('parseAppConfig', () => {
     linkComponent: 'Link',
     linkProps: 'LinkProps',
     hrefProp: 'href',
+    useParams: true,
   };
   const defaultNormalRouteLinkOptions: ParsedDefaultLinkOptions = {
     hrefProp: 'href',
@@ -262,6 +263,7 @@ describe('parseAppConfig', () => {
           linkComponent: 'Link',
           linkProps: 'CustomLinkProps',
           hrefProp: 'customHref',
+          useParams: true,
         });
       });
 
@@ -286,6 +288,7 @@ describe('parseAppConfig', () => {
           linkComponent: 'Link',
           linkProps: 'CustomLinkProps',
           hrefProp: 'customHref',
+          useParams: true,
         });
       });
 
@@ -304,6 +307,24 @@ describe('parseAppConfig', () => {
         ).toThrowError(
           'sampleApp.nextJSLinkOptions.importCustomLink - either "componentNamedImport" or "componentDefaultImport" is required'
         );
+      });
+
+      it('should parse useParams correctly', () => {
+        const parsedConfig = parseAppConfig('sampleApp', {
+          ...defaultAppConfig,
+          nextJSLinkOptions: {
+            useParams: true,
+          },
+        });
+        expect(parsedConfig.routeLinkOptions.NextJS.useParams).toBe(true);
+
+        const parsedConfig2 = parseAppConfig('sampleApp', {
+          ...defaultAppConfig,
+          nextJSLinkOptions: {
+            useParams: false,
+          },
+        });
+        expect(parsedConfig2.routeLinkOptions.NextJS.useParams).toBe(false);
       });
 
       it('should throw error if no "propsNamedImport"', () => {
