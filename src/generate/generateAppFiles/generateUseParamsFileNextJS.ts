@@ -20,7 +20,7 @@ const generateUseParamsFileNextJS = (params: GenerateUseParamsFileNextJSParams):
 
   const resultTemplate = `${keys.reduce((prev, key) => {
     if (key.modifier) {
-      return `${prev}${key.name}: query.${key.name} ? query.${key.name} : undefined,`;
+      return `${prev}${key.name}: query.${key.name} ? (query.${key.name} as string) : undefined,`;
     }
     return `${prev}${key.name}: query.${key.name} as string,`;
   }, '')}`;

@@ -6,8 +6,8 @@ const useParamsAbout = (): PathParamsNextJSAbout => {
   return {
     target: query.target as string,
     topic: query.topic as string,
-    optional: query.optional ? query.optional : undefined,
-    optionalEnum: query.optionalEnum ? query.optionalEnum : undefined,
+    optional: query.optional ? (query.optional as string) : undefined,
+    optionalEnum: query.optionalEnum ? (query.optionalEnum as string) : undefined,
   };
 };
 export default useParamsAbout;
