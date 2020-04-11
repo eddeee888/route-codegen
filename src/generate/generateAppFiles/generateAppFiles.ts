@@ -31,7 +31,7 @@ const generateAppFiles = (appName: string, app: AppConfig): TemplateFile[] => {
     info(
       [appName],
       `Generating files: ${filesToGenerate
-        .map(file => `${file.filename}.${file.extension}`)
+        .map(file => `${file.filename}${file.extension}`)
         .join(', ')
         .slice(0, -2)}`
     );
