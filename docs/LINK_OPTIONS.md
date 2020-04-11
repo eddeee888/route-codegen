@@ -22,7 +22,7 @@ Note that you can have more than one option for one app. For example, `reactRout
 |                  | propsNamedImport       | string  | undefined | <b>Required</b>. The named export of the custom link props.                                                                                                                                              |
 |                  | hrefProp               | string  | undefined | <b>Required</b>. The prop that the custom link component uses to set the destination of the link e.g. `href` for `<a />`.                                                                                |
 |                  | from                   | string  | undefined | <b>Required</b>. Absolute path to the custom link component and props.                                                                                                                                   |
-| useParams        | N/A                    | boolean | true      | <b>Optional</b>. If this is `true`, `useParams` helper functions would be generated for each route if applicable.                                                                                        |
+| useParams        | N/A                    | boolean | true      | <b>Optional</b>. If this is `true`, `useParams` helper functions would be generated for each route if the route has dynamic path.                                                                        |
 | useRedirect      | N/A                    | boolean | true      | <b>Optional</b>. If this is true, `useRedirect` helper functions would be generated for each route.                                                                                                      |
 
 ### Example
@@ -72,6 +72,7 @@ apps:
 |                  | propsNamedImport       | string  | undefined | <b>Required</b>. The named export of the custom link props.                                                                                                                                |
 |                  | hrefProp               | string  | undefined | <b>Required</b>. The prop that the custom link component uses to set the destination of the link e.g. `href` for `<a />`.                                                                  |
 |                  | from                   | string  | undefined | <b>Required</b>. Absolute path to the custom link component and props.                                                                                                                     |
+| useParams        | N/A                    | boolean | true      | <b>Optional</b>. If this is `true`, `useParams` helper functions would be generated for each route if the route has dynamic path.                                                          |
 
 ### Example
 
@@ -89,6 +90,7 @@ apps:
         propsNamedImport: LinkProps
         hrefProp: href
         from: common/components/Link
+      useParams: false
 
   auth:
     routes:
