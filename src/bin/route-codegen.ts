@@ -14,12 +14,12 @@ const argv = yargs.options({
 const { config, stacktrace, verbose } = argv;
 
 try {
-  console.log('route-codegen start!');
+  console.log('route-codegen START!');
   const ymlContent = readFileSync(config, 'utf8');
 
   const configContent = yaml.safeLoad(ymlContent);
   generate(configContent, { verbose });
-  console.log('route-codegen done!');
+  console.log('route-codegen END!');
 } catch (e) {
   if (stacktrace) {
     console.log(e);
