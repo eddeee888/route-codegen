@@ -5,7 +5,6 @@ describe('generatePatternFile', () => {
   describe('Default and ReactRouterV5', () => {
     it('should generate correctly if no dynamic path', () => {
       const [templateFile, interfaceResult] = generatePatternFile({
-        appName: 'testApp',
         routePattern: '/app/login',
         destinationDir: 'path/to/routes',
         routeName: 'Login',
@@ -25,7 +24,6 @@ describe('generatePatternFile', () => {
 
     it('should generate correctly for routes with dynamic path', () => {
       const [templateFile, interfaceResult] = generatePatternFile({
-        appName: 'testApp',
         routePattern: '/app/users/:id/:subview(profile|pictures)',
         destinationDir: 'path/to/routes',
         routeName: 'UserInfo',
@@ -56,7 +54,6 @@ describe('generatePatternFile', () => {
   describe('NextJS', () => {
     it('should generate template correctly with nextJS pattern', () => {
       const [templateFile, interfaceResult] = generatePatternFile({
-        appName: 'testApp',
         routePattern: '/app/users/:id/:subview(profile|pictures)',
         destinationDir: 'path/to/routes',
         routeName: 'UserInfo',

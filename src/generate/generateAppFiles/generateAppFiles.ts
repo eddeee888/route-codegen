@@ -2,6 +2,7 @@ import { AppConfig } from './../config';
 import generateTemplateFiles from './generateTemplateFiles';
 import { TemplateFile } from '../types';
 import parseAppConfig from './parseAppConfig';
+import info from '../utils/info';
 
 const generateAppFiles = (appName: string, app: AppConfig): TemplateFile[] => {
   const {
@@ -16,7 +17,6 @@ const generateAppFiles = (appName: string, app: AppConfig): TemplateFile[] => {
   if (destinationDir) {
     const files: TemplateFile[][] = Object.entries(routes).map(([routeName, routePattern]) =>
       generateTemplateFiles({
-        appName,
         routeName,
         routeLinkOptions,
         routePattern,
@@ -26,8 +26,11 @@ const generateAppFiles = (appName: string, app: AppConfig): TemplateFile[] => {
         importGenerateUrl,
       })
     );
+    const filesToGenerate = files.flat();
 
-    return files.flat();
+    info([appName], `Generating files: ${filesToGenerate.join(', ').slice(0, -2)}`);
+
+    return filesToGenerate;
   }
 
   return [];

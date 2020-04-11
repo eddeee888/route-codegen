@@ -13,21 +13,15 @@ export interface PatternNamedExports {
   filename: string;
 }
 
-type GeneratePatternFile = (params: {
-  appName: string;
+export interface GenerateRoutePatternFileParams {
   routeName: string;
   routePattern: string;
   destinationDir: string;
   routingType: RoutingType;
-}) => [TemplateFile, PatternNamedExports];
+}
 
-const generateRoutePatternFile: GeneratePatternFile = ({
-  routePattern,
-  routeName,
-  destinationDir,
-  routingType,
-  appName,
-}) => {
+const generateRoutePatternFile = (params: GenerateRoutePatternFileParams): [TemplateFile, PatternNamedExports] => {
+  const { routePattern, routeName, destinationDir, routingType } = params;
   const keys: Key[] = [];
   pathToRegexp(routePattern, keys);
 
@@ -37,7 +31,7 @@ const generateRoutePatternFile: GeneratePatternFile = ({
   const urlParts = generateUrlPartsInterface(routeName, pathParams);
 
   const patternNextJS =
-    routingType === RoutingType.NextJS ? generateNextJSPattern({ appName, keys, routeName, routePattern }) : null;
+    routingType === RoutingType.NextJS ? generateNextJSPattern({ keys, routeName, routePattern }) : null;
 
   const template = `export const ${patternName} = '${routePattern}'
   ${patternNextJS ? patternNextJS.template : ''}
@@ -120,12 +114,11 @@ const generateUrlPartsInterface = (
 };
 
 const generateNextJSPattern = (params: {
-  appName: string;
   keys: Key[];
   routePattern: string;
   routeName: string;
 }): { template: string; variableName: string } => {
-  const { appName, keys, routeName, routePattern } = params;
+  const { keys, routeName, routePattern } = params;
 
   const variableName = `patternNextJS${routeName}`;
 
@@ -152,7 +145,7 @@ const generateNextJSPattern = (params: {
 
     // Cannot find a matchedKey for the routePart.. this shouldn't happen if we handle all the cases in ".find"
     if (!matchedKey) {
-      return throwError([appName], `Cannot find key for ${routePart} in ${routePattern}`);
+      return throwError([], `Cannot find key for ${routePart} in ${routePattern}`);
     }
 
     return `[${matchedKey.name}]`;
