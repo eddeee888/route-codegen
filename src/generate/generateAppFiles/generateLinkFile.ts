@@ -3,6 +3,7 @@ import printImport from '../utils/printImport';
 import { RoutingType } from '../config';
 import { PatternNamedExports } from './generatePatternFile';
 import { RouteLinkOptions } from './parseAppConfig';
+import throwError from '../utils/throwError';
 
 export interface GenerateLinkFileParams {
   routeName: string;
@@ -13,16 +14,22 @@ export interface GenerateLinkFileParams {
   importGenerateUrl: Import;
 }
 
-type GenerateLinkFile = (params: GenerateLinkFileParams) => TemplateFile;
+const generateLinkFile = (params: GenerateLinkFileParams): TemplateFile => {
+  const {
+    routeName,
+    routingType,
+    routeLinkOptions,
+    destinationDir,
+    patternNamedExports: {
+      patternName,
+      pathParamsInterfaceName,
+      filename: routePatternFilename,
+      urlPartsInterfaceName,
+      patternNameNextJS,
+    },
+    importGenerateUrl,
+  } = params;
 
-const generateLinkFile: GenerateLinkFile = ({
-  routeName,
-  routingType,
-  routeLinkOptions,
-  destinationDir,
-  patternNamedExports: { patternName, pathParamsInterfaceName, filename: routePatternFilename, urlPartsInterfaceName },
-  importGenerateUrl,
-}) => {
   const functionName = `Link${routeName}`;
   const defaultLinkPropsInterfaceName = `Link${routeName}Props`;
   const hasPathParams = !!pathParamsInterfaceName;
@@ -34,11 +41,23 @@ const generateLinkFile: GenerateLinkFile = ({
     routeLinkOptions,
   });
 
+  let linkTemplate = `<${linkComponent} {...props} ${hrefProp}={to} />;`;
+  const namedImportsFromPatternFile = [{ name: patternName }, { name: urlPartsInterfaceName }];
+  if (routingType === RoutingType.NextJS) {
+    if (!patternNameNextJS) {
+      return throwError([], 'Missing "patternNameNextJS". This is most likely a problem with route-codegen.');
+    }
+    // NextJS has its own pattern. We need it to handle client-side routing
+    namedImportsFromPatternFile.push({ name: patternNameNextJS });
+    // NextJS has slightly different way to handle its link component: "href" prop is actually the pattern. and "as" is the generated url
+    linkTemplate = `<${linkComponent} {...props} ${hrefProp}={${patternNameNextJS}} as={to} />;`;
+  }
+
   const template = `${printImport({ defaultImport: 'React', from: 'react' })}
   ${printImport(importGenerateUrl)}
   ${importLink ? printImport(importLink) : ''}
   ${printImport({
-    namedImports: [{ name: patternName }, { name: urlPartsInterfaceName }],
+    namedImports: namedImportsFromPatternFile,
     from: `./${routePatternFilename}`,
   })}
   ${linkPropsTemplate}
@@ -46,7 +65,7 @@ const generateLinkFile: GenerateLinkFile = ({
     hasPathParams ? 'path,' : ''
   } urlQuery, ...props }) => {
     const to = generateUrl(${patternName}, ${hasPathParams ? 'path' : '{}'}, urlQuery);
-    return <${linkComponent} {...props} ${hrefProp}={to} />;
+    return ${linkTemplate}
   }
   export default ${functionName};
   `;

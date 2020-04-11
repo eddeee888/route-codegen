@@ -36,6 +36,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
     routeName,
     routePattern,
     destinationDir,
+    routingType,
   });
 
   const genUrlFile = generateUrlFile({ importGenerateUrl, destinationDir, routeName, patternNamedExports });

@@ -28,3 +28,6 @@ jobs:
 
       - name: Run tests
         run: yarn test
+
+      - name: Check that samples are generated
+        run: ./scripts/ci/check-sample.sh

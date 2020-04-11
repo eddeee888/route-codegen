@@ -43,7 +43,9 @@ More details about [config file](#configuration).
 
 ### Monorepo / multi-app project
 
-If you have more than one app and want to manage all routes in one config file, you will need to run the cli command at project root. Run the following at project root:
+[Example mono repo](https://github.com/eddeee888/base-react-app)
+
+If you have more than one app and want to manage all routes in one config file, you will need to run the cli command at project root. Run the following at project root or in a route manager package:
 
 ```bash
 yarn add -D route-codegen
@@ -67,7 +69,7 @@ Or
 npm i route-codegen
 ```
 
-Add `route-codegen.yml` to project root. Example:
+Add `route-codegen.yml` to project root / route manager package. Example:
 
 ```yml
 apps:
@@ -102,7 +104,14 @@ More details about [config file](#configuration).
 
 ## Configuration
 
-Path parameter patterns are from https://github.com/pillarjs/path-to-regexp.
+### Path parameters
+
+Path parameter patterns are a subset of https://github.com/pillarjs/path-to-regexp:
+
+- `:path`: This matches any string.
+- `:path(enum1|enum2)`: This only matches if path value is `enum1` or `enum2` for React Router V5. For others, it matches any string.
+
+### Customising links
 
 If you have custom links ( e.g. to apply styling on top of underlying link components ), check out the [link options doc](./docs/LINK_OPTIONS.md).
 
