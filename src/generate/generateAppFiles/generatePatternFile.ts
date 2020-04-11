@@ -1,14 +1,16 @@
 import { TemplateFile } from '../types';
-import { Key, pathToRegexp } from 'path-to-regexp';
+import { Key } from 'path-to-regexp';
 import { RoutingType } from '../config';
 import throwError from '../utils/throwError';
 import getKeyType from '../utils/getKeyType';
 import { KeyType } from '../utils/getKeyType/getKeyType';
+import getKeysFromRoutePattern from '../utils/getKeysFromRoutePattern';
 
 export interface PatternNamedExports {
   patternName: string;
   patternNameNextJS?: string;
   pathParamsInterfaceName?: string;
+  pathParamsInterfaceNameNextJS?: string;
   urlPartsInterfaceName: string;
   filename: string;
 }
@@ -22,8 +24,8 @@ export interface GenerateRoutePatternFileParams {
 
 const generateRoutePatternFile = (params: GenerateRoutePatternFileParams): [TemplateFile, PatternNamedExports] => {
   const { routePattern, routeName, destinationDir, routingType } = params;
-  const keys: Key[] = [];
-  pathToRegexp(routePattern, keys);
+
+  const keys = getKeysFromRoutePattern(routePattern);
 
   const patternName = `pattern${routeName}`;
   const filename = patternName;
@@ -32,10 +34,12 @@ const generateRoutePatternFile = (params: GenerateRoutePatternFileParams): [Temp
 
   const patternNextJS =
     routingType === RoutingType.NextJS ? generateNextJSPattern({ keys, routeName, routePattern }) : null;
+  const pathParamsNextJS = routingType === RoutingType.NextJS ? generateNextJSPathParams(keys, routeName) : null;
 
   const template = `export const ${patternName} = '${routePattern}'
   ${patternNextJS ? patternNextJS.template : ''}
   ${pathParams ? pathParams.template : ''}
+  ${pathParamsNextJS ? pathParamsNextJS.template : ''}
   ${urlParts.template}`;
 
   const result: [TemplateFile, PatternNamedExports] = [
@@ -49,6 +53,7 @@ const generateRoutePatternFile = (params: GenerateRoutePatternFileParams): [Temp
       patternName,
       patternNameNextJS: patternNextJS ? patternNextJS.variableName : undefined,
       pathParamsInterfaceName: pathParams ? pathParams.interfaceName : undefined,
+      pathParamsInterfaceNameNextJS: pathParamsNextJS ? pathParamsNextJS.interfaceName : undefined,
       urlPartsInterfaceName: urlParts.interfaceName,
       filename,
     },
@@ -90,6 +95,28 @@ const generatePathParamsInterface = (keys: Key[], routeName: string): PathParams
         }
         break;
     }
+  });
+  template += '}';
+
+  return {
+    template,
+    interfaceName: pathParamsInterfaceName,
+  };
+};
+
+// NextJS only support string params
+const generateNextJSPathParams = (keys: Key[], routeName: string): PathParamsInterfaceResult | null => {
+  if (keys.length === 0) {
+    return null;
+  }
+
+  const pathParamsInterfaceName = `PathParamsNextJS${routeName}`;
+  let template = `export interface ${pathParamsInterfaceName} {`;
+  keys.forEach(key => {
+    // TODO: check if NextJS support optional param?
+    const { name, modifier } = key;
+    const fieldName = `${name}${modifier === '?' ? modifier : ''}`;
+    template += `${fieldName}: string;`;
   });
   template += '}';
 

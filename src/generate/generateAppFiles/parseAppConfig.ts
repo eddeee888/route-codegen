@@ -17,6 +17,7 @@ export interface ParsedNextJSLinkOptions {
   linkComponent: string;
   linkProps: string;
   hrefProp: string;
+  useParams: boolean;
 }
 
 export interface ParsedDefaultLinkOptions {
@@ -150,10 +151,19 @@ const prepareNextJSLinkOptions = (
     linkComponent: 'Link',
     linkProps: 'LinkProps',
     hrefProp: 'href',
+    useParams: true,
   };
-  if (!options || !options.importCustomLink) {
+  if (!options) {
     info([appName, 'nextJSLinkOptions'], 'custom options not found... Using default');
     return { ...defaultOptions };
+  }
+
+  if (!options.importCustomLink) {
+    info([appName, 'nextJSLinkOptions', 'importCustomLink'], 'custom options not found... Using default');
+    return {
+      ...defaultOptions,
+      useParams: options.useParams !== undefined ? options.useParams : defaultOptions.useParams,
+    };
   }
 
   info([appName, 'nextJSLinkOptions'], 'using custom link options');
@@ -168,6 +178,7 @@ const prepareNextJSLinkOptions = (
     hrefProp,
     linkComponent,
     linkProps,
+    useParams: options.useParams !== undefined ? options.useParams : defaultOptions.useParams,
   };
 };
 

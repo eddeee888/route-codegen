@@ -37,6 +37,7 @@ describe('generatePatternFile', () => {
         `export const patternUserInfo = '/app/users/:id/:subview(profile|pictures)'
   
   export interface PathParamsUserInfo {id: string;subview:'profile'|'pictures';}
+  
   export interface UrlPartsUserInfo {
     path: PathParamsUserInfo;
     urlQuery?: Record<string, string>;
@@ -52,7 +53,7 @@ describe('generatePatternFile', () => {
   });
 
   describe('NextJS', () => {
-    it('should generate template correctly with nextJS pattern', () => {
+    it('should generate template correctly with NextJS pattern', () => {
       const [templateFile, interfaceResult] = generatePatternFile({
         routePattern: '/app/users/:id/:subview(profile|pictures)',
         destinationDir: 'path/to/routes',
@@ -67,6 +68,7 @@ describe('generatePatternFile', () => {
         .toContain(`export const patternUserInfo = '/app/users/:id/:subview(profile|pictures)'
   export const patternNextJSUserInfo = '/app/users/[id]/[subview]'
   export interface PathParamsUserInfo {id: string;subview:'profile'|'pictures';}
+  export interface PathParamsNextJSUserInfo {id: string;subview: string;}
   export interface UrlPartsUserInfo {
     path: PathParamsUserInfo;
     urlQuery?: Record<string, string>;
@@ -75,6 +77,7 @@ describe('generatePatternFile', () => {
         patternName: 'patternUserInfo',
         patternNameNextJS: 'patternNextJSUserInfo',
         pathParamsInterfaceName: 'PathParamsUserInfo',
+        pathParamsInterfaceNameNextJS: 'PathParamsNextJSUserInfo',
         urlPartsInterfaceName: 'UrlPartsUserInfo',
         filename: 'patternUserInfo',
       });

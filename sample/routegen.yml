@@ -30,7 +30,7 @@ apps:
   seo:
     routes:
       home: /
-      about: /about
+      about: /about/:target(us|you)/:topic
     routingType: NextJS
     destinationDir: sample/output/seo/routes
 

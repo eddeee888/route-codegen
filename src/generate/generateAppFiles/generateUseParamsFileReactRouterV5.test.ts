@@ -1,8 +1,8 @@
-import generateUseParamsFile from './generateUseParamsFile';
+import generateUseParamsFileReactRouterV5 from './generateUseParamsFileReactRouterV5';
 
-describe('generateUseParamsFile', () => {
+describe('generateUseParamsFileReactRouterV5', () => {
   it('should generate correctly', () => {
-    const templateFile = generateUseParamsFile({
+    const templateFile = generateUseParamsFileReactRouterV5({
       pathParamsFilename: 'patternUser',
       pathParamsInterfaceName: 'UserPathParams',
       patternName: 'patternUser',
