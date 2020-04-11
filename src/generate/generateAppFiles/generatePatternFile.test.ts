@@ -55,7 +55,7 @@ describe('generatePatternFile', () => {
   describe('NextJS', () => {
     it('should generate template correctly with NextJS pattern', () => {
       const [templateFile, interfaceResult] = generatePatternFile({
-        routePattern: '/app/users/:id/:subview(profile|pictures)',
+        routePattern: '/app/users/:id/:subview(profile|pictures)/:optional?/:optionalEnum(enum1|enum2)?',
         destinationDir: 'path/to/routes',
         routeName: 'UserInfo',
         routingType: RoutingType.NextJS,
@@ -65,10 +65,10 @@ describe('generatePatternFile', () => {
       expect(templateFile.extension).toBe('.ts');
       expect(templateFile.destinationDir).toBe('path/to/routes');
       expect(templateFile.template)
-        .toContain(`export const patternUserInfo = '/app/users/:id/:subview(profile|pictures)'
-  export const patternNextJSUserInfo = '/app/users/[id]/[subview]'
-  export interface PathParamsUserInfo {id: string;subview:'profile'|'pictures';}
-  export interface PathParamsNextJSUserInfo {id: string;subview: string;}
+        .toContain(`export const patternUserInfo = '/app/users/:id/:subview(profile|pictures)/:optional?/:optionalEnum(enum1|enum2)?'
+  export const patternNextJSUserInfo = '/app/users/[id]/[subview]/[optional]/[optionalEnum]'
+  export interface PathParamsUserInfo {id: string;subview:'profile'|'pictures';optional?: string;optionalEnum?:'enum1'|'enum2';}
+  export interface PathParamsNextJSUserInfo {id: string;subview: string;optional?: string;optionalEnum?: string;}
   export interface UrlPartsUserInfo {
     path: PathParamsUserInfo;
     urlQuery?: Record<string, string>;

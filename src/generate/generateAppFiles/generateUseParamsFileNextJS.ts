@@ -18,6 +18,13 @@ const generateUseParamsFileNextJS = (params: GenerateUseParamsFileNextJSParams):
 
   const functionName = `useParams${routeName}`;
 
+  const resultTemplate = `${keys.reduce((prev, key) => {
+    if (key.modifier) {
+      return `${prev}${key.name}: query.${key.name} ? query.${key.name} : undefined,`;
+    }
+    return `${prev}${key.name}: query.${key.name} as string,`;
+  }, '')}`;
+
   const template = `${printImport({
     namedImports: [{ name: pathParamsInterfaceName }],
     from: `./${pathParamsFilename}`,
@@ -28,7 +35,7 @@ const generateUseParamsFileNextJS = (params: GenerateUseParamsFileNextJSParams):
     })}
     const ${functionName} = (): ${pathParamsInterfaceName} => {
       const query = useRouter().query;
-      return {${keys.reduce((prev, key) => `${prev}${key.name}: query.${key.name} as string,`, '')}};
+      return {${resultTemplate}};
     }
     export default ${functionName};`;
 
