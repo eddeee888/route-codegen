@@ -8,8 +8,8 @@ type LinkProps = Omit<
   'href'
 > &
   UrlPartsAbout;
-const LinkAbout: React.FunctionComponent<LinkProps> = ({ urlQuery, ...props }) => {
-  const to = generateUrl(patternAbout, {}, urlQuery);
+const LinkAbout: React.FunctionComponent<LinkProps> = ({ path, urlQuery, ...props }) => {
+  const to = generateUrl(patternAbout, path, urlQuery);
   return <a {...props} href={to} />;
 };
 export default LinkAbout;
