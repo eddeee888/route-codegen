@@ -6,6 +6,8 @@ import generateUseRedirectFile from './generateUseRedirectFile';
 import generateUrlFile from './generateUrlFile';
 import generateLinkFile from './generateLinkFile';
 import { RouteLinkOptions } from './parseAppConfig';
+import generateUseParamsFileNextJS from './generateUseParamsFileNextJS';
+import { Key, pathToRegexp } from 'path-to-regexp';
 
 export interface GenerateTemplateFilesParams {
   routeName: string;
@@ -32,7 +34,11 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
   const routeName = routeNameString[0].toUpperCase() + routeNameString.slice(1);
   const destinationDir = `${originalDestinationDir}/${originalRouteName}`;
 
+  const keys: Key[] = [];
+  pathToRegexp(routePattern, keys);
+
   const [patternFile, patternNamedExports] = generatePatternFile({
+    keys,
     routeName,
     routePattern,
     destinationDir,
@@ -55,6 +61,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
     files.push(linkFile);
   }
 
+  // Handle extra files for each routing types
   if (routingType === RoutingType.ReactRouterV5) {
     if (routeLinkOptions.ReactRouterV5.useParams && !!patternNamedExports.pathParamsInterfaceName) {
       const useParamsFile = generateUseParamsFile({
@@ -74,6 +81,17 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
         importGenerateUrl,
       });
       files.push(useRedirectFile);
+    }
+  } else if (routingType === RoutingType.NextJS) {
+    if (routeLinkOptions.NextJS.useParams && !!patternNamedExports.pathParamsInterfaceNameNextJS) {
+      const useParamsFileNextJS = generateUseParamsFileNextJS({
+        keys,
+        routeName,
+        destinationDir,
+        pathParamsFilename: patternNamedExports.filename,
+        pathParamsInterfaceName: patternNamedExports.pathParamsInterfaceNameNextJS,
+      });
+      files.push(useParamsFileNextJS);
     }
   }
 

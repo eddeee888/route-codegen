@@ -44,6 +44,7 @@ describe('generateTemplateFiles', () => {
         linkComponent: 'Link',
         hrefProp: 'customHref',
         linkProps: 'NextJSLinkProps',
+        useParams: true,
       },
     },
   };
@@ -153,6 +154,27 @@ describe('generateTemplateFiles', () => {
       expect(files[2].filename).toEqual('LinkLogin');
       expect(files[2].extension).toEqual('.tsx');
       expect(files[2].destinationDir).toEqual('path/to/routes/login');
+    });
+
+    it('should generate files with dynamic path params', () => {
+      const files = generateTemplateFiles({
+        ...params,
+        routePattern: '/login/:id',
+        routingType: RoutingType.NextJS,
+      });
+      expect(files).toHaveLength(4);
+      expect(files[0].filename).toEqual('patternLogin');
+      expect(files[0].extension).toEqual('.ts');
+      expect(files[0].destinationDir).toEqual('path/to/routes/login');
+      expect(files[1].filename).toEqual('generateUrlLogin');
+      expect(files[1].extension).toEqual('.ts');
+      expect(files[1].destinationDir).toEqual('path/to/routes/login');
+      expect(files[2].filename).toEqual('LinkLogin');
+      expect(files[2].extension).toEqual('.tsx');
+      expect(files[2].destinationDir).toEqual('path/to/routes/login');
+      expect(files[3].filename).toEqual('useParamsLogin');
+      expect(files[3].extension).toEqual('.ts');
+      expect(files[3].destinationDir).toEqual('path/to/routes/login');
     });
 
     it('should not generate Link if not needed', () => {

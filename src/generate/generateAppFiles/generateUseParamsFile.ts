@@ -1,21 +1,17 @@
 import { TemplateFile } from '../types';
 import printImport from '../utils/printImport';
 
-type GenerateUseParamsFile = (params: {
+interface GenerateUseParamsFileParams {
   routeName: string;
   destinationDir: string;
   patternName: string;
   pathParamsInterfaceName: string;
   pathParamsFilename: string;
-}) => TemplateFile;
+}
 
-const generateUseParamsFile: GenerateUseParamsFile = ({
-  routeName,
-  destinationDir,
-  patternName,
-  pathParamsInterfaceName,
-  pathParamsFilename,
-}) => {
+const generateUseParamsFile = (params: GenerateUseParamsFileParams): TemplateFile => {
+  const { routeName, destinationDir, patternName, pathParamsInterfaceName, pathParamsFilename } = params;
+
   const functionName = `useParams${routeName}`;
 
   const template = `${printImport({
