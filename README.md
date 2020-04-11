@@ -109,7 +109,9 @@ More details about [config file](#configuration).
 Path parameter patterns are a subset of https://github.com/pillarjs/path-to-regexp:
 
 - `:path`: This matches any string.
+- `:path?`: This matches an optional string.
 - `:path(enum1|enum2)`: This only matches if path value is `enum1` or `enum2` for React Router V5. For others, it matches any string.
+- `:path(enum1|enum2)?`: This only matches if path value is `enum1` or `enum2` for React Router V5. For others, it matches any string. This param is optional.
 
 ### Customising links
 

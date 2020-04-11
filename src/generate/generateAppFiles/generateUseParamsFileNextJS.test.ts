@@ -7,7 +7,7 @@ describe('generateUseParamsFileNextJS', () => {
       pathParamsInterfaceName: 'PathParamsNextJSUser',
       destinationDir: 'path/to/routes',
       routeName: 'User',
-      routePattern: '/users/:id/:subview(profile|pictures)',
+      routePattern: '/users/:id/:subview(profile|pictures)/:optional?/:optionalEnum(enum1|enum2)?',
     });
 
     expect(templateFile.filename).toBe('useParamsUser');
@@ -17,7 +17,7 @@ describe('generateUseParamsFileNextJS', () => {
     import {useRouter,} from 'next/router'
     const useParamsUser = (): PathParamsNextJSUser => {
       const query = useRouter().query;
-      return {id: query.id as string,subview: query.subview as string,};
+      return {id: query.id as string,subview: query.subview as string,optional: query.optional ? query.optional : undefined,optionalEnum: query.optionalEnum ? query.optionalEnum : undefined,};
     }
     export default useParamsUser;`);
   });

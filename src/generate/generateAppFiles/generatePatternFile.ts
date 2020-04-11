@@ -152,19 +152,21 @@ const generateNextJSPattern = (params: {
   const routeParts = routePattern.split('/');
   // NextJS pattern uses [...] and no support for enums. Therefore, we need to turn:
   // - ":id" to "[id]"
+  // - ":optional?" to "[optional]"
   // - ":subview(profile|pictires)" to "[subview]"
+  // - ":optionalEnum(enumOne|enumTwo)?" to "[optionalEnum]"
   const routePartsNextJS = routeParts.map(routePart => {
     if (routePart.charAt(0) !== ':') {
-      //not a param, just return
+      //not a dynamic path, just return
       return routePart;
     }
 
     const matchedKey = keys.find(key => {
       switch (getKeyType(key)) {
         case KeyType.normal:
-          return routePart === `:${key.name}`;
+          return routePart === `:${key.name}${key.modifier}`;
         case KeyType.enum:
-          return routePart === `:${key.name}(${key.pattern})`;
+          return routePart === `:${key.name}(${key.pattern})${key.modifier}`;
         default:
           return false;
       }
