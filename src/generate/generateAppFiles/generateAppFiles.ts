@@ -28,16 +28,21 @@ const generateAppFiles = (appName: string, app: AppConfig): TemplateFile[] => {
     );
     const filesToGenerate = files.flat();
 
-    info(
-      [appName],
-      `Generating files: ${filesToGenerate
-        .map(file => `${file.filename}${file.extension}`)
-        .join(', ')
-        .slice(0, -2)}`
-    );
+    if (filesToGenerate.length > 0) {
+      info(
+        [appName],
+        `*** Generating files ***\n${filesToGenerate
+          .map(file => `${file.destinationDir}${file.filename}${file.extension}`)
+          .join('\n')}\n`
+      );
+    } else {
+      info([appName], `*** No files to generate ***\n`);
+    }
 
     return filesToGenerate;
   }
+
+  info([appName], `*** No destinationDir. Not generating files ***\n`);
 
   return [];
 };
