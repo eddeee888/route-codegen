@@ -30,7 +30,7 @@ apps:
   seo:
     routes:
       home: /
-      about: /about/:target(us|you)/:topic
+      about: /about/:target(us|you)/:topic/:optional?/:optionalEnum(enumOne|enumTwo)?
     routingType: NextJS
     destinationDir: sample/output/seo/routes
 
