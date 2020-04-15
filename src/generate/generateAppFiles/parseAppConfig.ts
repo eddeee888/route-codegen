@@ -30,6 +30,7 @@ export interface ParsedDefaultLinkOptions {
   };
   linkComponent: string;
   hrefProp: string;
+  useRedirect: boolean;
 }
 
 export type RouteLinkOptions = {
@@ -193,10 +194,19 @@ const prepareDefaultLinkOptions = (
       template: `type LinkProps = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, 'href'>`,
       linkProps: 'LinkProps',
     },
+    useRedirect: true,
   };
-  if (!options || !options.importCustomLink) {
+  if (!options) {
     info([appName, 'defaultLinkOptions'], 'custom options not found... Using default');
     return { ...defaultOptions };
+  }
+
+  if (!options.importCustomLink) {
+    info([appName, 'defaultLinkOptions', 'importCustomLink'], 'custom options not found... Using default');
+    return {
+      ...defaultOptions,
+      useRedirect: options.useRedirect !== undefined ? options.useRedirect : defaultOptions.useRedirect,
+    };
   }
 
   info([appName, 'defaultLinkOptions'], 'using custom link options');
@@ -211,6 +221,7 @@ const prepareDefaultLinkOptions = (
     hrefProp,
     linkComponent,
     linkProps,
+    useRedirect: options.useRedirect !== undefined ? options.useRedirect : defaultOptions.useRedirect,
   };
 };
 

@@ -22,7 +22,7 @@ export interface AppConfig {
   destinationDir?: string;
   reactRouterV5LinkOptions?: LinkOptions & { useRedirect?: boolean; useParams?: boolean };
   nextJSLinkOptions?: LinkOptions & { useParams?: boolean };
-  defaultLinkOptions?: LinkOptions;
+  defaultLinkOptions?: LinkOptions & { useRedirect?: boolean };
   generateLink?: boolean;
 }
 

@@ -8,6 +8,7 @@ import generateLinkFile from './generateLinkFile';
 import { RouteLinkOptions } from './parseAppConfig';
 import generateUseParamsFileNextJS from './generateUseParamsFileNextJS';
 import { Key, pathToRegexp } from 'path-to-regexp';
+import generateUseRedirectFileDefault from './generateUseRedirectFileDefault';
 
 export interface GenerateTemplateFilesParams {
   routeName: string;
@@ -88,6 +89,16 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
         pathParamsInterfaceName: patternNamedExports.pathParamsInterfaceNameNextJS,
       });
       files.push(useParamsFileNextJS);
+    }
+  } else if (routingType === RoutingType.Default) {
+    if (routeLinkOptions.Default.useRedirect) {
+      const useRedirectDefault = generateUseRedirectFileDefault({
+        routeName,
+        importGenerateUrl,
+        destinationDir,
+        patternNamedExports,
+      });
+      files.push(useRedirectDefault);
     }
   }
 
