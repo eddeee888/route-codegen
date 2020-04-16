@@ -2,7 +2,6 @@ import { RoutingType } from '../config';
 import { TemplateFile, Import } from '../types';
 import generatePatternFile from './generatePatternFile';
 import generateUrlFile from './generateUrlFile';
-import generateLinkFile from './generateLinkFile';
 import { RouteLinkOptions } from './parseAppConfig';
 import generatorDefault from './generatorDefault';
 import generatorReactRouterV5 from './generatorReactRouterV5';
@@ -100,7 +99,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
     }
   } else if (routingType === RoutingType.Default) {
     if (shouldGenerateLink) {
-      const linkFile = generateLinkFile({
+      const linkFile = generatorDefault.generateLinkFile({
         routeName,
         destinationDir,
         routeLinkOptions,

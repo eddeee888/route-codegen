@@ -1,11 +1,10 @@
-import { TemplateFile, Import } from '../types';
-import printImport from '../utils/printImport';
-import { RoutingType } from '../config';
-import { PatternNamedExports } from './generatePatternFile';
-import { RouteLinkOptions } from './parseAppConfig';
-import throwError from '../utils/throwError';
+import { TemplateFile, Import } from '../../types';
+import printImport from '../../utils/printImport';
+import { RoutingType } from '../../config';
+import { PatternNamedExports } from '../generatePatternFile';
+import { RouteLinkOptions } from '../parseAppConfig';
 
-export interface GenerateLinkFileParams {
+export interface GenerateLinkFileDefaultParams {
   routeName: string;
   routingType: RoutingType;
   destinationDir: string;
@@ -14,7 +13,7 @@ export interface GenerateLinkFileParams {
   importGenerateUrl: Import;
 }
 
-const generateLinkFile = (params: GenerateLinkFileParams): TemplateFile => {
+const generateLinkFileDefault = (params: GenerateLinkFileDefaultParams): TemplateFile => {
   const {
     routeName,
     routingType,
@@ -25,7 +24,6 @@ const generateLinkFile = (params: GenerateLinkFileParams): TemplateFile => {
       pathParamsInterfaceName,
       filename: routePatternFilename,
       urlPartsInterfaceName,
-      patternNameNextJS,
     },
     importGenerateUrl,
   } = params;
@@ -41,23 +39,11 @@ const generateLinkFile = (params: GenerateLinkFileParams): TemplateFile => {
     routeLinkOptions,
   });
 
-  let linkTemplate = `<${linkComponent} {...props} ${hrefProp}={to} />;`;
-  const namedImportsFromPatternFile = [{ name: patternName }, { name: urlPartsInterfaceName }];
-  if (routingType === RoutingType.NextJS) {
-    if (!patternNameNextJS) {
-      return throwError([], 'Missing "patternNameNextJS". This is most likely a problem with route-codegen.');
-    }
-    // NextJS has its own pattern. We need it to handle client-side routing
-    namedImportsFromPatternFile.push({ name: patternNameNextJS });
-    // NextJS has slightly different way to handle its link component: "href" prop is actually the pattern. and "as" is the generated url
-    linkTemplate = `<${linkComponent} {...props} ${hrefProp}={${patternNameNextJS}} as={to} />;`;
-  }
-
   const template = `${printImport({ defaultImport: 'React', from: 'react' })}
   ${printImport(importGenerateUrl)}
   ${importLink ? printImport(importLink) : ''}
   ${printImport({
-    namedImports: namedImportsFromPatternFile,
+    namedImports: [{ name: patternName }, { name: urlPartsInterfaceName }],
     from: `./${routePatternFilename}`,
   })}
   ${linkPropsTemplate}
@@ -65,7 +51,7 @@ const generateLinkFile = (params: GenerateLinkFileParams): TemplateFile => {
     hasPathParams ? 'path,' : ''
   } urlQuery, ...props }) => {
     const to = generateUrl(${patternName}, ${hasPathParams ? 'path' : '{}'}, urlQuery);
-    return ${linkTemplate}
+    return <${linkComponent} {...props} ${hrefProp}={to} />;
   }
   export default ${functionName};
   `;
@@ -80,26 +66,24 @@ const generateLinkFile = (params: GenerateLinkFileParams): TemplateFile => {
   return templateFile;
 };
 
-type GenerateLinkInterface = (params: {
+interface GenerateLinkInterfaceParams {
   routingType: RoutingType;
   routeLinkOptions: RouteLinkOptions;
   defaultLinkPropsInterfaceName: string;
   urlPartsInterfaceName: string;
-}) => {
+}
+
+interface GenerateLinkInterfaceResult {
   importLink?: Import;
   linkPropsTemplate: string;
   linkComponent: string;
   linkProps?: string;
   hrefProp: string;
   linkPropsInterfaceName: string;
-};
+}
 
-const generateLinkInterface: GenerateLinkInterface = ({
-  routingType,
-  routeLinkOptions,
-  defaultLinkPropsInterfaceName,
-  urlPartsInterfaceName,
-}) => {
+const generateLinkInterface = (params: GenerateLinkInterfaceParams): GenerateLinkInterfaceResult => {
+  const { routingType, routeLinkOptions, defaultLinkPropsInterfaceName, urlPartsInterfaceName } = params;
   const option = routeLinkOptions[routingType];
 
   const { hrefProp, linkProps, importLink } = option;
@@ -121,4 +105,4 @@ const generateLinkInterface: GenerateLinkInterface = ({
   };
 };
 
-export default generateLinkFile;
+export default generateLinkFileDefault;
