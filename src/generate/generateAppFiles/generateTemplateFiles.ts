@@ -47,7 +47,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
   // Handle file generation for each routing type
   if (routingType === RoutingType.ReactRouterV5) {
     if (shouldGenerateLink) {
-      const linkFile = generateLinkFile({
+      const linkFile = generatorReactRouterV5.generateLinkFile({
         routeName,
         destinationDir,
         routeLinkOptions,
@@ -78,7 +78,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
     }
   } else if (routingType === RoutingType.NextJS) {
     if (shouldGenerateLink) {
-      const linkFile = generateLinkFile({
+      const linkFile = generatorNextJS.generateLinkFile({
         routeName,
         destinationDir,
         routeLinkOptions,
