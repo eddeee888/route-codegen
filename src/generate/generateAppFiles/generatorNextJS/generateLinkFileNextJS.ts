@@ -1,15 +1,13 @@
 import { TemplateFile, Import } from '../../types';
 import printImport from '../../utils/printImport';
-import { RoutingType } from '../../config';
 import { PatternNamedExports } from '../generatePatternFile';
 import { RouteLinkOptions } from '../parseAppConfig';
 import throwError from '../../utils/throwError';
 
 export interface GenerateLinkFileNextJSParams {
   routeName: string;
-  routingType: RoutingType;
   destinationDir: string;
-  routeLinkOptions: RouteLinkOptions;
+  routeLinkOption: RouteLinkOptions['NextJS'];
   patternNamedExports: PatternNamedExports;
   importGenerateUrl: Import;
 }
@@ -17,8 +15,7 @@ export interface GenerateLinkFileNextJSParams {
 const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): TemplateFile => {
   const {
     routeName,
-    routingType,
-    routeLinkOptions,
+    routeLinkOption,
     destinationDir,
     patternNamedExports: {
       patternName,
@@ -37,8 +34,7 @@ const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): TemplateF
   const { hrefProp, importLink, linkComponent, linkPropsTemplate, linkPropsInterfaceName } = generateLinkInterface({
     defaultLinkPropsInterfaceName,
     urlPartsInterfaceName,
-    routingType,
-    routeLinkOptions,
+    routeLinkOption,
   });
 
   if (!patternNameNextJS) {
@@ -82,8 +78,7 @@ const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): TemplateF
 };
 
 interface GenerateLinkInterfaceParams {
-  routingType: RoutingType;
-  routeLinkOptions: RouteLinkOptions;
+  routeLinkOption: RouteLinkOptions['NextJS'];
   defaultLinkPropsInterfaceName: string;
   urlPartsInterfaceName: string;
 }
@@ -98,10 +93,9 @@ interface GenerateLinkInterfaceResult {
 }
 
 const generateLinkInterface = (params: GenerateLinkInterfaceParams): GenerateLinkInterfaceResult => {
-  const { routingType, routeLinkOptions, defaultLinkPropsInterfaceName, urlPartsInterfaceName } = params;
-  const option = routeLinkOptions[routingType];
+  const { routeLinkOption, defaultLinkPropsInterfaceName, urlPartsInterfaceName } = params;
 
-  const { hrefProp, linkProps, importLink } = option;
+  const { hrefProp, linkProps, importLink, linkComponent } = routeLinkOption;
 
   const linkPropsTemplate = `type ${defaultLinkPropsInterfaceName} = Omit<${linkProps}, '${hrefProp}'> & ${urlPartsInterfaceName}`;
   const linkPropsInterfaceName = defaultLinkPropsInterfaceName;
@@ -109,7 +103,7 @@ const generateLinkInterface = (params: GenerateLinkInterfaceParams): GenerateLin
   return {
     importLink,
     linkPropsTemplate,
-    linkComponent: option.linkComponent,
+    linkComponent,
     hrefProp,
     linkPropsInterfaceName,
   };

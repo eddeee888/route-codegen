@@ -79,8 +79,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
       const linkFile = generatorNextJS.generateLinkFile({
         routeName,
         destinationDir,
-        routeLinkOptions,
-        routingType,
+        routeLinkOption: routeLinkOptions.NextJS,
         patternNamedExports,
         importGenerateUrl,
       });
