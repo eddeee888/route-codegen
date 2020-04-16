@@ -44,20 +44,19 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
 
   const files = [patternFile, genUrlFile];
 
-  if (shouldGenerateLink) {
-    const linkFile = generateLinkFile({
-      routeName,
-      destinationDir,
-      routeLinkOptions,
-      routingType,
-      patternNamedExports,
-      importGenerateUrl,
-    });
-    files.push(linkFile);
-  }
-
-  // Handle extra files for each routing types
+  // Handle file generation for each routing type
   if (routingType === RoutingType.ReactRouterV5) {
+    if (shouldGenerateLink) {
+      const linkFile = generateLinkFile({
+        routeName,
+        destinationDir,
+        routeLinkOptions,
+        routingType,
+        patternNamedExports,
+        importGenerateUrl,
+      });
+      files.push(linkFile);
+    }
     if (routeLinkOptions.ReactRouterV5.useParams && !!patternNamedExports.pathParamsInterfaceName) {
       const useParamsFile = generatorReactRouterV5.generateUseParamsFile({
         routeName,
@@ -78,6 +77,17 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
       files.push(useRedirectFile);
     }
   } else if (routingType === RoutingType.NextJS) {
+    if (shouldGenerateLink) {
+      const linkFile = generateLinkFile({
+        routeName,
+        destinationDir,
+        routeLinkOptions,
+        routingType,
+        patternNamedExports,
+        importGenerateUrl,
+      });
+      files.push(linkFile);
+    }
     if (routeLinkOptions.NextJS.useParams && !!patternNamedExports.pathParamsInterfaceNameNextJS) {
       const useParamsFileNextJS = generatorNextJS.generateUseParamsFile({
         routeName,
@@ -89,6 +99,17 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
       files.push(useParamsFileNextJS);
     }
   } else if (routingType === RoutingType.Default) {
+    if (shouldGenerateLink) {
+      const linkFile = generateLinkFile({
+        routeName,
+        destinationDir,
+        routeLinkOptions,
+        routingType,
+        patternNamedExports,
+        importGenerateUrl,
+      });
+      files.push(linkFile);
+    }
     if (routeLinkOptions.Default.useRedirect) {
       const useRedirectDefault = generatorDefault.generateUseRedirectFile({
         routeName,
