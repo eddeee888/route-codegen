@@ -1,5 +1,4 @@
 import generateLinkFileReactRouterV5, { GenerateLinkFileReactRouterV5Params } from './generateLinkFileReactRouterV5';
-import { RoutingType } from '../../config';
 
 describe('generateLinkFileReactRouterV5', () => {
   const defaultParams: GenerateLinkFileReactRouterV5Params = {

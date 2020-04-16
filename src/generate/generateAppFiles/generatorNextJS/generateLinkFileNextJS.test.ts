@@ -1,5 +1,4 @@
 import generateLinkFileNextJS, { GenerateLinkFileNextJSParams } from './generateLinkFileNextJS';
-import { RoutingType } from '../../config';
 
 describe('generateLinkFileNextJS', () => {
   const defaultParams: GenerateLinkFileNextJSParams = {
