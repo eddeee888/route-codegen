@@ -1,8 +1,8 @@
 import { TemplateFile, Import } from '../../types';
 import printImport from '../../utils/printImport';
-import { PatternNamedExports } from '../generatePatternFile';
 import { RouteLinkOptions } from '../parseAppConfig';
 import throwError from '../../utils/throwError';
+import { PatternNamedExports } from '../types';
 
 export interface GenerateLinkFileNextJSParams {
   routeName: string;

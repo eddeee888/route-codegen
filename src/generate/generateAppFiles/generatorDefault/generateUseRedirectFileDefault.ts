@@ -1,6 +1,6 @@
-import { PatternNamedExports } from '../generatePatternFile';
 import printImport from '../../utils/printImport';
 import { TemplateFile, Import } from '../../types';
+import { PatternNamedExports } from '../types';
 
 export interface GenerateUseRedirectFileDefaultParams {
   routeName: string;

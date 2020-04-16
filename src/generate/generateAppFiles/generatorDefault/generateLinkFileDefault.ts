@@ -1,7 +1,7 @@
 import { TemplateFile, Import } from '../../types';
 import printImport from '../../utils/printImport';
-import { PatternNamedExports } from '../generatePatternFile';
 import { RouteLinkOptions } from '../parseAppConfig';
+import { PatternNamedExports } from '../types';
 
 export interface GenerateLinkFileDefaultParams {
   routeName: string;

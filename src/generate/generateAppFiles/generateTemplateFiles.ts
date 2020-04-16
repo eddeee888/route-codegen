@@ -1,8 +1,7 @@
 import { RoutingType } from '../config';
 import { TemplateFile, Import } from '../types';
-import generatePatternFile from './generatePatternFile';
-import generateUrlFile from './generateUrlFile';
 import { RouteLinkOptions } from './parseAppConfig';
+import generatorCore from './generatorCore';
 import generatorDefault from './generatorDefault';
 import generatorReactRouterV5 from './generatorReactRouterV5';
 import generatorNextJS from './generatorNextJS';
@@ -32,14 +31,19 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
   const routeName = routeNameString[0].toUpperCase() + routeNameString.slice(1);
   const destinationDir = `${originalDestinationDir}/${originalRouteName}`;
 
-  const [patternFile, patternNamedExports] = generatePatternFile({
+  const [patternFile, patternNamedExports] = generatorCore.generatePatternFile({
     routeName,
     routePattern,
     destinationDir,
     routingType,
   });
 
-  const genUrlFile = generateUrlFile({ importGenerateUrl, destinationDir, routeName, patternNamedExports });
+  const genUrlFile = generatorCore.generateUrlFile({
+    importGenerateUrl,
+    destinationDir,
+    routeName,
+    patternNamedExports,
+  });
 
   const files = [patternFile, genUrlFile];
 
