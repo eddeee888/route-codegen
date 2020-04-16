@@ -25,6 +25,7 @@ describe('generateLinkFile', () => {
           template: `type InlineLinkProps = Omit<React.SomeReallyLongReactHTMLProps, 'href'>`,
           linkProps: 'InlineLinkProps',
         },
+        useRedirect: true,
       },
       NextJS: {
         importLink: {
@@ -249,6 +250,7 @@ describe('generateLinkFile', () => {
             hrefProp: 'customDefaultHref',
             linkComponent: 'Link',
             linkProps: 'CustomLinkProps',
+            useRedirect: true,
           },
         },
       });
@@ -325,6 +327,7 @@ describe('generateLinkFile', () => {
             linkComponent: 'Link',
             linkProps: 'CustomLinkProps',
             hrefProp: 'to',
+            useRedirect: true,
           },
         },
       });

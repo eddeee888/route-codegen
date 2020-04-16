@@ -21,20 +21,26 @@ describe('generateAppFiles', () => {
 
     it('should not generate Link if not needed', () => {
       const files = generateAppFiles('testApp', { ...appConfig, generateLink: false });
-      expect(files).toHaveLength(4);
+      expect(files).toHaveLength(6);
       expect(files[0].destinationDir).toEqual('path/to/routes/login');
       expect(files[0].filename).toEqual('patternLogin');
       expect(files[0].extension).toEqual('.ts');
       expect(files[1].destinationDir).toEqual('path/to/routes/login');
       expect(files[1].filename).toEqual('generateUrlLogin');
       expect(files[1].extension).toEqual('.ts');
-
-      expect(files[2].destinationDir).toEqual('path/to/routes/user');
-      expect(files[2].filename).toEqual('patternUser');
+      expect(files[2].destinationDir).toEqual('path/to/routes/login');
+      expect(files[2].filename).toEqual('useRedirectLogin');
       expect(files[2].extension).toEqual('.ts');
+
       expect(files[3].destinationDir).toEqual('path/to/routes/user');
-      expect(files[3].filename).toEqual('generateUrlUser');
+      expect(files[3].filename).toEqual('patternUser');
       expect(files[3].extension).toEqual('.ts');
+      expect(files[4].destinationDir).toEqual('path/to/routes/user');
+      expect(files[4].filename).toEqual('generateUrlUser');
+      expect(files[4].extension).toEqual('.ts');
+      expect(files[5].destinationDir).toEqual('path/to/routes/user');
+      expect(files[5].filename).toEqual('useRedirectUser');
+      expect(files[5].extension).toEqual('.ts');
     });
   });
 
@@ -42,7 +48,7 @@ describe('generateAppFiles', () => {
     it('should generate files', () => {
       const files = generateAppFiles('testApp', { ...appConfig, routingType: 'Default' });
 
-      expect(files).toHaveLength(6);
+      expect(files).toHaveLength(8);
       expect(files[0].destinationDir).toEqual('path/to/routes/login');
       expect(files[0].filename).toEqual('patternLogin');
       expect(files[0].extension).toEqual('.ts');
@@ -52,16 +58,22 @@ describe('generateAppFiles', () => {
       expect(files[2].destinationDir).toEqual('path/to/routes/login');
       expect(files[2].filename).toEqual('LinkLogin');
       expect(files[2].extension).toEqual('.tsx');
-
-      expect(files[3].destinationDir).toEqual('path/to/routes/user');
-      expect(files[3].filename).toEqual('patternUser');
+      expect(files[3].destinationDir).toEqual('path/to/routes/login');
+      expect(files[3].filename).toEqual('useRedirectLogin');
       expect(files[3].extension).toEqual('.ts');
+
       expect(files[4].destinationDir).toEqual('path/to/routes/user');
-      expect(files[4].filename).toEqual('generateUrlUser');
+      expect(files[4].filename).toEqual('patternUser');
       expect(files[4].extension).toEqual('.ts');
       expect(files[5].destinationDir).toEqual('path/to/routes/user');
-      expect(files[5].filename).toEqual('LinkUser');
-      expect(files[5].extension).toEqual('.tsx');
+      expect(files[5].filename).toEqual('generateUrlUser');
+      expect(files[5].extension).toEqual('.ts');
+      expect(files[6].destinationDir).toEqual('path/to/routes/user');
+      expect(files[6].filename).toEqual('LinkUser');
+      expect(files[6].extension).toEqual('.tsx');
+      expect(files[7].destinationDir).toEqual('path/to/routes/user');
+      expect(files[7].filename).toEqual('useRedirectUser');
+      expect(files[7].extension).toEqual('.ts');
     });
   });
 

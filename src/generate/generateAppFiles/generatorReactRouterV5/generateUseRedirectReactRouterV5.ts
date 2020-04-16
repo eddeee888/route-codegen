@@ -1,20 +1,16 @@
-import { PatternNamedExports } from './generatePatternFile';
-import printImport from '../utils/printImport';
-import { TemplateFile, Import } from '../types';
+import { PatternNamedExports } from '../generatePatternFile';
+import printImport from '../../utils/printImport';
+import { TemplateFile, Import } from '../../types';
 
-type GenerateUseRedirectFile = (params: {
+export interface GenerateUseRedirectReactRouterV5Params {
   routeName: string;
   patternNamedExports: PatternNamedExports;
   destinationDir: string;
   importGenerateUrl: Import;
-}) => TemplateFile;
+}
 
-const generateUseRedirectFile: GenerateUseRedirectFile = ({
-  routeName,
-  patternNamedExports,
-  destinationDir,
-  importGenerateUrl,
-}) => {
+const generateUseRedirectReactRouterV5 = (params: GenerateUseRedirectReactRouterV5Params): TemplateFile => {
+  const { routeName, patternNamedExports, destinationDir, importGenerateUrl } = params;
   const functionName = `useRedirect${routeName}`;
 
   const template = `${printImport({
@@ -46,4 +42,4 @@ const generateUseRedirectFile: GenerateUseRedirectFile = ({
   return templateFile;
 };
 
-export default generateUseRedirectFile;
+export default generateUseRedirectReactRouterV5;

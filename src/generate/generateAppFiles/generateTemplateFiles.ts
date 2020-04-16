@@ -1,13 +1,12 @@
 import { RoutingType } from '../config';
 import { TemplateFile, Import } from '../types';
 import generatePatternFile from './generatePatternFile';
-import generateUseParamsFileReactRouterV5 from './generateUseParamsFileReactRouterV5';
-import generateUseRedirectFileReactRouterV5 from './generateUseRedirectFileReactRouterV5';
 import generateUrlFile from './generateUrlFile';
 import generateLinkFile from './generateLinkFile';
 import { RouteLinkOptions } from './parseAppConfig';
 import generateUseParamsFileNextJS from './generateUseParamsFileNextJS';
 import generateUseRedirectFileDefault from './generateUseRedirectFileDefault';
+import generatorReactRouterV5 from './generatorReactRouterV5';
 
 export interface GenerateTemplateFilesParams {
   routeName: string;
@@ -60,7 +59,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
   // Handle extra files for each routing types
   if (routingType === RoutingType.ReactRouterV5) {
     if (routeLinkOptions.ReactRouterV5.useParams && !!patternNamedExports.pathParamsInterfaceName) {
-      const useParamsFile = generateUseParamsFileReactRouterV5({
+      const useParamsFile = generatorReactRouterV5.generateUseParamsFile({
         routeName,
         destinationDir,
         patternName: patternNamedExports.patternName,
@@ -70,7 +69,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
       files.push(useParamsFile);
     }
     if (routeLinkOptions.ReactRouterV5.useRedirect) {
-      const useRedirectFile = generateUseRedirectFileReactRouterV5({
+      const useRedirectFile = generatorReactRouterV5.generateUseRedirectFile({
         routeName,
         destinationDir,
         patternNamedExports,
