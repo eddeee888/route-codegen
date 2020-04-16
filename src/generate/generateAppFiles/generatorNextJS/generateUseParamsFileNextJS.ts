@@ -1,8 +1,8 @@
-import { TemplateFile } from '../types';
-import printImport from '../utils/printImport';
-import getKeysFromRoutePattern from '../utils/getKeysFromRoutePattern';
+import { TemplateFile } from '../../types';
+import printImport from '../../utils/printImport';
+import getKeysFromRoutePattern from '../../utils/getKeysFromRoutePattern';
 
-interface GenerateUseParamsFileNextJSParams {
+export interface GenerateUseParamsFileNextJSParams {
   routeName: string;
   routePattern: string;
   destinationDir: string;

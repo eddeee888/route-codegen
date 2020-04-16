@@ -4,9 +4,9 @@ import generatePatternFile from './generatePatternFile';
 import generateUrlFile from './generateUrlFile';
 import generateLinkFile from './generateLinkFile';
 import { RouteLinkOptions } from './parseAppConfig';
-import generateUseParamsFileNextJS from './generateUseParamsFileNextJS';
 import generateUseRedirectFileDefault from './generateUseRedirectFileDefault';
 import generatorReactRouterV5 from './generatorReactRouterV5';
+import generatorNextJS from './generatorNextJS';
 
 export interface GenerateTemplateFilesParams {
   routeName: string;
@@ -79,7 +79,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
     }
   } else if (routingType === RoutingType.NextJS) {
     if (routeLinkOptions.NextJS.useParams && !!patternNamedExports.pathParamsInterfaceNameNextJS) {
-      const useParamsFileNextJS = generateUseParamsFileNextJS({
+      const useParamsFileNextJS = generatorNextJS.generateUseParamsFile({
         routeName,
         routePattern,
         destinationDir,
