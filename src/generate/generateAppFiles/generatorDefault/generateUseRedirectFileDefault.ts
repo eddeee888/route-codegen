@@ -1,15 +1,15 @@
-import { PatternNamedExports } from './generatePatternFile';
-import printImport from '../utils/printImport';
-import { TemplateFile, Import } from '../types';
+import { PatternNamedExports } from '../generatePatternFile';
+import printImport from '../../utils/printImport';
+import { TemplateFile, Import } from '../../types';
 
-interface GenerateUseRedirectFileParams {
+export interface GenerateUseRedirectFileDefaultParams {
   routeName: string;
   patternNamedExports: PatternNamedExports;
   destinationDir: string;
   importGenerateUrl: Import;
 }
 
-const generateUseRedirectFileDefault = (params: GenerateUseRedirectFileParams): TemplateFile => {
+const generateUseRedirectFileDefault = (params: GenerateUseRedirectFileDefaultParams): TemplateFile => {
   const { routeName, patternNamedExports, destinationDir, importGenerateUrl } = params;
   const functionName = `useRedirect${routeName}`;
 

@@ -4,7 +4,7 @@ import generatePatternFile from './generatePatternFile';
 import generateUrlFile from './generateUrlFile';
 import generateLinkFile from './generateLinkFile';
 import { RouteLinkOptions } from './parseAppConfig';
-import generateUseRedirectFileDefault from './generateUseRedirectFileDefault';
+import generatorDefault from './generatorDefault';
 import generatorReactRouterV5 from './generatorReactRouterV5';
 import generatorNextJS from './generatorNextJS';
 
@@ -90,7 +90,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
     }
   } else if (routingType === RoutingType.Default) {
     if (routeLinkOptions.Default.useRedirect) {
-      const useRedirectDefault = generateUseRedirectFileDefault({
+      const useRedirectDefault = generatorDefault.generateUseRedirectFile({
         routeName,
         importGenerateUrl,
         destinationDir,
