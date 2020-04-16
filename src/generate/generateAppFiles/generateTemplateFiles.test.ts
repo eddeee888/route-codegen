@@ -34,6 +34,7 @@ describe('generateTemplateFiles', () => {
           template: "type LinkProps = Omit<DefaultLinkProps, 'href'>;",
           linkProps: 'LinkProps',
         },
+        useRedirect: true,
       },
       NextJS: {
         importLink: {
@@ -52,7 +53,7 @@ describe('generateTemplateFiles', () => {
   describe('Default', () => {
     it('should generate files', () => {
       const files = generateTemplateFiles({ ...params, routingType: RoutingType.Default });
-      expect(files).toHaveLength(3);
+      expect(files).toHaveLength(4);
       expect(files[0].filename).toEqual('patternLogin');
       expect(files[0].extension).toEqual('.ts');
       expect(files[0].destinationDir).toEqual('path/to/routes/login');
@@ -62,17 +63,23 @@ describe('generateTemplateFiles', () => {
       expect(files[2].filename).toEqual('LinkLogin');
       expect(files[2].extension).toEqual('.tsx');
       expect(files[2].destinationDir).toEqual('path/to/routes/login');
+      expect(files[3].filename).toEqual('useRedirectLogin');
+      expect(files[3].extension).toEqual('.ts');
+      expect(files[3].destinationDir).toEqual('path/to/routes/login');
     });
 
     it('should not generate Link if not needed', () => {
       const files = generateTemplateFiles({ ...params, routingType: RoutingType.Default, shouldGenerateLink: false });
-      expect(files).toHaveLength(2);
+      expect(files).toHaveLength(3);
       expect(files[0].filename).toEqual('patternLogin');
       expect(files[0].extension).toEqual('.ts');
       expect(files[0].destinationDir).toEqual('path/to/routes/login');
       expect(files[1].filename).toEqual('generateUrlLogin');
       expect(files[1].extension).toEqual('.ts');
       expect(files[1].destinationDir).toEqual('path/to/routes/login');
+      expect(files[2].filename).toEqual('useRedirectLogin');
+      expect(files[2].extension).toEqual('.ts');
+      expect(files[2].destinationDir).toEqual('path/to/routes/login');
     });
   });
 

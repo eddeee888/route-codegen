@@ -42,6 +42,7 @@ describe('parseAppConfig', () => {
       template: `type LinkProps = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, 'href'>`,
       linkProps: 'LinkProps',
     },
+    useRedirect: true,
   };
 
   describe('general config', () => {
@@ -396,6 +397,7 @@ describe('parseAppConfig', () => {
           linkComponent: 'Link',
           linkProps: 'CustomLinkProps',
           hrefProp: 'customHref',
+          useRedirect: true,
         });
       });
 
@@ -420,7 +422,28 @@ describe('parseAppConfig', () => {
           linkComponent: 'Link',
           linkProps: 'CustomLinkProps',
           hrefProp: 'customHref',
+          useRedirect: true,
         });
+      });
+
+      it('should parse useRedirect correctly', () => {
+        const parsedConfig = parseAppConfig('sampleApp', {
+          ...defaultAppConfig,
+          defaultLinkOptions: {
+            ...defaultAppConfig.defaultLinkOptions,
+            useRedirect: true,
+          },
+        });
+        expect(parsedConfig.routeLinkOptions.Default.useRedirect).toBe(true);
+
+        const parsedConfig2 = parseAppConfig('sampleApp', {
+          ...defaultAppConfig,
+          defaultLinkOptions: {
+            ...defaultAppConfig.defaultLinkOptions,
+            useRedirect: false,
+          },
+        });
+        expect(parsedConfig2.routeLinkOptions.Default.useRedirect).toBe(false);
       });
 
       it('should throw error if no "componentDefaultImport" or "componentNamedImport" imports', () => {
