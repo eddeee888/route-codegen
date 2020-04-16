@@ -1,5 +1,4 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
-
 import { UrlPartsLogin, patternLogin } from './patternLogin';
 import { generateUrl } from 'route-codegen';
 

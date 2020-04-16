@@ -1,5 +1,4 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
-
 import { UrlPartsHome, patternHome } from './patternHome';
 import { generateUrl } from 'route-codegen';
 

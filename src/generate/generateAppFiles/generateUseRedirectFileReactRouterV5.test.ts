@@ -1,8 +1,8 @@
-import generateUseRedirectFile from './generateUseRedirectFile';
+import generateUseRedirectFileReactRouterV5 from './generateUseRedirectFileReactRouterV5';
 
-describe('generateUseRedirectFile', () => {
+describe('generateUseRedirectFileReactRouterV5', () => {
   it('should generate when there is no pathParams', () => {
-    const templateFile = generateUseRedirectFile({
+    const templateFile = generateUseRedirectFileReactRouterV5({
       routeName: 'Login',
       patternNamedExports: {
         filename: 'patternLogin',
@@ -27,7 +27,7 @@ describe('generateUseRedirectFile', () => {
   });
 
   it('should generate when there is pathParams', () => {
-    const templateFile = generateUseRedirectFile({
+    const templateFile = generateUseRedirectFileReactRouterV5({
       routeName: 'UserInfo',
       patternNamedExports: {
         filename: 'patternUserInfo',
