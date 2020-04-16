@@ -6,9 +6,8 @@ import { RouteLinkOptions } from './../parseAppConfig';
 
 export interface GenerateLinkFileReactRouterV5Params {
   routeName: string;
-  routingType: RoutingType;
   destinationDir: string;
-  routeLinkOptions: RouteLinkOptions;
+  routeLinkOption: RouteLinkOptions['ReactRouterV5'];
   patternNamedExports: PatternNamedExports;
   importGenerateUrl: Import;
 }
@@ -16,8 +15,7 @@ export interface GenerateLinkFileReactRouterV5Params {
 const generateLinkFileReactRouterV5 = (params: GenerateLinkFileReactRouterV5Params): TemplateFile => {
   const {
     routeName,
-    routingType,
-    routeLinkOptions,
+    routeLinkOption,
     destinationDir,
     patternNamedExports: {
       patternName,
@@ -35,8 +33,7 @@ const generateLinkFileReactRouterV5 = (params: GenerateLinkFileReactRouterV5Para
   const { hrefProp, importLink, linkComponent, linkPropsTemplate, linkPropsInterfaceName } = generateLinkInterface({
     defaultLinkPropsInterfaceName,
     urlPartsInterfaceName,
-    routingType,
-    routeLinkOptions,
+    routeLinkOption,
   });
 
   const template = `${printImport({ defaultImport: 'React', from: 'react' })}
@@ -67,8 +64,7 @@ const generateLinkFileReactRouterV5 = (params: GenerateLinkFileReactRouterV5Para
 };
 
 interface GenerateLinkInterfaceParams {
-  routingType: RoutingType;
-  routeLinkOptions: RouteLinkOptions;
+  routeLinkOption: RouteLinkOptions['ReactRouterV5'];
   defaultLinkPropsInterfaceName: string;
   urlPartsInterfaceName: string;
 }
@@ -83,10 +79,9 @@ interface GenerateLinkInterfaceResult {
 }
 
 const generateLinkInterface = (params: GenerateLinkInterfaceParams): GenerateLinkInterfaceResult => {
-  const { routingType, routeLinkOptions, defaultLinkPropsInterfaceName, urlPartsInterfaceName } = params;
-  const option = routeLinkOptions[routingType];
+  const { routeLinkOption, defaultLinkPropsInterfaceName, urlPartsInterfaceName } = params;
 
-  const { hrefProp, linkProps, importLink } = option;
+  const { hrefProp, linkProps, importLink, linkComponent } = routeLinkOption;
 
   const linkPropsTemplate = `type ${defaultLinkPropsInterfaceName} = Omit<${linkProps}, '${hrefProp}'> & ${urlPartsInterfaceName}`;
   const linkPropsInterfaceName = defaultLinkPropsInterfaceName;
@@ -94,7 +89,7 @@ const generateLinkInterface = (params: GenerateLinkInterfaceParams): GenerateLin
   return {
     importLink,
     linkPropsTemplate,
-    linkComponent: option.linkComponent,
+    linkComponent,
     hrefProp,
     linkPropsInterfaceName,
   };

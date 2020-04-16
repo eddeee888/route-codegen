@@ -49,8 +49,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
       const linkFile = generatorReactRouterV5.generateLinkFile({
         routeName,
         destinationDir,
-        routeLinkOptions,
-        routingType,
+        routeLinkOption: routeLinkOptions.ReactRouterV5,
         patternNamedExports,
         importGenerateUrl,
       });
