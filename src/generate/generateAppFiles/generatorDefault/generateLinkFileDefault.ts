@@ -1,14 +1,12 @@
 import { TemplateFile, Import } from '../../types';
 import printImport from '../../utils/printImport';
-import { RoutingType } from '../../config';
 import { PatternNamedExports } from '../generatePatternFile';
 import { RouteLinkOptions } from '../parseAppConfig';
 
 export interface GenerateLinkFileDefaultParams {
   routeName: string;
-  routingType: RoutingType;
   destinationDir: string;
-  routeLinkOptions: RouteLinkOptions;
+  routeLinkOption: RouteLinkOptions['Default'];
   patternNamedExports: PatternNamedExports;
   importGenerateUrl: Import;
 }
@@ -16,8 +14,7 @@ export interface GenerateLinkFileDefaultParams {
 const generateLinkFileDefault = (params: GenerateLinkFileDefaultParams): TemplateFile => {
   const {
     routeName,
-    routingType,
-    routeLinkOptions,
+    routeLinkOption,
     destinationDir,
     patternNamedExports: {
       patternName,
@@ -35,8 +32,7 @@ const generateLinkFileDefault = (params: GenerateLinkFileDefaultParams): Templat
   const { hrefProp, importLink, linkComponent, linkPropsTemplate, linkPropsInterfaceName } = generateLinkInterface({
     defaultLinkPropsInterfaceName,
     urlPartsInterfaceName,
-    routingType,
-    routeLinkOptions,
+    routeLinkOption,
   });
 
   const template = `${printImport({ defaultImport: 'React', from: 'react' })}
@@ -67,8 +63,7 @@ const generateLinkFileDefault = (params: GenerateLinkFileDefaultParams): Templat
 };
 
 interface GenerateLinkInterfaceParams {
-  routingType: RoutingType;
-  routeLinkOptions: RouteLinkOptions;
+  routeLinkOption: RouteLinkOptions['Default'];
   defaultLinkPropsInterfaceName: string;
   urlPartsInterfaceName: string;
 }
@@ -83,23 +78,22 @@ interface GenerateLinkInterfaceResult {
 }
 
 const generateLinkInterface = (params: GenerateLinkInterfaceParams): GenerateLinkInterfaceResult => {
-  const { routingType, routeLinkOptions, defaultLinkPropsInterfaceName, urlPartsInterfaceName } = params;
-  const option = routeLinkOptions[routingType];
+  const { routeLinkOption, defaultLinkPropsInterfaceName, urlPartsInterfaceName } = params;
 
-  const { hrefProp, linkProps, importLink } = option;
+  const { hrefProp, linkProps, importLink, linkComponent } = routeLinkOption;
 
   // if there's inlineLinkPropsTemplate, we don't import anything
   let linkPropsTemplate = `type ${defaultLinkPropsInterfaceName} = Omit<${linkProps}, '${hrefProp}'> & ${urlPartsInterfaceName}`;
   let linkPropsInterfaceName = defaultLinkPropsInterfaceName;
-  if ('inlineLinkProps' in option && option.inlineLinkProps) {
-    linkPropsTemplate = `${option.inlineLinkProps.template} & ${urlPartsInterfaceName}`;
-    linkPropsInterfaceName = option.inlineLinkProps.linkProps;
+  if ('inlineLinkProps' in routeLinkOption && routeLinkOption.inlineLinkProps) {
+    linkPropsTemplate = `${routeLinkOption.inlineLinkProps.template} & ${urlPartsInterfaceName}`;
+    linkPropsInterfaceName = routeLinkOption.inlineLinkProps.linkProps;
   }
 
   return {
     importLink,
     linkPropsTemplate,
-    linkComponent: option.linkComponent,
+    linkComponent,
     hrefProp,
     linkPropsInterfaceName,
   };

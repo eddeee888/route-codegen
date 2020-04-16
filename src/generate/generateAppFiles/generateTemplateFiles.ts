@@ -100,8 +100,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
       const linkFile = generatorDefault.generateLinkFile({
         routeName,
         destinationDir,
-        routeLinkOptions,
-        routingType,
+        routeLinkOption: routeLinkOptions.Default,
         patternNamedExports,
         importGenerateUrl,
       });
