@@ -14,6 +14,7 @@ export interface ImportCustomLink {
 
 interface LinkOptions {
   importCustomLink?: ImportCustomLink;
+  generateLinkComponent?: boolean;
 }
 
 export interface AppConfig {
@@ -23,7 +24,9 @@ export interface AppConfig {
   reactRouterV5LinkOptions?: LinkOptions & { useRedirect?: boolean; useParams?: boolean };
   nextJSLinkOptions?: LinkOptions & { useParams?: boolean };
   defaultLinkOptions?: LinkOptions & { useRedirect?: boolean };
-  generateLink?: boolean;
+  generateLinkComponent?: boolean;
+  generateUseParams?: boolean;
+  generateUseRedirect?: boolean;
 }
 
 export interface Config {

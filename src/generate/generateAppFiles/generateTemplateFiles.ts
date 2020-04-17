@@ -13,7 +13,6 @@ export interface GenerateTemplateFilesParams {
   routingType: RoutingType;
   routeLinkOptions: RouteLinkOptions;
   importGenerateUrl: Import;
-  shouldGenerateLink: boolean;
 }
 
 type GenerateTemplateFiles = (params: GenerateTemplateFilesParams) => TemplateFile[];
@@ -25,7 +24,6 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
   routingType,
   routeLinkOptions,
   importGenerateUrl,
-  shouldGenerateLink,
 }) => {
   const routeNameString = originalRouteName.toString();
   const routeName = routeNameString[0].toUpperCase() + routeNameString.slice(1);
@@ -50,7 +48,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
   // Handle file generation for each routing type
   switch (routingType) {
     case RoutingType.ReactRouterV5:
-      if (shouldGenerateLink) {
+      if (routeLinkOptions.ReactRouterV5.generateLinkComponent) {
         const linkFile = generatorReactRouterV5.generateLinkFile({
           routeName,
           destinationDir,
@@ -82,7 +80,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
       break;
 
     case RoutingType.NextJS:
-      if (shouldGenerateLink) {
+      if (routeLinkOptions.NextJS.generateLinkComponent) {
         const linkFile = generatorNextJS.generateLinkFile({
           routeName,
           destinationDir,
@@ -105,7 +103,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
       break;
 
     case RoutingType.Default:
-      if (shouldGenerateLink) {
+      if (routeLinkOptions.Default.generateLinkComponent) {
         const linkFile = generatorDefault.generateLinkFile({
           routeName,
           destinationDir,

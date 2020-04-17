@@ -1,7 +1,7 @@
 import parseAppConfig, {
-  ParsedReactRouterV5LinkOptions,
-  ParsedNextJSLinkOptions,
-  ParsedDefaultLinkOptions,
+  ParsedLinkOptionsReactRouterV5,
+  ParsedLinkOptionsNextJS,
+  ParsedLinkOptionsDefault,
 } from './parseAppConfig';
 import { AppConfig, RoutingType } from '../config';
 
@@ -13,7 +13,7 @@ describe('parseAppConfig', () => {
     },
     destinationDir: 'path/to/routes',
   };
-  const defaultParsedReactRouterV5RouteLinkOptions: ParsedReactRouterV5LinkOptions = {
+  const defaultParsedLinkOptionsReactRouterV5: ParsedLinkOptionsReactRouterV5 = {
     importLink: {
       from: 'react-router-dom',
       namedImports: [{ name: 'LinkProps' }, { name: 'Link' }],
@@ -21,10 +21,11 @@ describe('parseAppConfig', () => {
     linkComponent: 'Link',
     linkProps: 'LinkProps',
     hrefProp: 'to',
+    generateLinkComponent: true,
     useRedirect: true,
     useParams: true,
   };
-  const defaultParsedNextJSRouteLinkOptions: ParsedNextJSLinkOptions = {
+  const defaultParsedLinkOptionsNextJS: ParsedLinkOptionsNextJS = {
     importLink: {
       from: 'next/link',
       defaultImport: 'Link',
@@ -33,15 +34,17 @@ describe('parseAppConfig', () => {
     linkComponent: 'Link',
     linkProps: 'LinkProps',
     hrefProp: 'href',
+    generateLinkComponent: true,
     useParams: true,
   };
-  const defaultNormalRouteLinkOptions: ParsedDefaultLinkOptions = {
+  const defaultParsedLinkOptionsDefault: ParsedLinkOptionsDefault = {
     hrefProp: 'href',
     linkComponent: 'a',
     inlineLinkProps: {
       template: `type LinkProps = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, 'href'>`,
       linkProps: 'LinkProps',
     },
+    generateLinkComponent: true,
     useRedirect: true,
   };
 
@@ -57,11 +60,10 @@ describe('parseAppConfig', () => {
         destinationDir: 'path/to/routes',
         routingType: RoutingType.Default,
         importGenerateUrl: { from: 'route-codegen', namedImports: [{ name: 'generateUrl' }] },
-        shouldGenerateLink: true,
         routeLinkOptions: {
-          ReactRouterV5: { ...defaultParsedReactRouterV5RouteLinkOptions },
-          NextJS: { ...defaultParsedNextJSRouteLinkOptions },
-          Default: { ...defaultNormalRouteLinkOptions },
+          ReactRouterV5: { ...defaultParsedLinkOptionsReactRouterV5 },
+          NextJS: { ...defaultParsedLinkOptionsNextJS },
+          Default: { ...defaultParsedLinkOptionsDefault },
         },
       });
     });
@@ -78,12 +80,16 @@ describe('parseAppConfig', () => {
       );
     });
 
-    it('should parse generateLink', () => {
-      const parsedConfig = parseAppConfig('sampleApp', { ...defaultAppConfig, generateLink: false });
-      expect(parsedConfig.shouldGenerateLink).toBe(false);
+    it('should parse top level generateLink', () => {
+      const parsedConfig = parseAppConfig('sampleApp', { ...defaultAppConfig, generateLinkComponent: false });
+      expect(parsedConfig.routeLinkOptions.Default.generateLinkComponent).toBe(false);
+      expect(parsedConfig.routeLinkOptions.NextJS.generateLinkComponent).toBe(false);
+      expect(parsedConfig.routeLinkOptions.ReactRouterV5.generateLinkComponent).toBe(false);
 
-      const parsedConfig2 = parseAppConfig('sampleApp', { ...defaultAppConfig, generateLink: true });
-      expect(parsedConfig2.shouldGenerateLink).toBe(true);
+      const parsedConfig2 = parseAppConfig('sampleApp', { ...defaultAppConfig, generateLinkComponent: true });
+      expect(parsedConfig2.routeLinkOptions.Default.generateLinkComponent).toBe(true);
+      expect(parsedConfig2.routeLinkOptions.NextJS.generateLinkComponent).toBe(true);
+      expect(parsedConfig2.routeLinkOptions.ReactRouterV5.generateLinkComponent).toBe(true);
     });
   });
 
@@ -111,6 +117,7 @@ describe('parseAppConfig', () => {
           linkComponent: 'Link',
           linkProps: 'CustomLinkProps',
           hrefProp: 'customHref',
+          generateLinkComponent: true,
           useRedirect: true,
           useParams: true,
         });
@@ -137,6 +144,7 @@ describe('parseAppConfig', () => {
           linkComponent: 'Link',
           linkProps: 'CustomLinkProps',
           hrefProp: 'customHref',
+          generateLinkComponent: true,
           useRedirect: true,
           useParams: true,
         });
@@ -176,6 +184,26 @@ describe('parseAppConfig', () => {
           },
         });
         expect(parsedConfig2.routeLinkOptions.ReactRouterV5.useParams).toBe(false);
+      });
+
+      it('should parse generateLinkComponent correctly', () => {
+        const parsedConfig = parseAppConfig('sampleApp', {
+          ...defaultAppConfig,
+          generateLinkComponent: false,
+          reactRouterV5LinkOptions: {
+            generateLinkComponent: true,
+          },
+        });
+        expect(parsedConfig.routeLinkOptions.ReactRouterV5.generateLinkComponent).toBe(true);
+
+        const parsedConfig2 = parseAppConfig('sampleApp', {
+          ...defaultAppConfig,
+          generateLinkComponent: true,
+          reactRouterV5LinkOptions: {
+            generateLinkComponent: false,
+          },
+        });
+        expect(parsedConfig2.routeLinkOptions.ReactRouterV5.generateLinkComponent).toBe(false);
       });
 
       it('should throw error if no "componentDefaultImport" or "componentNamedImport" imports', () => {
@@ -264,6 +292,7 @@ describe('parseAppConfig', () => {
           linkComponent: 'Link',
           linkProps: 'CustomLinkProps',
           hrefProp: 'customHref',
+          generateLinkComponent: true,
           useParams: true,
         });
       });
@@ -289,6 +318,7 @@ describe('parseAppConfig', () => {
           linkComponent: 'Link',
           linkProps: 'CustomLinkProps',
           hrefProp: 'customHref',
+          generateLinkComponent: true,
           useParams: true,
         });
       });
@@ -326,6 +356,26 @@ describe('parseAppConfig', () => {
           },
         });
         expect(parsedConfig2.routeLinkOptions.NextJS.useParams).toBe(false);
+      });
+
+      it('should parse generateLinkComponent correctly', () => {
+        const parsedConfig = parseAppConfig('sampleApp', {
+          ...defaultAppConfig,
+          generateLinkComponent: false,
+          nextJSLinkOptions: {
+            generateLinkComponent: true,
+          },
+        });
+        expect(parsedConfig.routeLinkOptions.NextJS.generateLinkComponent).toBe(true);
+
+        const parsedConfig2 = parseAppConfig('sampleApp', {
+          ...defaultAppConfig,
+          generateLinkComponent: true,
+          nextJSLinkOptions: {
+            generateLinkComponent: false,
+          },
+        });
+        expect(parsedConfig2.routeLinkOptions.NextJS.generateLinkComponent).toBe(false);
       });
 
       it('should throw error if no "propsNamedImport"', () => {
@@ -397,6 +447,7 @@ describe('parseAppConfig', () => {
           linkComponent: 'Link',
           linkProps: 'CustomLinkProps',
           hrefProp: 'customHref',
+          generateLinkComponent: true,
           useRedirect: true,
         });
       });
@@ -422,6 +473,7 @@ describe('parseAppConfig', () => {
           linkComponent: 'Link',
           linkProps: 'CustomLinkProps',
           hrefProp: 'customHref',
+          generateLinkComponent: true,
           useRedirect: true,
         });
       });
@@ -444,6 +496,26 @@ describe('parseAppConfig', () => {
           },
         });
         expect(parsedConfig2.routeLinkOptions.Default.useRedirect).toBe(false);
+      });
+
+      it('should parse generateLinkComponent correctly', () => {
+        const parsedConfig = parseAppConfig('sampleApp', {
+          ...defaultAppConfig,
+          generateLinkComponent: false,
+          defaultLinkOptions: {
+            generateLinkComponent: true,
+          },
+        });
+        expect(parsedConfig.routeLinkOptions.Default.generateLinkComponent).toBe(true);
+
+        const parsedConfig2 = parseAppConfig('sampleApp', {
+          ...defaultAppConfig,
+          generateLinkComponent: true,
+          defaultLinkOptions: {
+            generateLinkComponent: false,
+          },
+        });
+        expect(parsedConfig2.routeLinkOptions.Default.generateLinkComponent).toBe(false);
       });
 
       it('should throw error if no "componentDefaultImport" or "componentNamedImport" imports', () => {
