@@ -150,9 +150,10 @@ describe('parseAppConfig', () => {
         });
       });
 
-      it('should parse useRedirect correctly', () => {
+      it('should override generateUseRedirect correctly', () => {
         const parsedConfig = parseAppConfig('sampleApp', {
           ...defaultAppConfig,
+          generateUseRedirect: false,
           reactRouterV5LinkOptions: {
             generateUseRedirect: true,
           },
@@ -161,6 +162,7 @@ describe('parseAppConfig', () => {
 
         const parsedConfig2 = parseAppConfig('sampleApp', {
           ...defaultAppConfig,
+          generateUseRedirect: false,
           reactRouterV5LinkOptions: {
             generateUseRedirect: false,
           },
@@ -168,9 +170,10 @@ describe('parseAppConfig', () => {
         expect(parsedConfig2.routeLinkOptions.ReactRouterV5.generateUseRedirect).toBe(false);
       });
 
-      it('should parse useParams correctly', () => {
+      it('should override generateUseParams correctly', () => {
         const parsedConfig = parseAppConfig('sampleApp', {
           ...defaultAppConfig,
+          generateUseParams: false,
           reactRouterV5LinkOptions: {
             generateUseParams: true,
           },
@@ -179,6 +182,7 @@ describe('parseAppConfig', () => {
 
         const parsedConfig2 = parseAppConfig('sampleApp', {
           ...defaultAppConfig,
+          generateUseParams: true,
           reactRouterV5LinkOptions: {
             generateUseParams: false,
           },
@@ -186,7 +190,7 @@ describe('parseAppConfig', () => {
         expect(parsedConfig2.routeLinkOptions.ReactRouterV5.generateUseParams).toBe(false);
       });
 
-      it('should parse generateLinkComponent correctly', () => {
+      it('should override generateLinkComponent correctly', () => {
         const parsedConfig = parseAppConfig('sampleApp', {
           ...defaultAppConfig,
           generateLinkComponent: false,
@@ -340,9 +344,10 @@ describe('parseAppConfig', () => {
         );
       });
 
-      it('should parse useParams correctly', () => {
+      it('should override generateUseParams correctly', () => {
         const parsedConfig = parseAppConfig('sampleApp', {
           ...defaultAppConfig,
+          generateUseParams: false,
           nextJSLinkOptions: {
             generateUseParams: true,
           },
@@ -351,6 +356,7 @@ describe('parseAppConfig', () => {
 
         const parsedConfig2 = parseAppConfig('sampleApp', {
           ...defaultAppConfig,
+          generateUseParams: true,
           nextJSLinkOptions: {
             generateUseParams: false,
           },
@@ -358,7 +364,7 @@ describe('parseAppConfig', () => {
         expect(parsedConfig2.routeLinkOptions.NextJS.generateUseParams).toBe(false);
       });
 
-      it('should parse generateLinkComponent correctly', () => {
+      it('should override generateLinkComponent correctly', () => {
         const parsedConfig = parseAppConfig('sampleApp', {
           ...defaultAppConfig,
           generateLinkComponent: false,
@@ -478,9 +484,10 @@ describe('parseAppConfig', () => {
         });
       });
 
-      it('should parse useRedirect correctly', () => {
+      it('should override generateUseRedirect correctly', () => {
         const parsedConfig = parseAppConfig('sampleApp', {
           ...defaultAppConfig,
+          generateUseRedirect: false,
           defaultLinkOptions: {
             ...defaultAppConfig.defaultLinkOptions,
             generateUseRedirect: true,
@@ -490,6 +497,7 @@ describe('parseAppConfig', () => {
 
         const parsedConfig2 = parseAppConfig('sampleApp', {
           ...defaultAppConfig,
+          generateUseRedirect: true,
           defaultLinkOptions: {
             ...defaultAppConfig.defaultLinkOptions,
             generateUseRedirect: false,
@@ -498,7 +506,7 @@ describe('parseAppConfig', () => {
         expect(parsedConfig2.routeLinkOptions.Default.generateUseRedirect).toBe(false);
       });
 
-      it('should parse generateLinkComponent correctly', () => {
+      it('should override generateLinkComponent correctly', () => {
         const parsedConfig = parseAppConfig('sampleApp', {
           ...defaultAppConfig,
           generateLinkComponent: false,
