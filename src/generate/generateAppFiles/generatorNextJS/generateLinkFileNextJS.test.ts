@@ -12,7 +12,8 @@ describe('generateLinkFileNextJS', () => {
       hrefProp: 'customHref',
       linkComponent: 'Link',
       linkProps: 'NextJSLinkProps',
-      useParams: true,
+      generateLinkComponent: true,
+      generateUseParams: true,
     },
     routeName: 'Login',
     patternNamedExports: {
@@ -78,7 +79,8 @@ describe('generateLinkFileNextJS', () => {
           linkComponent: 'Link',
           linkProps: 'CustomLinkProps',
           hrefProp: 'to',
-          useParams: true,
+          generateLinkComponent: true,
+          generateUseParams: true,
         },
       });
 
@@ -109,7 +111,8 @@ describe('generateLinkFileNextJS', () => {
             linkComponent: 'Link',
             linkProps: 'CustomLinkProps',
             hrefProp: 'to',
-            useParams: true,
+            generateLinkComponent: true,
+            generateUseParams: true,
           },
           patternNamedExports: {
             ...defaultParams.patternNamedExports,

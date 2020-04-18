@@ -2,25 +2,28 @@ import { Import } from '../types';
 import { RoutingType, AppConfig, ImportCustomLink } from '../config';
 import throwError from '../utils/throwError';
 import info from '../utils/info';
+import getOverriddenValue from '../utils/getOverriddenValue';
 
-export interface ParsedReactRouterV5LinkOptions {
+export interface ParsedLinkOptionsReactRouterV5 {
   importLink: Import;
   linkComponent: string;
   linkProps: string;
   hrefProp: string;
-  useRedirect: boolean;
-  useParams: boolean;
+  generateLinkComponent: boolean;
+  generateUseRedirect: boolean;
+  generateUseParams: boolean;
 }
 
-export interface ParsedNextJSLinkOptions {
+export interface ParsedLinkOptionsNextJS {
   importLink: Import;
   linkComponent: string;
   linkProps: string;
   hrefProp: string;
-  useParams: boolean;
+  generateLinkComponent: boolean;
+  generateUseParams: boolean;
 }
 
-export interface ParsedDefaultLinkOptions {
+export interface ParsedLinkOptionsDefault {
   importLink?: Import;
   linkProps?: string;
   inlineLinkProps?: {
@@ -30,13 +33,14 @@ export interface ParsedDefaultLinkOptions {
   };
   linkComponent: string;
   hrefProp: string;
-  useRedirect: boolean;
+  generateLinkComponent: boolean;
+  generateUseRedirect: boolean;
 }
 
 export type RouteLinkOptions = {
-  NextJS: ParsedNextJSLinkOptions;
-  ReactRouterV5: ParsedReactRouterV5LinkOptions;
-  Default: ParsedDefaultLinkOptions;
+  NextJS: ParsedLinkOptionsNextJS;
+  ReactRouterV5: ParsedLinkOptionsReactRouterV5;
+  Default: ParsedLinkOptionsDefault;
 };
 
 export interface ParsedAppConfig {
@@ -45,7 +49,12 @@ export interface ParsedAppConfig {
   destinationDir?: string;
   routeLinkOptions: RouteLinkOptions;
   importGenerateUrl: Import;
-  shouldGenerateLink: boolean;
+}
+
+interface TopLevelGenerateOptions {
+  generateLinkComponent: boolean;
+  generateUseParams: boolean;
+  generateUseRedirect: boolean;
 }
 
 const IMPORT_GENERATE_URL: Import = {
@@ -53,18 +62,19 @@ const IMPORT_GENERATE_URL: Import = {
   from: 'route-codegen',
 };
 
-const parseAppConfig = (
-  appName: string,
-  {
+const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedAppConfig => {
+  const {
     routingType = RoutingType.Default,
     routes = {},
     destinationDir,
     reactRouterV5LinkOptions,
     nextJSLinkOptions,
     defaultLinkOptions,
-    generateLink = true,
-  }: AppConfig
-): ParsedAppConfig => {
+    generateLinkComponent = true,
+    generateUseParams = true,
+    generateUseRedirect = true,
+  } = appConfig;
+
   if (
     routingType !== RoutingType.NextJS &&
     routingType !== RoutingType.ReactRouterV5 &&
@@ -76,27 +86,43 @@ const parseAppConfig = (
     );
   }
 
+  const topLevelGenerateOptions: TopLevelGenerateOptions = {
+    generateLinkComponent,
+    generateUseParams,
+    generateUseRedirect,
+  };
+
   const parsedConfig: ParsedAppConfig = {
     routes,
     destinationDir,
     routingType,
     routeLinkOptions: {
-      ReactRouterV5: prepareReactRouterV5LinkOptions(appName, reactRouterV5LinkOptions),
-      NextJS: prepareNextJSLinkOptions(appName, nextJSLinkOptions),
-      Default: prepareDefaultLinkOptions(appName, defaultLinkOptions),
+      ReactRouterV5: prepareLinkOptionsReactRouterV5({
+        appName,
+        routeLinkOptions: reactRouterV5LinkOptions,
+        topLevelGenerateOptions,
+      }),
+      NextJS: prepareLinkOptionsNextJS({ appName, routeLinkOptions: nextJSLinkOptions, topLevelGenerateOptions }),
+      Default: prepareLinkOptionsDefault({ appName, routeLinkOptions: defaultLinkOptions, topLevelGenerateOptions }),
     },
     importGenerateUrl: IMPORT_GENERATE_URL,
-    shouldGenerateLink: generateLink,
   };
 
   return parsedConfig;
 };
 
-const prepareReactRouterV5LinkOptions = (
-  appName: string,
-  options: AppConfig['reactRouterV5LinkOptions']
-): ParsedReactRouterV5LinkOptions => {
-  const defaultOptions: ParsedReactRouterV5LinkOptions = {
+interface PrepareLinkOptionsParams<P> {
+  appName: string;
+  routeLinkOptions: P;
+  topLevelGenerateOptions: TopLevelGenerateOptions;
+}
+
+const prepareLinkOptionsReactRouterV5 = (
+  params: PrepareLinkOptionsParams<AppConfig['reactRouterV5LinkOptions']>
+): ParsedLinkOptionsReactRouterV5 => {
+  const { appName, routeLinkOptions, topLevelGenerateOptions } = params;
+
+  const defaultOptions: ParsedLinkOptionsReactRouterV5 = {
     importLink: {
       from: 'react-router-dom',
       namedImports: [{ name: 'LinkProps' }, { name: 'Link' }],
@@ -104,46 +130,53 @@ const prepareReactRouterV5LinkOptions = (
     linkComponent: 'Link',
     linkProps: 'LinkProps',
     hrefProp: 'to',
-    useRedirect: true,
-    useParams: true,
+    generateLinkComponent: topLevelGenerateOptions.generateLinkComponent,
+    generateUseRedirect: topLevelGenerateOptions.generateUseRedirect,
+    generateUseParams: topLevelGenerateOptions.generateUseParams,
   };
 
-  if (!options) {
+  if (!routeLinkOptions) {
     info([appName, 'reactRouterV5LinkOptions'], 'custom options not found... Using default');
     return { ...defaultOptions };
   }
 
-  if (!options.importCustomLink) {
+  const result: ParsedLinkOptionsReactRouterV5 = {
+    ...defaultOptions,
+    generateLinkComponent: getOverriddenValue(
+      defaultOptions.generateLinkComponent,
+      routeLinkOptions.generateLinkComponent
+    ),
+    generateUseParams: getOverriddenValue(defaultOptions.generateUseParams, routeLinkOptions.generateUseParams),
+    generateUseRedirect: getOverriddenValue(defaultOptions.generateUseRedirect, routeLinkOptions.generateUseRedirect),
+  };
+
+  if (!routeLinkOptions.importCustomLink) {
     info([appName, 'reactRouterV5LinkOptions', 'importCustomLink'], 'custom options not found... Using default');
-    return {
-      ...defaultOptions,
-      useParams: options.useParams !== undefined ? options.useParams : defaultOptions.useParams,
-      useRedirect: options.useRedirect !== undefined ? options.useRedirect : defaultOptions.useRedirect,
-    };
+    return { ...result };
   }
 
   info([appName, 'reactRouterV5LinkOptions'], 'using custom link options');
   const { importLink, hrefProp, linkComponent, linkProps } = handleImportCustomLink(
     appName,
     'reactRouterV5LinkOptions',
-    options.importCustomLink
+    routeLinkOptions.importCustomLink
   );
 
   return {
+    ...result,
     importLink,
     linkComponent,
     hrefProp,
     linkProps,
-    useParams: options.useParams !== undefined ? options.useParams : defaultOptions.useParams,
-    useRedirect: options.useRedirect !== undefined ? options.useRedirect : defaultOptions.useRedirect,
   };
 };
 
-const prepareNextJSLinkOptions = (
-  appName: string,
-  options: AppConfig['nextJSLinkOptions']
-): ParsedNextJSLinkOptions => {
-  const defaultOptions: ParsedNextJSLinkOptions = {
+const prepareLinkOptionsNextJS = (
+  params: PrepareLinkOptionsParams<AppConfig['nextJSLinkOptions']>
+): ParsedLinkOptionsNextJS => {
+  const { appName, routeLinkOptions, topLevelGenerateOptions } = params;
+
+  const defaultOptions: ParsedLinkOptionsNextJS = {
     importLink: {
       from: 'next/link',
       defaultImport: 'Link',
@@ -152,76 +185,93 @@ const prepareNextJSLinkOptions = (
     linkComponent: 'Link',
     linkProps: 'LinkProps',
     hrefProp: 'href',
-    useParams: true,
+    generateLinkComponent: topLevelGenerateOptions.generateLinkComponent,
+    generateUseParams: topLevelGenerateOptions.generateUseParams,
   };
-  if (!options) {
+  if (!routeLinkOptions) {
     info([appName, 'nextJSLinkOptions'], 'custom options not found... Using default');
     return { ...defaultOptions };
   }
 
-  if (!options.importCustomLink) {
+  const result: ParsedLinkOptionsNextJS = {
+    ...defaultOptions,
+    generateLinkComponent: getOverriddenValue(
+      defaultOptions.generateLinkComponent,
+      routeLinkOptions.generateLinkComponent
+    ),
+    generateUseParams: getOverriddenValue(defaultOptions.generateUseParams, routeLinkOptions.generateUseParams),
+  };
+
+  if (!routeLinkOptions.importCustomLink) {
     info([appName, 'nextJSLinkOptions', 'importCustomLink'], 'custom options not found... Using default');
-    return {
-      ...defaultOptions,
-      useParams: options.useParams !== undefined ? options.useParams : defaultOptions.useParams,
-    };
+    return { ...result };
   }
 
   info([appName, 'nextJSLinkOptions'], 'using custom link options');
   const { importLink, hrefProp, linkComponent, linkProps } = handleImportCustomLink(
     appName,
     'nextJSLinkOptions',
-    options.importCustomLink
+    routeLinkOptions.importCustomLink
   );
 
   return {
+    ...result,
     importLink,
     hrefProp,
     linkComponent,
     linkProps,
-    useParams: options.useParams !== undefined ? options.useParams : defaultOptions.useParams,
   };
 };
 
-const prepareDefaultLinkOptions = (
-  appName: string,
-  options: AppConfig['defaultLinkOptions']
-): ParsedDefaultLinkOptions => {
-  const defaultOptions: ParsedDefaultLinkOptions = {
+const prepareLinkOptionsDefault = (
+  params: PrepareLinkOptionsParams<AppConfig['defaultLinkOptions']>
+): ParsedLinkOptionsDefault => {
+  const { appName, routeLinkOptions, topLevelGenerateOptions } = params;
+
+  const defaultOptions: ParsedLinkOptionsDefault = {
     hrefProp: 'href',
     linkComponent: 'a',
     inlineLinkProps: {
       template: `type LinkProps = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, 'href'>`,
       linkProps: 'LinkProps',
     },
-    useRedirect: true,
+    generateLinkComponent: topLevelGenerateOptions.generateLinkComponent,
+    generateUseRedirect: topLevelGenerateOptions.generateUseRedirect,
   };
-  if (!options) {
+
+  if (!routeLinkOptions) {
     info([appName, 'defaultLinkOptions'], 'custom options not found... Using default');
     return { ...defaultOptions };
   }
 
-  if (!options.importCustomLink) {
+  const result: ParsedLinkOptionsDefault = {
+    ...defaultOptions,
+    generateLinkComponent: getOverriddenValue(
+      defaultOptions.generateLinkComponent,
+      routeLinkOptions.generateLinkComponent
+    ),
+    generateUseRedirect: getOverriddenValue(defaultOptions.generateUseRedirect, routeLinkOptions.generateUseRedirect),
+  };
+
+  if (!routeLinkOptions.importCustomLink) {
     info([appName, 'defaultLinkOptions', 'importCustomLink'], 'custom options not found... Using default');
-    return {
-      ...defaultOptions,
-      useRedirect: options.useRedirect !== undefined ? options.useRedirect : defaultOptions.useRedirect,
-    };
+    return { ...result };
   }
 
   info([appName, 'defaultLinkOptions'], 'using custom link options');
   const { importLink, hrefProp, linkComponent, linkProps } = handleImportCustomLink(
     appName,
     'defaultLinkOptions',
-    options.importCustomLink
+    routeLinkOptions.importCustomLink
   );
 
   return {
+    ...result,
+    inlineLinkProps: undefined, // If we import custom link props, do not use the default inline prop
     importLink,
     hrefProp,
     linkComponent,
     linkProps,
-    useRedirect: options.useRedirect !== undefined ? options.useRedirect : defaultOptions.useRedirect,
   };
 };
 

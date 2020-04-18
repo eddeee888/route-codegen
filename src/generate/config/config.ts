@@ -14,16 +14,21 @@ export interface ImportCustomLink {
 
 interface LinkOptions {
   importCustomLink?: ImportCustomLink;
+  generateLinkComponent?: boolean;
+  generateUseRedirect?: boolean;
+  generateUseParams?: boolean;
 }
 
 export interface AppConfig {
   routes?: Record<string, string>;
   routingType?: string;
   destinationDir?: string;
-  reactRouterV5LinkOptions?: LinkOptions & { useRedirect?: boolean; useParams?: boolean };
-  nextJSLinkOptions?: LinkOptions & { useParams?: boolean };
-  defaultLinkOptions?: LinkOptions & { useRedirect?: boolean };
-  generateLink?: boolean;
+  reactRouterV5LinkOptions?: LinkOptions & { generateUseRedirect?: boolean; generateUseParams?: boolean };
+  nextJSLinkOptions?: LinkOptions & { generateUseParams?: boolean };
+  defaultLinkOptions?: LinkOptions & { generateUseRedirect?: boolean };
+  generateLinkComponent?: boolean;
+  generateUseParams?: boolean;
+  generateUseRedirect?: boolean;
 }
 
 export interface Config {

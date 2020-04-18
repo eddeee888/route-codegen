@@ -13,7 +13,6 @@ export interface GenerateTemplateFilesParams {
   routingType: RoutingType;
   routeLinkOptions: RouteLinkOptions;
   importGenerateUrl: Import;
-  shouldGenerateLink: boolean;
 }
 
 type GenerateTemplateFiles = (params: GenerateTemplateFilesParams) => TemplateFile[];
@@ -25,7 +24,6 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
   routingType,
   routeLinkOptions,
   importGenerateUrl,
-  shouldGenerateLink,
 }) => {
   const routeNameString = originalRouteName.toString();
   const routeName = routeNameString[0].toUpperCase() + routeNameString.slice(1);
@@ -50,7 +48,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
   // Handle file generation for each routing type
   switch (routingType) {
     case RoutingType.ReactRouterV5:
-      if (shouldGenerateLink) {
+      if (routeLinkOptions.ReactRouterV5.generateLinkComponent) {
         const linkFile = generatorReactRouterV5.generateLinkFile({
           routeName,
           destinationDir,
@@ -60,7 +58,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
         });
         files.push(linkFile);
       }
-      if (routeLinkOptions.ReactRouterV5.useParams && !!patternNamedExports.pathParamsInterfaceName) {
+      if (routeLinkOptions.ReactRouterV5.generateUseParams && !!patternNamedExports.pathParamsInterfaceName) {
         const useParamsFile = generatorReactRouterV5.generateUseParamsFile({
           routeName,
           destinationDir,
@@ -70,7 +68,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
         });
         files.push(useParamsFile);
       }
-      if (routeLinkOptions.ReactRouterV5.useRedirect) {
+      if (routeLinkOptions.ReactRouterV5.generateUseRedirect) {
         const useRedirectFile = generatorReactRouterV5.generateUseRedirectFile({
           routeName,
           destinationDir,
@@ -82,7 +80,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
       break;
 
     case RoutingType.NextJS:
-      if (shouldGenerateLink) {
+      if (routeLinkOptions.NextJS.generateLinkComponent) {
         const linkFile = generatorNextJS.generateLinkFile({
           routeName,
           destinationDir,
@@ -92,7 +90,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
         });
         files.push(linkFile);
       }
-      if (routeLinkOptions.NextJS.useParams && !!patternNamedExports.pathParamsInterfaceNameNextJS) {
+      if (routeLinkOptions.NextJS.generateUseParams && !!patternNamedExports.pathParamsInterfaceNameNextJS) {
         const useParamsFileNextJS = generatorNextJS.generateUseParamsFile({
           routeName,
           routePattern,
@@ -105,7 +103,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
       break;
 
     case RoutingType.Default:
-      if (shouldGenerateLink) {
+      if (routeLinkOptions.Default.generateLinkComponent) {
         const linkFile = generatorDefault.generateLinkFile({
           routeName,
           destinationDir,
@@ -115,7 +113,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
         });
         files.push(linkFile);
       }
-      if (routeLinkOptions.Default.useRedirect) {
+      if (routeLinkOptions.Default.generateUseRedirect) {
         const useRedirectDefault = generatorDefault.generateUseRedirectFile({
           routeName,
           importGenerateUrl,

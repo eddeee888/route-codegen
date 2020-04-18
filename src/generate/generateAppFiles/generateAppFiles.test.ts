@@ -10,7 +10,6 @@ describe('generateAppFiles', () => {
       user: '/user/:id',
     },
     destinationDir: 'path/to/routes',
-    generateLink: true,
   };
 
   describe('general config', () => {
@@ -20,7 +19,7 @@ describe('generateAppFiles', () => {
     });
 
     it('should not generate Link if not needed', () => {
-      const files = generateAppFiles('testApp', { ...appConfig, generateLink: false });
+      const files = generateAppFiles('testApp', { ...appConfig, generateLinkComponent: false });
       expect(files).toHaveLength(6);
       expect(files[0].destinationDir).toEqual('path/to/routes/login');
       expect(files[0].filename).toEqual('patternLogin');
@@ -146,7 +145,7 @@ describe('generateAppFiles', () => {
       const files = generateAppFiles('testApp', {
         ...appConfig,
         routingType: 'ReactRouterV5',
-        reactRouterV5LinkOptions: { useParams: false },
+        reactRouterV5LinkOptions: { generateUseParams: false },
       });
 
       expect(files).toHaveLength(8);
@@ -181,7 +180,7 @@ describe('generateAppFiles', () => {
       const files = generateAppFiles('testApp', {
         ...appConfig,
         routingType: 'ReactRouterV5',
-        reactRouterV5LinkOptions: { useRedirect: false },
+        reactRouterV5LinkOptions: { generateUseRedirect: false },
       });
 
       expect(files).toHaveLength(7);

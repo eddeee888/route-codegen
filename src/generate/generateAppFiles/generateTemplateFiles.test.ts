@@ -8,7 +8,6 @@ describe('generateTemplateFiles', () => {
     routeName: 'login',
     routePattern: '/login',
     routingType: RoutingType.Default,
-    shouldGenerateLink: true,
     importGenerateUrl: {
       from: 'route-codegen',
       namedImports: [{ name: 'generateUrl' }],
@@ -24,8 +23,9 @@ describe('generateTemplateFiles', () => {
         hrefProp: 'to',
         linkComponent: 'Link',
         linkProps: 'CustomLinkProps',
-        useRedirect: true,
-        useParams: true,
+        generateLinkComponent: true,
+        generateUseRedirect: true,
+        generateUseParams: true,
       },
       Default: {
         hrefProp: 'href',
@@ -34,7 +34,8 @@ describe('generateTemplateFiles', () => {
           template: "type LinkProps = Omit<DefaultLinkProps, 'href'>;",
           linkProps: 'LinkProps',
         },
-        useRedirect: true,
+        generateLinkComponent: true,
+        generateUseRedirect: true,
       },
       NextJS: {
         importLink: {
@@ -45,7 +46,8 @@ describe('generateTemplateFiles', () => {
         linkComponent: 'Link',
         hrefProp: 'customHref',
         linkProps: 'NextJSLinkProps',
-        useParams: true,
+        generateLinkComponent: true,
+        generateUseParams: true,
       },
     },
   };
@@ -69,7 +71,14 @@ describe('generateTemplateFiles', () => {
     });
 
     it('should not generate Link if not needed', () => {
-      const files = generateTemplateFiles({ ...params, routingType: RoutingType.Default, shouldGenerateLink: false });
+      const files = generateTemplateFiles({
+        ...params,
+        routingType: RoutingType.Default,
+        routeLinkOptions: {
+          ...params.routeLinkOptions,
+          Default: { ...params.routeLinkOptions.Default, generateLinkComponent: false },
+        },
+      });
       expect(files).toHaveLength(3);
       expect(files[0].filename).toEqual('patternLogin');
       expect(files[0].extension).toEqual('.ts');
@@ -128,9 +137,12 @@ describe('generateTemplateFiles', () => {
     it('should not generate Link if not needed', () => {
       const files = generateTemplateFiles({
         ...params,
-        shouldGenerateLink: false,
         routePattern: '/login/:id',
         routingType: RoutingType.ReactRouterV5,
+        routeLinkOptions: {
+          ...params.routeLinkOptions,
+          ReactRouterV5: { ...params.routeLinkOptions.ReactRouterV5, generateLinkComponent: false },
+        },
       });
       expect(files).toHaveLength(4);
       expect(files[0].filename).toEqual('patternLogin');
@@ -185,7 +197,14 @@ describe('generateTemplateFiles', () => {
     });
 
     it('should not generate Link if not needed', () => {
-      const files = generateTemplateFiles({ ...params, routingType: RoutingType.NextJS, shouldGenerateLink: false });
+      const files = generateTemplateFiles({
+        ...params,
+        routingType: RoutingType.NextJS,
+        routeLinkOptions: {
+          ...params.routeLinkOptions,
+          NextJS: { ...params.routeLinkOptions.NextJS, generateLinkComponent: false },
+        },
+      });
       expect(files).toHaveLength(2);
       expect(files[0].filename).toEqual('patternLogin');
       expect(files[0].extension).toEqual('.ts');

@@ -10,7 +10,8 @@ describe('generateLinkFileDefault', () => {
         template: `type InlineLinkProps = Omit<React.SomeReallyLongReactHTMLProps, 'href'>`,
         linkProps: 'InlineLinkProps',
       },
-      useRedirect: true,
+      generateLinkComponent: true,
+      generateUseRedirect: true,
     },
     routeName: 'Login',
     patternNamedExports: {
@@ -35,7 +36,8 @@ describe('generateLinkFileDefault', () => {
           hrefProp: 'customDefaultHref',
           linkComponent: 'Link',
           linkProps: 'CustomLinkProps',
-          useRedirect: true,
+          generateLinkComponent: true,
+          generateUseRedirect: true,
         },
       });
 
@@ -107,7 +109,8 @@ describe('generateLinkFileDefault', () => {
           linkComponent: 'Link',
           linkProps: 'CustomLinkProps',
           hrefProp: 'to',
-          useRedirect: true,
+          generateLinkComponent: true,
+          generateUseRedirect: true,
         },
       });
 

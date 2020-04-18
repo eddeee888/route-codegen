@@ -89,8 +89,11 @@ apps:
 
   # An app without `routes` is still valid.
   # In this case, this app can still generate url to other apps
+  # `generateLinkComponent`, `generateUseParams` and `generateUseRedirect` should be false to avoid generating unncessary files
   express-server:
-    generateLink: false
+    generateLinkComponent: false
+    generateUseParams: false
+    generateUseRedirect: false
     destinationDir: server/src/routes
 
   # Leave out `destinationDir` if no route needs to be generated.
