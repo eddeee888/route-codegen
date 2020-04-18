@@ -13,8 +13,8 @@ describe('generateLinkFileReactRouterV5', () => {
       linkProps: 'CustomLinkProps',
       hrefProp: 'to',
       generateLinkComponent: true,
-      useRedirect: true,
-      useParams: true,
+      generateUseRedirect: true,
+      generateUseParams: true,
     },
     routeName: 'Login',
     patternNamedExports: {
@@ -81,8 +81,8 @@ describe('generateLinkFileReactRouterV5', () => {
           linkProps: 'CustomLinkProps',
           hrefProp: 'to',
           generateLinkComponent: true,
-          useRedirect: true,
-          useParams: true,
+          generateUseRedirect: true,
+          generateUseParams: true,
         },
       });
 
