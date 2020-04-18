@@ -11,14 +11,17 @@ apps:
       login: /login
       signup: /signup
     routingType: ReactRouterV5
+    generateLinkComponent: true
+    generateUseParams: true
+    generateUseRedirect: true
     reactRouterV5LinkOptions:
       importCustomLink:
         componentDefaultImport: true
         propsNamedImport: LinkProps
         hrefProp: to
         from: common/components/Link
-      useParams: false
-      useRedirect: false
+      generateUseParams: false
+      generateUseRedirect: false
     defaultLinkOptions:
       importCustomLink:
         componentNamedImport: CustomAnchor

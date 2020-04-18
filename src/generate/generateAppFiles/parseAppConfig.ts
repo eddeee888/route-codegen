@@ -10,8 +10,8 @@ export interface ParsedLinkOptionsReactRouterV5 {
   linkProps: string;
   hrefProp: string;
   generateLinkComponent: boolean;
-  useRedirect: boolean;
-  useParams: boolean;
+  generateUseRedirect: boolean;
+  generateUseParams: boolean;
 }
 
 export interface ParsedLinkOptionsNextJS {
@@ -20,7 +20,7 @@ export interface ParsedLinkOptionsNextJS {
   linkProps: string;
   hrefProp: string;
   generateLinkComponent: boolean;
-  useParams: boolean;
+  generateUseParams: boolean;
 }
 
 export interface ParsedLinkOptionsDefault {
@@ -34,7 +34,7 @@ export interface ParsedLinkOptionsDefault {
   linkComponent: string;
   hrefProp: string;
   generateLinkComponent: boolean;
-  useRedirect: boolean;
+  generateUseRedirect: boolean;
 }
 
 export type RouteLinkOptions = {
@@ -131,8 +131,8 @@ const prepareLinkOptionsReactRouterV5 = (
     linkProps: 'LinkProps',
     hrefProp: 'to',
     generateLinkComponent: topLevelGenerateOptions.generateLinkComponent,
-    useRedirect: topLevelGenerateOptions.generateUseRedirect,
-    useParams: topLevelGenerateOptions.generateUseParams,
+    generateUseRedirect: topLevelGenerateOptions.generateUseRedirect,
+    generateUseParams: topLevelGenerateOptions.generateUseParams,
   };
 
   if (!routeLinkOptions) {
@@ -146,8 +146,8 @@ const prepareLinkOptionsReactRouterV5 = (
       defaultOptions.generateLinkComponent,
       routeLinkOptions.generateLinkComponent
     ),
-    useParams: getOverriddenValue(defaultOptions.useParams, routeLinkOptions.useParams),
-    useRedirect: getOverriddenValue(defaultOptions.useRedirect, routeLinkOptions.useRedirect),
+    generateUseParams: getOverriddenValue(defaultOptions.generateUseParams, routeLinkOptions.generateUseParams),
+    generateUseRedirect: getOverriddenValue(defaultOptions.generateUseRedirect, routeLinkOptions.generateUseRedirect),
   };
 
   if (!routeLinkOptions.importCustomLink) {
@@ -186,7 +186,7 @@ const prepareLinkOptionsNextJS = (
     linkProps: 'LinkProps',
     hrefProp: 'href',
     generateLinkComponent: topLevelGenerateOptions.generateLinkComponent,
-    useParams: topLevelGenerateOptions.generateUseParams,
+    generateUseParams: topLevelGenerateOptions.generateUseParams,
   };
   if (!routeLinkOptions) {
     info([appName, 'nextJSLinkOptions'], 'custom options not found... Using default');
@@ -199,7 +199,7 @@ const prepareLinkOptionsNextJS = (
       defaultOptions.generateLinkComponent,
       routeLinkOptions.generateLinkComponent
     ),
-    useParams: getOverriddenValue(defaultOptions.useParams, routeLinkOptions.useParams),
+    generateUseParams: getOverriddenValue(defaultOptions.generateUseParams, routeLinkOptions.generateUseParams),
   };
 
   if (!routeLinkOptions.importCustomLink) {
@@ -236,7 +236,7 @@ const prepareLinkOptionsDefault = (
       linkProps: 'LinkProps',
     },
     generateLinkComponent: topLevelGenerateOptions.generateLinkComponent,
-    useRedirect: topLevelGenerateOptions.generateUseRedirect,
+    generateUseRedirect: topLevelGenerateOptions.generateUseRedirect,
   };
 
   if (!routeLinkOptions) {
@@ -250,7 +250,7 @@ const prepareLinkOptionsDefault = (
       defaultOptions.generateLinkComponent,
       routeLinkOptions.generateLinkComponent
     ),
-    useRedirect: getOverriddenValue(defaultOptions.useRedirect, routeLinkOptions.useRedirect),
+    generateUseRedirect: getOverriddenValue(defaultOptions.generateUseRedirect, routeLinkOptions.generateUseRedirect),
   };
 
   if (!routeLinkOptions.importCustomLink) {

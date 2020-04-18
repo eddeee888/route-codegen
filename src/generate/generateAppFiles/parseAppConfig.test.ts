@@ -22,8 +22,8 @@ describe('parseAppConfig', () => {
     linkProps: 'LinkProps',
     hrefProp: 'to',
     generateLinkComponent: true,
-    useRedirect: true,
-    useParams: true,
+    generateUseRedirect: true,
+    generateUseParams: true,
   };
   const defaultParsedLinkOptionsNextJS: ParsedLinkOptionsNextJS = {
     importLink: {
@@ -35,7 +35,7 @@ describe('parseAppConfig', () => {
     linkProps: 'LinkProps',
     hrefProp: 'href',
     generateLinkComponent: true,
-    useParams: true,
+    generateUseParams: true,
   };
   const defaultParsedLinkOptionsDefault: ParsedLinkOptionsDefault = {
     hrefProp: 'href',
@@ -45,7 +45,7 @@ describe('parseAppConfig', () => {
       linkProps: 'LinkProps',
     },
     generateLinkComponent: true,
-    useRedirect: true,
+    generateUseRedirect: true,
   };
 
   describe('general config', () => {
@@ -118,8 +118,8 @@ describe('parseAppConfig', () => {
           linkProps: 'CustomLinkProps',
           hrefProp: 'customHref',
           generateLinkComponent: true,
-          useRedirect: true,
-          useParams: true,
+          generateUseRedirect: true,
+          generateUseParams: true,
         });
       });
 
@@ -145,8 +145,8 @@ describe('parseAppConfig', () => {
           linkProps: 'CustomLinkProps',
           hrefProp: 'customHref',
           generateLinkComponent: true,
-          useRedirect: true,
-          useParams: true,
+          generateUseRedirect: true,
+          generateUseParams: true,
         });
       });
 
@@ -154,36 +154,36 @@ describe('parseAppConfig', () => {
         const parsedConfig = parseAppConfig('sampleApp', {
           ...defaultAppConfig,
           reactRouterV5LinkOptions: {
-            useRedirect: true,
+            generateUseRedirect: true,
           },
         });
-        expect(parsedConfig.routeLinkOptions.ReactRouterV5.useRedirect).toBe(true);
+        expect(parsedConfig.routeLinkOptions.ReactRouterV5.generateUseRedirect).toBe(true);
 
         const parsedConfig2 = parseAppConfig('sampleApp', {
           ...defaultAppConfig,
           reactRouterV5LinkOptions: {
-            useRedirect: false,
+            generateUseRedirect: false,
           },
         });
-        expect(parsedConfig2.routeLinkOptions.ReactRouterV5.useRedirect).toBe(false);
+        expect(parsedConfig2.routeLinkOptions.ReactRouterV5.generateUseRedirect).toBe(false);
       });
 
       it('should parse useParams correctly', () => {
         const parsedConfig = parseAppConfig('sampleApp', {
           ...defaultAppConfig,
           reactRouterV5LinkOptions: {
-            useParams: true,
+            generateUseParams: true,
           },
         });
-        expect(parsedConfig.routeLinkOptions.ReactRouterV5.useParams).toBe(true);
+        expect(parsedConfig.routeLinkOptions.ReactRouterV5.generateUseParams).toBe(true);
 
         const parsedConfig2 = parseAppConfig('sampleApp', {
           ...defaultAppConfig,
           reactRouterV5LinkOptions: {
-            useParams: false,
+            generateUseParams: false,
           },
         });
-        expect(parsedConfig2.routeLinkOptions.ReactRouterV5.useParams).toBe(false);
+        expect(parsedConfig2.routeLinkOptions.ReactRouterV5.generateUseParams).toBe(false);
       });
 
       it('should parse generateLinkComponent correctly', () => {
@@ -293,7 +293,7 @@ describe('parseAppConfig', () => {
           linkProps: 'CustomLinkProps',
           hrefProp: 'customHref',
           generateLinkComponent: true,
-          useParams: true,
+          generateUseParams: true,
         });
       });
 
@@ -319,7 +319,7 @@ describe('parseAppConfig', () => {
           linkProps: 'CustomLinkProps',
           hrefProp: 'customHref',
           generateLinkComponent: true,
-          useParams: true,
+          generateUseParams: true,
         });
       });
 
@@ -344,18 +344,18 @@ describe('parseAppConfig', () => {
         const parsedConfig = parseAppConfig('sampleApp', {
           ...defaultAppConfig,
           nextJSLinkOptions: {
-            useParams: true,
+            generateUseParams: true,
           },
         });
-        expect(parsedConfig.routeLinkOptions.NextJS.useParams).toBe(true);
+        expect(parsedConfig.routeLinkOptions.NextJS.generateUseParams).toBe(true);
 
         const parsedConfig2 = parseAppConfig('sampleApp', {
           ...defaultAppConfig,
           nextJSLinkOptions: {
-            useParams: false,
+            generateUseParams: false,
           },
         });
-        expect(parsedConfig2.routeLinkOptions.NextJS.useParams).toBe(false);
+        expect(parsedConfig2.routeLinkOptions.NextJS.generateUseParams).toBe(false);
       });
 
       it('should parse generateLinkComponent correctly', () => {
@@ -448,7 +448,7 @@ describe('parseAppConfig', () => {
           linkProps: 'CustomLinkProps',
           hrefProp: 'customHref',
           generateLinkComponent: true,
-          useRedirect: true,
+          generateUseRedirect: true,
         });
       });
 
@@ -474,7 +474,7 @@ describe('parseAppConfig', () => {
           linkProps: 'CustomLinkProps',
           hrefProp: 'customHref',
           generateLinkComponent: true,
-          useRedirect: true,
+          generateUseRedirect: true,
         });
       });
 
@@ -483,19 +483,19 @@ describe('parseAppConfig', () => {
           ...defaultAppConfig,
           defaultLinkOptions: {
             ...defaultAppConfig.defaultLinkOptions,
-            useRedirect: true,
+            generateUseRedirect: true,
           },
         });
-        expect(parsedConfig.routeLinkOptions.Default.useRedirect).toBe(true);
+        expect(parsedConfig.routeLinkOptions.Default.generateUseRedirect).toBe(true);
 
         const parsedConfig2 = parseAppConfig('sampleApp', {
           ...defaultAppConfig,
           defaultLinkOptions: {
             ...defaultAppConfig.defaultLinkOptions,
-            useRedirect: false,
+            generateUseRedirect: false,
           },
         });
-        expect(parsedConfig2.routeLinkOptions.Default.useRedirect).toBe(false);
+        expect(parsedConfig2.routeLinkOptions.Default.generateUseRedirect).toBe(false);
       });
 
       it('should parse generateLinkComponent correctly', () => {

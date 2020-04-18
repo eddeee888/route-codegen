@@ -24,8 +24,8 @@ describe('generateTemplateFiles', () => {
         linkComponent: 'Link',
         linkProps: 'CustomLinkProps',
         generateLinkComponent: true,
-        useRedirect: true,
-        useParams: true,
+        generateUseRedirect: true,
+        generateUseParams: true,
       },
       Default: {
         hrefProp: 'href',
@@ -35,7 +35,7 @@ describe('generateTemplateFiles', () => {
           linkProps: 'LinkProps',
         },
         generateLinkComponent: true,
-        useRedirect: true,
+        generateUseRedirect: true,
       },
       NextJS: {
         importLink: {
@@ -47,7 +47,7 @@ describe('generateTemplateFiles', () => {
         hrefProp: 'customHref',
         linkProps: 'NextJSLinkProps',
         generateLinkComponent: true,
-        useParams: true,
+        generateUseParams: true,
       },
     },
   };

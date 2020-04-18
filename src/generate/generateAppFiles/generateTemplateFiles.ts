@@ -58,7 +58,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
         });
         files.push(linkFile);
       }
-      if (routeLinkOptions.ReactRouterV5.useParams && !!patternNamedExports.pathParamsInterfaceName) {
+      if (routeLinkOptions.ReactRouterV5.generateUseParams && !!patternNamedExports.pathParamsInterfaceName) {
         const useParamsFile = generatorReactRouterV5.generateUseParamsFile({
           routeName,
           destinationDir,
@@ -68,7 +68,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
         });
         files.push(useParamsFile);
       }
-      if (routeLinkOptions.ReactRouterV5.useRedirect) {
+      if (routeLinkOptions.ReactRouterV5.generateUseRedirect) {
         const useRedirectFile = generatorReactRouterV5.generateUseRedirectFile({
           routeName,
           destinationDir,
@@ -90,7 +90,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
         });
         files.push(linkFile);
       }
-      if (routeLinkOptions.NextJS.useParams && !!patternNamedExports.pathParamsInterfaceNameNextJS) {
+      if (routeLinkOptions.NextJS.generateUseParams && !!patternNamedExports.pathParamsInterfaceNameNextJS) {
         const useParamsFileNextJS = generatorNextJS.generateUseParamsFile({
           routeName,
           routePattern,
@@ -113,7 +113,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
         });
         files.push(linkFile);
       }
-      if (routeLinkOptions.Default.useRedirect) {
+      if (routeLinkOptions.Default.generateUseRedirect) {
         const useRedirectDefault = generatorDefault.generateUseRedirectFile({
           routeName,
           importGenerateUrl,

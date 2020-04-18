@@ -10,7 +10,6 @@ describe('generateAppFiles', () => {
       user: '/user/:id',
     },
     destinationDir: 'path/to/routes',
-    generateLinkComponent: true,
   };
 
   describe('general config', () => {
@@ -146,7 +145,7 @@ describe('generateAppFiles', () => {
       const files = generateAppFiles('testApp', {
         ...appConfig,
         routingType: 'ReactRouterV5',
-        reactRouterV5LinkOptions: { useParams: false },
+        reactRouterV5LinkOptions: { generateUseParams: false },
       });
 
       expect(files).toHaveLength(8);
@@ -181,7 +180,7 @@ describe('generateAppFiles', () => {
       const files = generateAppFiles('testApp', {
         ...appConfig,
         routingType: 'ReactRouterV5',
-        reactRouterV5LinkOptions: { useRedirect: false },
+        reactRouterV5LinkOptions: { generateUseRedirect: false },
       });
 
       expect(files).toHaveLength(7);
