@@ -10,11 +10,10 @@ const NORMAL_PATTERN = '[^\\/#\\?]+?';
 const getKeyType = (key: Key): KeyType => {
   if (key.pattern === NORMAL_PATTERN) {
     return KeyType.normal;
-  } else if (key.pattern.includes('|')) {
-    return KeyType.enum;
   }
 
-  throw new Error(`Unable to handle ${key.pattern}...`);
+  // TODO: Falling back to enum might not be safe...
+  return KeyType.enum;
 };
 
 export default getKeyType;
