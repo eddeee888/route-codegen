@@ -8,6 +8,7 @@ export interface PathParamsAbout {
   optionalEnum?: 'enumOne' | 'enumTwo';
 }
 
+export const possilePathParamsAbout = ['target', 'topic', 'optional', 'optionalEnum'];
 export interface UrlPartsAbout {
   path: PathParamsAbout;
   urlQuery?: Record<string, string>;

@@ -50,6 +50,7 @@ describe('generateLinkFileNextJS', () => {
         patternNamedExports: {
           ...defaultParams.patternNamedExports,
           pathParamsInterfaceName: 'PathParamsLogin',
+          possiblePathParamsVariableName: 'possiblePathParamsLogin',
         },
       });
 
@@ -59,11 +60,12 @@ describe('generateLinkFileNextJS', () => {
       expect(templateFile.template).toContain(`import React from 'react'
   import {generateUrl,} from 'route-codegen'
   import Link, {NextJSLinkProps,} from 'src/NextJS/Link'
-  import {patternLogin,UrlPartsLogin,patternNextJSLogin,} from './patternLogin'
+  import {patternLogin,UrlPartsLogin,patternNextJSLogin,possiblePathParamsLogin,} from './patternLogin'
   type LinkLoginProps = Omit<NextJSLinkProps, 'customHref'> & UrlPartsLogin
   const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({ path, urlQuery, ...props }) => {
     const to = generateUrl(patternLogin, path, urlQuery);
-    return <Link {...props} customHref={patternNextJSLogin} as={to} />;
+    const href = possiblePathParamsLogin.filter((key) => !(key in path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[${'${suppliedParam'}}]\`, ""), patternNextJSLogin);
+    return <Link {...props} customHref={href} as={to} />;
   }
   export default LinkLogin;`);
     });

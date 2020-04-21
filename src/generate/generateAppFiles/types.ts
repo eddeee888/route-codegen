@@ -3,6 +3,7 @@ export interface PatternNamedExports {
   patternNameNextJS?: string;
   pathParamsInterfaceName?: string;
   pathParamsInterfaceNameNextJS?: string;
+  possiblePathParamsVariableName?: string;
   urlPartsInterfaceName: string;
   filename: string;
 }

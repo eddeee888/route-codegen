@@ -38,6 +38,7 @@ describe('generatePatternFile', () => {
   
   export interface PathParamsUserInfo {id: string;subview:'profile'|'pictures';}
   
+  export const possilePathParamsUserInfo = ['id','subview',]
   export interface UrlPartsUserInfo {
     path: PathParamsUserInfo;
     urlQuery?: Record<string, string>;
@@ -48,6 +49,7 @@ describe('generatePatternFile', () => {
         pathParamsInterfaceName: 'PathParamsUserInfo',
         urlPartsInterfaceName: 'UrlPartsUserInfo',
         filename: 'patternUserInfo',
+        possiblePathParamsVariableName: 'possilePathParamsUserInfo',
       });
     });
   });
@@ -69,6 +71,7 @@ describe('generatePatternFile', () => {
   export const patternNextJSUserInfo = '/app/users/[id]/[subview]/[optional]/[optionalEnum]'
   export interface PathParamsUserInfo {id: string;subview:'profile'|'pictures';optional?: string;optionalEnum?:'enum1'|'enum2';}
   export interface PathParamsNextJSUserInfo {id: string;subview: string;optional?: string;optionalEnum?: string;}
+  export const possilePathParamsUserInfo = ['id','subview','optional','optionalEnum',]
   export interface UrlPartsUserInfo {
     path: PathParamsUserInfo;
     urlQuery?: Record<string, string>;
@@ -80,6 +83,7 @@ describe('generatePatternFile', () => {
         pathParamsInterfaceNameNextJS: 'PathParamsNextJSUserInfo',
         urlPartsInterfaceName: 'UrlPartsUserInfo',
         filename: 'patternUserInfo',
+        possiblePathParamsVariableName: 'possilePathParamsUserInfo',
       });
     });
   });
