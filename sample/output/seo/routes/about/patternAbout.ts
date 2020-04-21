@@ -13,6 +13,7 @@ export interface PathParamsNextJSAbout {
   optional?: string;
   optionalEnum?: string;
 }
+export const possilePathParamsAbout = ['target', 'topic', 'optional', 'optionalEnum'];
 export interface UrlPartsAbout {
   path: PathParamsAbout;
   urlQuery?: Record<string, string>;

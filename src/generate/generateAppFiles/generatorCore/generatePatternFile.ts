@@ -22,6 +22,7 @@ const generateRoutePatternFile = (params: GenerateRoutePatternFileParams): [Temp
   const patternName = `pattern${routeName}`;
   const filename = patternName;
   const pathParams = generatePathParamsInterface(keys, routeName);
+  const possiblePathParams = generatePossiblePathParams(keys, routeName);
   const urlParts = generateUrlPartsInterface(routeName, pathParams);
 
   const patternNextJS =
@@ -32,6 +33,7 @@ const generateRoutePatternFile = (params: GenerateRoutePatternFileParams): [Temp
   ${patternNextJS ? patternNextJS.template : ''}
   ${pathParams ? pathParams.template : ''}
   ${pathParamsNextJS ? pathParamsNextJS.template : ''}
+  ${possiblePathParams ? possiblePathParams.template : ''}
   ${urlParts.template}`;
 
   const result: [TemplateFile, PatternNamedExports] = [
@@ -46,6 +48,7 @@ const generateRoutePatternFile = (params: GenerateRoutePatternFileParams): [Temp
       patternNameNextJS: patternNextJS ? patternNextJS.variableName : undefined,
       pathParamsInterfaceName: pathParams ? pathParams.interfaceName : undefined,
       pathParamsInterfaceNameNextJS: pathParamsNextJS ? pathParamsNextJS.interfaceName : undefined,
+      possiblePathParamsVariableName: possiblePathParams ? possiblePathParams.variableName : undefined,
       urlPartsInterfaceName: urlParts.interfaceName,
       filename,
     },
@@ -93,6 +96,27 @@ const generatePathParamsInterface = (keys: Key[], routeName: string): PathParams
   return {
     template,
     interfaceName: pathParamsInterfaceName,
+  };
+};
+
+interface PossibleParamsResult {
+  template: string;
+  variableName: string;
+}
+
+const generatePossiblePathParams = (keys: Key[], routeName: string): PossibleParamsResult | undefined => {
+  if (keys.length === 0) {
+    return;
+  }
+
+  const variableName = `possilePathParams${routeName}`;
+  let template = `export const ${variableName} = [`;
+  template = keys.reduce((prevTemplate, { name }) => prevTemplate + `'${name}',`, template);
+  template += ']';
+
+  return {
+    template,
+    variableName,
   };
 };
 

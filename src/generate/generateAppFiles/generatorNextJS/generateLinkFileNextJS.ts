@@ -23,6 +23,7 @@ const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): TemplateF
       filename: routePatternFilename,
       urlPartsInterfaceName,
       patternNameNextJS,
+      possiblePathParamsVariableName,
     },
     importGenerateUrl,
   } = params;
@@ -46,9 +47,14 @@ const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): TemplateF
     { name: urlPartsInterfaceName },
     { name: patternNameNextJS },
   ];
-
   // NextJS has slightly different way to handle its link component: "href" prop is actually the pattern. and "as" is the generated url
-  const linkTemplate = `<${linkComponent} {...props} ${hrefProp}={${patternNameNextJS}} as={to} />;`;
+  let linkTemplate = `return <${linkComponent} {...props} ${hrefProp}={${patternNameNextJS}} as={to} />;`;
+
+  if (possiblePathParamsVariableName) {
+    namedImportsFromPatternFile.push({ name: possiblePathParamsVariableName });
+    linkTemplate = `const href = ${possiblePathParamsVariableName}.filter((key) => !(key in path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[${'${suppliedParam'}}]\`, ""), ${patternNameNextJS});
+    return <${linkComponent} {...props} ${hrefProp}={href} as={to} />;`;
+  }
 
   const template = `${printImport({ defaultImport: 'React', from: 'react' })}
   ${printImport(importGenerateUrl)}
@@ -62,7 +68,7 @@ const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): TemplateF
     hasPathParams ? 'path,' : ''
   } urlQuery, ...props }) => {
     const to = generateUrl(${patternName}, ${hasPathParams ? 'path' : '{}'}, urlQuery);
-    return ${linkTemplate}
+    ${linkTemplate}
   }
   export default ${functionName};
   `;
