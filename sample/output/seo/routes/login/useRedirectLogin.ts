@@ -1,7 +1,7 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 import { UrlPartsLogin, patternLogin } from './patternLogin';
 import { generateUrl } from 'route-codegen';
-type RedirectLogin = (urlParts: UrlPartsLogin) => void;
+export type RedirectLogin = (urlParts: UrlPartsLogin) => void;
 const useRedirectLogin = (): RedirectLogin => {
   const redirect: RedirectLogin = urlParts => {
     const to = generateUrl(patternLogin, {}, urlParts.urlQuery);

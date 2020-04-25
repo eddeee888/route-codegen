@@ -1,7 +1,7 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 import { UrlPartsAbout, patternAbout } from './patternAbout';
 import { generateUrl } from 'route-codegen';
-type RedirectAbout = (urlParts: UrlPartsAbout) => void;
+export type RedirectAbout = (urlParts: UrlPartsAbout) => void;
 const useRedirectAbout = (): RedirectAbout => {
   const redirect: RedirectAbout = urlParts => {
     const to = generateUrl(patternAbout, urlParts.path, urlParts.urlQuery);
