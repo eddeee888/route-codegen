@@ -19,11 +19,19 @@ describe('generateUseRedirectReactRouterV5', () => {
     expect(templateFile.filename).toBe('useRedirectLogin');
     expect(templateFile.extension).toBe('.ts');
     expect(templateFile.destinationDir).toBe('path/to/routes');
-    expect(templateFile.template).toContain(`const useRedirectLogin = ( urlParts: UrlPartsLogin ): (() => void) => {
+    expect(templateFile.template).toContain(`import {useHistory,} from 'react-router'
+  import {UrlPartsLogin,patternLogin,} from './patternLogin'
+  import {generateUrl,} from 'route-codegen'
+  type RedirectLogin = (urlParts: UrlPartsLogin) => void;
+  const useRedirectLogin = (): RedirectLogin => {
     const history = useHistory();
-    const to = generateUrl(patternLogin, {}, urlParts.urlQuery);
-    return () => history.push(to);
-  }`);
+    const redirect: RedirectLogin = urlParts => {
+      const to = generateUrl(patternLogin, {}, urlParts.urlQuery);
+      history.push(to);
+    }
+    return redirect;
+  }
+  export default useRedirectLogin`);
   });
 
   it('should generate when there is pathParams', () => {
@@ -45,11 +53,18 @@ describe('generateUseRedirectReactRouterV5', () => {
     expect(templateFile.filename).toBe('useRedirectUserInfo');
     expect(templateFile.extension).toBe('.ts');
     expect(templateFile.destinationDir).toBe('path/to/routes');
-    expect(templateFile.template)
-      .toContain(`const useRedirectUserInfo = ( urlParts: UrlPartsUserInfo ): (() => void) => {
+    expect(templateFile.template).toContain(`import {useHistory,} from 'react-router'
+  import {UrlPartsUserInfo,patternUserInfo,} from './patternUserInfo'
+  import {generateUrl,} from 'route-codegen'
+  type RedirectUserInfo = (urlParts: UrlPartsUserInfo) => void;
+  const useRedirectUserInfo = (): RedirectUserInfo => {
     const history = useHistory();
-    const to = generateUrl(patternUserInfo, urlParts.path, urlParts.urlQuery);
-    return () => history.push(to);
-  }`);
+    const redirect: RedirectUserInfo = urlParts => {
+      const to = generateUrl(patternUserInfo, urlParts.path, urlParts.urlQuery);
+      history.push(to);
+    }
+    return redirect;
+  }
+  export default useRedirectUserInfo`);
   });
 });

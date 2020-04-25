@@ -2,10 +2,13 @@
 import { useHistory } from 'react-router';
 import { UrlPartsAccount, patternAccount } from './patternAccount';
 import { generateUrl } from 'route-codegen';
-
-const useRedirectAccount = (urlParts: UrlPartsAccount): (() => void) => {
+type RedirectAccount = (urlParts: UrlPartsAccount) => void;
+const useRedirectAccount = (): RedirectAccount => {
   const history = useHistory();
-  const to = generateUrl(patternAccount, {}, urlParts.urlQuery);
-  return () => history.push(to);
+  const redirect: RedirectAccount = urlParts => {
+    const to = generateUrl(patternAccount, {}, urlParts.urlQuery);
+    history.push(to);
+  };
+  return redirect;
 };
 export default useRedirectAccount;
