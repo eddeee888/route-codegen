@@ -12,6 +12,8 @@ export interface GenerateUseRedirectReactRouterV5Params {
 const generateUseRedirectReactRouterV5 = (params: GenerateUseRedirectReactRouterV5Params): TemplateFile => {
   const { routeName, patternNamedExports, destinationDir, importGenerateUrl } = params;
   const functionName = `useRedirect${routeName}`;
+  const pathVariable = patternNamedExports.pathParamsInterfaceName ? 'urlParts.path' : '{}';
+  const resultTypeInterface = `Redirect${routeName}`;
 
   const template = `${printImport({
     namedImports: [{ name: 'useHistory' }],
@@ -22,13 +24,14 @@ const generateUseRedirectReactRouterV5 = (params: GenerateUseRedirectReactRouter
     from: `./${patternNamedExports.filename}`,
   })}
   ${printImport(importGenerateUrl)}
-  
-  const ${functionName} = ( urlParts: ${patternNamedExports.urlPartsInterfaceName} ): (() => void) => {
+  type ${resultTypeInterface} = (urlParts: ${patternNamedExports.urlPartsInterfaceName}) => void;
+  const ${functionName} = (): ${resultTypeInterface} => {
     const history = useHistory();
-    const to = generateUrl(${patternNamedExports.patternName}, ${
-    patternNamedExports.pathParamsInterfaceName ? 'urlParts.path' : '{}'
-  }, urlParts.urlQuery);
-    return () => history.push(to);
+    const redirect: ${resultTypeInterface} = urlParts => {
+      const to = generateUrl(${patternNamedExports.patternName}, ${pathVariable}, urlParts.urlQuery);
+      history.push(to);
+    }
+    return redirect;
   }
   export default ${functionName}`;
 

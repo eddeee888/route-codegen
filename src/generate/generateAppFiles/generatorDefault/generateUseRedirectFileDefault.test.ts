@@ -19,10 +19,20 @@ describe('generateUseRedirectFileDefault', () => {
     expect(templateFile.filename).toBe('useRedirectLogin');
     expect(templateFile.extension).toBe('.ts');
     expect(templateFile.destinationDir).toBe('path/to/routes');
-    expect(templateFile.template).toContain(`const useRedirectLogin = ( urlParts: UrlPartsLogin ): (() => void) => {
-    const to = generateUrl(patternLogin, {}, urlParts.urlQuery);
-    return () => !!window && !!window.location ? window.location.href = to : undefined;
-  }`);
+    expect(templateFile.template).toContain(`import {UrlPartsLogin,patternLogin,} from './patternLogin'
+  import {generateUrl,} from 'route-codegen'
+  type RedirectLogin = (urlParts: UrlPartsLogin) => void;
+  const useRedirectLogin = (): RedirectLogin => {
+    const redirect: RedirectLogin = urlParts => {
+      const to = generateUrl(patternLogin, {}, urlParts.urlQuery);
+      if (!!window && !!window.location) {
+        window.location.href = to;
+      }
+      return;
+    }
+    return redirect;
+  }
+  export default useRedirectLogin`);
   });
 
   it('should generate when there is pathParams', () => {
@@ -46,10 +56,16 @@ describe('generateUseRedirectFileDefault', () => {
     expect(templateFile.destinationDir).toBe('path/to/routes');
     expect(templateFile.template).toContain(`import {UrlPartsUserInfo,patternUserInfo,} from './patternUserInfo'
   import {generateUrl,} from 'route-codegen'
-  
-  const useRedirectUserInfo = ( urlParts: UrlPartsUserInfo ): (() => void) => {
-    const to = generateUrl(patternUserInfo, urlParts.path, urlParts.urlQuery);
-    return () => !!window && !!window.location ? window.location.href = to : undefined;
+  type RedirectUserInfo = (urlParts: UrlPartsUserInfo) => void;
+  const useRedirectUserInfo = (): RedirectUserInfo => {
+    const redirect: RedirectUserInfo = urlParts => {
+      const to = generateUrl(patternUserInfo, urlParts.path, urlParts.urlQuery);
+      if (!!window && !!window.location) {
+        window.location.href = to;
+      }
+      return;
+    }
+    return redirect;
   }
   export default useRedirectUserInfo`);
   });
