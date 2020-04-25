@@ -20,7 +20,7 @@ const generateUseRedirectFileDefault = (params: GenerateUseRedirectFileDefaultPa
     from: `./${patternNamedExports.filename}`,
   })}
   ${printImport(importGenerateUrl)}
-  type ${resultTypeInterface} = (urlParts: ${patternNamedExports.urlPartsInterfaceName}) => void;
+  export type ${resultTypeInterface} = (urlParts: ${patternNamedExports.urlPartsInterfaceName}) => void;
   const ${functionName} = (): ${resultTypeInterface} => {
     const redirect: ${resultTypeInterface} = urlParts => {
       const to = generateUrl(${patternNamedExports.patternName}, ${pathVariable}, urlParts.urlQuery);

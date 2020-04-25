@@ -1,7 +1,7 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 import { UrlPartsLegacy, patternLegacy } from './patternLegacy';
 import { generateUrl } from 'route-codegen';
-type RedirectLegacy = (urlParts: UrlPartsLegacy) => void;
+export type RedirectLegacy = (urlParts: UrlPartsLegacy) => void;
 const useRedirectLegacy = (): RedirectLegacy => {
   const redirect: RedirectLegacy = urlParts => {
     const to = generateUrl(patternLegacy, {}, urlParts.urlQuery);

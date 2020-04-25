@@ -21,7 +21,7 @@ describe('generateUseRedirectFileDefault', () => {
     expect(templateFile.destinationDir).toBe('path/to/routes');
     expect(templateFile.template).toContain(`import {UrlPartsLogin,patternLogin,} from './patternLogin'
   import {generateUrl,} from 'route-codegen'
-  type RedirectLogin = (urlParts: UrlPartsLogin) => void;
+  export type RedirectLogin = (urlParts: UrlPartsLogin) => void;
   const useRedirectLogin = (): RedirectLogin => {
     const redirect: RedirectLogin = urlParts => {
       const to = generateUrl(patternLogin, {}, urlParts.urlQuery);
@@ -56,7 +56,7 @@ describe('generateUseRedirectFileDefault', () => {
     expect(templateFile.destinationDir).toBe('path/to/routes');
     expect(templateFile.template).toContain(`import {UrlPartsUserInfo,patternUserInfo,} from './patternUserInfo'
   import {generateUrl,} from 'route-codegen'
-  type RedirectUserInfo = (urlParts: UrlPartsUserInfo) => void;
+  export type RedirectUserInfo = (urlParts: UrlPartsUserInfo) => void;
   const useRedirectUserInfo = (): RedirectUserInfo => {
     const redirect: RedirectUserInfo = urlParts => {
       const to = generateUrl(patternUserInfo, urlParts.path, urlParts.urlQuery);

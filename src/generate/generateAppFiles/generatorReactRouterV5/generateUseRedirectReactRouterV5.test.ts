@@ -22,7 +22,7 @@ describe('generateUseRedirectReactRouterV5', () => {
     expect(templateFile.template).toContain(`import {useHistory,} from 'react-router'
   import {UrlPartsLogin,patternLogin,} from './patternLogin'
   import {generateUrl,} from 'route-codegen'
-  type RedirectLogin = (urlParts: UrlPartsLogin) => void;
+  export type RedirectLogin = (urlParts: UrlPartsLogin) => void;
   const useRedirectLogin = (): RedirectLogin => {
     const history = useHistory();
     const redirect: RedirectLogin = urlParts => {
@@ -56,7 +56,7 @@ describe('generateUseRedirectReactRouterV5', () => {
     expect(templateFile.template).toContain(`import {useHistory,} from 'react-router'
   import {UrlPartsUserInfo,patternUserInfo,} from './patternUserInfo'
   import {generateUrl,} from 'route-codegen'
-  type RedirectUserInfo = (urlParts: UrlPartsUserInfo) => void;
+  export type RedirectUserInfo = (urlParts: UrlPartsUserInfo) => void;
   const useRedirectUserInfo = (): RedirectUserInfo => {
     const history = useHistory();
     const redirect: RedirectUserInfo = urlParts => {

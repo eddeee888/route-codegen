@@ -24,7 +24,7 @@ const generateUseRedirectReactRouterV5 = (params: GenerateUseRedirectReactRouter
     from: `./${patternNamedExports.filename}`,
   })}
   ${printImport(importGenerateUrl)}
-  type ${resultTypeInterface} = (urlParts: ${patternNamedExports.urlPartsInterfaceName}) => void;
+  export type ${resultTypeInterface} = (urlParts: ${patternNamedExports.urlPartsInterfaceName}) => void;
   const ${functionName} = (): ${resultTypeInterface} => {
     const history = useHistory();
     const redirect: ${resultTypeInterface} = urlParts => {
