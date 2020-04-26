@@ -132,6 +132,15 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
         });
         files.push(useRedirectDefault);
       }
+      if (routeLinkOptions.Default.generateRedirectComponent) {
+        const redirectFile = generatorDefault.generateRedirectFile({
+          routeName,
+          destinationDir,
+          importGenerateUrl,
+          patternNamedExports,
+        });
+        files.push(redirectFile);
+      }
       break;
   }
 
