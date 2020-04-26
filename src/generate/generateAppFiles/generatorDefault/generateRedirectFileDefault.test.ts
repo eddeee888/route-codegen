@@ -22,14 +22,14 @@ describe('generateRedirectFileDefault', () => {
     expect(templateFile.template).toContain(`import React, {useEffect,} from 'react'
   import {generateUrl,} from 'route-codegen'
   import {UrlPartsLogin,patternLogin,} from './patternLogin'
-  const RedirectLogin: React.FunctionComponent<UrlPartsLogin> = props => {
+  const RedirectLogin: React.FunctionComponent<UrlPartsLogin & { fallback?: React.ReactNode }> = props => {
     const to = generateUrl(patternLogin, {}, props.urlQuery);
     useEffect(() => {
       if (window && window.location) {
         window.location.href = to;
       }
     }, [to]);
-    return <>{props.children}</>;
+    return <>{props.fallback}</>;
   };
   export default RedirectLogin`);
   });
@@ -49,14 +49,14 @@ describe('generateRedirectFileDefault', () => {
     expect(templateFile.template).toContain(`import React, {useEffect,} from 'react'
   import {generateUrl,} from 'route-codegen'
   import {UrlPartsLogin,patternLogin,} from './patternLogin'
-  const RedirectLogin: React.FunctionComponent<UrlPartsLogin> = props => {
+  const RedirectLogin: React.FunctionComponent<UrlPartsLogin & { fallback?: React.ReactNode }> = props => {
     const to = generateUrl(patternLogin, props.path, props.urlQuery);
     useEffect(() => {
       if (window && window.location) {
         window.location.href = to;
       }
     }, [to]);
-    return <>{props.children}</>;
+    return <>{props.fallback}</>;
   };
   export default RedirectLogin`);
   });

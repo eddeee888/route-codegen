@@ -22,12 +22,14 @@ const generateRedirectFileReactRouterV5 = (params: GenerateRedirectFileReactRout
     namedImports: [{ name: patternNamedExports.urlPartsInterfaceName }, { name: patternNamedExports.patternName }],
     from: `./${patternNamedExports.filename}`,
   })}
-  const ${functionName}: React.FunctionComponent<${patternNamedExports.urlPartsInterfaceName}> = props => {
+  const ${functionName}: React.FunctionComponent<${
+    patternNamedExports.urlPartsInterfaceName
+  } & { fallback?: React.ReactNode }> = props => {
     const to = generateUrl(${patternNamedExports.patternName}, ${hasPathParams ? 'props.path' : '{}'}, props.urlQuery);
     return (
       <>
         <Redirect to={to} />
-        {props.children}
+        {props.fallback}
       </>
     );
   };
