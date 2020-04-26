@@ -24,7 +24,12 @@ const generateRedirectFileReactRouterV5 = (params: GenerateRedirectFileReactRout
   })}
   const ${functionName}: React.FunctionComponent<${patternNamedExports.urlPartsInterfaceName}> = props => {
     const to = generateUrl(${patternNamedExports.patternName}, ${hasPathParams ? 'props.path' : '{}'}, props.urlQuery);
-    return <Redirect to={to} />;
+    return (
+      <>
+        <Redirect to={to} />
+        {props.children}
+      </>
+    );
   };
   export default ${functionName}`;
 

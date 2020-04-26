@@ -9,6 +9,6 @@ const RedirectLogin: React.FunctionComponent<UrlPartsLogin> = props => {
       window.location.href = to;
     }
   }, [to]);
-  return null;
+  return <>{props.children}</>;
 };
 export default RedirectLogin;

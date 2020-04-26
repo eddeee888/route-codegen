@@ -9,6 +9,6 @@ const RedirectAbout: React.FunctionComponent<UrlPartsAbout> = props => {
       window.location.href = to;
     }
   }, [to]);
-  return null;
+  return <>{props.children}</>;
 };
 export default RedirectAbout;

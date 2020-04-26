@@ -5,6 +5,11 @@ import { Redirect } from 'react-router';
 import { UrlPartsAccount, patternAccount } from './patternAccount';
 const RedirectAccount: React.FunctionComponent<UrlPartsAccount> = props => {
   const to = generateUrl(patternAccount, {}, props.urlQuery);
-  return <Redirect to={to} />;
+  return (
+    <>
+      <Redirect to={to} />
+      {props.children}
+    </>
+  );
 };
 export default RedirectAccount;

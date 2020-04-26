@@ -5,6 +5,11 @@ import { Redirect } from 'react-router';
 import { UrlPartsUser, patternUser } from './patternUser';
 const RedirectUser: React.FunctionComponent<UrlPartsUser> = props => {
   const to = generateUrl(patternUser, props.path, props.urlQuery);
-  return <Redirect to={to} />;
+  return (
+    <>
+      <Redirect to={to} />
+      {props.children}
+    </>
+  );
 };
 export default RedirectUser;

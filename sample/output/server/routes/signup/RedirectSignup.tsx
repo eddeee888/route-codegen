@@ -9,6 +9,6 @@ const RedirectSignup: React.FunctionComponent<UrlPartsSignup> = props => {
       window.location.href = to;
     }
   }, [to]);
-  return null;
+  return <>{props.children}</>;
 };
 export default RedirectSignup;

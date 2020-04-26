@@ -9,6 +9,6 @@ const RedirectAccount: React.FunctionComponent<UrlPartsAccount> = props => {
       window.location.href = to;
     }
   }, [to]);
-  return null;
+  return <>{props.children}</>;
 };
 export default RedirectAccount;
