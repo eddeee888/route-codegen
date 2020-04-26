@@ -11,6 +11,7 @@ describe('generateLinkFileDefault', () => {
         linkProps: 'InlineLinkProps',
       },
       generateLinkComponent: true,
+      generateRedirectComponent: true,
       generateUseRedirect: true,
     },
     routeName: 'Login',
@@ -37,6 +38,7 @@ describe('generateLinkFileDefault', () => {
           linkComponent: 'Link',
           linkProps: 'CustomLinkProps',
           generateLinkComponent: true,
+          generateRedirectComponent: true,
           generateUseRedirect: true,
         },
       });
@@ -110,6 +112,7 @@ describe('generateLinkFileDefault', () => {
           linkProps: 'CustomLinkProps',
           hrefProp: 'to',
           generateLinkComponent: true,
+          generateRedirectComponent: true,
           generateUseRedirect: true,
         },
       });
