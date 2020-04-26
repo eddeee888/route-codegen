@@ -5,6 +5,11 @@ import { Redirect } from 'react-router';
 import { UrlPartsSignup, patternSignup } from './patternSignup';
 const RedirectSignup: React.FunctionComponent<UrlPartsSignup> = props => {
   const to = generateUrl(patternSignup, {}, props.urlQuery);
-  return <Redirect to={to} />;
+  return (
+    <>
+      <Redirect to={to} />
+      {props.children}
+    </>
+  );
 };
 export default RedirectSignup;

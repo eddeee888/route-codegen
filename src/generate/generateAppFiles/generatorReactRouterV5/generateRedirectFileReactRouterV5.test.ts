@@ -27,7 +27,12 @@ describe('generateRedirectFileReactRouterV5', () => {
   import {UrlPartsLogin,patternLogin,} from './patternLogin'
   const RedirectLogin: React.FunctionComponent<UrlPartsLogin> = props => {
     const to = generateUrl(patternLogin, {}, props.urlQuery);
-    return <Redirect to={to} />;
+    return (
+      <>
+        <Redirect to={to} />
+        {props.children}
+      </>
+    );
   };
   export default RedirectLogin`);
   });
@@ -50,7 +55,12 @@ describe('generateRedirectFileReactRouterV5', () => {
   import {UrlPartsLogin,patternLogin,} from './patternLogin'
   const RedirectLogin: React.FunctionComponent<UrlPartsLogin> = props => {
     const to = generateUrl(patternLogin, props.path, props.urlQuery);
-    return <Redirect to={to} />;
+    return (
+      <>
+        <Redirect to={to} />
+        {props.children}
+      </>
+    );
   };
   export default RedirectLogin`);
   });

@@ -29,7 +29,7 @@ describe('generateRedirectFileDefault', () => {
         window.location.href = to;
       }
     }, [to]);
-    return null;
+    return <>{props.children}</>;
   };
   export default RedirectLogin`);
   });
@@ -56,7 +56,7 @@ describe('generateRedirectFileDefault', () => {
         window.location.href = to;
       }
     }, [to]);
-    return null;
+    return <>{props.children}</>;
   };
   export default RedirectLogin`);
   });

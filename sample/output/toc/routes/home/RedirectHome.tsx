@@ -9,6 +9,6 @@ const RedirectHome: React.FunctionComponent<UrlPartsHome> = props => {
       window.location.href = to;
     }
   }, [to]);
-  return null;
+  return <>{props.children}</>;
 };
 export default RedirectHome;

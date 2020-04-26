@@ -9,6 +9,6 @@ const RedirectToc: React.FunctionComponent<UrlPartsToc> = props => {
       window.location.href = to;
     }
   }, [to]);
-  return null;
+  return <>{props.children}</>;
 };
 export default RedirectToc;
