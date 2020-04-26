@@ -2,13 +2,13 @@
 import React, { useEffect } from 'react';
 import { generateUrl } from 'route-codegen';
 import { UrlPartsToc, patternToc } from './patternToc';
-const RedirectToc: React.FunctionComponent<UrlPartsToc> = props => {
+const RedirectToc: React.FunctionComponent<UrlPartsToc & { fallback?: React.ReactNode }> = props => {
   const to = generateUrl(patternToc, {}, props.urlQuery);
   useEffect(() => {
     if (window && window.location) {
       window.location.href = to;
     }
   }, [to]);
-  return <>{props.children}</>;
+  return <>{props.fallback}</>;
 };
 export default RedirectToc;

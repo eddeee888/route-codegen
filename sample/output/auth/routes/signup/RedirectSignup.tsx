@@ -3,12 +3,12 @@ import React from 'react';
 import { generateUrl } from 'route-codegen';
 import { Redirect } from 'react-router';
 import { UrlPartsSignup, patternSignup } from './patternSignup';
-const RedirectSignup: React.FunctionComponent<UrlPartsSignup> = props => {
+const RedirectSignup: React.FunctionComponent<UrlPartsSignup & { fallback?: React.ReactNode }> = props => {
   const to = generateUrl(patternSignup, {}, props.urlQuery);
   return (
     <>
       <Redirect to={to} />
-      {props.children}
+      {props.fallback}
     </>
   );
 };

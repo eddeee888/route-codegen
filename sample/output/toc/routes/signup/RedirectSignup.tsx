@@ -2,13 +2,13 @@
 import React, { useEffect } from 'react';
 import { generateUrl } from 'route-codegen';
 import { UrlPartsSignup, patternSignup } from './patternSignup';
-const RedirectSignup: React.FunctionComponent<UrlPartsSignup> = props => {
+const RedirectSignup: React.FunctionComponent<UrlPartsSignup & { fallback?: React.ReactNode }> = props => {
   const to = generateUrl(patternSignup, {}, props.urlQuery);
   useEffect(() => {
     if (window && window.location) {
       window.location.href = to;
     }
   }, [to]);
-  return <>{props.children}</>;
+  return <>{props.fallback}</>;
 };
 export default RedirectSignup;

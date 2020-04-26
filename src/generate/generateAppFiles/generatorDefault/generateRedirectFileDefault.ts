@@ -21,14 +21,16 @@ const generateRedirectFileDefault = (params: GenerateRedirectFileDefaultParams):
     namedImports: [{ name: patternNamedExports.urlPartsInterfaceName }, { name: patternNamedExports.patternName }],
     from: `./${patternNamedExports.filename}`,
   })}
-  const ${functionName}: React.FunctionComponent<${patternNamedExports.urlPartsInterfaceName}> = props => {
+  const ${functionName}: React.FunctionComponent<${
+    patternNamedExports.urlPartsInterfaceName
+  } & { fallback?: React.ReactNode }> = props => {
     const to = generateUrl(${patternNamedExports.patternName}, ${hasPathParams ? 'props.path' : '{}'}, props.urlQuery);
     useEffect(() => {
       if (window && window.location) {
         window.location.href = to;
       }
     }, [to]);
-    return <>{props.children}</>;
+    return <>{props.fallback}</>;
   };
   export default ${functionName}`;
 
