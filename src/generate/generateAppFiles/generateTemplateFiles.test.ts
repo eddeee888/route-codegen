@@ -26,6 +26,7 @@ describe('generateTemplateFiles', () => {
         generateLinkComponent: true,
         generateUseRedirect: true,
         generateUseParams: true,
+        generateRedirectComponent: true,
       },
       Default: {
         hrefProp: 'href',
@@ -35,6 +36,7 @@ describe('generateTemplateFiles', () => {
           linkProps: 'LinkProps',
         },
         generateLinkComponent: true,
+        generateRedirectComponent: true,
         generateUseRedirect: true,
       },
       NextJS: {
@@ -55,7 +57,7 @@ describe('generateTemplateFiles', () => {
   describe('Default', () => {
     it('should generate files', () => {
       const files = generateTemplateFiles({ ...params, routingType: RoutingType.Default });
-      expect(files).toHaveLength(4);
+      expect(files).toHaveLength(5);
       expect(files[0].filename).toEqual('patternLogin');
       expect(files[0].extension).toEqual('.ts');
       expect(files[0].destinationDir).toEqual('path/to/routes/login');
@@ -68,6 +70,9 @@ describe('generateTemplateFiles', () => {
       expect(files[3].filename).toEqual('useRedirectLogin');
       expect(files[3].extension).toEqual('.ts');
       expect(files[3].destinationDir).toEqual('path/to/routes/login');
+      expect(files[4].filename).toEqual('RedirectLogin');
+      expect(files[4].extension).toEqual('.tsx');
+      expect(files[4].destinationDir).toEqual('path/to/routes/login');
     });
 
     it('should not generate Link if not needed', () => {
@@ -79,7 +84,7 @@ describe('generateTemplateFiles', () => {
           Default: { ...params.routeLinkOptions.Default, generateLinkComponent: false },
         },
       });
-      expect(files).toHaveLength(3);
+      expect(files).toHaveLength(4);
       expect(files[0].filename).toEqual('patternLogin');
       expect(files[0].extension).toEqual('.ts');
       expect(files[0].destinationDir).toEqual('path/to/routes/login');
@@ -89,12 +94,20 @@ describe('generateTemplateFiles', () => {
       expect(files[2].filename).toEqual('useRedirectLogin');
       expect(files[2].extension).toEqual('.ts');
       expect(files[2].destinationDir).toEqual('path/to/routes/login');
+      expect(files[3].filename).toEqual('RedirectLogin');
+      expect(files[3].extension).toEqual('.tsx');
+      expect(files[3].destinationDir).toEqual('path/to/routes/login');
     });
-  });
 
-  describe('ReactRouterV5', () => {
-    it('should generate files when no dynamic path params', () => {
-      const files = generateTemplateFiles({ ...params, routingType: RoutingType.ReactRouterV5 });
+    it('should not generate Redirect component if not needed', () => {
+      const files = generateTemplateFiles({
+        ...params,
+        routingType: RoutingType.Default,
+        routeLinkOptions: {
+          ...params.routeLinkOptions,
+          Default: { ...params.routeLinkOptions.Default, generateRedirectComponent: false },
+        },
+      });
       expect(files).toHaveLength(4);
       expect(files[0].filename).toEqual('patternLogin');
       expect(files[0].extension).toEqual('.ts');
@@ -109,12 +122,93 @@ describe('generateTemplateFiles', () => {
       expect(files[3].extension).toEqual('.ts');
       expect(files[3].destinationDir).toEqual('path/to/routes/login');
     });
+  });
+
+  describe('ReactRouterV5', () => {
+    it('should generate files when no dynamic path params', () => {
+      const files = generateTemplateFiles({ ...params, routingType: RoutingType.ReactRouterV5 });
+      expect(files).toHaveLength(5);
+      expect(files[0].filename).toEqual('patternLogin');
+      expect(files[0].extension).toEqual('.ts');
+      expect(files[0].destinationDir).toEqual('path/to/routes/login');
+      expect(files[1].filename).toEqual('generateUrlLogin');
+      expect(files[1].extension).toEqual('.ts');
+      expect(files[1].destinationDir).toEqual('path/to/routes/login');
+      expect(files[2].filename).toEqual('LinkLogin');
+      expect(files[2].extension).toEqual('.tsx');
+      expect(files[2].destinationDir).toEqual('path/to/routes/login');
+      expect(files[3].filename).toEqual('useRedirectLogin');
+      expect(files[3].extension).toEqual('.ts');
+      expect(files[3].destinationDir).toEqual('path/to/routes/login');
+      expect(files[4].filename).toEqual('RedirectLogin');
+      expect(files[4].extension).toEqual('.tsx');
+      expect(files[4].destinationDir).toEqual('path/to/routes/login');
+    });
 
     it('should generate files with dynamic path params', () => {
       const files = generateTemplateFiles({
         ...params,
         routePattern: '/login/:id',
         routingType: RoutingType.ReactRouterV5,
+      });
+      expect(files).toHaveLength(6);
+      expect(files[0].filename).toEqual('patternLogin');
+      expect(files[0].extension).toEqual('.ts');
+      expect(files[0].destinationDir).toEqual('path/to/routes/login');
+      expect(files[1].filename).toEqual('generateUrlLogin');
+      expect(files[1].extension).toEqual('.ts');
+      expect(files[1].destinationDir).toEqual('path/to/routes/login');
+      expect(files[2].filename).toEqual('LinkLogin');
+      expect(files[2].extension).toEqual('.tsx');
+      expect(files[2].destinationDir).toEqual('path/to/routes/login');
+      expect(files[3].filename).toEqual('useParamsLogin');
+      expect(files[3].extension).toEqual('.ts');
+      expect(files[3].destinationDir).toEqual('path/to/routes/login');
+      expect(files[4].filename).toEqual('useRedirectLogin');
+      expect(files[4].extension).toEqual('.ts');
+      expect(files[4].destinationDir).toEqual('path/to/routes/login');
+      expect(files[5].filename).toEqual('RedirectLogin');
+      expect(files[5].extension).toEqual('.tsx');
+      expect(files[5].destinationDir).toEqual('path/to/routes/login');
+    });
+
+    it('should not generate Link if not needed', () => {
+      const files = generateTemplateFiles({
+        ...params,
+        routePattern: '/login/:id',
+        routingType: RoutingType.ReactRouterV5,
+        routeLinkOptions: {
+          ...params.routeLinkOptions,
+          ReactRouterV5: { ...params.routeLinkOptions.ReactRouterV5, generateLinkComponent: false },
+        },
+      });
+      expect(files).toHaveLength(5);
+      expect(files[0].filename).toEqual('patternLogin');
+      expect(files[0].extension).toEqual('.ts');
+      expect(files[0].destinationDir).toEqual('path/to/routes/login');
+      expect(files[1].filename).toEqual('generateUrlLogin');
+      expect(files[1].extension).toEqual('.ts');
+      expect(files[1].destinationDir).toEqual('path/to/routes/login');
+      expect(files[2].filename).toEqual('useParamsLogin');
+      expect(files[2].extension).toEqual('.ts');
+      expect(files[2].destinationDir).toEqual('path/to/routes/login');
+      expect(files[3].filename).toEqual('useRedirectLogin');
+      expect(files[3].extension).toEqual('.ts');
+      expect(files[3].destinationDir).toEqual('path/to/routes/login');
+      expect(files[4].filename).toEqual('RedirectLogin');
+      expect(files[4].extension).toEqual('.tsx');
+      expect(files[4].destinationDir).toEqual('path/to/routes/login');
+    });
+
+    it('should not generate Redirect if not needed', () => {
+      const files = generateTemplateFiles({
+        ...params,
+        routePattern: '/login/:id',
+        routingType: RoutingType.ReactRouterV5,
+        routeLinkOptions: {
+          ...params.routeLinkOptions,
+          ReactRouterV5: { ...params.routeLinkOptions.ReactRouterV5, generateRedirectComponent: false },
+        },
       });
       expect(files).toHaveLength(5);
       expect(files[0].filename).toEqual('patternLogin');
@@ -134,29 +228,60 @@ describe('generateTemplateFiles', () => {
       expect(files[4].destinationDir).toEqual('path/to/routes/login');
     });
 
-    it('should not generate Link if not needed', () => {
+    it('should not generate useParams if not needed', () => {
       const files = generateTemplateFiles({
         ...params,
         routePattern: '/login/:id',
         routingType: RoutingType.ReactRouterV5,
         routeLinkOptions: {
           ...params.routeLinkOptions,
-          ReactRouterV5: { ...params.routeLinkOptions.ReactRouterV5, generateLinkComponent: false },
+          ReactRouterV5: { ...params.routeLinkOptions.ReactRouterV5, generateUseParams: false },
         },
       });
-      expect(files).toHaveLength(4);
+      expect(files).toHaveLength(5);
       expect(files[0].filename).toEqual('patternLogin');
       expect(files[0].extension).toEqual('.ts');
       expect(files[0].destinationDir).toEqual('path/to/routes/login');
       expect(files[1].filename).toEqual('generateUrlLogin');
       expect(files[1].extension).toEqual('.ts');
       expect(files[1].destinationDir).toEqual('path/to/routes/login');
-      expect(files[2].filename).toEqual('useParamsLogin');
-      expect(files[2].extension).toEqual('.ts');
+      expect(files[2].filename).toEqual('LinkLogin');
+      expect(files[2].extension).toEqual('.tsx');
       expect(files[2].destinationDir).toEqual('path/to/routes/login');
       expect(files[3].filename).toEqual('useRedirectLogin');
       expect(files[3].extension).toEqual('.ts');
       expect(files[3].destinationDir).toEqual('path/to/routes/login');
+      expect(files[4].filename).toEqual('RedirectLogin');
+      expect(files[4].extension).toEqual('.tsx');
+      expect(files[4].destinationDir).toEqual('path/to/routes/login');
+    });
+
+    it('should not generate useRedirect if not needed', () => {
+      const files = generateTemplateFiles({
+        ...params,
+        routePattern: '/login/:id',
+        routingType: RoutingType.ReactRouterV5,
+        routeLinkOptions: {
+          ...params.routeLinkOptions,
+          ReactRouterV5: { ...params.routeLinkOptions.ReactRouterV5, generateUseRedirect: false },
+        },
+      });
+      expect(files).toHaveLength(5);
+      expect(files[0].filename).toEqual('patternLogin');
+      expect(files[0].extension).toEqual('.ts');
+      expect(files[0].destinationDir).toEqual('path/to/routes/login');
+      expect(files[1].filename).toEqual('generateUrlLogin');
+      expect(files[1].extension).toEqual('.ts');
+      expect(files[1].destinationDir).toEqual('path/to/routes/login');
+      expect(files[2].filename).toEqual('LinkLogin');
+      expect(files[2].extension).toEqual('.tsx');
+      expect(files[2].destinationDir).toEqual('path/to/routes/login');
+      expect(files[3].filename).toEqual('useParamsLogin');
+      expect(files[3].extension).toEqual('.ts');
+      expect(files[3].destinationDir).toEqual('path/to/routes/login');
+      expect(files[4].filename).toEqual('RedirectLogin');
+      expect(files[4].extension).toEqual('.tsx');
+      expect(files[4].destinationDir).toEqual('path/to/routes/login');
     });
   });
 

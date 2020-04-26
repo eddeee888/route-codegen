@@ -77,6 +77,16 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
         });
         files.push(useRedirectFile);
       }
+      if (routeLinkOptions.ReactRouterV5.generateRedirectComponent) {
+        const redirectFile = generatorReactRouterV5.generateRedirectFile({
+          patternNamedExports,
+          destinationDir,
+          importGenerateUrl,
+          routeName,
+        });
+        files.push(redirectFile);
+      }
+
       break;
 
     case RoutingType.NextJS:
@@ -121,6 +131,15 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
           patternNamedExports,
         });
         files.push(useRedirectDefault);
+      }
+      if (routeLinkOptions.Default.generateRedirectComponent) {
+        const redirectFile = generatorDefault.generateRedirectFile({
+          routeName,
+          destinationDir,
+          importGenerateUrl,
+          patternNamedExports,
+        });
+        files.push(redirectFile);
       }
       break;
   }

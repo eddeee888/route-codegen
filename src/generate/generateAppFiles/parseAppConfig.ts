@@ -10,6 +10,7 @@ export interface ParsedLinkOptionsReactRouterV5 {
   linkProps: string;
   hrefProp: string;
   generateLinkComponent: boolean;
+  generateRedirectComponent: boolean;
   generateUseRedirect: boolean;
   generateUseParams: boolean;
 }
@@ -34,6 +35,7 @@ export interface ParsedLinkOptionsDefault {
   linkComponent: string;
   hrefProp: string;
   generateLinkComponent: boolean;
+  generateRedirectComponent: boolean;
   generateUseRedirect: boolean;
 }
 
@@ -53,6 +55,7 @@ export interface ParsedAppConfig {
 
 interface TopLevelGenerateOptions {
   generateLinkComponent: boolean;
+  generateRedirectComponent: boolean;
   generateUseParams: boolean;
   generateUseRedirect: boolean;
 }
@@ -71,6 +74,7 @@ const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedAppConfig 
     nextJSLinkOptions,
     defaultLinkOptions,
     generateLinkComponent = true,
+    generateRedirectComponent = true,
     generateUseParams = true,
     generateUseRedirect = true,
   } = appConfig;
@@ -88,6 +92,7 @@ const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedAppConfig 
 
   const topLevelGenerateOptions: TopLevelGenerateOptions = {
     generateLinkComponent,
+    generateRedirectComponent,
     generateUseParams,
     generateUseRedirect,
   };
@@ -131,6 +136,7 @@ const prepareLinkOptionsReactRouterV5 = (
     linkProps: 'LinkProps',
     hrefProp: 'to',
     generateLinkComponent: topLevelGenerateOptions.generateLinkComponent,
+    generateRedirectComponent: topLevelGenerateOptions.generateRedirectComponent,
     generateUseRedirect: topLevelGenerateOptions.generateUseRedirect,
     generateUseParams: topLevelGenerateOptions.generateUseParams,
   };
@@ -145,6 +151,10 @@ const prepareLinkOptionsReactRouterV5 = (
     generateLinkComponent: getOverriddenValue(
       defaultOptions.generateLinkComponent,
       routeLinkOptions.generateLinkComponent
+    ),
+    generateRedirectComponent: getOverriddenValue(
+      defaultOptions.generateRedirectComponent,
+      routeLinkOptions.generateRedirectComponent
     ),
     generateUseParams: getOverriddenValue(defaultOptions.generateUseParams, routeLinkOptions.generateUseParams),
     generateUseRedirect: getOverriddenValue(defaultOptions.generateUseRedirect, routeLinkOptions.generateUseRedirect),
@@ -237,6 +247,7 @@ const prepareLinkOptionsDefault = (
     },
     generateLinkComponent: topLevelGenerateOptions.generateLinkComponent,
     generateUseRedirect: topLevelGenerateOptions.generateUseRedirect,
+    generateRedirectComponent: topLevelGenerateOptions.generateRedirectComponent,
   };
 
   if (!routeLinkOptions) {
@@ -249,6 +260,10 @@ const prepareLinkOptionsDefault = (
     generateLinkComponent: getOverriddenValue(
       defaultOptions.generateLinkComponent,
       routeLinkOptions.generateLinkComponent
+    ),
+    generateRedirectComponent: getOverriddenValue(
+      defaultOptions.generateRedirectComponent,
+      routeLinkOptions.generateRedirectComponent
     ),
     generateUseRedirect: getOverriddenValue(defaultOptions.generateUseRedirect, routeLinkOptions.generateUseRedirect),
   };

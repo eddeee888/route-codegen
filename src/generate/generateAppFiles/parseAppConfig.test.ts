@@ -22,6 +22,7 @@ describe('parseAppConfig', () => {
     linkProps: 'LinkProps',
     hrefProp: 'to',
     generateLinkComponent: true,
+    generateRedirectComponent: true,
     generateUseRedirect: true,
     generateUseParams: true,
   };
@@ -45,6 +46,7 @@ describe('parseAppConfig', () => {
       linkProps: 'LinkProps',
     },
     generateLinkComponent: true,
+    generateRedirectComponent: true,
     generateUseRedirect: true,
   };
 
@@ -80,7 +82,7 @@ describe('parseAppConfig', () => {
       );
     });
 
-    it('should parse top level generateLink', () => {
+    it('should parse top level generateLinkComponent', () => {
       const parsedConfig = parseAppConfig('sampleApp', { ...defaultAppConfig, generateLinkComponent: false });
       expect(parsedConfig.routeLinkOptions.Default.generateLinkComponent).toBe(false);
       expect(parsedConfig.routeLinkOptions.NextJS.generateLinkComponent).toBe(false);
@@ -90,6 +92,16 @@ describe('parseAppConfig', () => {
       expect(parsedConfig2.routeLinkOptions.Default.generateLinkComponent).toBe(true);
       expect(parsedConfig2.routeLinkOptions.NextJS.generateLinkComponent).toBe(true);
       expect(parsedConfig2.routeLinkOptions.ReactRouterV5.generateLinkComponent).toBe(true);
+    });
+
+    it('should parse top level generateRedirectComponent', () => {
+      const parsedConfig = parseAppConfig('sampleApp', { ...defaultAppConfig, generateRedirectComponent: false });
+      expect(parsedConfig.routeLinkOptions.Default.generateRedirectComponent).toBe(false);
+      expect(parsedConfig.routeLinkOptions.ReactRouterV5.generateRedirectComponent).toBe(false);
+
+      const parsedConfig2 = parseAppConfig('sampleApp', { ...defaultAppConfig, generateRedirectComponent: true });
+      expect(parsedConfig2.routeLinkOptions.Default.generateRedirectComponent).toBe(true);
+      expect(parsedConfig2.routeLinkOptions.ReactRouterV5.generateRedirectComponent).toBe(true);
     });
   });
 
@@ -118,6 +130,7 @@ describe('parseAppConfig', () => {
           linkProps: 'CustomLinkProps',
           hrefProp: 'customHref',
           generateLinkComponent: true,
+          generateRedirectComponent: true,
           generateUseRedirect: true,
           generateUseParams: true,
         });
@@ -145,6 +158,7 @@ describe('parseAppConfig', () => {
           linkProps: 'CustomLinkProps',
           hrefProp: 'customHref',
           generateLinkComponent: true,
+          generateRedirectComponent: true,
           generateUseRedirect: true,
           generateUseParams: true,
         });
@@ -208,6 +222,26 @@ describe('parseAppConfig', () => {
           },
         });
         expect(parsedConfig2.routeLinkOptions.ReactRouterV5.generateLinkComponent).toBe(false);
+      });
+
+      it('should override generateRedirectComponent correctly', () => {
+        const parsedConfig = parseAppConfig('sampleApp', {
+          ...defaultAppConfig,
+          generateRedirectComponent: false,
+          reactRouterV5LinkOptions: {
+            generateRedirectComponent: true,
+          },
+        });
+        expect(parsedConfig.routeLinkOptions.ReactRouterV5.generateRedirectComponent).toBe(true);
+
+        const parsedConfig2 = parseAppConfig('sampleApp', {
+          ...defaultAppConfig,
+          generateRedirectComponent: true,
+          reactRouterV5LinkOptions: {
+            generateRedirectComponent: false,
+          },
+        });
+        expect(parsedConfig2.routeLinkOptions.ReactRouterV5.generateRedirectComponent).toBe(false);
       });
 
       it('should throw error if no "componentDefaultImport" or "componentNamedImport" imports', () => {
@@ -454,6 +488,7 @@ describe('parseAppConfig', () => {
           linkProps: 'CustomLinkProps',
           hrefProp: 'customHref',
           generateLinkComponent: true,
+          generateRedirectComponent: true,
           generateUseRedirect: true,
         });
       });
@@ -480,6 +515,7 @@ describe('parseAppConfig', () => {
           linkProps: 'CustomLinkProps',
           hrefProp: 'customHref',
           generateLinkComponent: true,
+          generateRedirectComponent: true,
           generateUseRedirect: true,
         });
       });
