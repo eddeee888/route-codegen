@@ -1,4 +1,4 @@
-import { compile, PathFunction } from 'path-to-regexp';
+import { compile, PathFunction } from "path-to-regexp";
 
 const cache: Record<string, (data?: object) => string> = {};
 const cacheLimit = 10000;
@@ -19,16 +19,16 @@ const compilePath = (path: string): PathFunction => {
   return generator;
 };
 
-const generatePath = (path = '/', params = {}): string => {
-  return path === '/' ? path : compilePath(path)(params);
+const generatePath = (path = "/", params = {}): string => {
+  return path === "/" ? path : compilePath(path)(params);
 };
 
 const generateQueryString = (urlQuery?: Record<string, string>): string => {
   if (!urlQuery) {
-    return '';
+    return "";
   }
 
-  const result = Object.entries(urlQuery).reduce((prev, [key, value]) => prev.concat(key, '=', value, '&'), '?');
+  const result = Object.entries(urlQuery).reduce((prev, [key, value]) => prev.concat(key, "=", value, "&"), "?");
   // remove the final '&'
   return result.substring(0, result.length - 1);
 };

@@ -1,1 +1,1 @@
-export { default } from './throwError';
+export { default } from "./throwError";

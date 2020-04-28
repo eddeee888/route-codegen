@@ -1,12 +1,12 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
-export const patternUser = '/app/users/:id/:subview(pictures)?';
+export const patternUser = "/app/users/:id/:subview(pictures)?";
 
 export interface PathParamsUser {
   id: string;
-  subview?: 'pictures';
+  subview?: "pictures";
 }
 
-export const possilePathParamsUser = ['id', 'subview'];
+export const possilePathParamsUser = ["id", "subview"];
 export interface UrlPartsUser {
   path: PathParamsUser;
   urlQuery?: Record<string, string>;

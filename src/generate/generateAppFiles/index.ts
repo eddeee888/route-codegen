@@ -1,1 +1,1 @@
-export { default } from './generateAppFiles';
+export { default } from "./generateAppFiles";

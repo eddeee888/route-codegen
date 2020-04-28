@@ -1,9 +1,9 @@
-import { Config, AppConfig } from './config';
-import generateExternalRoutesConfig from './generateExternalRoutesConfig';
-import generateAppFiles from './generateAppFiles';
-import writeFile from './utils/writeFile';
-import { TemplateFile } from './types';
-import handleCommandFlags, { CommandFlags } from './handleCommandFlags';
+import { Config, AppConfig } from "./config";
+import generateExternalRoutesConfig from "./generateExternalRoutesConfig";
+import generateAppFiles from "./generateAppFiles";
+import writeFile from "./utils/writeFile";
+import { TemplateFile } from "./types";
+import handleCommandFlags, { CommandFlags } from "./handleCommandFlags";
 
 const generate = (config: Config, commandFlags: CommandFlags): void => {
   handleCommandFlags(commandFlags);

@@ -1,6 +1,6 @@
-import { TemplateFile } from '../../types';
-import printImport from '../../utils/printImport';
-import getKeysFromRoutePattern from '../../utils/getKeysFromRoutePattern';
+import { TemplateFile } from "../../types";
+import printImport from "../../utils/printImport";
+import getKeysFromRoutePattern from "../../utils/getKeysFromRoutePattern";
 
 export interface GenerateUseParamsFileNextJSParams {
   routeName: string;
@@ -23,15 +23,15 @@ const generateUseParamsFileNextJS = (params: GenerateUseParamsFileNextJSParams):
       return `${prev}${key.name}: query.${key.name} ? (query.${key.name} as string) : undefined,`;
     }
     return `${prev}${key.name}: query.${key.name} as string,`;
-  }, '')}`;
+  }, "")}`;
 
   const template = `${printImport({
     namedImports: [{ name: pathParamsInterfaceName }],
     from: `./${pathParamsFilename}`,
   })}
     ${printImport({
-      namedImports: [{ name: 'useRouter' }],
-      from: 'next/router',
+      namedImports: [{ name: "useRouter" }],
+      from: "next/router",
     })}
     const ${functionName} = (): ${pathParamsInterfaceName} => {
       const query = useRouter().query;
@@ -41,7 +41,7 @@ const generateUseParamsFileNextJS = (params: GenerateUseParamsFileNextJSParams):
 
   return {
     template,
-    extension: '.ts',
+    extension: ".ts",
     filename: functionName,
     destinationDir,
   };

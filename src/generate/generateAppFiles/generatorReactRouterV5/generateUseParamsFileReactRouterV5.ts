@@ -1,5 +1,5 @@
-import { TemplateFile } from '../../types';
-import printImport from '../../utils/printImport';
+import { TemplateFile } from "../../types";
+import printImport from "../../utils/printImport";
 
 export interface GenerateUseParamsFileReactRouterV5Params {
   routeName: string;
@@ -15,17 +15,17 @@ const generateUseParamsFileReactRouterV5 = (params: GenerateUseParamsFileReactRo
   const functionName = `useParams${routeName}`;
 
   const template = `${printImport({
-    namedImports: [{ name: pathParamsInterfaceName }, { name: patternName, importAs: 'pattern' }],
+    namedImports: [{ name: pathParamsInterfaceName }, { name: patternName, importAs: "pattern" }],
     from: `./${pathParamsFilename}`,
   })}
     ${printImport({
-      namedImports: [{ name: 'useRouteMatch' }],
-      from: 'react-router',
+      namedImports: [{ name: "useRouteMatch" }],
+      from: "react-router",
     })}
     const ${functionName} = (): ${pathParamsInterfaceName} => {
       const { path, params } = useRouteMatch<${pathParamsInterfaceName}>();
       if (path !== pattern) {
-        const error = \`You are trying to use useParams for "${'${pattern}'}" in "${'${path}'}". Make sure you are using the right route link object!\`;
+        const error = \`You are trying to use useParams for "${"${pattern}"}" in "${"${path}"}". Make sure you are using the right route link object!\`;
         throw new Error(error);
       }
       return params;
@@ -34,7 +34,7 @@ const generateUseParamsFileReactRouterV5 = (params: GenerateUseParamsFileReactRo
 
   return {
     template,
-    extension: '.ts',
+    extension: ".ts",
     filename: functionName,
     destinationDir,
   };

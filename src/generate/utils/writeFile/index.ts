@@ -1,1 +1,1 @@
-export { default } from './writeFile';
+export { default } from "./writeFile";

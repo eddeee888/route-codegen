@@ -1,11 +1,11 @@
-import { TemplateFile } from '../../types';
-import { Key } from 'path-to-regexp';
-import { RoutingType } from '../../config';
-import throwError from '../../utils/throwError';
-import getKeyType from '../../utils/getKeyType';
-import { KeyType } from '../../utils/getKeyType/getKeyType';
-import getKeysFromRoutePattern from '../../utils/getKeysFromRoutePattern';
-import { PatternNamedExports } from '../types';
+import { TemplateFile } from "../../types";
+import { Key } from "path-to-regexp";
+import { RoutingType } from "../../config";
+import throwError from "../../utils/throwError";
+import getKeyType from "../../utils/getKeyType";
+import { KeyType } from "../../utils/getKeyType/getKeyType";
+import getKeysFromRoutePattern from "../../utils/getKeysFromRoutePattern";
+import { PatternNamedExports } from "../types";
 
 export interface GenerateRoutePatternFileParams {
   routeName: string;
@@ -25,22 +25,21 @@ const generateRoutePatternFile = (params: GenerateRoutePatternFileParams): [Temp
   const possiblePathParams = generatePossiblePathParams(keys, routeName);
   const urlParts = generateUrlPartsInterface(routeName, pathParams);
 
-  const patternNextJS =
-    routingType === RoutingType.NextJS ? generateNextJSPattern({ keys, routeName, routePattern }) : null;
+  const patternNextJS = routingType === RoutingType.NextJS ? generateNextJSPattern({ keys, routeName, routePattern }) : null;
   const pathParamsNextJS = routingType === RoutingType.NextJS ? generateNextJSPathParams(keys, routeName) : null;
 
   const template = `export const ${patternName} = '${routePattern}'
-  ${patternNextJS ? patternNextJS.template : ''}
-  ${pathParams ? pathParams.template : ''}
-  ${pathParamsNextJS ? pathParamsNextJS.template : ''}
-  ${possiblePathParams ? possiblePathParams.template : ''}
+  ${patternNextJS ? patternNextJS.template : ""}
+  ${pathParams ? pathParams.template : ""}
+  ${pathParamsNextJS ? pathParamsNextJS.template : ""}
+  ${possiblePathParams ? possiblePathParams.template : ""}
   ${urlParts.template}`;
 
   const result: [TemplateFile, PatternNamedExports] = [
     {
       template,
       filename,
-      extension: '.ts',
+      extension: ".ts",
       destinationDir,
     },
     {
@@ -69,10 +68,10 @@ const generatePathParamsInterface = (keys: Key[], routeName: string): PathParams
 
   const pathParamsInterfaceName = `PathParams${routeName}`;
   let template = `export interface ${pathParamsInterfaceName} {`;
-  keys.forEach(key => {
+  keys.forEach((key) => {
     const { pattern, name, modifier } = key;
 
-    const fieldName = `${name}${modifier === '?' ? modifier : ''}`;
+    const fieldName = `${name}${modifier === "?" ? modifier : ""}`;
 
     switch (getKeyType(key)) {
       case KeyType.normal:
@@ -80,10 +79,10 @@ const generatePathParamsInterface = (keys: Key[], routeName: string): PathParams
         break;
       case KeyType.enum:
         // Note: We are using enum here... this may not be safe
-        const enumArray = pattern.split('|');
+        const enumArray = pattern.split("|");
         if (enumArray.length > 0) {
           template += `${fieldName}:`;
-          enumArray.forEach(enumValue => (template += `'${enumValue}'|`));
+          enumArray.forEach((enumValue) => (template += `'${enumValue}'|`));
           // Remove last '|'
           template = template.slice(0, -1);
           template += `;`;
@@ -91,7 +90,7 @@ const generatePathParamsInterface = (keys: Key[], routeName: string): PathParams
         break;
     }
   });
-  template += '}';
+  template += "}";
 
   return {
     template,
@@ -112,7 +111,7 @@ const generatePossiblePathParams = (keys: Key[], routeName: string): PossiblePar
   const variableName = `possilePathParams${routeName}`;
   let template = `export const ${variableName} = [`;
   template = keys.reduce((prevTemplate, { name }) => prevTemplate + `'${name}',`, template);
-  template += ']';
+  template += "]";
 
   return {
     template,
@@ -128,13 +127,13 @@ const generateNextJSPathParams = (keys: Key[], routeName: string): PathParamsInt
 
   const pathParamsInterfaceName = `PathParamsNextJS${routeName}`;
   let template = `export interface ${pathParamsInterfaceName} {`;
-  keys.forEach(key => {
+  keys.forEach((key) => {
     // TODO: check if NextJS support optional param?
     const { name, modifier } = key;
-    const fieldName = `${name}${modifier === '?' ? modifier : ''}`;
+    const fieldName = `${name}${modifier === "?" ? modifier : ""}`;
     template += `${fieldName}: string;`;
   });
-  template += '}';
+  template += "}";
 
   return {
     template,
@@ -149,7 +148,7 @@ const generateUrlPartsInterface = (
   const interfaceName = `UrlParts${routeName}`;
 
   const template = `export interface ${interfaceName} {
-    ${pathParams ? `path: ${pathParams.interfaceName};` : ''}
+    ${pathParams ? `path: ${pathParams.interfaceName};` : ""}
     urlQuery?: Record<string, string>;
   }`;
 
@@ -165,19 +164,19 @@ const generateNextJSPattern = (params: {
 
   const variableName = `patternNextJS${routeName}`;
 
-  const routeParts = routePattern.split('/');
+  const routeParts = routePattern.split("/");
   // NextJS pattern uses [...] and no support for enums. Therefore, we need to turn:
   // - ":id" to "[id]"
   // - ":optional?" to "[optional]"
   // - ":subview(profile|pictires)" to "[subview]"
   // - ":optionalEnum(enumOne|enumTwo)?" to "[optionalEnum]"
-  const routePartsNextJS = routeParts.map(routePart => {
-    if (routePart.charAt(0) !== ':') {
+  const routePartsNextJS = routeParts.map((routePart) => {
+    if (routePart.charAt(0) !== ":") {
       //not a dynamic path, just return
       return routePart;
     }
 
-    const matchedKey = keys.find(key => {
+    const matchedKey = keys.find((key) => {
       switch (getKeyType(key)) {
         case KeyType.normal:
           return routePart === `:${key.name}${key.modifier}`;
@@ -196,7 +195,7 @@ const generateNextJSPattern = (params: {
     return `[${matchedKey.name}]`;
   });
 
-  const template = `export const ${variableName} = '${routePartsNextJS.join('/')}'`;
+  const template = `export const ${variableName} = '${routePartsNextJS.join("/")}'`;
 
   return { template, variableName };
 };

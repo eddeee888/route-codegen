@@ -1,18 +1,18 @@
-import generateUseParamsFileNextJS from './generateUseParamsFileNextJS';
+import generateUseParamsFileNextJS from "./generateUseParamsFileNextJS";
 
-describe('generateUseParamsFileNextJS', () => {
-  it('should generate correctly', () => {
+describe("generateUseParamsFileNextJS", () => {
+  it("should generate correctly", () => {
     const templateFile = generateUseParamsFileNextJS({
-      pathParamsFilename: 'patternUser',
-      pathParamsInterfaceName: 'PathParamsNextJSUser',
-      destinationDir: 'path/to/routes',
-      routeName: 'User',
-      routePattern: '/users/:id/:subview(profile|pictures)/:optional?/:optionalEnum(enum1|enum2)?',
+      pathParamsFilename: "patternUser",
+      pathParamsInterfaceName: "PathParamsNextJSUser",
+      destinationDir: "path/to/routes",
+      routeName: "User",
+      routePattern: "/users/:id/:subview(profile|pictures)/:optional?/:optionalEnum(enum1|enum2)?",
     });
 
-    expect(templateFile.filename).toBe('useParamsUser');
-    expect(templateFile.extension).toBe('.ts');
-    expect(templateFile.destinationDir).toBe('path/to/routes');
+    expect(templateFile.filename).toBe("useParamsUser");
+    expect(templateFile.extension).toBe(".ts");
+    expect(templateFile.destinationDir).toBe("path/to/routes");
     expect(templateFile.template).toContain(`import {PathParamsNextJSUser,} from './patternUser'
     import {useRouter,} from 'next/router'
     const useParamsUser = (): PathParamsNextJSUser => {

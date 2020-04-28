@@ -1,24 +1,24 @@
-import generateUseRedirectReactRouterV5 from './generateUseRedirectReactRouterV5';
+import generateUseRedirectReactRouterV5 from "./generateUseRedirectReactRouterV5";
 
-describe('generateUseRedirectReactRouterV5', () => {
-  it('should generate when there is no pathParams', () => {
+describe("generateUseRedirectReactRouterV5", () => {
+  it("should generate when there is no pathParams", () => {
     const templateFile = generateUseRedirectReactRouterV5({
-      routeName: 'Login',
+      routeName: "Login",
       patternNamedExports: {
-        filename: 'patternLogin',
-        patternName: 'patternLogin',
-        urlPartsInterfaceName: 'UrlPartsLogin',
+        filename: "patternLogin",
+        patternName: "patternLogin",
+        urlPartsInterfaceName: "UrlPartsLogin",
       },
-      destinationDir: 'path/to/routes',
+      destinationDir: "path/to/routes",
       importGenerateUrl: {
-        from: 'route-codegen',
-        namedImports: [{ name: 'generateUrl' }],
+        from: "route-codegen",
+        namedImports: [{ name: "generateUrl" }],
       },
     });
 
-    expect(templateFile.filename).toBe('useRedirectLogin');
-    expect(templateFile.extension).toBe('.ts');
-    expect(templateFile.destinationDir).toBe('path/to/routes');
+    expect(templateFile.filename).toBe("useRedirectLogin");
+    expect(templateFile.extension).toBe(".ts");
+    expect(templateFile.destinationDir).toBe("path/to/routes");
     expect(templateFile.template).toContain(`import {useHistory,} from 'react-router'
   import {UrlPartsLogin,patternLogin,} from './patternLogin'
   import {generateUrl,} from 'route-codegen'
@@ -34,25 +34,25 @@ describe('generateUseRedirectReactRouterV5', () => {
   export default useRedirectLogin`);
   });
 
-  it('should generate when there is pathParams', () => {
+  it("should generate when there is pathParams", () => {
     const templateFile = generateUseRedirectReactRouterV5({
-      routeName: 'UserInfo',
+      routeName: "UserInfo",
       patternNamedExports: {
-        filename: 'patternUserInfo',
-        patternName: 'patternUserInfo',
-        urlPartsInterfaceName: 'UrlPartsUserInfo',
-        pathParamsInterfaceName: 'PathParamsUserInfo',
+        filename: "patternUserInfo",
+        patternName: "patternUserInfo",
+        urlPartsInterfaceName: "UrlPartsUserInfo",
+        pathParamsInterfaceName: "PathParamsUserInfo",
       },
-      destinationDir: 'path/to/routes',
+      destinationDir: "path/to/routes",
       importGenerateUrl: {
-        from: 'route-codegen',
-        namedImports: [{ name: 'generateUrl' }],
+        from: "route-codegen",
+        namedImports: [{ name: "generateUrl" }],
       },
     });
 
-    expect(templateFile.filename).toBe('useRedirectUserInfo');
-    expect(templateFile.extension).toBe('.ts');
-    expect(templateFile.destinationDir).toBe('path/to/routes');
+    expect(templateFile.filename).toBe("useRedirectUserInfo");
+    expect(templateFile.extension).toBe(".ts");
+    expect(templateFile.destinationDir).toBe("path/to/routes");
     expect(templateFile.template).toContain(`import {useHistory,} from 'react-router'
   import {UrlPartsUserInfo,patternUserInfo,} from './patternUserInfo'
   import {generateUrl,} from 'route-codegen'

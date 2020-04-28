@@ -1,2 +1,2 @@
-export { default as generateUrl } from './generateUrl';
-export { default as RedirectServerSide } from './RedirectServerSide';
+export { default as generateUrl } from "./generateUrl";
+export { default as RedirectServerSide } from "./RedirectServerSide";

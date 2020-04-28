@@ -1,9 +1,9 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
-import React from 'react';
-import { generateUrl } from 'route-codegen';
-import { Redirect } from 'react-router';
-import { UrlPartsAccount, patternAccount } from './patternAccount';
-const RedirectAccount: React.FunctionComponent<UrlPartsAccount & { fallback?: React.ReactNode }> = props => {
+import React from "react";
+import { generateUrl } from "route-codegen";
+import { Redirect } from "react-router";
+import { UrlPartsAccount, patternAccount } from "./patternAccount";
+const RedirectAccount: React.FunctionComponent<UrlPartsAccount & { fallback?: React.ReactNode }> = (props) => {
   const to = generateUrl(patternAccount, {}, props.urlQuery);
   return (
     <>

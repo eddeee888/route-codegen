@@ -18,9 +18,10 @@
   ],
   "scripts": {
     "test": "jest",
-    "generate:sample": "rm -rf ./sample/output && yarn --silent build && node dist/bin/route-codegen.js --stacktrace --verbose --config sample/routegen.yml && yarn --silent prettier --config .prettierrc --write \"sample/**/*.{ts,tsx}\" --loglevel silent ",
+    "generate:sample": "rm -rf ./sample/output && yarn --silent build && node dist/bin/route-codegen.js --stacktrace --verbose --config sample/routegen.yml && yarn --silent format:sample --loglevel silent ",
     "build": "rm -rf ./dist && tsc",
-    "format:prettier": "prettier --config .prettierrc --write \"src/**/*.{ts,tsx}\""
+    "format:src": "prettier --config .prettierrc --write \"src/**/*.{ts,tsx}\"",
+    "format:sample": "prettier --config .prettierrc --write \"sample/**/*.{ts,tsx}\""
   },
   "devDependencies": {
     "@types/jest": "^25.1.4",
@@ -29,7 +30,7 @@
     "@types/react": "^16.9.34",
     "@types/yargs": "^15.0.3",
     "jest": "^25.1.0",
-    "prettier": "^1.19.1",
+    "prettier": "^2.0.5",
     "semver": "^7.1.3",
     "ts-jest": "^25.2.1",
     "typescript": "^3.8.3"

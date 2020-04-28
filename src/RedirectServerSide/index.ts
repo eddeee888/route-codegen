@@ -1,2 +1,2 @@
-export { default } from './RedirectServerSide';
-export * from './RedirectServerSide';
+export { default } from "./RedirectServerSide";
+export * from "./RedirectServerSide";

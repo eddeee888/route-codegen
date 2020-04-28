@@ -1,1 +1,1 @@
-export { default } from './getKeyType';
+export { default } from "./getKeyType";
