@@ -62,6 +62,7 @@ describe('parseAppConfig', () => {
         destinationDir: 'path/to/routes',
         routingType: RoutingType.Default,
         importGenerateUrl: { from: 'route-codegen', namedImports: [{ name: 'generateUrl' }] },
+        importRedirectServerSide: { from: 'route-codegen/RedirectServerSide', defaultImport: 'RedirectServerSide' },
         routeLinkOptions: {
           ReactRouterV5: { ...defaultParsedLinkOptionsReactRouterV5 },
           NextJS: { ...defaultParsedLinkOptionsNextJS },

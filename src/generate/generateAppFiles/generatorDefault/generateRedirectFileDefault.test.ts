@@ -3,6 +3,7 @@ import generateRedirectFileDefault, { GenerateRedirectFileDefaultParams } from '
 describe('generateRedirectFileDefault', () => {
   const defaultParams: GenerateRedirectFileDefaultParams = {
     importGenerateUrl: { namedImports: [{ name: 'generateUrl' }], from: 'route-codegen' },
+    importRedirectServerSide: { defaultImport: 'RedirectServerSide', from: 'route-codegen/RedirectServerSide' },
     routeName: 'Login',
     patternNamedExports: {
       filename: 'patternLogin',
@@ -19,17 +20,13 @@ describe('generateRedirectFileDefault', () => {
     expect(templateFile.filename).toBe('RedirectLogin');
     expect(templateFile.extension).toBe('.tsx');
     expect(templateFile.destinationDir).toBe('path/to/routes');
-    expect(templateFile.template).toContain(`import React, {useEffect,} from 'react'
+    expect(templateFile.template).toContain(`import React from 'react'
+  import RedirectServerSide from 'route-codegen/RedirectServerSide'
   import {generateUrl,} from 'route-codegen'
   import {UrlPartsLogin,patternLogin,} from './patternLogin'
   const RedirectLogin: React.FunctionComponent<UrlPartsLogin & { fallback?: React.ReactNode }> = props => {
     const to = generateUrl(patternLogin, {}, props.urlQuery);
-    useEffect(() => {
-      if (window && window.location) {
-        window.location.href = to;
-      }
-    }, [to]);
-    return <>{props.fallback}</>;
+    return <RedirectServerSide>{props.fallback}</RedirectServerSide>;
   };
   export default RedirectLogin`);
   });
@@ -46,17 +43,13 @@ describe('generateRedirectFileDefault', () => {
     expect(templateFile.filename).toBe('RedirectLogin');
     expect(templateFile.extension).toBe('.tsx');
     expect(templateFile.destinationDir).toBe('path/to/routes');
-    expect(templateFile.template).toContain(`import React, {useEffect,} from 'react'
+    expect(templateFile.template).toContain(`import React from 'react'
+  import RedirectServerSide from 'route-codegen/RedirectServerSide'
   import {generateUrl,} from 'route-codegen'
   import {UrlPartsLogin,patternLogin,} from './patternLogin'
   const RedirectLogin: React.FunctionComponent<UrlPartsLogin & { fallback?: React.ReactNode }> = props => {
     const to = generateUrl(patternLogin, props.path, props.urlQuery);
-    useEffect(() => {
-      if (window && window.location) {
-        window.location.href = to;
-      }
-    }, [to]);
-    return <>{props.fallback}</>;
+    return <RedirectServerSide>{props.fallback}</RedirectServerSide>;
   };
   export default RedirectLogin`);
   });

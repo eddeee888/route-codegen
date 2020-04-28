@@ -13,18 +13,20 @@ export interface GenerateTemplateFilesParams {
   routingType: RoutingType;
   routeLinkOptions: RouteLinkOptions;
   importGenerateUrl: Import;
+  importRedirectServerSide: Import;
 }
 
-type GenerateTemplateFiles = (params: GenerateTemplateFilesParams) => TemplateFile[];
+const generateTemplateFiles = (params: GenerateTemplateFilesParams): TemplateFile[] => {
+  const {
+    routeName: originalRouteName,
+    routePattern,
+    destinationDir: originalDestinationDir,
+    routingType,
+    routeLinkOptions,
+    importGenerateUrl,
+    importRedirectServerSide,
+  } = params;
 
-const generateTemplateFiles: GenerateTemplateFiles = ({
-  routeName: originalRouteName,
-  routePattern,
-  destinationDir: originalDestinationDir,
-  routingType,
-  routeLinkOptions,
-  importGenerateUrl,
-}) => {
   const routeNameString = originalRouteName.toString();
   const routeName = routeNameString[0].toUpperCase() + routeNameString.slice(1);
   const destinationDir = `${originalDestinationDir}/${originalRouteName}`;
@@ -138,6 +140,7 @@ const generateTemplateFiles: GenerateTemplateFiles = ({
           destinationDir,
           importGenerateUrl,
           patternNamedExports,
+          importRedirectServerSide,
         });
         files.push(redirectFile);
       }
