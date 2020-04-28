@@ -1,10 +1,10 @@
-import { RoutingType } from '../config';
-import { TemplateFile, Import } from '../types';
-import { RouteLinkOptions } from './parseAppConfig';
-import generatorCore from './generatorCore';
-import generatorDefault from './generatorDefault';
-import generatorReactRouterV5 from './generatorReactRouterV5';
-import generatorNextJS from './generatorNextJS';
+import { RoutingType } from "../config";
+import { TemplateFile, Import } from "../types";
+import { RouteLinkOptions } from "./parseAppConfig";
+import generatorCore from "./generatorCore";
+import generatorDefault from "./generatorDefault";
+import generatorReactRouterV5 from "./generatorReactRouterV5";
+import generatorNextJS from "./generatorNextJS";
 
 export interface GenerateTemplateFilesParams {
   routeName: string;

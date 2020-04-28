@@ -1,4 +1,4 @@
-import { AppConfig, RoutingType } from './../config';
+import { AppConfig, RoutingType } from "./../config";
 
 const generateExternalRoutesConfig = (apps: Record<string, AppConfig>): Record<string, AppConfig> => {
   const externalRoutesConfig: Record<string, AppConfig> = {};
@@ -13,7 +13,7 @@ const generateExternalRoutesConfig = (apps: Record<string, AppConfig>): Record<s
 
     // Use otherApps to generate the external route from current app
     Object.entries(otherApps).forEach(([otherAppName, otherAppDefaultConfig]) => {
-      currentAppRoutes = { ...currentAppRoutes, ...otherAppDefaultConfig['routes'] };
+      currentAppRoutes = { ...currentAppRoutes, ...otherAppDefaultConfig["routes"] };
     });
 
     externalRoutesConfig[appName] = {

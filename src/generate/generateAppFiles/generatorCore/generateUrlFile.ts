@@ -1,6 +1,6 @@
-import { TemplateFile, Import } from '../../types';
-import printImport from '../../utils/printImport';
-import { PatternNamedExports } from '../types';
+import { TemplateFile, Import } from "../../types";
+import printImport from "../../utils/printImport";
+import { PatternNamedExports } from "../types";
 
 type GenerateUrlFile = (params: {
   importGenerateUrl: Import;
@@ -16,7 +16,7 @@ const generateUrlFile: GenerateUrlFile = ({
   destinationDir,
 }) => {
   const functionName = `generateUrl${routeName}`;
-  const pathVariable = pathParamsInterfaceName ? 'urlParts.path' : '{}';
+  const pathVariable = pathParamsInterfaceName ? "urlParts.path" : "{}";
 
   const template = `${printImport(importGenerateUrl)}
   ${printImport({
@@ -30,7 +30,7 @@ const generateUrlFile: GenerateUrlFile = ({
   const templateFile: TemplateFile = {
     template,
     filename: functionName,
-    extension: '.ts',
+    extension: ".ts",
     destinationDir,
   };
 

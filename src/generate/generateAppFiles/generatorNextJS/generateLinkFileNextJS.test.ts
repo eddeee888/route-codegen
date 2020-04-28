@@ -1,37 +1,37 @@
-import generateLinkFileNextJS, { GenerateLinkFileNextJSParams } from './generateLinkFileNextJS';
+import generateLinkFileNextJS, { GenerateLinkFileNextJSParams } from "./generateLinkFileNextJS";
 
-describe('generateLinkFileNextJS', () => {
+describe("generateLinkFileNextJS", () => {
   const defaultParams: GenerateLinkFileNextJSParams = {
-    importGenerateUrl: { namedImports: [{ name: 'generateUrl' }], from: 'route-codegen' },
+    importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
     routeLinkOption: {
       importLink: {
-        from: 'src/NextJS/Link',
-        defaultImport: 'Link',
-        namedImports: [{ name: 'NextJSLinkProps' }],
+        from: "src/NextJS/Link",
+        defaultImport: "Link",
+        namedImports: [{ name: "NextJSLinkProps" }],
       },
-      hrefProp: 'customHref',
-      linkComponent: 'Link',
-      linkProps: 'NextJSLinkProps',
+      hrefProp: "customHref",
+      linkComponent: "Link",
+      linkProps: "NextJSLinkProps",
       generateLinkComponent: true,
       generateUseParams: true,
     },
-    routeName: 'Login',
+    routeName: "Login",
     patternNamedExports: {
-      filename: 'patternLogin',
-      patternName: 'patternLogin',
-      urlPartsInterfaceName: 'UrlPartsLogin',
-      patternNameNextJS: 'patternNextJSLogin',
+      filename: "patternLogin",
+      patternName: "patternLogin",
+      urlPartsInterfaceName: "UrlPartsLogin",
+      patternNameNextJS: "patternNextJSLogin",
     },
-    destinationDir: 'path/to/routes',
+    destinationDir: "path/to/routes",
   };
 
-  describe('NextJS', () => {
-    it('should generate correctly if no path params', () => {
+  describe("NextJS", () => {
+    it("should generate correctly if no path params", () => {
       const templateFile = generateLinkFileNextJS({ ...defaultParams });
 
-      expect(templateFile.filename).toBe('LinkLogin');
-      expect(templateFile.extension).toBe('.tsx');
-      expect(templateFile.destinationDir).toBe('path/to/routes');
+      expect(templateFile.filename).toBe("LinkLogin");
+      expect(templateFile.extension).toBe(".tsx");
+      expect(templateFile.destinationDir).toBe("path/to/routes");
       expect(templateFile.template).toContain(`import React from 'react'
   import {generateUrl,} from 'route-codegen'
   import Link, {NextJSLinkProps,} from 'src/NextJS/Link'
@@ -44,19 +44,19 @@ describe('generateLinkFileNextJS', () => {
   export default LinkLogin;`);
     });
 
-    it('should generate correctly with path params', () => {
+    it("should generate correctly with path params", () => {
       const templateFile = generateLinkFileNextJS({
         ...defaultParams,
         patternNamedExports: {
           ...defaultParams.patternNamedExports,
-          pathParamsInterfaceName: 'PathParamsLogin',
-          possiblePathParamsVariableName: 'possiblePathParamsLogin',
+          pathParamsInterfaceName: "PathParamsLogin",
+          possiblePathParamsVariableName: "possiblePathParamsLogin",
         },
       });
 
-      expect(templateFile.filename).toBe('LinkLogin');
-      expect(templateFile.extension).toBe('.tsx');
-      expect(templateFile.destinationDir).toBe('path/to/routes');
+      expect(templateFile.filename).toBe("LinkLogin");
+      expect(templateFile.extension).toBe(".tsx");
+      expect(templateFile.destinationDir).toBe("path/to/routes");
       expect(templateFile.template).toContain(`import React from 'react'
   import {generateUrl,} from 'route-codegen'
   import Link, {NextJSLinkProps,} from 'src/NextJS/Link'
@@ -64,31 +64,31 @@ describe('generateLinkFileNextJS', () => {
   type LinkLoginProps = Omit<NextJSLinkProps, 'customHref'> & UrlPartsLogin
   const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({ path, urlQuery, ...props }) => {
     const to = generateUrl(patternLogin, path, urlQuery);
-    const href = possiblePathParamsLogin.filter((key) => !(key in path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[${'${suppliedParam'}}]\`, ""), patternNextJSLogin);
+    const href = possiblePathParamsLogin.filter((key) => !(key in path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[${"${suppliedParam"}}]\`, ""), patternNextJSLogin);
     return <Link {...props} customHref={href} as={to} />;
   }
   export default LinkLogin;`);
     });
 
-    it('should generate correctly with named component import', () => {
+    it("should generate correctly with named component import", () => {
       const templateFile = generateLinkFileNextJS({
         ...defaultParams,
         routeLinkOption: {
           importLink: {
-            from: 'src/common/Link',
-            namedImports: [{ name: 'CustomLinkProps' }, { name: 'CustomLink', importAs: 'Link' }],
+            from: "src/common/Link",
+            namedImports: [{ name: "CustomLinkProps" }, { name: "CustomLink", importAs: "Link" }],
           },
-          linkComponent: 'Link',
-          linkProps: 'CustomLinkProps',
-          hrefProp: 'to',
+          linkComponent: "Link",
+          linkProps: "CustomLinkProps",
+          hrefProp: "to",
           generateLinkComponent: true,
           generateUseParams: true,
         },
       });
 
-      expect(templateFile.filename).toBe('LinkLogin');
-      expect(templateFile.extension).toBe('.tsx');
-      expect(templateFile.destinationDir).toBe('path/to/routes');
+      expect(templateFile.filename).toBe("LinkLogin");
+      expect(templateFile.extension).toBe(".tsx");
+      expect(templateFile.destinationDir).toBe("path/to/routes");
       expect(templateFile.template).toContain(`import React from 'react'
   import {generateUrl,} from 'route-codegen'
   import {CustomLinkProps,CustomLink as Link,} from 'src/common/Link'
@@ -101,18 +101,18 @@ describe('generateLinkFileNextJS', () => {
   export default LinkLogin;`);
     });
 
-    it('should throw error if no patternNameNextJS', () => {
+    it("should throw error if no patternNameNextJS", () => {
       expect(() =>
         generateLinkFileNextJS({
           ...defaultParams,
           routeLinkOption: {
             importLink: {
-              from: 'src/common/Link',
-              namedImports: [{ name: 'CustomLinkProps' }, { name: 'CustomLink', importAs: 'Link' }],
+              from: "src/common/Link",
+              namedImports: [{ name: "CustomLinkProps" }, { name: "CustomLink", importAs: "Link" }],
             },
-            linkComponent: 'Link',
-            linkProps: 'CustomLinkProps',
-            hrefProp: 'to',
+            linkComponent: "Link",
+            linkProps: "CustomLinkProps",
+            hrefProp: "to",
             generateLinkComponent: true,
             generateUseParams: true,
           },

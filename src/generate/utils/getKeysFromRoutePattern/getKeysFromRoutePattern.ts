@@ -1,4 +1,4 @@
-import { Key, pathToRegexp } from 'path-to-regexp';
+import { Key, pathToRegexp } from "path-to-regexp";
 
 const getKeysFromRoutePattern = (routePattern: string): Key[] => {
   const keys: Key[] = [];

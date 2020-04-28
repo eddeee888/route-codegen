@@ -1,6 +1,6 @@
-import printImport from '../../utils/printImport';
-import { TemplateFile, Import } from '../../types';
-import { PatternNamedExports } from '../types';
+import printImport from "../../utils/printImport";
+import { TemplateFile, Import } from "../../types";
+import { PatternNamedExports } from "../types";
 
 export interface GenerateUseRedirectReactRouterV5Params {
   routeName: string;
@@ -12,12 +12,12 @@ export interface GenerateUseRedirectReactRouterV5Params {
 const generateUseRedirectReactRouterV5 = (params: GenerateUseRedirectReactRouterV5Params): TemplateFile => {
   const { routeName, patternNamedExports, destinationDir, importGenerateUrl } = params;
   const functionName = `useRedirect${routeName}`;
-  const pathVariable = patternNamedExports.pathParamsInterfaceName ? 'urlParts.path' : '{}';
+  const pathVariable = patternNamedExports.pathParamsInterfaceName ? "urlParts.path" : "{}";
   const resultTypeInterface = `Redirect${routeName}`;
 
   const template = `${printImport({
-    namedImports: [{ name: 'useHistory' }],
-    from: 'react-router',
+    namedImports: [{ name: "useHistory" }],
+    from: "react-router",
   })}
   ${printImport({
     namedImports: [{ name: patternNamedExports.urlPartsInterfaceName }, { name: patternNamedExports.patternName }],
@@ -38,7 +38,7 @@ const generateUseRedirectReactRouterV5 = (params: GenerateUseRedirectReactRouter
   const templateFile: TemplateFile = {
     template,
     filename: functionName,
-    extension: '.ts',
+    extension: ".ts",
     destinationDir,
   };
 

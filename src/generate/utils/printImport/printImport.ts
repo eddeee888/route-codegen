@@ -1,12 +1,12 @@
-import { Import } from '../../types';
+import { Import } from "../../types";
 
 const printImport = ({ namedImports, from, defaultImport }: Import): string => {
-  const defaultImportTemplate = defaultImport ? `${defaultImport}` : '';
+  const defaultImportTemplate = defaultImport ? `${defaultImport}` : "";
   const namedImportsTemplate = namedImports
-    ? '{' + namedImports.map(({ name, importAs }) => `${name}${importAs ? ` as ${importAs}` : ''},`).join('') + '}'
-    : '';
+    ? "{" + namedImports.map(({ name, importAs }) => `${name}${importAs ? ` as ${importAs}` : ""},`).join("") + "}"
+    : "";
 
-  let imports = '';
+  let imports = "";
   if (defaultImportTemplate && namedImportsTemplate) {
     imports = `${defaultImportTemplate}, ${namedImportsTemplate}`;
   } else if (defaultImportTemplate && !namedImportsTemplate) {
@@ -14,7 +14,7 @@ const printImport = ({ namedImports, from, defaultImport }: Import): string => {
   } else if (!defaultImportTemplate && namedImportsTemplate) {
     imports = namedImportsTemplate;
   } else {
-    throw new Error('Unable to printing an import line without default or named');
+    throw new Error("Unable to printing an import line without default or named");
   }
 
   return `import ${imports} from '${from}'`;

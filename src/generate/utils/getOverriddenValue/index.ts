@@ -1,1 +1,1 @@
-export { default } from './getOverriddenValue';
+export { default } from "./getOverriddenValue";

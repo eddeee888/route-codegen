@@ -1,51 +1,51 @@
-import generateLinkFileDefault, { GenerateLinkFileDefaultParams } from './generateLinkFileDefault';
+import generateLinkFileDefault, { GenerateLinkFileDefaultParams } from "./generateLinkFileDefault";
 
-describe('generateLinkFileDefault', () => {
+describe("generateLinkFileDefault", () => {
   const defaultParams: GenerateLinkFileDefaultParams = {
-    importGenerateUrl: { namedImports: [{ name: 'generateUrl' }], from: 'route-codegen' },
+    importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
     routeLinkOption: {
-      hrefProp: 'href',
-      linkComponent: 'a',
+      hrefProp: "href",
+      linkComponent: "a",
       inlineLinkProps: {
         template: `type InlineLinkProps = Omit<React.SomeReallyLongReactHTMLProps, 'href'>`,
-        linkProps: 'InlineLinkProps',
+        linkProps: "InlineLinkProps",
       },
       generateLinkComponent: true,
       generateRedirectComponent: true,
       generateUseRedirect: true,
     },
-    routeName: 'Login',
+    routeName: "Login",
     patternNamedExports: {
-      filename: 'patternLogin',
-      patternName: 'patternLogin',
-      urlPartsInterfaceName: 'UrlPartsLogin',
-      patternNameNextJS: 'patternNextJSLogin',
+      filename: "patternLogin",
+      patternName: "patternLogin",
+      urlPartsInterfaceName: "UrlPartsLogin",
+      patternNameNextJS: "patternNextJSLogin",
     },
-    destinationDir: 'path/to/routes',
+    destinationDir: "path/to/routes",
   };
 
-  describe('Default anchor', () => {
-    it('should generate correctly with custom interface and no path params', () => {
+  describe("Default anchor", () => {
+    it("should generate correctly with custom interface and no path params", () => {
       const templateFile = generateLinkFileDefault({
         ...defaultParams,
         routeLinkOption: {
           importLink: {
-            from: 'src/Default/Link',
-            defaultImport: 'Link',
-            namedImports: [{ name: 'CustomLinkProps' }],
+            from: "src/Default/Link",
+            defaultImport: "Link",
+            namedImports: [{ name: "CustomLinkProps" }],
           },
-          hrefProp: 'customDefaultHref',
-          linkComponent: 'Link',
-          linkProps: 'CustomLinkProps',
+          hrefProp: "customDefaultHref",
+          linkComponent: "Link",
+          linkProps: "CustomLinkProps",
           generateLinkComponent: true,
           generateRedirectComponent: true,
           generateUseRedirect: true,
         },
       });
 
-      expect(templateFile.filename).toBe('LinkLogin');
-      expect(templateFile.extension).toBe('.tsx');
-      expect(templateFile.destinationDir).toBe('path/to/routes');
+      expect(templateFile.filename).toBe("LinkLogin");
+      expect(templateFile.extension).toBe(".tsx");
+      expect(templateFile.destinationDir).toBe("path/to/routes");
       expect(templateFile.template).toContain(`import React from 'react'
   import {generateUrl,} from 'route-codegen'
   import Link, {CustomLinkProps,} from 'src/Default/Link'
@@ -58,12 +58,12 @@ describe('generateLinkFileDefault', () => {
   export default LinkLogin;`);
     });
 
-    it('should generate correctly with inline interface and no path params', () => {
+    it("should generate correctly with inline interface and no path params", () => {
       const templateFile = generateLinkFileDefault({ ...defaultParams });
 
-      expect(templateFile.filename).toBe('LinkLogin');
-      expect(templateFile.extension).toBe('.tsx');
-      expect(templateFile.destinationDir).toBe('path/to/routes');
+      expect(templateFile.filename).toBe("LinkLogin");
+      expect(templateFile.extension).toBe(".tsx");
+      expect(templateFile.destinationDir).toBe("path/to/routes");
       expect(templateFile.template).toContain(`import React from 'react'
   import {generateUrl,} from 'route-codegen'
   
@@ -76,18 +76,18 @@ describe('generateLinkFileDefault', () => {
   export default LinkLogin;`);
     });
 
-    it('should generate correctly with inline interface and path params', () => {
+    it("should generate correctly with inline interface and path params", () => {
       const templateFile = generateLinkFileDefault({
         ...defaultParams,
         patternNamedExports: {
           ...defaultParams.patternNamedExports,
-          pathParamsInterfaceName: 'PathParamsLogin',
+          pathParamsInterfaceName: "PathParamsLogin",
         },
       });
 
-      expect(templateFile.filename).toBe('LinkLogin');
-      expect(templateFile.extension).toBe('.tsx');
-      expect(templateFile.destinationDir).toBe('path/to/routes');
+      expect(templateFile.filename).toBe("LinkLogin");
+      expect(templateFile.extension).toBe(".tsx");
+      expect(templateFile.destinationDir).toBe("path/to/routes");
       expect(templateFile.template).toContain(`import React from 'react'
   import {generateUrl,} from 'route-codegen'
   
@@ -100,26 +100,26 @@ describe('generateLinkFileDefault', () => {
   export default LinkLogin;`);
     });
 
-    it('should generate correctly with named component import', () => {
+    it("should generate correctly with named component import", () => {
       const templateFile = generateLinkFileDefault({
         ...defaultParams,
         routeLinkOption: {
           importLink: {
-            from: 'src/common/Link',
-            namedImports: [{ name: 'CustomLinkProps' }, { name: 'CustomLink', importAs: 'Link' }],
+            from: "src/common/Link",
+            namedImports: [{ name: "CustomLinkProps" }, { name: "CustomLink", importAs: "Link" }],
           },
-          linkComponent: 'Link',
-          linkProps: 'CustomLinkProps',
-          hrefProp: 'to',
+          linkComponent: "Link",
+          linkProps: "CustomLinkProps",
+          hrefProp: "to",
           generateLinkComponent: true,
           generateRedirectComponent: true,
           generateUseRedirect: true,
         },
       });
 
-      expect(templateFile.filename).toBe('LinkLogin');
-      expect(templateFile.extension).toBe('.tsx');
-      expect(templateFile.destinationDir).toBe('path/to/routes');
+      expect(templateFile.filename).toBe("LinkLogin");
+      expect(templateFile.extension).toBe(".tsx");
+      expect(templateFile.destinationDir).toBe("path/to/routes");
       expect(templateFile.template).toContain(`import React from 'react'
   import {generateUrl,} from 'route-codegen'
   import {CustomLinkProps,CustomLink as Link,} from 'src/common/Link'

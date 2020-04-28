@@ -1,1 +1,1 @@
-export { default } from './generateExternalRoutesConfig';
+export { default } from "./generateExternalRoutesConfig";

@@ -1,11 +1,11 @@
-import { Key } from 'path-to-regexp';
+import { Key } from "path-to-regexp";
 
 export enum KeyType {
-  'normal' = 'normal',
-  'enum' = 'enum',
+  "normal" = "normal",
+  "enum" = "enum",
 }
 
-const NORMAL_PATTERN = '[^\\/#\\?]+?';
+const NORMAL_PATTERN = "[^\\/#\\?]+?";
 
 const getKeyType = (key: Key): KeyType => {
   if (key.pattern === NORMAL_PATTERN) {

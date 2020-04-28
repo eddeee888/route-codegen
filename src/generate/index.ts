@@ -1,2 +1,2 @@
-export { default } from './generate';
-export * from './config';
+export { default } from "./generate";
+export * from "./config";

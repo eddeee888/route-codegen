@@ -1,1 +1,1 @@
-export { default } from './printImport';
+export { default } from "./printImport";

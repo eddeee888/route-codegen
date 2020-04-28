@@ -1,1 +1,1 @@
-export { default } from './getKeysFromRoutePattern';
+export { default } from "./getKeysFromRoutePattern";
