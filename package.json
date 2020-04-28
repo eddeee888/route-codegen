@@ -14,12 +14,22 @@
     "route-codegen": "./dist/bin/route-codegen.js"
   },
   "files": [
-    "dist/**/*"
+    "dist/**/*",
+    "generateUrl.d.ts",
+    "generateUrl.js",
+    "index.d.ts",
+    "index.js",
+    "RedirectServerSide.d.ts",
+    "RedirectServerSide.js"
   ],
   "scripts": {
     "test": "jest",
     "generate:sample": "rm -rf ./sample/output && yarn --silent build && node dist/bin/route-codegen.js --stacktrace --verbose --config sample/routegen.yml && yarn --silent format:sample --loglevel silent ",
-    "build": "rm -rf ./dist && tsc",
+    "build": "yarn build:main && yarn build:root",
+    "build:main": "rm -rf ./dist && tsc",
+    "build:root": "yarn build:rootDist && yarn build:rootFiles",
+    "build:rootDist": "rm -rf ./root/dist && yarn tsc --outDir ./root/dist",
+    "build:rootFiles": "tsc --project tsconfig.root.json",
     "format:src": "prettier --config .prettierrc --write \"src/**/*.{ts,tsx}\"",
     "format:sample": "prettier --config .prettierrc --write \"sample/**/*.{ts,tsx}\""
   },
