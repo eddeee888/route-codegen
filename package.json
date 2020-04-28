@@ -9,7 +9,7 @@
     "url": "git+https://github.com/eddeee888/route-codegen.git"
   },
   "license": "MIT",
-  "main": "./dist/index.js",
+  "main": "./index.js",
   "bin": {
     "route-codegen": "./dist/bin/route-codegen.js"
   },
