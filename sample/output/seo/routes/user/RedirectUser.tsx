@@ -5,6 +5,6 @@ import generateUrl from "route-codegen/generateUrl";
 import { UrlPartsUser, patternUser } from "./patternUser";
 const RedirectUser: React.FunctionComponent<UrlPartsUser & { fallback?: React.ReactNode }> = (props) => {
   const to = generateUrl(patternUser, props.path, props.urlQuery);
-  return <RedirectServerSide>{props.fallback}</RedirectServerSide>;
+  return <RedirectServerSide href={to} fallback={props.fallback} />;
 };
 export default RedirectUser;
