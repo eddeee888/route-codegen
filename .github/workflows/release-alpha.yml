@@ -2,9 +2,9 @@ name: route-codegen release alpha
 on:
   push:
     branches:
-      - 'master'
+      - "master"
     paths:
-      - 'src/**'
+      - "src/**"
 jobs:
   publish-alpha-on-merge:
     runs-on: ubuntu-18.04
