@@ -1,6 +1,6 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 import { UrlPartsHome, patternHome } from "./patternHome";
-import { generateUrl } from "route-codegen";
+import generateUrl from "route-codegen/generateUrl";
 export type RedirectHome = (urlParts: UrlPartsHome) => void;
 const useRedirectHome = (): RedirectHome => {
   const redirect: RedirectHome = (urlParts) => {

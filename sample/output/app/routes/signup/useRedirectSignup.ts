@@ -1,6 +1,6 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 import { UrlPartsSignup, patternSignup } from "./patternSignup";
-import { generateUrl } from "route-codegen";
+import generateUrl from "route-codegen/generateUrl";
 export type RedirectSignup = (urlParts: UrlPartsSignup) => void;
 const useRedirectSignup = (): RedirectSignup => {
   const redirect: RedirectSignup = (urlParts) => {
