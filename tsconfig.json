@@ -4,7 +4,7 @@
     "target": "es6",
     "lib": ["es5", "es6", "ES2017", "es2019", "dom", "esnext.asynciterable"],
     "module": "commonjs",
-    "jsx": "preserve",
+    "jsx": "react",
     "sourceMap": true,
 
     "alwaysStrict": true,
