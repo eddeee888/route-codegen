@@ -5,8 +5,8 @@ on:
       - "master"
     paths:
       - "src/**"
-      - "./tsconfig.json"
-      - "./tsconfig.root.json"
+      - "tsconfig.json"
+      - "tsconfig.root.json"
 jobs:
   publish-alpha-on-merge:
     runs-on: ubuntu-18.04
