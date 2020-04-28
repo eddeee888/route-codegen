@@ -63,8 +63,8 @@ interface TopLevelGenerateOptions {
 
 // Note: these imports are constants at the moment but we could open it up so people can pass their own functions in
 const IMPORT_GENERATE_URL: Import = {
-  namedImports: [{ name: "generateUrl" }],
-  from: "route-codegen",
+  defaultImport: "generateUrl",
+  from: "route-codegen/generateUrl",
 };
 const IMPORT_REDIRECT_SERVER_SIDE_COMPONENT: Import = {
   defaultImport: "RedirectServerSide",
