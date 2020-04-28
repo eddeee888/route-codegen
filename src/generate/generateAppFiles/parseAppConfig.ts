@@ -51,6 +51,7 @@ export interface ParsedAppConfig {
   destinationDir?: string;
   routeLinkOptions: RouteLinkOptions;
   importGenerateUrl: Import;
+  importRedirectServerSide: Import;
 }
 
 interface TopLevelGenerateOptions {
@@ -60,9 +61,14 @@ interface TopLevelGenerateOptions {
   generateUseRedirect: boolean;
 }
 
+// Note: these imports are constants at the moment but we could open it up so people can pass their own functions in
 const IMPORT_GENERATE_URL: Import = {
   namedImports: [{ name: 'generateUrl' }],
   from: 'route-codegen',
+};
+const IMPORT_REDIRECT_SERVER_SIDE_COMPONENT: Import = {
+  defaultImport: 'RedirectServerSide',
+  from: 'route-codegen/RedirectServerSide',
 };
 
 const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedAppConfig => {
@@ -111,6 +117,7 @@ const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedAppConfig 
       Default: prepareLinkOptionsDefault({ appName, routeLinkOptions: defaultLinkOptions, topLevelGenerateOptions }),
     },
     importGenerateUrl: IMPORT_GENERATE_URL,
+    importRedirectServerSide: IMPORT_REDIRECT_SERVER_SIDE_COMPONENT,
   };
 
   return parsedConfig;

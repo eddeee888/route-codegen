@@ -5,7 +5,14 @@ import parseAppConfig from './parseAppConfig';
 import info from '../utils/info';
 
 const generateAppFiles = (appName: string, app: AppConfig): TemplateFile[] => {
-  const { routes, routingType, destinationDir, routeLinkOptions, importGenerateUrl } = parseAppConfig(appName, app);
+  const {
+    routes,
+    routingType,
+    destinationDir,
+    routeLinkOptions,
+    importGenerateUrl,
+    importRedirectServerSide,
+  } = parseAppConfig(appName, app);
 
   if (destinationDir) {
     const files: TemplateFile[][] = Object.entries(routes).map(([routeName, routePattern]) =>
@@ -16,6 +23,7 @@ const generateAppFiles = (appName: string, app: AppConfig): TemplateFile[] => {
         destinationDir,
         routingType,
         importGenerateUrl,
+        importRedirectServerSide,
       })
     );
     const filesToGenerate = files.flat();

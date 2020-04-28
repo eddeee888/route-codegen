@@ -12,6 +12,10 @@ describe('generateTemplateFiles', () => {
       from: 'route-codegen',
       namedImports: [{ name: 'generateUrl' }],
     },
+    importRedirectServerSide: {
+      from: 'route-codegen/RedirectServerSide',
+      defaultImport: 'RedirectServerSide',
+    },
     destinationDir: 'path/to/routes',
     routeLinkOptions: {
       ReactRouterV5: {

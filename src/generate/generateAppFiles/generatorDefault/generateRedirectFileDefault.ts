@@ -5,17 +5,19 @@ import { PatternNamedExports } from '../types';
 export interface GenerateRedirectFileDefaultParams {
   routeName: string;
   destinationDir: string;
-  importGenerateUrl: Import;
   patternNamedExports: PatternNamedExports;
+  importGenerateUrl: Import;
+  importRedirectServerSide: Import;
 }
 
 const generateRedirectFileDefault = (params: GenerateRedirectFileDefaultParams): TemplateFile => {
-  const { routeName, destinationDir, importGenerateUrl, patternNamedExports } = params;
+  const { routeName, destinationDir, importGenerateUrl, patternNamedExports, importRedirectServerSide } = params;
 
   const functionName = `Redirect${routeName}`;
   const hasPathParams = !!patternNamedExports.pathParamsInterfaceName;
 
-  const template = `${printImport({ defaultImport: 'React', namedImports: [{ name: 'useEffect' }], from: 'react' })}
+  const template = `${printImport({ defaultImport: 'React', from: 'react' })}
+  ${printImport(importRedirectServerSide)}
   ${printImport(importGenerateUrl)}
   ${printImport({
     namedImports: [{ name: patternNamedExports.urlPartsInterfaceName }, { name: patternNamedExports.patternName }],
@@ -25,12 +27,7 @@ const generateRedirectFileDefault = (params: GenerateRedirectFileDefaultParams):
     patternNamedExports.urlPartsInterfaceName
   } & { fallback?: React.ReactNode }> = props => {
     const to = generateUrl(${patternNamedExports.patternName}, ${hasPathParams ? 'props.path' : '{}'}, props.urlQuery);
-    useEffect(() => {
-      if (window && window.location) {
-        window.location.href = to;
-      }
-    }, [to]);
-    return <>{props.fallback}</>;
+    return <${importRedirectServerSide.defaultImport}>{props.fallback}</${importRedirectServerSide.defaultImport}>;
   };
   export default ${functionName}`;
 
