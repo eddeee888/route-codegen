@@ -33,6 +33,7 @@ describe("parseAppConfig", () => {
     hrefProp: "href",
     generateLinkComponent: true,
     generateUseParams: true,
+    generateUseRedirect: true,
   };
   const defaultParsedLinkOptionsDefault: ParsedLinkOptionsDefault = {
     hrefProp: "href",
@@ -327,6 +328,7 @@ describe("parseAppConfig", () => {
           hrefProp: "customHref",
           generateLinkComponent: true,
           generateUseParams: true,
+          generateUseRedirect: true,
         });
       });
 
@@ -353,6 +355,7 @@ describe("parseAppConfig", () => {
           hrefProp: "customHref",
           generateLinkComponent: true,
           generateUseParams: true,
+          generateUseRedirect: true,
         });
       });
 
