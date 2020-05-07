@@ -21,10 +21,10 @@ describe("generateUseRedirectFileDefault", () => {
     expect(templateFile.destinationDir).toBe("path/to/routes");
     expect(templateFile.template).toContain(`import {UrlPartsLogin,patternLogin,} from './patternLogin'
   import {generateUrl,} from 'route-codegen'
-  export type RedirectLogin = (urlParts: UrlPartsLogin) => void;
-  const useRedirectLogin = (): RedirectLogin => {
-    const redirect: RedirectLogin = urlParts => {
-      const to = generateUrl(patternLogin, {}, urlParts.urlQuery);
+  export type RedirectFnLogin = (urlParts?: UrlPartsLogin) => void;
+  const useRedirectLogin = (): RedirectFnLogin => {
+    const redirect: RedirectFnLogin = urlParts => {
+      const to = generateUrl(patternLogin, {}, urlParts?.urlQuery);
       if (!!window && !!window.location) {
         window.location.href = to;
       }
@@ -56,10 +56,10 @@ describe("generateUseRedirectFileDefault", () => {
     expect(templateFile.destinationDir).toBe("path/to/routes");
     expect(templateFile.template).toContain(`import {UrlPartsUserInfo,patternUserInfo,} from './patternUserInfo'
   import {generateUrl,} from 'route-codegen'
-  export type RedirectUserInfo = (urlParts: UrlPartsUserInfo) => void;
-  const useRedirectUserInfo = (): RedirectUserInfo => {
-    const redirect: RedirectUserInfo = urlParts => {
-      const to = generateUrl(patternUserInfo, urlParts.path, urlParts.urlQuery);
+  export type RedirectFnUserInfo = (urlParts: UrlPartsUserInfo) => void;
+  const useRedirectUserInfo = (): RedirectFnUserInfo => {
+    const redirect: RedirectFnUserInfo = urlParts => {
+      const to = generateUrl(patternUserInfo, urlParts.path, urlParts?.urlQuery);
       if (!!window && !!window.location) {
         window.location.href = to;
       }

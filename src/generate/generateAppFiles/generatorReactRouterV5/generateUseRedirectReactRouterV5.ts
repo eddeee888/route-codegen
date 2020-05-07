@@ -13,7 +13,7 @@ const generateUseRedirectReactRouterV5 = (params: GenerateUseRedirectReactRouter
   const { routeName, patternNamedExports, destinationDir, importGenerateUrl } = params;
   const functionName = `useRedirect${routeName}`;
   const pathVariable = patternNamedExports.pathParamsInterfaceName ? "urlParts.path" : "{}";
-  const resultTypeInterface = `Redirect${routeName}`;
+  const resultTypeInterface = `RedirectFn${routeName}`;
 
   const template = `${printImport({
     namedImports: [{ name: "useHistory" }],
@@ -24,11 +24,13 @@ const generateUseRedirectReactRouterV5 = (params: GenerateUseRedirectReactRouter
     from: `./${patternNamedExports.filename}`,
   })}
   ${printImport(importGenerateUrl)}
-  export type ${resultTypeInterface} = (urlParts: ${patternNamedExports.urlPartsInterfaceName}) => void;
+  export type ${resultTypeInterface} = (urlParts${!patternNamedExports.pathParamsInterfaceName ? "?" : ""}: ${
+    patternNamedExports.urlPartsInterfaceName
+  }) => void;
   const ${functionName} = (): ${resultTypeInterface} => {
     const history = useHistory();
     const redirect: ${resultTypeInterface} = urlParts => {
-      const to = generateUrl(${patternNamedExports.patternName}, ${pathVariable}, urlParts.urlQuery);
+      const to = generateUrl(${patternNamedExports.patternName}, ${pathVariable}, urlParts?.urlQuery);
       history.push(to);
     }
     return redirect;

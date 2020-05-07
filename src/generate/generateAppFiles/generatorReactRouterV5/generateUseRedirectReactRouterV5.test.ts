@@ -22,11 +22,11 @@ describe("generateUseRedirectReactRouterV5", () => {
     expect(templateFile.template).toContain(`import {useHistory,} from 'react-router'
   import {UrlPartsLogin,patternLogin,} from './patternLogin'
   import {generateUrl,} from 'route-codegen'
-  export type RedirectLogin = (urlParts: UrlPartsLogin) => void;
-  const useRedirectLogin = (): RedirectLogin => {
+  export type RedirectFnLogin = (urlParts?: UrlPartsLogin) => void;
+  const useRedirectLogin = (): RedirectFnLogin => {
     const history = useHistory();
-    const redirect: RedirectLogin = urlParts => {
-      const to = generateUrl(patternLogin, {}, urlParts.urlQuery);
+    const redirect: RedirectFnLogin = urlParts => {
+      const to = generateUrl(patternLogin, {}, urlParts?.urlQuery);
       history.push(to);
     }
     return redirect;
@@ -56,11 +56,11 @@ describe("generateUseRedirectReactRouterV5", () => {
     expect(templateFile.template).toContain(`import {useHistory,} from 'react-router'
   import {UrlPartsUserInfo,patternUserInfo,} from './patternUserInfo'
   import {generateUrl,} from 'route-codegen'
-  export type RedirectUserInfo = (urlParts: UrlPartsUserInfo) => void;
-  const useRedirectUserInfo = (): RedirectUserInfo => {
+  export type RedirectFnUserInfo = (urlParts: UrlPartsUserInfo) => void;
+  const useRedirectUserInfo = (): RedirectFnUserInfo => {
     const history = useHistory();
-    const redirect: RedirectUserInfo = urlParts => {
-      const to = generateUrl(patternUserInfo, urlParts.path, urlParts.urlQuery);
+    const redirect: RedirectFnUserInfo = urlParts => {
+      const to = generateUrl(patternUserInfo, urlParts.path, urlParts?.urlQuery);
       history.push(to);
     }
     return redirect;
