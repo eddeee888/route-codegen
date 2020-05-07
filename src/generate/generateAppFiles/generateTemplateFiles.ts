@@ -112,6 +112,15 @@ const generateTemplateFiles = (params: GenerateTemplateFilesParams): TemplateFil
         });
         files.push(useParamsFileNextJS);
       }
+      if (routeLinkOptions.NextJS.generateUseRedirect) {
+        const useRedirectFileNextJS = generatorNextJS.generateUseRedirectFile({
+          routeName,
+          destinationDir,
+          importGenerateUrl,
+          patternNamedExports,
+        });
+        files.push(useRedirectFileNextJS);
+      }
       break;
 
     case RoutingType.Default:

@@ -22,6 +22,7 @@ export interface ParsedLinkOptionsNextJS {
   hrefProp: string;
   generateLinkComponent: boolean;
   generateUseParams: boolean;
+  generateUseRedirect: boolean;
 }
 
 export interface ParsedLinkOptionsDefault {
@@ -192,6 +193,7 @@ const prepareLinkOptionsNextJS = (params: PrepareLinkOptionsParams<AppConfig["ne
     hrefProp: "href",
     generateLinkComponent: topLevelGenerateOptions.generateLinkComponent,
     generateUseParams: topLevelGenerateOptions.generateUseParams,
+    generateUseRedirect: topLevelGenerateOptions.generateUseRedirect,
   };
   if (!routeLinkOptions) {
     info([appName, "nextJSLinkOptions"], "custom options not found... Using default");
@@ -202,6 +204,7 @@ const prepareLinkOptionsNextJS = (params: PrepareLinkOptionsParams<AppConfig["ne
     ...defaultOptions,
     generateLinkComponent: getOverriddenValue(defaultOptions.generateLinkComponent, routeLinkOptions.generateLinkComponent),
     generateUseParams: getOverriddenValue(defaultOptions.generateUseParams, routeLinkOptions.generateUseParams),
+    generateUseRedirect: getOverriddenValue(defaultOptions.generateUseRedirect, routeLinkOptions.generateUseRedirect),
   };
 
   if (!routeLinkOptions.importCustomLink) {
