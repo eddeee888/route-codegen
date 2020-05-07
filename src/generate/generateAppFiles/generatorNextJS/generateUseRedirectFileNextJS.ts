@@ -31,7 +31,7 @@ const generateUseRedirectFileNextJS = (params: GenerateUseRedirectFileNextJSPara
 
   const functionName = `useRedirect${routeName}`;
   const pathVariable = pathParamsInterfaceName ? "urlParts.path" : "{}";
-  const resultTypeInterface = `Redirect${routeName}`;
+  const resultTypeInterface = `RedirectFn${routeName}`;
 
   let namedImportsFromPatternFile = [{ name: patternName }, { name: urlPartsInterfaceName }, { name: patternNameNextJS }];
   let routerTemplate = `Router.push(${patternNameNextJS}, to);`;
@@ -44,10 +44,10 @@ const generateUseRedirectFileNextJS = (params: GenerateUseRedirectFileNextJSPara
   const template = `${printImport({ defaultImport: "Router", from: "next/router" })}
   ${printImport({ namedImports: namedImportsFromPatternFile, from: `./${routePatternFilename}` })}
   ${printImport(importGenerateUrl)}
-  export type ${resultTypeInterface} = (urlParts: ${urlPartsInterfaceName}) => void;
+  export type ${resultTypeInterface} = (urlParts${!pathParamsInterfaceName ? "?" : ""}: ${urlPartsInterfaceName}) => void;
   const ${functionName} = (): ${resultTypeInterface} => {
     const redirect: ${resultTypeInterface} = urlParts => {
-      const to = generateUrl(${patternName}, ${pathVariable}, urlParts.urlQuery);
+      const to = generateUrl(${patternName}, ${pathVariable}, urlParts?.urlQuery);
       ${routerTemplate}
     }
     return redirect;
