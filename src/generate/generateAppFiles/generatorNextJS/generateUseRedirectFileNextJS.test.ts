@@ -23,10 +23,10 @@ describe("generateUseRedirectFileNextJS", () => {
     expect(templateFile.template).toContain(`import Router from 'next/router'
   import {patternLogin,UrlPartsLogin,patternNextJSLogin,} from './patternLogin'
   import {generateUrl,} from 'route-codegen'
-  export type RedirectLogin = (urlParts: UrlPartsLogin) => void;
-  const useRedirectLogin = (): RedirectLogin => {
-    const redirect: RedirectLogin = urlParts => {
-      const to = generateUrl(patternLogin, {}, urlParts.urlQuery);
+  export type RedirectFnLogin = (urlParts?: UrlPartsLogin) => void;
+  const useRedirectLogin = (): RedirectFnLogin => {
+    const redirect: RedirectFnLogin = urlParts => {
+      const to = generateUrl(patternLogin, {}, urlParts?.urlQuery);
       Router.push(patternNextJSLogin, to);
     }
     return redirect;
@@ -59,10 +59,10 @@ describe("generateUseRedirectFileNextJS", () => {
     expect(templateFile.template).toContain(`import Router from 'next/router'
   import {patternUserInfo,UrlPartsUserInfo,patternNextJSUserInfo,possiblePathParamsUserInfo,} from './patternUserInfo'
   import {generateUrl,} from 'route-codegen'
-  export type RedirectUserInfo = (urlParts: UrlPartsUserInfo) => void;
-  const useRedirectUserInfo = (): RedirectUserInfo => {
-    const redirect: RedirectUserInfo = urlParts => {
-      const to = generateUrl(patternUserInfo, urlParts.path, urlParts.urlQuery);
+  export type RedirectFnUserInfo = (urlParts: UrlPartsUserInfo) => void;
+  const useRedirectUserInfo = (): RedirectFnUserInfo => {
+    const redirect: RedirectFnUserInfo = urlParts => {
+      const to = generateUrl(patternUserInfo, urlParts.path, urlParts?.urlQuery);
       const url = possiblePathParamsUserInfo.filter((key) => !(key in urlParts.path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[${"${suppliedParam"}}]\`, ""), patternNextJSUserInfo);
       Router.push(url, to);
     }
