@@ -37,8 +37,8 @@ const generateUseRedirectFileNextJS = (params: GenerateUseRedirectFileNextJSPara
   let routerTemplate = `Router.push(${patternNameNextJS}, to);`;
   if (possiblePathParamsVariableName) {
     namedImportsFromPatternFile.push({ name: possiblePathParamsVariableName });
-    routerTemplate = `const href = ${possiblePathParamsVariableName}.filter((key) => !(key in path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[${"${suppliedParam"}}]\`, ""), ${patternNameNextJS});
-      Router.push(${patternNameNextJS}, to);`;
+    routerTemplate = `const url = ${possiblePathParamsVariableName}.filter((key) => !(key in urlParts.path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[${"${suppliedParam"}}]\`, ""), ${patternNameNextJS});
+      Router.push(url, to);`;
   }
 
   const template = `${printImport({ defaultImport: "Router", from: "next/router" })}

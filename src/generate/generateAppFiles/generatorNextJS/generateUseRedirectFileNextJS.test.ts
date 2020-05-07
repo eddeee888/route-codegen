@@ -63,8 +63,8 @@ describe("generateUseRedirectFileNextJS", () => {
   const useRedirectUserInfo = (): RedirectUserInfo => {
     const redirect: RedirectUserInfo = urlParts => {
       const to = generateUrl(patternUserInfo, urlParts.path, urlParts.urlQuery);
-      const href = possiblePathParamsUserInfo.filter((key) => !(key in path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[${"${suppliedParam"}}]\`, ""), patternNextJSUserInfo);
-      Router.push(patternNextJSUserInfo, to);
+      const url = possiblePathParamsUserInfo.filter((key) => !(key in urlParts.path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[${"${suppliedParam"}}]\`, ""), patternNextJSUserInfo);
+      Router.push(url, to);
     }
     return redirect;
   }
