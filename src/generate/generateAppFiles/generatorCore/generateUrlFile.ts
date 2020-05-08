@@ -17,13 +17,14 @@ const generateUrlFile: GenerateUrlFile = ({
 }) => {
   const functionName = `generateUrl${routeName}`;
   const pathVariable = pathParamsInterfaceName ? "urlParts.path" : "{}";
+  const urlPartOptionalModifier = pathParamsInterfaceName ? "" : "?";
 
   const template = `${printImport(importGenerateUrl)}
   ${printImport({
     namedImports: [{ name: patternName }, { name: urlPartsInterfaceName }],
     from: `./${filename}`,
   })}
-  const ${functionName} = ( urlParts: ${urlPartsInterfaceName} ): string => generateUrl(${patternName}, ${pathVariable}, urlParts.urlQuery);
+  const ${functionName} = ( urlParts${urlPartOptionalModifier}: ${urlPartsInterfaceName} ): string => generateUrl(${patternName}, ${pathVariable}, urlParts?.urlQuery);
   export default ${functionName};
   `;
 
