@@ -89,9 +89,10 @@ apps:
 
   # An app without `routes` is still valid.
   # In this case, this app can still generate url to other apps
-  # `generateLinkComponent`, `generateUseParams` and `generateUseRedirect` should be false to avoid generating unncessary files
+  # `generateLinkComponent`, `generateUseParams`, `generateRedirectComponent` and `generateUseRedirect` should be false to avoid generating unncessary files
   express-server:
     generateLinkComponent: false
+    generateRedirectComponent: false
     generateUseParams: false
     generateUseRedirect: false
     destinationDir: server/src/routes
@@ -190,14 +191,18 @@ The generated Link component has the same props so you can do the following in a
 
 ```typescript
 // Works in any app
-<LinkUser path={{ id: '100' }} urlQuery={{ from: 'home' }} />
+<LinkUser path={{ id: "100" }} urlQuery={{ from: "home" }} />
 ```
+
+### Redirect component
+
+Similar to the `Link` component but redirects the user when mounted.
 
 ### Other files
 
-- `useParams`: Applicable for `react-router`. Uses `useParams`. The difference is this has path interface bound so the result is typed. [Example](./sample/output/app/routes/user/useParamsUser.ts)
+- `useParams`: Get dynamic params in the URL. Available for `react-router` and `NextJS`. [Example](./sample/output/app/routes/user/useParamsUser.ts)
 
-- `useRedirect`: Applicable for `react-router`. Uses `useHistory` internally. Creates a function to redirect the user to a route. [Example](./sample/output/app/routes/user/useRedirectUser.ts)
+- `useRedirect`: Creates a function to redirect the user to a route. [Example](./sample/output/app/routes/user/useRedirectUser.ts)
 
 ## Development
 
