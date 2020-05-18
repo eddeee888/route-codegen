@@ -67,6 +67,11 @@ const generatePathParamsInterface = (keys: Key[], routeName: string): PathParams
   }
 
   const pathParamsInterfaceName = `PathParams${routeName}`;
+
+  // We need to make this alias type because it's a bit more flexible to use
+  // Using interface for example, creates `Index signature is missing in type` error when using as generic in expressjs RequestHandler
+  // This is because it cannot be used to extend things like `interface A { [key: string]: string; }`
+  // https://github.com/microsoft/TypeScript/issues/15300
   let template = `export type ${pathParamsInterfaceName} = {`;
   keys.forEach((key) => {
     const { pattern, name, modifier } = key;
