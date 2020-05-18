@@ -67,7 +67,7 @@ const generatePathParamsInterface = (keys: Key[], routeName: string): PathParams
   }
 
   const pathParamsInterfaceName = `PathParams${routeName}`;
-  let template = `export interface ${pathParamsInterfaceName} {`;
+  let template = `export type ${pathParamsInterfaceName} = {`;
   keys.forEach((key) => {
     const { pattern, name, modifier } = key;
 
