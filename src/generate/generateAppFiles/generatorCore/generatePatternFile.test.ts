@@ -36,7 +36,7 @@ describe("generatePatternFile", () => {
       expect(templateFile.template).toContain(
         `export const patternUserInfo = '/app/users/:id/:subview(profile|pictures)'
   
-  export interface PathParamsUserInfo {id: string;subview:'profile'|'pictures';}
+  export type PathParamsUserInfo = {id: string;subview:'profile'|'pictures';}
   
   export const possilePathParamsUserInfo = ['id','subview',]
   export interface UrlPartsUserInfo {
@@ -69,7 +69,7 @@ describe("generatePatternFile", () => {
       expect(templateFile.template)
         .toContain(`export const patternUserInfo = '/app/users/:id/:subview(profile|pictures)/:optional?/:optionalEnum(enum1|enum2)?'
   export const patternNextJSUserInfo = '/app/users/[id]/[subview]/[optional]/[optionalEnum]'
-  export interface PathParamsUserInfo {id: string;subview:'profile'|'pictures';optional?: string;optionalEnum?:'enum1'|'enum2';}
+  export type PathParamsUserInfo = {id: string;subview:'profile'|'pictures';optional?: string;optionalEnum?:'enum1'|'enum2';}
   export interface PathParamsNextJSUserInfo {id: string;subview: string;optional?: string;optionalEnum?: string;}
   export const possilePathParamsUserInfo = ['id','subview','optional','optionalEnum',]
   export interface UrlPartsUserInfo {
