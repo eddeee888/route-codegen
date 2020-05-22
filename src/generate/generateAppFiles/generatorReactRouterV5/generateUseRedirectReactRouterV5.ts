@@ -30,7 +30,7 @@ const generateUseRedirectReactRouterV5 = (params: GenerateUseRedirectReactRouter
   const ${functionName} = (): ${resultTypeInterface} => {
     const history = useHistory();
     const redirect: ${resultTypeInterface} = urlParts => {
-      const to = generateUrl(${patternNamedExports.patternName}, ${pathVariable}, urlParts?.urlQuery);
+      const to = generateUrl(${patternNamedExports.patternName}, ${pathVariable}, urlParts?.urlQuery, urlParts?.origin);
       history.push(to);
     }
     return redirect;
