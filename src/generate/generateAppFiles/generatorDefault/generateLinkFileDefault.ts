@@ -38,8 +38,10 @@ const generateLinkFileDefault = (params: GenerateLinkFileDefaultParams): Templat
     from: `./${routePatternFilename}`,
   })}
   ${linkPropsTemplate}
-  const ${functionName}: React.FunctionComponent<${linkPropsInterfaceName}> = ({ ${hasPathParams ? "path," : ""} urlQuery, ...props }) => {
-    const to = generateUrl(${patternName}, ${hasPathParams ? "path" : "{}"}, urlQuery);
+  const ${functionName}: React.FunctionComponent<${linkPropsInterfaceName}> = ({ ${
+    hasPathParams ? "path," : ""
+  } urlQuery, origin, ...props }) => {
+    const to = generateUrl(${patternName}, ${hasPathParams ? "path" : "{}"}, urlQuery, origin);
     return <${linkComponent} {...props} ${hrefProp}={to} />;
   }
   export default ${functionName};
