@@ -26,7 +26,7 @@ describe("generateUseRedirectFileNextJS", () => {
   export type RedirectFnLogin = (urlParts?: UrlPartsLogin) => void;
   const useRedirectLogin = (): RedirectFnLogin => {
     const redirect: RedirectFnLogin = urlParts => {
-      const to = generateUrl(patternLogin, {}, urlParts?.urlQuery);
+      const to = generateUrl(patternLogin, {}, urlParts?.urlQuery, urlParts?.origin);
       Router.push(patternNextJSLogin, to);
     }
     return redirect;
@@ -62,7 +62,7 @@ describe("generateUseRedirectFileNextJS", () => {
   export type RedirectFnUserInfo = (urlParts: UrlPartsUserInfo) => void;
   const useRedirectUserInfo = (): RedirectFnUserInfo => {
     const redirect: RedirectFnUserInfo = urlParts => {
-      const to = generateUrl(patternUserInfo, urlParts.path, urlParts?.urlQuery);
+      const to = generateUrl(patternUserInfo, urlParts.path, urlParts?.urlQuery, urlParts?.origin);
       const url = possiblePathParamsUserInfo.filter((key) => !(key in urlParts.path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[${"${suppliedParam"}}]\`, ""), patternNextJSUserInfo);
       Router.push(url, to);
     }

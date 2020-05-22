@@ -38,8 +38,8 @@ describe("generateLinkFileNextJS", () => {
   import Link, {NextJSLinkProps,} from 'src/NextJS/Link'
   import {patternLogin,UrlPartsLogin,patternNextJSLogin,} from './patternLogin'
   type LinkLoginProps = Omit<NextJSLinkProps, 'customHref'> & UrlPartsLogin
-  const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({  urlQuery, ...props }) => {
-    const to = generateUrl(patternLogin, {}, urlQuery);
+  const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({  urlQuery, origin, ...props }) => {
+    const to = generateUrl(patternLogin, {}, urlQuery, origin);
     return <Link {...props} customHref={patternNextJSLogin} as={to} />;
   }
   export default LinkLogin;`);
@@ -63,8 +63,8 @@ describe("generateLinkFileNextJS", () => {
   import Link, {NextJSLinkProps,} from 'src/NextJS/Link'
   import {patternLogin,UrlPartsLogin,patternNextJSLogin,possiblePathParamsLogin,} from './patternLogin'
   type LinkLoginProps = Omit<NextJSLinkProps, 'customHref'> & UrlPartsLogin
-  const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({ path, urlQuery, ...props }) => {
-    const to = generateUrl(patternLogin, path, urlQuery);
+  const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({ path, urlQuery, origin, ...props }) => {
+    const to = generateUrl(patternLogin, path, urlQuery, origin);
     const href = possiblePathParamsLogin.filter((key) => !(key in path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[${"${suppliedParam"}}]\`, ""), patternNextJSLogin);
     return <Link {...props} customHref={href} as={to} />;
   }
@@ -96,8 +96,8 @@ describe("generateLinkFileNextJS", () => {
   import {CustomLinkProps,CustomLink as Link,} from 'src/common/Link'
   import {patternLogin,UrlPartsLogin,patternNextJSLogin,} from './patternLogin'
   type LinkLoginProps = Omit<CustomLinkProps, 'to'> & UrlPartsLogin
-  const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({  urlQuery, ...props }) => {
-    const to = generateUrl(patternLogin, {}, urlQuery);
+  const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({  urlQuery, origin, ...props }) => {
+    const to = generateUrl(patternLogin, {}, urlQuery, origin);
     return <Link {...props} to={patternNextJSLogin} as={to} />;
   }
   export default LinkLogin;`);
