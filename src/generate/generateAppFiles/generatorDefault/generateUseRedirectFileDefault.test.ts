@@ -24,7 +24,7 @@ describe("generateUseRedirectFileDefault", () => {
   export type RedirectFnLogin = (urlParts?: UrlPartsLogin) => void;
   const useRedirectLogin = (): RedirectFnLogin => {
     const redirect: RedirectFnLogin = urlParts => {
-      const to = generateUrl(patternLogin, {}, urlParts?.urlQuery);
+      const to = generateUrl(patternLogin, {}, urlParts?.urlQuery, urlParts?.origin);
       if (!!window && !!window.location) {
         window.location.href = to;
       }
@@ -59,7 +59,7 @@ describe("generateUseRedirectFileDefault", () => {
   export type RedirectFnUserInfo = (urlParts: UrlPartsUserInfo) => void;
   const useRedirectUserInfo = (): RedirectFnUserInfo => {
     const redirect: RedirectFnUserInfo = urlParts => {
-      const to = generateUrl(patternUserInfo, urlParts.path, urlParts?.urlQuery);
+      const to = generateUrl(patternUserInfo, urlParts.path, urlParts?.urlQuery, urlParts?.origin);
       if (!!window && !!window.location) {
         window.location.href = to;
       }

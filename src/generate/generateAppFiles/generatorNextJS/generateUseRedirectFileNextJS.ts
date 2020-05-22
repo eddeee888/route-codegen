@@ -47,7 +47,7 @@ const generateUseRedirectFileNextJS = (params: GenerateUseRedirectFileNextJSPara
   export type ${resultTypeInterface} = (urlParts${!pathParamsInterfaceName ? "?" : ""}: ${urlPartsInterfaceName}) => void;
   const ${functionName} = (): ${resultTypeInterface} => {
     const redirect: ${resultTypeInterface} = urlParts => {
-      const to = generateUrl(${patternName}, ${pathVariable}, urlParts?.urlQuery);
+      const to = generateUrl(${patternName}, ${pathVariable}, urlParts?.urlQuery, urlParts?.origin);
       ${routerTemplate}
     }
     return redirect;

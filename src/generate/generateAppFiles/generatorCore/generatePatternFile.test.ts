@@ -42,6 +42,7 @@ describe("generatePatternFile", () => {
   export interface UrlPartsUserInfo {
     path: PathParamsUserInfo;
     urlQuery?: Record<string, string>;
+    origin?: string;
   }`
       );
       expect(interfaceResult).toEqual({
@@ -75,6 +76,7 @@ describe("generatePatternFile", () => {
   export interface UrlPartsUserInfo {
     path: PathParamsUserInfo;
     urlQuery?: Record<string, string>;
+    origin?: string;
   }`);
       expect(interfaceResult).toEqual({
         patternName: "patternUserInfo",

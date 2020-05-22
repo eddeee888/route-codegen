@@ -25,7 +25,7 @@ const generateUseRedirectFileDefault = (params: GenerateUseRedirectFileDefaultPa
   }) => void;
   const ${functionName} = (): ${resultTypeInterface} => {
     const redirect: ${resultTypeInterface} = urlParts => {
-      const to = generateUrl(${patternNamedExports.patternName}, ${pathVariable}, urlParts?.urlQuery);
+      const to = generateUrl(${patternNamedExports.patternName}, ${pathVariable}, urlParts?.urlQuery, urlParts?.origin);
       if (!!window && !!window.location) {
         window.location.href = to;
       }

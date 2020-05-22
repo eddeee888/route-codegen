@@ -155,6 +155,7 @@ const generateUrlPartsInterface = (
   const template = `export interface ${interfaceName} {
     ${pathParams ? `path: ${pathParams.interfaceName};` : ""}
     urlQuery?: Record<string, string>;
+    origin?: string;
   }`;
 
   return { template, interfaceName };

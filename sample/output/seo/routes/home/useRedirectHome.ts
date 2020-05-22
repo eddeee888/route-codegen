@@ -5,7 +5,7 @@ import generateUrl from "route-codegen/generateUrl";
 export type RedirectFnHome = (urlParts?: UrlPartsHome) => void;
 const useRedirectHome = (): RedirectFnHome => {
   const redirect: RedirectFnHome = (urlParts) => {
-    const to = generateUrl(patternHome, {}, urlParts?.urlQuery);
+    const to = generateUrl(patternHome, {}, urlParts?.urlQuery, urlParts?.origin);
     Router.push(patternNextJSHome, to);
   };
   return redirect;

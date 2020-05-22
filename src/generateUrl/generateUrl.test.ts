@@ -101,4 +101,11 @@ describe("generateUrl", () => {
       expect(result).toBe("/app/users/oneHundo?from=homepage&redirect=/login");
     });
   });
+
+  describe("with prefix", () => {
+    it("should generate url with prefix", () => {
+      const result = generateUrl("/app/users/:id", { id: "oneHundo" }, { from: "homepage" }, "https://test.domain");
+      expect(result).toBe("https://test.domain/app/users/oneHundo?from=homepage");
+    });
+  });
 });
