@@ -33,8 +33,9 @@ const generateQueryString = (urlQuery?: Record<string, string>): string => {
   return result.substring(0, result.length - 1);
 };
 
-export type GenerateUrl = <P>(pattern: string, inputParams: P, urlQuery?: Record<string, string>) => string;
-const generateUrl: GenerateUrl = (pattern, inputParams, urlQuery) =>
-  generatePath(pattern, inputParams as any) + generateQueryString(urlQuery);
+export type GenerateUrl = <P>(pattern: string, inputParams: P, urlQuery?: Record<string, string>, origin?: string) => string;
+const generateUrl: GenerateUrl = (pattern, inputParams, urlQuery, origin) => {
+  return (origin ?? "") + generatePath(pattern, inputParams as any) + generateQueryString(urlQuery);
+};
 
 export default generateUrl;
