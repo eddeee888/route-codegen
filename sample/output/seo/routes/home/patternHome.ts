@@ -4,4 +4,5 @@ export const patternNextJSHome = "/";
 
 export interface UrlPartsHome {
   urlQuery?: Record<string, string>;
+  origin?: string;
 }

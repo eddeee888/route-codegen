@@ -4,8 +4,8 @@ import generateUrl from "route-codegen/generateUrl";
 
 import { patternLogin, UrlPartsLogin } from "./patternLogin";
 type LinkProps = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, "href"> & UrlPartsLogin;
-const LinkLogin: React.FunctionComponent<LinkProps> = ({ urlQuery, ...props }) => {
-  const to = generateUrl(patternLogin, {}, urlQuery);
+const LinkLogin: React.FunctionComponent<LinkProps> = ({ urlQuery, origin, ...props }) => {
+  const to = generateUrl(patternLogin, {}, urlQuery, origin);
   return <a {...props} href={to} />;
 };
 export default LinkLogin;

@@ -12,4 +12,5 @@ export const possilePathParamsAbout = ["target", "topic", "optional", "optionalE
 export interface UrlPartsAbout {
   path: PathParamsAbout;
   urlQuery?: Record<string, string>;
+  origin?: string;
 }

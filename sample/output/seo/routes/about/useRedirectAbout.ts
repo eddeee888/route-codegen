@@ -5,7 +5,7 @@ import generateUrl from "route-codegen/generateUrl";
 export type RedirectFnAbout = (urlParts: UrlPartsAbout) => void;
 const useRedirectAbout = (): RedirectFnAbout => {
   const redirect: RedirectFnAbout = (urlParts) => {
-    const to = generateUrl(patternAbout, urlParts.path, urlParts?.urlQuery);
+    const to = generateUrl(patternAbout, urlParts.path, urlParts?.urlQuery, urlParts?.origin);
     const url = possilePathParamsAbout
       .filter((key) => !(key in urlParts.path))
       .reduce((prevPattern, suppliedParam) => prevPattern.replace(`/[${suppliedParam}]`, ""), patternNextJSAbout);
