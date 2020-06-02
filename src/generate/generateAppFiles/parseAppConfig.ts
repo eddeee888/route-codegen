@@ -47,6 +47,7 @@ export type RouteLinkOptions = {
 };
 
 export interface ParsedAppConfig {
+  origin: string;
   routes: Record<string, string>;
   routingType: RoutingType;
   destinationDir?: string;
@@ -75,6 +76,7 @@ const IMPORT_REDIRECT_SERVER_SIDE_COMPONENT: Import = {
 const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedAppConfig => {
   const {
     routingType = RoutingType.Default,
+    origin = "",
     routes = {},
     destinationDir,
     reactRouterV5LinkOptions,
@@ -101,6 +103,7 @@ const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedAppConfig 
   };
 
   const parsedConfig: ParsedAppConfig = {
+    origin,
     routes,
     destinationDir,
     routingType,
