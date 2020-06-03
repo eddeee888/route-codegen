@@ -5,6 +5,7 @@ describe("generateRedirectFileReactRouterV5", () => {
     importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
     routeName: "Login",
     patternNamedExports: {
+      originName: "originLogin",
       filename: "patternLogin",
       patternName: "patternLogin",
       urlPartsInterfaceName: "UrlPartsLogin",

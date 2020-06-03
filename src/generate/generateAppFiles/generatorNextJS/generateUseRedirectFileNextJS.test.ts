@@ -5,6 +5,7 @@ describe("generateUseRedirectFileNextJS", () => {
     const params: GenerateUseRedirectFileNextJSParams = {
       routeName: "Login",
       patternNamedExports: {
+        originName: "originLogin",
         filename: "patternLogin",
         patternName: "patternLogin",
         urlPartsInterfaceName: "UrlPartsLogin",
@@ -38,6 +39,7 @@ describe("generateUseRedirectFileNextJS", () => {
     const params: GenerateUseRedirectFileNextJSParams = {
       routeName: "UserInfo",
       patternNamedExports: {
+        originName: "originUserInfo",
         filename: "patternUserInfo",
         patternName: "patternUserInfo",
         urlPartsInterfaceName: "UrlPartsUserInfo",

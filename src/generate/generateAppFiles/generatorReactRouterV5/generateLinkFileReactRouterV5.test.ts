@@ -19,6 +19,7 @@ describe("generateLinkFileReactRouterV5", () => {
     },
     routeName: "Login",
     patternNamedExports: {
+      originName: "originLogin",
       filename: "patternLogin",
       patternName: "patternLogin",
       urlPartsInterfaceName: "UrlPartsLogin",

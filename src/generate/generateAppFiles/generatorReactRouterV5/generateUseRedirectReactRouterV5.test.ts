@@ -5,6 +5,7 @@ describe("generateUseRedirectReactRouterV5", () => {
     const templateFile = generateUseRedirectReactRouterV5({
       routeName: "Login",
       patternNamedExports: {
+        originName: "originLogin",
         filename: "patternLogin",
         patternName: "patternLogin",
         urlPartsInterfaceName: "UrlPartsLogin",
@@ -38,6 +39,7 @@ describe("generateUseRedirectReactRouterV5", () => {
     const templateFile = generateUseRedirectReactRouterV5({
       routeName: "UserInfo",
       patternNamedExports: {
+        originName: "originLogin",
         filename: "patternUserInfo",
         patternName: "patternUserInfo",
         urlPartsInterfaceName: "UrlPartsUserInfo",
