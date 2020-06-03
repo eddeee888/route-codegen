@@ -16,7 +16,7 @@ const generateLinkFileReactRouterV5 = (params: GenerateLinkFileReactRouterV5Para
     routeName,
     routeLinkOption,
     destinationDir,
-    patternNamedExports: { patternName, pathParamsInterfaceName, filename: routePatternFilename, urlPartsInterfaceName },
+    patternNamedExports: { patternName, pathParamsInterfaceName, filename: routePatternFilename, urlPartsInterfaceName, originName },
     importGenerateUrl,
   } = params;
 
@@ -34,14 +34,14 @@ const generateLinkFileReactRouterV5 = (params: GenerateLinkFileReactRouterV5Para
   ${printImport(importGenerateUrl)}
   ${importLink ? printImport(importLink) : ""}
   ${printImport({
-    namedImports: [{ name: patternName }, { name: urlPartsInterfaceName }],
+    namedImports: [{ name: patternName }, { name: urlPartsInterfaceName }, { name: originName }],
     from: `./${routePatternFilename}`,
   })}
   ${linkPropsTemplate}
   const ${functionName}: React.FunctionComponent<${linkPropsInterfaceName}> = ({ ${
     hasPathParams ? "path," : ""
   } urlQuery, origin, ...props }) => {
-    const to = generateUrl(${patternName}, ${hasPathParams ? "path" : "{}"}, urlQuery, origin);
+    const to = generateUrl(${patternName}, ${hasPathParams ? "path" : "{}"}, urlQuery, origin ?? ${originName});
     return <${linkComponent} {...props} ${hrefProp}={to} />;
   }
   export default ${functionName};

@@ -5,6 +5,7 @@ describe("generateUseRedirectReactRouterV5", () => {
     const templateFile = generateUseRedirectReactRouterV5({
       routeName: "Login",
       patternNamedExports: {
+        originName: "originLogin",
         filename: "patternLogin",
         patternName: "patternLogin",
         urlPartsInterfaceName: "UrlPartsLogin",
@@ -20,13 +21,13 @@ describe("generateUseRedirectReactRouterV5", () => {
     expect(templateFile.extension).toBe(".ts");
     expect(templateFile.destinationDir).toBe("path/to/routes");
     expect(templateFile.template).toContain(`import {useHistory,} from 'react-router'
-  import {UrlPartsLogin,patternLogin,} from './patternLogin'
+  import {UrlPartsLogin,patternLogin,originLogin,} from './patternLogin'
   import {generateUrl,} from 'route-codegen'
   export type RedirectFnLogin = (urlParts?: UrlPartsLogin) => void;
   const useRedirectLogin = (): RedirectFnLogin => {
     const history = useHistory();
     const redirect: RedirectFnLogin = urlParts => {
-      const to = generateUrl(patternLogin, {}, urlParts?.urlQuery, urlParts?.origin);
+      const to = generateUrl(patternLogin, {}, urlParts?.urlQuery, urlParts?.origin ?? originLogin);
       history.push(to);
     }
     return redirect;
@@ -38,6 +39,7 @@ describe("generateUseRedirectReactRouterV5", () => {
     const templateFile = generateUseRedirectReactRouterV5({
       routeName: "UserInfo",
       patternNamedExports: {
+        originName: "originUserInfo",
         filename: "patternUserInfo",
         patternName: "patternUserInfo",
         urlPartsInterfaceName: "UrlPartsUserInfo",
@@ -54,13 +56,13 @@ describe("generateUseRedirectReactRouterV5", () => {
     expect(templateFile.extension).toBe(".ts");
     expect(templateFile.destinationDir).toBe("path/to/routes");
     expect(templateFile.template).toContain(`import {useHistory,} from 'react-router'
-  import {UrlPartsUserInfo,patternUserInfo,} from './patternUserInfo'
+  import {UrlPartsUserInfo,patternUserInfo,originUserInfo,} from './patternUserInfo'
   import {generateUrl,} from 'route-codegen'
   export type RedirectFnUserInfo = (urlParts: UrlPartsUserInfo) => void;
   const useRedirectUserInfo = (): RedirectFnUserInfo => {
     const history = useHistory();
     const redirect: RedirectFnUserInfo = urlParts => {
-      const to = generateUrl(patternUserInfo, urlParts.path, urlParts?.urlQuery, urlParts?.origin);
+      const to = generateUrl(patternUserInfo, urlParts.path, urlParts?.urlQuery, urlParts?.origin ?? originUserInfo);
       history.push(to);
     }
     return redirect;
