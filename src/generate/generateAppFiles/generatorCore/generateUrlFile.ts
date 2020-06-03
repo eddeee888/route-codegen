@@ -11,7 +11,7 @@ type GenerateUrlFile = (params: {
 
 const generateUrlFile: GenerateUrlFile = ({
   importGenerateUrl,
-  patternNamedExports: { patternName, urlPartsInterfaceName, filename, pathParamsInterfaceName },
+  patternNamedExports: { patternName, urlPartsInterfaceName, filename, pathParamsInterfaceName, originName },
   routeName,
   destinationDir,
 }) => {
@@ -21,10 +21,10 @@ const generateUrlFile: GenerateUrlFile = ({
 
   const template = `${printImport(importGenerateUrl)}
   ${printImport({
-    namedImports: [{ name: patternName }, { name: urlPartsInterfaceName }],
+    namedImports: [{ name: patternName }, { name: urlPartsInterfaceName }, { name: originName }],
     from: `./${filename}`,
   })}
-  const ${functionName} = ( urlParts${urlPartOptionalModifier}: ${urlPartsInterfaceName} ): string => generateUrl(${patternName}, ${pathVariable}, urlParts?.urlQuery, urlParts?.origin);
+  const ${functionName} = ( urlParts${urlPartOptionalModifier}: ${urlPartsInterfaceName} ): string => generateUrl(${patternName}, ${pathVariable}, urlParts?.urlQuery, urlParts?.origin ?? ${originName});
   export default ${functionName};
   `;
 
