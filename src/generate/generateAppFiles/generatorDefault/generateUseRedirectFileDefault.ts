@@ -16,7 +16,11 @@ const generateUseRedirectFileDefault = (params: GenerateUseRedirectFileDefaultPa
   const resultTypeInterface = `RedirectFn${routeName}`;
 
   const template = `${printImport({
-    namedImports: [{ name: patternNamedExports.urlPartsInterfaceName }, { name: patternNamedExports.patternName }],
+    namedImports: [
+      { name: patternNamedExports.urlPartsInterfaceName },
+      { name: patternNamedExports.patternName },
+      { name: patternNamedExports.originName },
+    ],
     from: `./${patternNamedExports.filename}`,
   })}
   ${printImport(importGenerateUrl)}
@@ -25,7 +29,9 @@ const generateUseRedirectFileDefault = (params: GenerateUseRedirectFileDefaultPa
   }) => void;
   const ${functionName} = (): ${resultTypeInterface} => {
     const redirect: ${resultTypeInterface} = urlParts => {
-      const to = generateUrl(${patternNamedExports.patternName}, ${pathVariable}, urlParts?.urlQuery, urlParts?.origin);
+      const to = generateUrl(${patternNamedExports.patternName}, ${pathVariable}, urlParts?.urlQuery, urlParts?.origin ?? ${
+    patternNamedExports.originName
+  });
       if (!!window && !!window.location) {
         window.location.href = to;
       }

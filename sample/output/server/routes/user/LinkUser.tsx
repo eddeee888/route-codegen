@@ -2,10 +2,10 @@
 import React from "react";
 import generateUrl from "route-codegen/generateUrl";
 
-import { patternUser, UrlPartsUser } from "./patternUser";
+import { patternUser, UrlPartsUser, originUser } from "./patternUser";
 type LinkProps = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, "href"> & UrlPartsUser;
 const LinkUser: React.FunctionComponent<LinkProps> = ({ path, urlQuery, origin, ...props }) => {
-  const to = generateUrl(patternUser, path, urlQuery, origin);
+  const to = generateUrl(patternUser, path, urlQuery, origin ?? originUser);
   return <a {...props} href={to} />;
 };
 export default LinkUser;

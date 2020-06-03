@@ -24,7 +24,7 @@
   ],
   "scripts": {
     "test": "jest",
-    "generate:sample": "rm -rf ./sample/output && yarn --silent build && node dist/bin/route-codegen.js --stacktrace --verbose --config sample/routegen.yml && yarn --silent format:sample --loglevel silent ",
+    "generate:sample": "rm -rf ./sample/output && rm -rf ./sample/output-with-origins && yarn --silent build && node dist/bin/route-codegen.js --stacktrace --verbose --config sample/routegen.yml && node dist/bin/route-codegen.js --stacktrace --verbose --config sample/routegen-with-origins.yml && yarn --silent format:sample --loglevel silent ",
     "build": "yarn build:main && yarn build:root",
     "build:main": "rm -rf ./dist && tsc",
     "build:root": "yarn build:rootDist && yarn build:rootFiles",

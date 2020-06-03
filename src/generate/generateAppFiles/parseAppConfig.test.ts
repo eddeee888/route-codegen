@@ -52,6 +52,7 @@ describe("parseAppConfig", () => {
       const parsedConfig = parseAppConfig("sampleApp", { ...defaultAppConfig });
 
       expect(parsedConfig).toEqual({
+        origin: "",
         routes: {
           login: "/login",
           user: "/user/:id",

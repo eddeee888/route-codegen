@@ -18,6 +18,7 @@ describe("generateLinkFileNextJS", () => {
     },
     routeName: "Login",
     patternNamedExports: {
+      originName: "originLogin",
       filename: "patternLogin",
       patternName: "patternLogin",
       urlPartsInterfaceName: "UrlPartsLogin",

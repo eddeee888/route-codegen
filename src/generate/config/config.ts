@@ -21,6 +21,7 @@ interface LinkOptions {
 }
 
 export interface AppConfig {
+  origin?: string;
   routes?: Record<string, string>;
   routingType?: string;
   destinationDir?: string;

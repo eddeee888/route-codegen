@@ -6,6 +6,7 @@ describe("generateRedirectFileDefault", () => {
     importRedirectServerSide: { defaultImport: "RedirectServerSide", from: "route-codegen/RedirectServerSide" },
     routeName: "Login",
     patternNamedExports: {
+      originName: "originLogin",
       filename: "patternLogin",
       patternName: "patternLogin",
       urlPartsInterfaceName: "UrlPartsLogin",
@@ -23,9 +24,9 @@ describe("generateRedirectFileDefault", () => {
     expect(templateFile.template).toContain(`import React from 'react'
   import RedirectServerSide from 'route-codegen/RedirectServerSide'
   import {generateUrl,} from 'route-codegen'
-  import {UrlPartsLogin,patternLogin,} from './patternLogin'
+  import {UrlPartsLogin,patternLogin,originLogin,} from './patternLogin'
   const RedirectLogin: React.FunctionComponent<UrlPartsLogin & { fallback?: React.ReactNode }> = props => {
-    const to = generateUrl(patternLogin, {}, props.urlQuery, props.origin);
+    const to = generateUrl(patternLogin, {}, props.urlQuery, props.origin ?? originLogin);
     return <RedirectServerSide href={to} fallback={props.fallback} />;
   };
   export default RedirectLogin`);
@@ -46,9 +47,9 @@ describe("generateRedirectFileDefault", () => {
     expect(templateFile.template).toContain(`import React from 'react'
   import RedirectServerSide from 'route-codegen/RedirectServerSide'
   import {generateUrl,} from 'route-codegen'
-  import {UrlPartsLogin,patternLogin,} from './patternLogin'
+  import {UrlPartsLogin,patternLogin,originLogin,} from './patternLogin'
   const RedirectLogin: React.FunctionComponent<UrlPartsLogin & { fallback?: React.ReactNode }> = props => {
-    const to = generateUrl(patternLogin, props.path, props.urlQuery, props.origin);
+    const to = generateUrl(patternLogin, props.path, props.urlQuery, props.origin ?? originLogin);
     return <RedirectServerSide href={to} fallback={props.fallback} />;
   };
   export default RedirectLogin`);

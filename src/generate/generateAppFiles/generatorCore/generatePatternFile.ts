@@ -8,6 +8,7 @@ import getKeysFromRoutePattern from "../../utils/getKeysFromRoutePattern";
 import { PatternNamedExports } from "../types";
 
 export interface GenerateRoutePatternFileParams {
+  origin: string;
   routeName: string;
   routePattern: string;
   destinationDir: string;
@@ -15,11 +16,12 @@ export interface GenerateRoutePatternFileParams {
 }
 
 const generateRoutePatternFile = (params: GenerateRoutePatternFileParams): [TemplateFile, PatternNamedExports] => {
-  const { routePattern, routeName, destinationDir, routingType } = params;
+  const { routePattern, routeName, destinationDir, routingType, origin } = params;
 
   const keys = getKeysFromRoutePattern(routePattern);
 
   const patternName = `pattern${routeName}`;
+  const originName = `origin${routeName}`;
   const filename = patternName;
   const pathParams = generatePathParamsInterface(keys, routeName);
   const possiblePathParams = generatePossiblePathParams(keys, routeName);
@@ -29,6 +31,7 @@ const generateRoutePatternFile = (params: GenerateRoutePatternFileParams): [Temp
   const pathParamsNextJS = routingType === RoutingType.NextJS ? generateNextJSPathParams(keys, routeName) : null;
 
   const template = `export const ${patternName} = '${routePattern}'
+  export const ${originName} = \`${origin}\`
   ${patternNextJS ? patternNextJS.template : ""}
   ${pathParams ? pathParams.template : ""}
   ${pathParamsNextJS ? pathParamsNextJS.template : ""}
@@ -43,6 +46,7 @@ const generateRoutePatternFile = (params: GenerateRoutePatternFileParams): [Temp
       destinationDir,
     },
     {
+      originName,
       patternName,
       patternNameNextJS: patternNextJS ? patternNextJS.variableName : undefined,
       pathParamsInterfaceName: pathParams ? pathParams.interfaceName : undefined,
