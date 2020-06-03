@@ -1,0 +1,28 @@
+apps:
+  app:
+    origin: https://app.sample.com
+    routes:
+      user: /users/:id/:subview(pictures)?
+    routingType: ReactRouterV5
+    destinationDir: sample/output-with-origins/app/routes
+
+  seo:
+    origin: https://sample.com
+    routes:
+      home: /
+      terms: /terms
+    routingType: NextJS
+    destinationDir: sample/output-with-origins/seo/routes
+
+  legacy:
+    origin: https://legacy.sample.com
+    routes:
+      legacy: /legacy/app
+
+  api:
+    origin: https://api.sample.com
+    routes:
+      graphql: /graphql
+      activateAccount: /activate-account/:code
+    generateLink: false
+    destinationDir: sample/output-with-origins/server/routes
