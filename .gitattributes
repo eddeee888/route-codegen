@@ -1,1 +1,2 @@
 sample/output/**/*.* linguist-generated
+sample/output-with-origins/**/*.* linguist-generated
