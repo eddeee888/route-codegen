@@ -1,6 +1,6 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 import generateUrl from "route-codegen/generateUrl";
-import { patternAbout, UrlPartsAbout } from "./patternAbout";
+import { patternAbout, UrlPartsAbout, originAbout } from "./patternAbout";
 const generateUrlAbout = (urlParts: UrlPartsAbout): string =>
-  generateUrl(patternAbout, urlParts.path, urlParts?.urlQuery, urlParts?.origin);
+  generateUrl(patternAbout, urlParts.path, urlParts?.urlQuery, urlParts?.origin ?? originAbout);
 export default generateUrlAbout;
