@@ -20,11 +20,7 @@ const generateUseRedirectReactRouterV5 = (params: GenerateUseRedirectReactRouter
     from: "react-router",
   })}
   ${printImport({
-    namedImports: [
-      { name: patternNamedExports.urlPartsInterfaceName },
-      { name: patternNamedExports.patternName },
-      { name: patternNamedExports.originName },
-    ],
+    namedImports: [{ name: patternNamedExports.urlPartsInterfaceName }, { name: patternNamedExports.patternName }],
     from: `./${patternNamedExports.filename}`,
   })}
   ${printImport(importGenerateUrl)}
@@ -34,9 +30,7 @@ const generateUseRedirectReactRouterV5 = (params: GenerateUseRedirectReactRouter
   const ${functionName} = (): ${resultTypeInterface} => {
     const history = useHistory();
     const redirect: ${resultTypeInterface} = urlParts => {
-      const to = generateUrl(${patternNamedExports.patternName}, ${pathVariable}, urlParts?.urlQuery, urlParts?.origin ?? ${
-    patternNamedExports.originName
-  });
+      const to = generateUrl(${patternNamedExports.patternName}, ${pathVariable}, urlParts?.urlQuery, urlParts?.origin);
       history.push(to);
     }
     return redirect;
