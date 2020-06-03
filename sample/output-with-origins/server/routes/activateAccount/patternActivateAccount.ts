@@ -1,6 +1,6 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 export const patternActivateAccount = "/activate-account/:code";
-export const originActivateAccount = `https://api.${MAIN_DOMAIN}`;
+export const originActivateAccount = `https://api.domain.com`;
 
 export type PathParamsActivateAccount = { code: string };
 

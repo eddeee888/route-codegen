@@ -15,7 +15,14 @@ const { config, stacktrace, verbose } = argv;
 
 try {
   console.log("route-codegen START!");
-  const ymlContent = readFileSync(config, "utf8");
+  let ymlContent = readFileSync(config, "utf8");
+
+  // Allow passing variables by replacing ${...} with its correspondent value in process.env
+  if (typeof process !== "undefined" && "env" in process) {
+    ymlContent = ymlContent.replace(/\$\{(.*)\}/g, (str, variable, index) => {
+      return process.env[variable] ?? "";
+    });
+  }
 
   const configContent = yaml.safeLoad(ymlContent);
   generate(configContent, { verbose });
