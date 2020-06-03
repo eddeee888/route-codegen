@@ -1,5 +1,5 @@
 import { Import } from "../types";
-import { RoutingType, AppConfig, ImportCustomLink } from "../config";
+import { RoutingType, AppConfig, ImportCustomLink, AppRoute } from "../config";
 import throwError from "../utils/throwError";
 import info from "../utils/info";
 import getOverriddenValue from "../utils/getOverriddenValue";
@@ -47,8 +47,7 @@ export type RouteLinkOptions = {
 };
 
 export interface ParsedAppConfig {
-  origin: string;
-  routes: Record<string, string>;
+  routes: Record<string, AppRoute>;
   routingType: RoutingType;
   destinationDir?: string;
   routeLinkOptions: RouteLinkOptions;
@@ -102,9 +101,19 @@ const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedAppConfig 
     generateUseRedirect,
   };
 
+  // Turn ALL routes into AppRoute i.e. with origin built in because it is needed when generating templates for external routes.
+  // This is because when we are generating external routes for an app, each route belongs to a different app with different origin.
+  const routesWithOrigin = Object.entries(routes).reduce<Record<string, AppRoute>>((prevRoutes, [appName, appRoute]) => {
+    if (typeof appRoute === "string") {
+      prevRoutes[appName] = { path: appRoute, origin };
+    } else if (typeof appRoute === "object") {
+      prevRoutes[appName] = { path: appRoute.path, origin: appRoute.origin || origin };
+    }
+    return prevRoutes;
+  }, {});
+
   const parsedConfig: ParsedAppConfig = {
-    origin,
-    routes,
+    routes: routesWithOrigin,
     destinationDir,
     routingType,
     routeLinkOptions: {

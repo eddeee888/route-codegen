@@ -4,6 +4,7 @@ import yargs from "yargs";
 import generate from "./../generate";
 import yaml from "js-yaml";
 import { readFileSync } from "fs";
+import { log } from "util";
 
 const argv = yargs.options({
   config: { type: "string", default: "route-codegen.yml" },
@@ -15,7 +16,15 @@ const { config, stacktrace, verbose } = argv;
 
 try {
   console.log("route-codegen START!");
-  const ymlContent = readFileSync(config, "utf8");
+  let ymlContent = readFileSync(config, "utf8");
+
+  // Allow passing variables by replacing ${...} with its correspondent value in process.env
+  if (typeof process !== "undefined" && "env" in process) {
+    ymlContent = ymlContent.replace(/\$\{(.*)\}/g, (str, variable, index) => {
+      log(`Replacing \${${variable}} with ${process.env[variable]}`);
+      return process.env[variable] ?? "";
+    });
+  }
 
   const configContent = yaml.safeLoad(ymlContent);
   generate(configContent, { verbose });

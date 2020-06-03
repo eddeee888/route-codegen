@@ -52,10 +52,15 @@ describe("parseAppConfig", () => {
       const parsedConfig = parseAppConfig("sampleApp", { ...defaultAppConfig });
 
       expect(parsedConfig).toEqual({
-        origin: "",
         routes: {
-          login: "/login",
-          user: "/user/:id",
+          login: {
+            origin: "",
+            path: "/login",
+          },
+          user: {
+            origin: "",
+            path: "/user/:id",
+          },
         },
         destinationDir: "path/to/routes",
         routingType: RoutingType.Default,

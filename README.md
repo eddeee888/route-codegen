@@ -104,9 +104,9 @@ apps:
       legacyApp: /legacy/app
 
   # Origin can be used to prefix the URL path of certain apps.
-  # Note that this value is used as template literals, so environment variables can be used.
+  # ${...} Can be used to pass environment variables to the config yml
   externalApp:
-    origin: https://${process.env.SUB_DOMAIN}.external.com
+    origin: https://${SUB_DOMAIN}.external.com
     routes:
       externalAppHome: /
 ```

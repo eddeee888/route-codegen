@@ -20,9 +20,15 @@ interface LinkOptions {
   generateUseParams?: boolean;
 }
 
+// TODO: The Object version is only being used internally when generating external routes. Test if it's safe for users to use
+export interface AppRoute {
+  path: string;
+  origin: string;
+}
+
 export interface AppConfig {
   origin?: string;
-  routes?: Record<string, string>;
+  routes?: Record<string, string | AppRoute>;
   routingType?: string;
   destinationDir?: string;
   reactRouterV5LinkOptions?: LinkOptions;
