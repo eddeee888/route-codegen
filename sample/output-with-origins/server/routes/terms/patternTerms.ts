@@ -1,6 +1,6 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 export const patternTerms = "/terms";
-export const originTerms = `https://api.domain.com`;
+export const originTerms = "https://api.domain.com";
 
 export interface UrlPartsTerms {
   urlQuery?: Record<string, string>;
