@@ -5,6 +5,7 @@ describe("generateUseRedirectFileDefault", () => {
     const templateFile = generateUseRedirectFileDefault({
       routeName: "Login",
       patternNamedExports: {
+        originName: "originLogin",
         filename: "patternLogin",
         patternName: "patternLogin",
         urlPartsInterfaceName: "UrlPartsLogin",
@@ -19,12 +20,12 @@ describe("generateUseRedirectFileDefault", () => {
     expect(templateFile.filename).toBe("useRedirectLogin");
     expect(templateFile.extension).toBe(".ts");
     expect(templateFile.destinationDir).toBe("path/to/routes");
-    expect(templateFile.template).toContain(`import {UrlPartsLogin,patternLogin,} from './patternLogin'
+    expect(templateFile.template).toContain(`import {UrlPartsLogin,patternLogin,originLogin,} from './patternLogin'
   import {generateUrl,} from 'route-codegen'
   export type RedirectFnLogin = (urlParts?: UrlPartsLogin) => void;
   const useRedirectLogin = (): RedirectFnLogin => {
     const redirect: RedirectFnLogin = urlParts => {
-      const to = generateUrl(patternLogin, {}, urlParts?.urlQuery, urlParts?.origin);
+      const to = generateUrl(patternLogin, {}, urlParts?.urlQuery, urlParts?.origin ?? originLogin);
       if (!!window && !!window.location) {
         window.location.href = to;
       }
@@ -39,6 +40,7 @@ describe("generateUseRedirectFileDefault", () => {
     const templateFile = generateUseRedirectFileDefault({
       routeName: "UserInfo",
       patternNamedExports: {
+        originName: "originLogin",
         filename: "patternUserInfo",
         patternName: "patternUserInfo",
         urlPartsInterfaceName: "UrlPartsUserInfo",
@@ -54,12 +56,12 @@ describe("generateUseRedirectFileDefault", () => {
     expect(templateFile.filename).toBe("useRedirectUserInfo");
     expect(templateFile.extension).toBe(".ts");
     expect(templateFile.destinationDir).toBe("path/to/routes");
-    expect(templateFile.template).toContain(`import {UrlPartsUserInfo,patternUserInfo,} from './patternUserInfo'
+    expect(templateFile.template).toContain(`import {UrlPartsUserInfo,patternUserInfo,originLogin,} from './patternUserInfo'
   import {generateUrl,} from 'route-codegen'
   export type RedirectFnUserInfo = (urlParts: UrlPartsUserInfo) => void;
   const useRedirectUserInfo = (): RedirectFnUserInfo => {
     const redirect: RedirectFnUserInfo = urlParts => {
-      const to = generateUrl(patternUserInfo, urlParts.path, urlParts?.urlQuery, urlParts?.origin);
+      const to = generateUrl(patternUserInfo, urlParts.path, urlParts?.urlQuery, urlParts?.origin ?? originLogin);
       if (!!window && !!window.location) {
         window.location.href = to;
       }
