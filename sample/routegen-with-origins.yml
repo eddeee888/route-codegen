@@ -1,13 +1,13 @@
 apps:
   app:
-    origin: https://app.sample.com
+    origin: https://app.${process.env.REACT_APP_MAIN_DOMAIN}
     routes:
       user: /users/:id/:subview(pictures)?
     routingType: ReactRouterV5
     destinationDir: sample/output-with-origins/app/routes
 
   seo:
-    origin: https://sample.com
+    origin: https://${process.env.NEXT_PUBLIC_MAIN_DOMAIN}
     routes:
       home: /
       terms: /terms
@@ -15,12 +15,12 @@ apps:
     destinationDir: sample/output-with-origins/seo/routes
 
   legacy:
-    origin: https://legacy.sample.com
+    origin: https://legacy.domain.com
     routes:
       legacy: /legacy/app
 
   api:
-    origin: https://api.sample.com
+    origin: https://api.${MAIN_DOMAIN}
     routes:
       graphql: /graphql
       activateAccount: /activate-account/:code

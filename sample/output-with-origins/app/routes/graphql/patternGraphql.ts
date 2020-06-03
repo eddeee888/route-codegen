@@ -1,6 +1,6 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 export const patternGraphql = "/graphql";
-export const originGraphql = "https://app.sample.com";
+export const originGraphql = `https://app.${process.env.REACT_APP_MAIN_DOMAIN}`;
 
 export interface UrlPartsGraphql {
   urlQuery?: Record<string, string>;

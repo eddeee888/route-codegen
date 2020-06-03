@@ -1,6 +1,6 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 export const patternUser = "/users/:id/:subview(pictures)?";
-export const originUser = "https://app.sample.com";
+export const originUser = `https://app.${process.env.REACT_APP_MAIN_DOMAIN}`;
 
 export type PathParamsUser = { id: string; subview?: "pictures" };
 
