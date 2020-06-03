@@ -102,6 +102,13 @@ apps:
   legacy:
     routes:
       legacyApp: /legacy/app
+
+  # Origin can be used to prefix the URL path of certain apps.
+  # Note that this value is used as template literals, so environment variables can be used.
+  externalApp:
+    origin: https://${process.env.SUB_DOMAIN}.external.com
+    routes:
+      externalAppHome: /
 ```
 
 More details about [config file](#configuration).
@@ -172,6 +179,7 @@ This file contains a function to generate the URL of a particular route. Interfa
 Each routing framework has different API for their link. The generated `Link` component is an abstraction that handles:
 
 - destination of a link
+- URL origin e.g. `https://domain.com`
 - path parameters
 - query strings
 - client-side vs server-side routing
@@ -192,6 +200,12 @@ The generated Link component has the same props so you can do the following in a
 ```typescript
 // Works in any app
 <LinkUser path={{ id: "100" }} urlQuery={{ from: "home" }} />
+```
+
+Or with origin:
+
+```typescript
+<LinkUser path={{ id: "100" }} urlQuery={{ from: "home" }} origin="https://domain.com" />
 ```
 
 ### Redirect component
