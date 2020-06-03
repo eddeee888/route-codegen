@@ -31,7 +31,7 @@ const generateRoutePatternFile = (params: GenerateRoutePatternFileParams): [Temp
   const pathParamsNextJS = routingType === RoutingType.NextJS ? generateNextJSPathParams(keys, routeName) : null;
 
   const template = `export const ${patternName} = '${routePattern}'
-  export const ${originName} = '${origin}'
+  export const ${originName} = \`${origin}\`
   ${patternNextJS ? patternNextJS.template : ""}
   ${pathParams ? pathParams.template : ""}
   ${pathParamsNextJS ? pathParamsNextJS.template : ""}
