@@ -5,6 +5,7 @@ describe("generatePatternFile", () => {
   describe("Default and ReactRouterV5", () => {
     it("should generate correctly if no dynamic path", () => {
       const [templateFile, interfaceResult] = generatePatternFile({
+        origin: "",
         routePattern: "/app/login",
         destinationDir: "path/to/routes",
         routeName: "Login",
@@ -16,6 +17,7 @@ describe("generatePatternFile", () => {
       expect(templateFile.destinationDir).toBe("path/to/routes");
       expect(templateFile.template).toContain("export const patternLogin = '/app/login'");
       expect(interfaceResult).toEqual({
+        originName: "originLogin",
         patternName: "patternLogin",
         urlPartsInterfaceName: "UrlPartsLogin",
         filename: "patternLogin",
@@ -24,6 +26,7 @@ describe("generatePatternFile", () => {
 
     it("should generate correctly for routes with dynamic path", () => {
       const [templateFile, interfaceResult] = generatePatternFile({
+        origin: "",
         routePattern: "/app/users/:id/:subview(profile|pictures)",
         destinationDir: "path/to/routes",
         routeName: "UserInfo",
@@ -35,6 +38,7 @@ describe("generatePatternFile", () => {
       expect(templateFile.destinationDir).toBe("path/to/routes");
       expect(templateFile.template).toContain(
         `export const patternUserInfo = '/app/users/:id/:subview(profile|pictures)'
+  export const originUserInfo = ''
   
   export type PathParamsUserInfo = {id: string;subview:'profile'|'pictures';}
   
@@ -46,6 +50,7 @@ describe("generatePatternFile", () => {
   }`
       );
       expect(interfaceResult).toEqual({
+        originName: "originUserInfo",
         patternName: "patternUserInfo",
         pathParamsInterfaceName: "PathParamsUserInfo",
         urlPartsInterfaceName: "UrlPartsUserInfo",
@@ -58,6 +63,7 @@ describe("generatePatternFile", () => {
   describe("NextJS", () => {
     it("should generate template correctly with NextJS pattern", () => {
       const [templateFile, interfaceResult] = generatePatternFile({
+        origin: "",
         routePattern: "/app/users/:id/:subview(profile|pictures)/:optional?/:optionalEnum(enum1|enum2)?",
         destinationDir: "path/to/routes",
         routeName: "UserInfo",
@@ -69,6 +75,7 @@ describe("generatePatternFile", () => {
       expect(templateFile.destinationDir).toBe("path/to/routes");
       expect(templateFile.template)
         .toContain(`export const patternUserInfo = '/app/users/:id/:subview(profile|pictures)/:optional?/:optionalEnum(enum1|enum2)?'
+  export const originUserInfo = ''
   export const patternNextJSUserInfo = '/app/users/[id]/[subview]/[optional]/[optionalEnum]'
   export type PathParamsUserInfo = {id: string;subview:'profile'|'pictures';optional?: string;optionalEnum?:'enum1'|'enum2';}
   export interface PathParamsNextJSUserInfo {id: string;subview: string;optional?: string;optionalEnum?: string;}
@@ -79,6 +86,7 @@ describe("generatePatternFile", () => {
     origin?: string;
   }`);
       expect(interfaceResult).toEqual({
+        originName: "originUserInfo",
         patternName: "patternUserInfo",
         patternNameNextJS: "patternNextJSUserInfo",
         pathParamsInterfaceName: "PathParamsUserInfo",

@@ -7,6 +7,7 @@ import generatorReactRouterV5 from "./generatorReactRouterV5";
 import generatorNextJS from "./generatorNextJS";
 
 export interface GenerateTemplateFilesParams {
+  origin: string;
   routeName: string;
   routePattern: string;
   destinationDir: string;
@@ -18,6 +19,7 @@ export interface GenerateTemplateFilesParams {
 
 const generateTemplateFiles = (params: GenerateTemplateFilesParams): TemplateFile[] => {
   const {
+    origin,
     routeName: originalRouteName,
     routePattern,
     destinationDir: originalDestinationDir,
@@ -32,6 +34,7 @@ const generateTemplateFiles = (params: GenerateTemplateFilesParams): TemplateFil
   const destinationDir = `${originalDestinationDir}/${originalRouteName}`;
 
   const [patternFile, patternNamedExports] = generatorCore.generatePatternFile({
+    origin,
     routeName,
     routePattern,
     destinationDir,
