@@ -45,7 +45,7 @@ describe("generatePatternFile", () => {
   export const possilePathParamsUserInfo = ['id','subview',]
   export interface UrlPartsUserInfo {
     path: PathParamsUserInfo;
-    urlQuery?: Record<string, string>;
+    urlQuery?: Record<string, string | undefined>;
     origin?: string;
   }`
       );
@@ -82,7 +82,7 @@ describe("generatePatternFile", () => {
   export const possilePathParamsUserInfo = ['id','subview','optional','optionalEnum',]
   export interface UrlPartsUserInfo {
     path: PathParamsUserInfo;
-    urlQuery?: Record<string, string>;
+    urlQuery?: Record<string, string | undefined>;
     origin?: string;
   }`);
       expect(interfaceResult).toEqual({
@@ -120,7 +120,7 @@ describe("generatePatternFile", () => {
   export const possilePathParamsUserInfo = ['id','subview',]
   export interface UrlPartsUserInfo {
     path: PathParamsUserInfo;
-    urlQuery?: Record<string, string>;
+    urlQuery?: Record<string, string | undefined>;
     origin?: string;
   }`
       );

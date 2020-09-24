@@ -100,6 +100,21 @@ describe("generateUrl", () => {
       const result = generateUrl("/app/users/:id", { id: "oneHundo" }, { from: "homepage", redirect: "/login" });
       expect(result).toBe("/app/users/oneHundo?from=homepage&redirect=/login");
     });
+
+    it("should generate 1 undefined query string correctly", () => {
+      const result = generateUrl("/app/users/:id", { id: "oneHundo" }, { from: undefined });
+      expect(result).toBe("/app/users/oneHundo");
+    });
+
+    it("should generate more than 1 undefined query string correctly", () => {
+      const result = generateUrl("/app/users/:id", { id: "oneHundo" }, { from: undefined, redirect: undefined });
+      expect(result).toBe("/app/users/oneHundo");
+    });
+
+    it("should generate mixed undefined and string correctly", () => {
+      const result = generateUrl("/app/users/:id", { id: "oneHundo" }, { from: "homepage", redirect: undefined, to: "test" });
+      expect(result).toBe("/app/users/oneHundo?from=homepage&to=test");
+    });
   });
 
   describe("with prefix", () => {

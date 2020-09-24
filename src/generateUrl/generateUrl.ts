@@ -23,17 +23,22 @@ const generatePath = (path = "/", params = {}): string => {
   return path === "/" ? path : compilePath(path)(params);
 };
 
-const generateQueryString = (urlQuery?: Record<string, string>): string => {
+const generateQueryString = (urlQuery?: Record<string, string | undefined>): string => {
   if (!urlQuery) {
     return "";
   }
 
-  const result = Object.entries(urlQuery).reduce((prev, [key, value]) => prev.concat(key, "=", value, "&"), "?");
+  const result = Object.entries(urlQuery)
+    .filter<[string, string]>((obj): obj is [string, string] => {
+      const value = obj[1];
+      return value !== undefined;
+    })
+    .reduce((prev, [key, value]) => prev.concat(key, "=", value, "&"), "?");
   // remove the final '&'
   return result.substring(0, result.length - 1);
 };
 
-export type GenerateUrl = <P>(pattern: string, inputParams: P, urlQuery?: Record<string, string>, origin?: string) => string;
+export type GenerateUrl = <P>(pattern: string, inputParams: P, urlQuery?: Record<string, string | undefined>, origin?: string) => string;
 const generateUrl: GenerateUrl = (pattern, inputParams, urlQuery, origin) => {
   return (origin ?? "") + generatePath(pattern, inputParams as any) + generateQueryString(urlQuery);
 };
