@@ -4,6 +4,6 @@ export const originHome = "https://domain.com";
 export const patternNextJSHome = "/";
 
 export interface UrlPartsHome {
-  urlQuery?: Record<string, string>;
+  urlQuery?: Record<string, string | undefined>;
   origin?: string;
 }

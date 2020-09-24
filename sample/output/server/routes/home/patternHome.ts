@@ -3,6 +3,6 @@ export const patternHome = "/";
 export const originHome = "";
 
 export interface UrlPartsHome {
-  urlQuery?: Record<string, string>;
+  urlQuery?: Record<string, string | undefined>;
   origin?: string;
 }

@@ -7,6 +7,6 @@ export type PathParamsAbout = { target: "us" | "you"; topic: string; optional?: 
 export const possilePathParamsAbout = ["target", "topic", "optional", "optionalEnum"];
 export interface UrlPartsAbout {
   path: PathParamsAbout;
-  urlQuery?: Record<string, string>;
+  urlQuery?: Record<string, string | undefined>;
   origin?: string;
 }

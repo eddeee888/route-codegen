@@ -4,6 +4,6 @@ export const originTerms = "https://domain.com";
 export const patternNextJSTerms = "/terms";
 
 export interface UrlPartsTerms {
-  urlQuery?: Record<string, string>;
+  urlQuery?: Record<string, string | undefined>;
   origin?: string;
 }
