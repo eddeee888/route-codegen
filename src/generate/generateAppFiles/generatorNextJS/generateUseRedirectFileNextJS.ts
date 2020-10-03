@@ -13,16 +13,8 @@ export interface GenerateUseRedirectFileNextJSParams {
 const generateUseRedirectFileNextJS = (params: GenerateUseRedirectFileNextJSParams): TemplateFile => {
   const {
     routeName,
-    patternNamedExports: {
-      patternName,
-      pathParamsInterfaceName,
-      filename: routePatternFilename,
-      urlPartsInterfaceName,
-      patternNameNextJS,
-      possiblePathParamsVariableName,
-    },
+    patternNamedExports: { pathParamsInterfaceName, filename: routePatternFilename, urlPartsInterfaceName, patternNameNextJS },
     destinationDir,
-    importGenerateUrl,
   } = params;
 
   if (!patternNameNextJS) {
@@ -31,24 +23,24 @@ const generateUseRedirectFileNextJS = (params: GenerateUseRedirectFileNextJSPara
 
   const functionName = `useRedirect${routeName}`;
   const pathVariable = pathParamsInterfaceName ? "urlParts.path" : "{}";
+  const urlPartsModifier = pathParamsInterfaceName ? "" : "?";
   const resultTypeInterface = `RedirectFn${routeName}`;
 
-  let namedImportsFromPatternFile = [{ name: patternName }, { name: urlPartsInterfaceName }, { name: patternNameNextJS }];
-  let routerTemplate = `Router.push(${patternNameNextJS}, to);`;
-  if (possiblePathParamsVariableName) {
-    namedImportsFromPatternFile.push({ name: possiblePathParamsVariableName });
-    routerTemplate = `const url = ${possiblePathParamsVariableName}.filter((key) => !(key in urlParts.path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[${"${suppliedParam"}}]\`, ""), ${patternNameNextJS});
-      Router.push(url, to);`;
-  }
-
-  const template = `${printImport({ defaultImport: "Router", from: "next/router" })}
-  ${printImport({ namedImports: namedImportsFromPatternFile, from: `./${routePatternFilename}` })}
-  ${printImport(importGenerateUrl)}
-  export type ${resultTypeInterface} = (urlParts${!pathParamsInterfaceName ? "?" : ""}: ${urlPartsInterfaceName}) => void;
+  const template = `${printImport({ namedImports: [{ name: "useRouter" }], from: "next/router" })}
+  ${printImport({ namedImports: [{ name: urlPartsInterfaceName }, { name: patternNameNextJS }], from: `./${routePatternFilename}` })}
+  export type ${resultTypeInterface} = (urlParts${urlPartsModifier}: ${urlPartsInterfaceName}) => void;
   const ${functionName} = (): ${resultTypeInterface} => {
+    const router = useRouter();
     const redirect: ${resultTypeInterface} = urlParts => {
-      const to = generateUrl(${patternName}, ${pathVariable}, urlParts?.urlQuery, urlParts?.origin);
-      ${routerTemplate}
+      const query = urlParts?.urlQuery ?? {};
+      const path = ${pathVariable};
+      router.push({
+        pathname: ${patternNameNextJS},
+        query: {
+          ...path,
+          ...query,
+        },
+      })
     }
     return redirect;
   }

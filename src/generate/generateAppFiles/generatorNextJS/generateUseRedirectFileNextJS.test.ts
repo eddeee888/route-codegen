@@ -21,14 +21,21 @@ describe("generateUseRedirectFileNextJS", () => {
     expect(templateFile.filename).toBe("useRedirectLogin");
     expect(templateFile.extension).toBe(".ts");
     expect(templateFile.destinationDir).toBe("path/to/routes");
-    expect(templateFile.template).toContain(`import Router from 'next/router'
-  import {patternLogin,UrlPartsLogin,patternNextJSLogin,} from './patternLogin'
-  import {generateUrl,} from 'route-codegen'
+    expect(templateFile.template).toContain(`import {useRouter,} from 'next/router'
+  import {UrlPartsLogin,patternNextJSLogin,} from './patternLogin'
   export type RedirectFnLogin = (urlParts?: UrlPartsLogin) => void;
   const useRedirectLogin = (): RedirectFnLogin => {
+    const router = useRouter();
     const redirect: RedirectFnLogin = urlParts => {
-      const to = generateUrl(patternLogin, {}, urlParts?.urlQuery, urlParts?.origin);
-      Router.push(patternNextJSLogin, to);
+      const query = urlParts?.urlQuery ?? {};
+      const path = {};
+      router.push({
+        pathname: patternNextJSLogin,
+        query: {
+          ...path,
+          ...query,
+        },
+      })
     }
     return redirect;
   }
@@ -58,15 +65,21 @@ describe("generateUseRedirectFileNextJS", () => {
     expect(templateFile.filename).toBe("useRedirectUserInfo");
     expect(templateFile.extension).toBe(".ts");
     expect(templateFile.destinationDir).toBe("path/to/routes");
-    expect(templateFile.template).toContain(`import Router from 'next/router'
-  import {patternUserInfo,UrlPartsUserInfo,patternNextJSUserInfo,possiblePathParamsUserInfo,} from './patternUserInfo'
-  import {generateUrl,} from 'route-codegen'
+    expect(templateFile.template).toContain(`import {useRouter,} from 'next/router'
+  import {UrlPartsUserInfo,patternNextJSUserInfo,} from './patternUserInfo'
   export type RedirectFnUserInfo = (urlParts: UrlPartsUserInfo) => void;
   const useRedirectUserInfo = (): RedirectFnUserInfo => {
+    const router = useRouter();
     const redirect: RedirectFnUserInfo = urlParts => {
-      const to = generateUrl(patternUserInfo, urlParts.path, urlParts?.urlQuery, urlParts?.origin);
-      const url = possiblePathParamsUserInfo.filter((key) => !(key in urlParts.path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[${"${suppliedParam"}}]\`, ""), patternNextJSUserInfo);
-      Router.push(url, to);
+      const query = urlParts?.urlQuery ?? {};
+      const path = urlParts.path;
+      router.push({
+        pathname: patternNextJSUserInfo,
+        query: {
+          ...path,
+          ...query,
+        },
+      })
     }
     return redirect;
   }

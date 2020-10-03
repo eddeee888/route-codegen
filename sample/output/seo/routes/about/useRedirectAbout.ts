@@ -1,15 +1,19 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
-import Router from "next/router";
-import { patternAbout, UrlPartsAbout, patternNextJSAbout, possilePathParamsAbout } from "./patternAbout";
-import generateUrl from "route-codegen/generateUrl";
+import { useRouter } from "next/router";
+import { UrlPartsAbout, patternNextJSAbout } from "./patternAbout";
 export type RedirectFnAbout = (urlParts: UrlPartsAbout) => void;
 const useRedirectAbout = (): RedirectFnAbout => {
+  const router = useRouter();
   const redirect: RedirectFnAbout = (urlParts) => {
-    const to = generateUrl(patternAbout, urlParts.path, urlParts?.urlQuery, urlParts?.origin);
-    const url = possilePathParamsAbout
-      .filter((key) => !(key in urlParts.path))
-      .reduce((prevPattern, suppliedParam) => prevPattern.replace(`/[${suppliedParam}]`, ""), patternNextJSAbout);
-    Router.push(url, to);
+    const query = urlParts?.urlQuery ?? {};
+    const path = urlParts.path;
+    router.push({
+      pathname: patternNextJSAbout,
+      query: {
+        ...path,
+        ...query,
+      },
+    });
   };
   return redirect;
 };
