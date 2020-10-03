@@ -7,6 +7,6 @@ export type PathParamsUser = { id: string; subview?: "pictures" };
 export const possilePathParamsUser = ["id", "subview"];
 export interface UrlPartsUser {
   path: PathParamsUser;
-  urlQuery?: Record<string, string | undefined>;
+  query?: Record<string, string | undefined>;
   origin?: string;
 }

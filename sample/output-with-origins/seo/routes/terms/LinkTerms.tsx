@@ -4,14 +4,14 @@ import Link, { LinkProps } from "next/link";
 import { UrlPartsTerms, patternNextJSTerms } from "./patternTerms";
 type LinkTermsProps = Omit<LinkProps, "href"> & UrlPartsTerms;
 const LinkTerms: React.FunctionComponent<LinkTermsProps> = (props) => {
-  const { urlQuery = {}, ...rest } = props;
+  const { query = {}, ...rest } = props;
   const path = {};
   const pathname = patternNextJSTerms;
   const nextHref = {
     pathname: pathname,
     query: {
       ...path,
-      ...urlQuery,
+      ...query,
     },
   };
   return <Link {...rest} href={nextHref} />;

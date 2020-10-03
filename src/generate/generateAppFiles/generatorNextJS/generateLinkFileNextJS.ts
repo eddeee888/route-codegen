@@ -48,8 +48,8 @@ const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): TemplateF
   }
 
   const variablesTemplate = hasPathParams
-    ? `const { path = {}, urlQuery = {}, ...rest } = props;`
-    : `const { urlQuery = {}, ...rest } = props; const path = {};`;
+    ? `const { path = {}, query = {}, ...rest } = props;`
+    : `const { query = {}, ...rest } = props; const path = {};`;
 
   const template = `${printImport({ defaultImport: "React", from: "react" })}
   ${importLink ? printImport(importLink) : ""}
@@ -62,7 +62,7 @@ const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): TemplateF
       pathname: pathname,
       query: {
         ...path,
-        ...urlQuery,
+        ...query,
       },
     }
     return <${linkComponent} {...rest} ${hrefProp}={nextHref} />;

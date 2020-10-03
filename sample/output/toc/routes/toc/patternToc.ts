@@ -4,6 +4,6 @@ export const originToc = "";
 export const patternNextJSToc = "/terms-and-conditions";
 
 export interface UrlPartsToc {
-  urlQuery?: Record<string, string | undefined>;
+  query?: Record<string, string | undefined>;
   origin?: string;
 }

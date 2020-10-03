@@ -3,6 +3,6 @@ export const patternSignup = "/signup";
 export const originSignup = "";
 
 export interface UrlPartsSignup {
-  urlQuery?: Record<string, string | undefined>;
+  query?: Record<string, string | undefined>;
   origin?: string;
 }

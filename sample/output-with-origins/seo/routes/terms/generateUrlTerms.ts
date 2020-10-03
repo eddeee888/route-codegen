@@ -2,5 +2,5 @@
 import generateUrl from "route-codegen/generateUrl";
 import { patternTerms, UrlPartsTerms, originTerms } from "./patternTerms";
 const generateUrlTerms = (urlParts?: UrlPartsTerms): string =>
-  generateUrl(patternTerms, {}, urlParts?.urlQuery, urlParts?.origin ?? originTerms);
+  generateUrl(patternTerms, {}, urlParts?.query, urlParts?.origin ?? originTerms);
 export default generateUrlTerms;

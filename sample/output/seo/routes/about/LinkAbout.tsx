@@ -4,7 +4,7 @@ import Link, { LinkProps } from "next/link";
 import { UrlPartsAbout, patternNextJSAbout, possilePathParamsAbout } from "./patternAbout";
 type LinkAboutProps = Omit<LinkProps, "href"> & UrlPartsAbout;
 const LinkAbout: React.FunctionComponent<LinkAboutProps> = (props) => {
-  const { path = {}, urlQuery = {}, ...rest } = props;
+  const { path = {}, query = {}, ...rest } = props;
   const pathname = possilePathParamsAbout
     .filter((key) => !(key in path))
     .reduce((prevPattern, suppliedParam) => prevPattern.replace(`/[${suppliedParam}]`, ""), patternNextJSAbout);
@@ -12,7 +12,7 @@ const LinkAbout: React.FunctionComponent<LinkAboutProps> = (props) => {
     pathname: pathname,
     query: {
       ...path,
-      ...urlQuery,
+      ...query,
     },
   };
   return <Link {...rest} href={nextHref} />;

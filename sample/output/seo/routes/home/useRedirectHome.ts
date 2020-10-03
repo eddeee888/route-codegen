@@ -5,7 +5,7 @@ export type RedirectFnHome = (urlParts?: UrlPartsHome) => void;
 const useRedirectHome = (): RedirectFnHome => {
   const router = useRouter();
   const redirect: RedirectFnHome = (urlParts) => {
-    const query = urlParts?.urlQuery ?? {};
+    const query = urlParts?.query ?? {};
     const path = {};
     const pathname = patternNextJSHome;
     router.push({

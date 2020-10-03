@@ -2,5 +2,5 @@
 import generateUrl from "route-codegen/generateUrl";
 import { patternLegacy, UrlPartsLegacy, originLegacy } from "./patternLegacy";
 const generateUrlLegacy = (urlParts?: UrlPartsLegacy): string =>
-  generateUrl(patternLegacy, {}, urlParts?.urlQuery, urlParts?.origin ?? originLegacy);
+  generateUrl(patternLegacy, {}, urlParts?.query, urlParts?.origin ?? originLegacy);
 export default generateUrlLegacy;

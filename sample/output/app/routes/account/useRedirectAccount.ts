@@ -6,7 +6,7 @@ export type RedirectFnAccount = (urlParts?: UrlPartsAccount) => void;
 const useRedirectAccount = (): RedirectFnAccount => {
   const history = useHistory();
   const redirect: RedirectFnAccount = (urlParts) => {
-    const to = generateUrl(patternAccount, {}, urlParts?.urlQuery, urlParts?.origin);
+    const to = generateUrl(patternAccount, {}, urlParts?.query, urlParts?.origin);
     history.push(to);
   };
   return redirect;

@@ -5,7 +5,7 @@ export type RedirectFnAbout = (urlParts: UrlPartsAbout) => void;
 const useRedirectAbout = (): RedirectFnAbout => {
   const router = useRouter();
   const redirect: RedirectFnAbout = (urlParts) => {
-    const query = urlParts?.urlQuery ?? {};
+    const query = urlParts?.query ?? {};
     const path = urlParts.path;
     const pathname = possilePathParamsAbout
       .filter((key) => !(key in urlParts.path))

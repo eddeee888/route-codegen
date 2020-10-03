@@ -3,6 +3,6 @@ export const patternLogin = "/login";
 export const originLogin = "";
 
 export interface UrlPartsLogin {
-  urlQuery?: Record<string, string | undefined>;
+  query?: Record<string, string | undefined>;
   origin?: string;
 }

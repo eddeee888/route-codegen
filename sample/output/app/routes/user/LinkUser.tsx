@@ -4,8 +4,8 @@ import generateUrl from "route-codegen/generateUrl";
 import { LinkProps, Link } from "react-router-dom";
 import { patternUser, UrlPartsUser } from "./patternUser";
 type LinkUserProps = Omit<LinkProps, "to"> & UrlPartsUser;
-const LinkUser: React.FunctionComponent<LinkUserProps> = ({ path, urlQuery, origin, ...props }) => {
-  const to = generateUrl(patternUser, path, urlQuery, origin);
+const LinkUser: React.FunctionComponent<LinkUserProps> = ({ path, query, origin, ...props }) => {
+  const to = generateUrl(patternUser, path, query, origin);
   return <Link {...props} to={to} />;
 };
 export default LinkUser;

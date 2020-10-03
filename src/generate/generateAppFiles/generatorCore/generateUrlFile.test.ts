@@ -19,7 +19,7 @@ describe("generateUseParamsFile", () => {
     expect(templateFile.destinationDir).toBe("path/to/routes");
     expect(templateFile.template).toContain(`import {generateUrl,} from 'route-codegen'
   import {patternUser,UrlPartsUser,originUser,} from './patternUser'
-  const generateUrlUser = ( urlParts?: UrlPartsUser ): string => generateUrl(patternUser, {}, urlParts?.urlQuery, urlParts?.origin ?? originUser);
+  const generateUrlUser = ( urlParts?: UrlPartsUser ): string => generateUrl(patternUser, {}, urlParts?.query, urlParts?.origin ?? originUser);
   export default generateUrlUser;`);
   });
 
@@ -42,7 +42,7 @@ describe("generateUseParamsFile", () => {
     expect(templateFile.destinationDir).toBe("path/to/routes");
     expect(templateFile.template).toContain(`import {generateUrl,} from 'route-codegen'
   import {patternUser,UrlPartsUser,originUser,} from './patternUser'
-  const generateUrlUser = ( urlParts: UrlPartsUser ): string => generateUrl(patternUser, urlParts.path, urlParts?.urlQuery, urlParts?.origin ?? originUser);
+  const generateUrlUser = ( urlParts: UrlPartsUser ): string => generateUrl(patternUser, urlParts.path, urlParts?.query, urlParts?.origin ?? originUser);
   export default generateUrlUser;`);
   });
 });
