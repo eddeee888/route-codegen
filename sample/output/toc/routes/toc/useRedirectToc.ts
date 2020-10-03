@@ -7,8 +7,9 @@ const useRedirectToc = (): RedirectFnToc => {
   const redirect: RedirectFnToc = (urlParts) => {
     const query = urlParts?.urlQuery ?? {};
     const path = {};
+    const pathname = patternNextJSToc;
     router.push({
-      pathname: patternNextJSToc,
+      pathname: pathname,
       query: {
         ...path,
         ...query,

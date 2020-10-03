@@ -29,8 +29,9 @@ describe("generateUseRedirectFileNextJS", () => {
     const redirect: RedirectFnLogin = urlParts => {
       const query = urlParts?.urlQuery ?? {};
       const path = {};
+      const pathname = patternNextJSLogin;
       router.push({
-        pathname: patternNextJSLogin,
+        pathname: pathname,
         query: {
           ...path,
           ...query,
@@ -66,15 +67,16 @@ describe("generateUseRedirectFileNextJS", () => {
     expect(templateFile.extension).toBe(".ts");
     expect(templateFile.destinationDir).toBe("path/to/routes");
     expect(templateFile.template).toContain(`import {useRouter,} from 'next/router'
-  import {UrlPartsUserInfo,patternNextJSUserInfo,} from './patternUserInfo'
+  import {UrlPartsUserInfo,patternNextJSUserInfo,possiblePathParamsUserInfo,} from './patternUserInfo'
   export type RedirectFnUserInfo = (urlParts: UrlPartsUserInfo) => void;
   const useRedirectUserInfo = (): RedirectFnUserInfo => {
     const router = useRouter();
     const redirect: RedirectFnUserInfo = urlParts => {
       const query = urlParts?.urlQuery ?? {};
       const path = urlParts.path;
+      const pathname = possiblePathParamsUserInfo.filter((key) => !(key in urlParts.path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(${"`/[${suppliedParam}]`"}, \"\"), patternNextJSUserInfo);
       router.push({
-        pathname: patternNextJSUserInfo,
+        pathname: pathname,
         query: {
           ...path,
           ...query,
