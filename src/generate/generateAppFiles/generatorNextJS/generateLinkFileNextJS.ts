@@ -17,20 +17,11 @@ const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): TemplateF
     routeName,
     routeLinkOption,
     destinationDir,
-    patternNamedExports: {
-      patternName,
-      pathParamsInterfaceName,
-      filename: routePatternFilename,
-      urlPartsInterfaceName,
-      patternNameNextJS,
-      possiblePathParamsVariableName,
-    },
-    importGenerateUrl,
+    patternNamedExports: { filename: routePatternFilename, urlPartsInterfaceName, patternNameNextJS, possiblePathParamsVariableName },
   } = params;
 
   const functionName = `Link${routeName}`;
   const defaultLinkPropsInterfaceName = `Link${routeName}Props`;
-  const hasPathParams = !!pathParamsInterfaceName;
 
   const { hrefProp, importLink, linkComponent, linkPropsTemplate, linkPropsInterfaceName } = generateLinkInterface({
     defaultLinkPropsInterfaceName,
@@ -42,29 +33,27 @@ const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): TemplateF
     return throwError([], 'Missing "patternNameNextJS". This is most likely a problem with route-codegen.');
   }
 
-  const namedImportsFromPatternFile = [{ name: patternName }, { name: urlPartsInterfaceName }, { name: patternNameNextJS }];
-  // NextJS has slightly different way to handle its link component: "href" prop is actually the pattern. and "as" is the generated url
-  let linkTemplate = `return <${linkComponent} {...props} ${hrefProp}={${patternNameNextJS}} as={to} />;`;
-
+  const namedImportsFromPatternFile = [{ name: urlPartsInterfaceName }, { name: patternNameNextJS }];
+  let pathnameTemplate = `const pathname = ${patternNameNextJS};`;
   if (possiblePathParamsVariableName) {
     namedImportsFromPatternFile.push({ name: possiblePathParamsVariableName });
-    linkTemplate = `const href = ${possiblePathParamsVariableName}.filter((key) => !(key in path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[${"${suppliedParam"}}]\`, ""), ${patternNameNextJS});
-    return <${linkComponent} {...props} ${hrefProp}={href} as={to} />;`;
+    pathnameTemplate = `const pathname = ${possiblePathParamsVariableName}.filter((key) => !(key in path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[${"${suppliedParam"}}]\`, ""), ${patternNameNextJS});`;
   }
 
   const template = `${printImport({ defaultImport: "React", from: "react" })}
-  ${printImport(importGenerateUrl)}
   ${importLink ? printImport(importLink) : ""}
-  ${printImport({
-    namedImports: namedImportsFromPatternFile,
-    from: `./${routePatternFilename}`,
-  })}
+  ${printImport({ namedImports: namedImportsFromPatternFile, from: `./${routePatternFilename}` })}
   ${linkPropsTemplate}
-  const ${functionName}: React.FunctionComponent<${linkPropsInterfaceName}> = ({ ${
-    hasPathParams ? "path," : ""
-  } urlQuery, origin, ...props }) => {
-    const to = generateUrl(${patternName}, ${hasPathParams ? "path" : "{}"}, urlQuery, origin);
-    ${linkTemplate}
+  const ${functionName}: React.FunctionComponent<${linkPropsInterfaceName}> = ({ path = {}, urlQuery = {}, ...props }) => {
+    ${pathnameTemplate}
+    const nextHref = {
+      pathname: pathname,
+      query: {
+        ...path,
+        ...urlQuery,
+      },
+    }
+    return <${linkComponent} {...props} ${hrefProp}={nextHref} />;
   }
   export default ${functionName};
   `;

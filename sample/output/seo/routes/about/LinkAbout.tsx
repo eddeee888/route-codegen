@@ -1,14 +1,19 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 import React from "react";
-import generateUrl from "route-codegen/generateUrl";
 import Link, { LinkProps } from "next/link";
-import { patternAbout, UrlPartsAbout, patternNextJSAbout, possilePathParamsAbout } from "./patternAbout";
+import { UrlPartsAbout, patternNextJSAbout, possilePathParamsAbout } from "./patternAbout";
 type LinkAboutProps = Omit<LinkProps, "href"> & UrlPartsAbout;
-const LinkAbout: React.FunctionComponent<LinkAboutProps> = ({ path, urlQuery, origin, ...props }) => {
-  const to = generateUrl(patternAbout, path, urlQuery, origin);
-  const href = possilePathParamsAbout
+const LinkAbout: React.FunctionComponent<LinkAboutProps> = ({ path = {}, urlQuery = {}, ...props }) => {
+  const pathname = possilePathParamsAbout
     .filter((key) => !(key in path))
     .reduce((prevPattern, suppliedParam) => prevPattern.replace(`/[${suppliedParam}]`, ""), patternNextJSAbout);
-  return <Link {...props} href={href} as={to} />;
+  const nextHref = {
+    pathname: pathname,
+    query: {
+      ...path,
+      ...urlQuery,
+    },
+  };
+  return <Link {...props} href={nextHref} />;
 };
 export default LinkAbout;

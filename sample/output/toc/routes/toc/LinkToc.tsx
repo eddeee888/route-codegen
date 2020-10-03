@@ -1,11 +1,17 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 import React from "react";
-import generateUrl from "route-codegen/generateUrl";
 import Link, { LinkProps } from "src/common/components/Link";
-import { patternToc, UrlPartsToc, patternNextJSToc } from "./patternToc";
+import { UrlPartsToc, patternNextJSToc } from "./patternToc";
 type LinkTocProps = Omit<LinkProps, "href"> & UrlPartsToc;
-const LinkToc: React.FunctionComponent<LinkTocProps> = ({ urlQuery, origin, ...props }) => {
-  const to = generateUrl(patternToc, {}, urlQuery, origin);
-  return <Link {...props} href={patternNextJSToc} as={to} />;
+const LinkToc: React.FunctionComponent<LinkTocProps> = ({ path = {}, urlQuery = {}, ...props }) => {
+  const pathname = patternNextJSToc;
+  const nextHref = {
+    pathname: pathname,
+    query: {
+      ...path,
+      ...urlQuery,
+    },
+  };
+  return <Link {...props} href={nextHref} />;
 };
 export default LinkToc;
