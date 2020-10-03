@@ -4,7 +4,7 @@ import generateUrl from "route-codegen/generateUrl";
 import { Redirect } from "react-router";
 import { UrlPartsAccount, patternAccount } from "./patternAccount";
 const RedirectAccount: React.FunctionComponent<UrlPartsAccount & { fallback?: React.ReactNode }> = (props) => {
-  const to = generateUrl(patternAccount, {}, props.urlQuery, props.origin);
+  const to = generateUrl(patternAccount, {}, props.query, props.origin);
   return (
     <>
       <Redirect to={to} />

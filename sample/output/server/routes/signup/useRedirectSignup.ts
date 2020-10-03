@@ -4,7 +4,7 @@ import generateUrl from "route-codegen/generateUrl";
 export type RedirectFnSignup = (urlParts?: UrlPartsSignup) => void;
 const useRedirectSignup = (): RedirectFnSignup => {
   const redirect: RedirectFnSignup = (urlParts) => {
-    const to = generateUrl(patternSignup, {}, urlParts?.urlQuery, urlParts?.origin ?? originSignup);
+    const to = generateUrl(patternSignup, {}, urlParts?.query, urlParts?.origin ?? originSignup);
     if (!!window && !!window.location) {
       window.location.href = to;
     }

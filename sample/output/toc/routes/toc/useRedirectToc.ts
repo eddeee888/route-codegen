@@ -5,7 +5,7 @@ export type RedirectFnToc = (urlParts?: UrlPartsToc) => void;
 const useRedirectToc = (): RedirectFnToc => {
   const router = useRouter();
   const redirect: RedirectFnToc = (urlParts) => {
-    const query = urlParts?.urlQuery ?? {};
+    const query = urlParts?.query ?? {};
     const path = {};
     const pathname = patternNextJSToc;
     router.push({

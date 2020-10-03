@@ -5,7 +5,7 @@ export type RedirectFnTerms = (urlParts?: UrlPartsTerms) => void;
 const useRedirectTerms = (): RedirectFnTerms => {
   const router = useRouter();
   const redirect: RedirectFnTerms = (urlParts) => {
-    const query = urlParts?.urlQuery ?? {};
+    const query = urlParts?.query ?? {};
     const path = {};
     const pathname = patternNextJSTerms;
     router.push({

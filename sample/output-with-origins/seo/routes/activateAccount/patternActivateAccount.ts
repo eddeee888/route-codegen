@@ -7,6 +7,6 @@ export type PathParamsActivateAccount = { code: string };
 export const possilePathParamsActivateAccount = ["code"];
 export interface UrlPartsActivateAccount {
   path: PathParamsActivateAccount;
-  urlQuery?: Record<string, string | undefined>;
+  query?: Record<string, string | undefined>;
   origin?: string;
 }

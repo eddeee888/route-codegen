@@ -29,7 +29,7 @@ const generateUseRedirectFileDefault = (params: GenerateUseRedirectFileDefaultPa
   }) => void;
   const ${functionName} = (): ${resultTypeInterface} => {
     const redirect: ${resultTypeInterface} = urlParts => {
-      const to = generateUrl(${patternNamedExports.patternName}, ${pathVariable}, urlParts?.urlQuery, urlParts?.origin ?? ${
+      const to = generateUrl(${patternNamedExports.patternName}, ${pathVariable}, urlParts?.query, urlParts?.origin ?? ${
     patternNamedExports.originName
   });
       if (!!window && !!window.location) {

@@ -45,7 +45,7 @@ const generateUseRedirectFileNextJS = (params: GenerateUseRedirectFileNextJSPara
   const ${functionName} = (): ${resultTypeInterface} => {
     const router = useRouter();
     const redirect: ${resultTypeInterface} = urlParts => {
-      const query = urlParts?.urlQuery ?? {};
+      const query = urlParts?.query ?? {};
       const path = ${pathVariable};
       ${pathnameTemplate}
       router.push({

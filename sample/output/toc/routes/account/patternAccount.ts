@@ -3,6 +3,6 @@ export const patternAccount = "/app/account";
 export const originAccount = "";
 
 export interface UrlPartsAccount {
-  urlQuery?: Record<string, string | undefined>;
+  query?: Record<string, string | undefined>;
   origin?: string;
 }

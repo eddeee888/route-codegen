@@ -3,6 +3,6 @@ export const patternLegacy = "/legacy/app";
 export const originLegacy = "https://legacy.domain.com";
 
 export interface UrlPartsLegacy {
-  urlQuery?: Record<string, string | undefined>;
+  query?: Record<string, string | undefined>;
   origin?: string;
 }

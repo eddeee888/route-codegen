@@ -2,5 +2,5 @@
 import generateUrl from "route-codegen/generateUrl";
 import { patternActivateAccount, UrlPartsActivateAccount, originActivateAccount } from "./patternActivateAccount";
 const generateUrlActivateAccount = (urlParts: UrlPartsActivateAccount): string =>
-  generateUrl(patternActivateAccount, urlParts.path, urlParts?.urlQuery, urlParts?.origin ?? originActivateAccount);
+  generateUrl(patternActivateAccount, urlParts.path, urlParts?.query, urlParts?.origin ?? originActivateAccount);
 export default generateUrlActivateAccount;

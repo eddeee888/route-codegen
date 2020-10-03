@@ -52,8 +52,8 @@ describe("generateLinkFileDefault", () => {
   import Link, {CustomLinkProps,} from 'src/Default/Link'
   import {patternLogin,UrlPartsLogin,originLogin,} from './patternLogin'
   type LinkLoginProps = Omit<CustomLinkProps, 'customDefaultHref'> & UrlPartsLogin
-  const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({  urlQuery, origin, ...props }) => {
-    const to = generateUrl(patternLogin, {}, urlQuery, origin ?? originLogin);
+  const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({  query, origin, ...props }) => {
+    const to = generateUrl(patternLogin, {}, query, origin ?? originLogin);
     return <Link {...props} customDefaultHref={to} />;
   }
   export default LinkLogin;`);
@@ -70,8 +70,8 @@ describe("generateLinkFileDefault", () => {
   
   import {patternLogin,UrlPartsLogin,originLogin,} from './patternLogin'
   type InlineLinkProps = Omit<React.SomeReallyLongReactHTMLProps, 'href'> & UrlPartsLogin
-  const LinkLogin: React.FunctionComponent<InlineLinkProps> = ({  urlQuery, origin, ...props }) => {
-    const to = generateUrl(patternLogin, {}, urlQuery, origin ?? originLogin);
+  const LinkLogin: React.FunctionComponent<InlineLinkProps> = ({  query, origin, ...props }) => {
+    const to = generateUrl(patternLogin, {}, query, origin ?? originLogin);
     return <a {...props} href={to} />;
   }
   export default LinkLogin;`);
@@ -94,8 +94,8 @@ describe("generateLinkFileDefault", () => {
   
   import {patternLogin,UrlPartsLogin,originLogin,} from './patternLogin'
   type InlineLinkProps = Omit<React.SomeReallyLongReactHTMLProps, 'href'> & UrlPartsLogin
-  const LinkLogin: React.FunctionComponent<InlineLinkProps> = ({ path, urlQuery, origin, ...props }) => {
-    const to = generateUrl(patternLogin, path, urlQuery, origin ?? originLogin);
+  const LinkLogin: React.FunctionComponent<InlineLinkProps> = ({ path, query, origin, ...props }) => {
+    const to = generateUrl(patternLogin, path, query, origin ?? originLogin);
     return <a {...props} href={to} />;
   }
   export default LinkLogin;`);
@@ -126,8 +126,8 @@ describe("generateLinkFileDefault", () => {
   import {CustomLinkProps,CustomLink as Link,} from 'src/common/Link'
   import {patternLogin,UrlPartsLogin,originLogin,} from './patternLogin'
   type LinkLoginProps = Omit<CustomLinkProps, 'to'> & UrlPartsLogin
-  const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({  urlQuery, origin, ...props }) => {
-    const to = generateUrl(patternLogin, {}, urlQuery, origin ?? originLogin);
+  const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({  query, origin, ...props }) => {
+    const to = generateUrl(patternLogin, {}, query, origin ?? originLogin);
     return <Link {...props} to={to} />;
   }
   export default LinkLogin;`);

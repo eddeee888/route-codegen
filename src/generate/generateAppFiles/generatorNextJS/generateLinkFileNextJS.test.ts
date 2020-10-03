@@ -39,13 +39,13 @@ describe("generateLinkFileNextJS", () => {
   import {UrlPartsLogin,patternNextJSLogin,} from './patternLogin'
   type LinkLoginProps = Omit<NextJSLinkProps, 'customHref'> & UrlPartsLogin
   const LinkLogin: React.FunctionComponent<LinkLoginProps> = props => {
-    const { urlQuery = {}, ...rest } = props; const path = {};
+    const { query = {}, ...rest } = props; const path = {};
     const pathname = patternNextJSLogin;
     const nextHref = {
       pathname: pathname,
       query: {
         ...path,
-        ...urlQuery,
+        ...query,
       },
     }
     return <Link {...rest} customHref={nextHref} />;
@@ -71,13 +71,13 @@ describe("generateLinkFileNextJS", () => {
   import {UrlPartsLogin,patternNextJSLogin,possiblePathParamsLogin,} from './patternLogin'
   type LinkLoginProps = Omit<NextJSLinkProps, 'customHref'> & UrlPartsLogin
   const LinkLogin: React.FunctionComponent<LinkLoginProps> = props => {
-    const { path = {}, urlQuery = {}, ...rest } = props;
+    const { path = {}, query = {}, ...rest } = props;
     const pathname = possiblePathParamsLogin.filter((key) => !(key in path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[${"${suppliedParam"}}]\`, ""), patternNextJSLogin);
     const nextHref = {
       pathname: pathname,
       query: {
         ...path,
-        ...urlQuery,
+        ...query,
       },
     }
     return <Link {...rest} customHref={nextHref} />;
@@ -110,13 +110,13 @@ describe("generateLinkFileNextJS", () => {
   import {UrlPartsLogin,patternNextJSLogin,} from './patternLogin'
   type LinkLoginProps = Omit<CustomLinkProps, 'to'> & UrlPartsLogin
   const LinkLogin: React.FunctionComponent<LinkLoginProps> = props => {
-    const { urlQuery = {}, ...rest } = props; const path = {};
+    const { query = {}, ...rest } = props; const path = {};
     const pathname = patternNextJSLogin;
     const nextHref = {
       pathname: pathname,
       query: {
         ...path,
-        ...urlQuery,
+        ...query,
       },
     }
     return <Link {...rest} to={nextHref} />;
