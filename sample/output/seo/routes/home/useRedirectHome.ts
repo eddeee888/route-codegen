@@ -7,8 +7,9 @@ const useRedirectHome = (): RedirectFnHome => {
   const redirect: RedirectFnHome = (urlParts) => {
     const query = urlParts?.urlQuery ?? {};
     const path = {};
+    const pathname = patternNextJSHome;
     router.push({
-      pathname: patternNextJSHome,
+      pathname: pathname,
       query: {
         ...path,
         ...query,

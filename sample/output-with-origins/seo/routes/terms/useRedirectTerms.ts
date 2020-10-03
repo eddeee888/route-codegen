@@ -7,8 +7,9 @@ const useRedirectTerms = (): RedirectFnTerms => {
   const redirect: RedirectFnTerms = (urlParts) => {
     const query = urlParts?.urlQuery ?? {};
     const path = {};
+    const pathname = patternNextJSTerms;
     router.push({
-      pathname: patternNextJSTerms,
+      pathname: pathname,
       query: {
         ...path,
         ...query,

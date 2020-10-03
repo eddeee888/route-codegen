@@ -13,7 +13,13 @@ export interface GenerateUseRedirectFileNextJSParams {
 const generateUseRedirectFileNextJS = (params: GenerateUseRedirectFileNextJSParams): TemplateFile => {
   const {
     routeName,
-    patternNamedExports: { pathParamsInterfaceName, filename: routePatternFilename, urlPartsInterfaceName, patternNameNextJS },
+    patternNamedExports: {
+      pathParamsInterfaceName,
+      filename: routePatternFilename,
+      urlPartsInterfaceName,
+      patternNameNextJS,
+      possiblePathParamsVariableName,
+    },
     destinationDir,
   } = params;
 
@@ -26,16 +32,24 @@ const generateUseRedirectFileNextJS = (params: GenerateUseRedirectFileNextJSPara
   const urlPartsModifier = pathParamsInterfaceName ? "" : "?";
   const resultTypeInterface = `RedirectFn${routeName}`;
 
+  let namedImportsFromPatternFile = [{ name: urlPartsInterfaceName }, { name: patternNameNextJS }];
+  let pathnameTemplate = `const pathname = ${patternNameNextJS};`;
+  if (possiblePathParamsVariableName) {
+    namedImportsFromPatternFile.push({ name: possiblePathParamsVariableName });
+    pathnameTemplate = `const pathname = ${possiblePathParamsVariableName}.filter((key) => !(key in urlParts.path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[${"${suppliedParam"}}]\`, ""), ${patternNameNextJS});`;
+  }
+
   const template = `${printImport({ namedImports: [{ name: "useRouter" }], from: "next/router" })}
-  ${printImport({ namedImports: [{ name: urlPartsInterfaceName }, { name: patternNameNextJS }], from: `./${routePatternFilename}` })}
+  ${printImport({ namedImports: namedImportsFromPatternFile, from: `./${routePatternFilename}` })}
   export type ${resultTypeInterface} = (urlParts${urlPartsModifier}: ${urlPartsInterfaceName}) => void;
   const ${functionName} = (): ${resultTypeInterface} => {
     const router = useRouter();
     const redirect: ${resultTypeInterface} = urlParts => {
       const query = urlParts?.urlQuery ?? {};
       const path = ${pathVariable};
+      ${pathnameTemplate}
       router.push({
-        pathname: ${patternNameNextJS},
+        pathname: pathname,
         query: {
           ...path,
           ...query,
