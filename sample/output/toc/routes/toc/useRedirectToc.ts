@@ -1,12 +1,19 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
-import Router from "next/router";
-import { patternToc, UrlPartsToc, patternNextJSToc } from "./patternToc";
-import generateUrl from "route-codegen/generateUrl";
+import { useRouter } from "next/router";
+import { UrlPartsToc, patternNextJSToc } from "./patternToc";
 export type RedirectFnToc = (urlParts?: UrlPartsToc) => void;
 const useRedirectToc = (): RedirectFnToc => {
+  const router = useRouter();
   const redirect: RedirectFnToc = (urlParts) => {
-    const to = generateUrl(patternToc, {}, urlParts?.urlQuery, urlParts?.origin);
-    Router.push(patternNextJSToc, to);
+    const query = urlParts?.urlQuery ?? {};
+    const path = {};
+    router.push({
+      pathname: patternNextJSToc,
+      query: {
+        ...path,
+        ...query,
+      },
+    });
   };
   return redirect;
 };
