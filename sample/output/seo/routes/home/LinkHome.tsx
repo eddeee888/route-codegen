@@ -3,7 +3,9 @@ import React from "react";
 import Link, { LinkProps } from "next/link";
 import { UrlPartsHome, patternNextJSHome } from "./patternHome";
 type LinkHomeProps = Omit<LinkProps, "href"> & UrlPartsHome;
-const LinkHome: React.FunctionComponent<LinkHomeProps> = ({ path = {}, urlQuery = {}, ...props }) => {
+const LinkHome: React.FunctionComponent<LinkHomeProps> = (props) => {
+  const { urlQuery = {}, ...rest } = props;
+  const path = {};
   const pathname = patternNextJSHome;
   const nextHref = {
     pathname: pathname,
@@ -12,6 +14,6 @@ const LinkHome: React.FunctionComponent<LinkHomeProps> = ({ path = {}, urlQuery 
       ...urlQuery,
     },
   };
-  return <Link {...props} href={nextHref} />;
+  return <Link {...rest} href={nextHref} />;
 };
 export default LinkHome;

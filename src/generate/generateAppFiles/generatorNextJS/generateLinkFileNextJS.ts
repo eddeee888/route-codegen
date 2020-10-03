@@ -17,11 +17,18 @@ const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): TemplateF
     routeName,
     routeLinkOption,
     destinationDir,
-    patternNamedExports: { filename: routePatternFilename, urlPartsInterfaceName, patternNameNextJS, possiblePathParamsVariableName },
+    patternNamedExports: {
+      filename: routePatternFilename,
+      pathParamsInterfaceName,
+      urlPartsInterfaceName,
+      patternNameNextJS,
+      possiblePathParamsVariableName,
+    },
   } = params;
 
   const functionName = `Link${routeName}`;
   const defaultLinkPropsInterfaceName = `Link${routeName}Props`;
+  const hasPathParams = !!pathParamsInterfaceName;
 
   const { hrefProp, importLink, linkComponent, linkPropsTemplate, linkPropsInterfaceName } = generateLinkInterface({
     defaultLinkPropsInterfaceName,
@@ -40,11 +47,16 @@ const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): TemplateF
     pathnameTemplate = `const pathname = ${possiblePathParamsVariableName}.filter((key) => !(key in path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[${"${suppliedParam"}}]\`, ""), ${patternNameNextJS});`;
   }
 
+  const variablesTemplate = hasPathParams
+    ? `const { path = {}, urlQuery = {}, ...rest } = props;`
+    : `const { urlQuery = {}, ...rest } = props; const path = {};`;
+
   const template = `${printImport({ defaultImport: "React", from: "react" })}
   ${importLink ? printImport(importLink) : ""}
   ${printImport({ namedImports: namedImportsFromPatternFile, from: `./${routePatternFilename}` })}
   ${linkPropsTemplate}
-  const ${functionName}: React.FunctionComponent<${linkPropsInterfaceName}> = ({ path = {}, urlQuery = {}, ...props }) => {
+  const ${functionName}: React.FunctionComponent<${linkPropsInterfaceName}> = props => {
+    ${variablesTemplate}
     ${pathnameTemplate}
     const nextHref = {
       pathname: pathname,
@@ -53,7 +65,7 @@ const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): TemplateF
         ...urlQuery,
       },
     }
-    return <${linkComponent} {...props} ${hrefProp}={nextHref} />;
+    return <${linkComponent} {...rest} ${hrefProp}={nextHref} />;
   }
   export default ${functionName};
   `;

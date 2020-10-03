@@ -3,7 +3,9 @@ import React from "react";
 import Link, { LinkProps } from "src/common/components/Link";
 import { UrlPartsToc, patternNextJSToc } from "./patternToc";
 type LinkTocProps = Omit<LinkProps, "href"> & UrlPartsToc;
-const LinkToc: React.FunctionComponent<LinkTocProps> = ({ path = {}, urlQuery = {}, ...props }) => {
+const LinkToc: React.FunctionComponent<LinkTocProps> = (props) => {
+  const { urlQuery = {}, ...rest } = props;
+  const path = {};
   const pathname = patternNextJSToc;
   const nextHref = {
     pathname: pathname,
@@ -12,6 +14,6 @@ const LinkToc: React.FunctionComponent<LinkTocProps> = ({ path = {}, urlQuery = 
       ...urlQuery,
     },
   };
-  return <Link {...props} href={nextHref} />;
+  return <Link {...rest} href={nextHref} />;
 };
 export default LinkToc;
