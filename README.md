@@ -10,6 +10,11 @@ This library can help you avoid routing errors like this:
 
 ![CRAroutenotfound](https://user-images.githubusercontent.com/33769523/77838225-9de4da00-71bd-11ea-991f-a3721a537dc8.gif)
 
+## Supports
+
+- [NextJS](https://github.com/zeit/next.js/) v9.3.4^
+- [React router](https://github.com/ReactTraining/react-router) v5^
+
 ## Installation
 
 ### Single app project
