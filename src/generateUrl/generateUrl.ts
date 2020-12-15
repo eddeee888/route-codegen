@@ -23,24 +23,25 @@ const generatePath = (path = "/", params = {}): string => {
   return path === "/" ? path : compilePath(path)(params);
 };
 
-const generateQueryString = (urlQuery?: Record<string, string | undefined>): string => {
-  if (!urlQuery) {
+const generateQueryString = (query?: Record<string, string | undefined>): string => {
+  if (!query) {
     return "";
   }
 
-  const result = Object.entries(urlQuery)
-    .filter<[string, string]>((obj): obj is [string, string] => {
-      const value = obj[1];
-      return value !== undefined;
-    })
-    .reduce((prev, [key, value]) => prev.concat(key, "=", value, "&"), "?");
-  // remove the final '&'
-  return result.substring(0, result.length - 1);
+  const filteredQuery = Object.entries(query).filter<[string, string]>((obj): obj is [string, string] => {
+    const value = obj[1];
+    return value !== undefined;
+  });
+  if (filteredQuery.length === 0) {
+    return "";
+  }
+
+  return `?${new URLSearchParams(filteredQuery).toString()}`;
 };
 
-export type GenerateUrl = <P>(pattern: string, inputParams: P, urlQuery?: Record<string, string | undefined>, origin?: string) => string;
-const generateUrl: GenerateUrl = (pattern, inputParams, urlQuery, origin) => {
-  return (origin ?? "") + generatePath(pattern, inputParams as any) + generateQueryString(urlQuery);
+export type GenerateUrl = <P>(pattern: string, path: P, query?: Record<string, string | undefined>, origin?: string) => string;
+const generateUrl: GenerateUrl = (pattern, path, query, origin) => {
+  return (origin ?? "") + generatePath(pattern, path as any) + generateQueryString(query);
 };
 
 export default generateUrl;

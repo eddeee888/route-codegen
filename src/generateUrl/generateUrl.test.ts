@@ -8,7 +8,7 @@ describe("generateUrl", () => {
     });
   });
 
-  describe("path - strings", () => {
+  describe("paths - strings", () => {
     it("should generate URL with required path param", () => {
       const result = generateUrl("/app/users/:id", { id: "onehundo" });
       expect(result).toBe("/app/users/onehundo");
@@ -97,8 +97,17 @@ describe("generateUrl", () => {
     });
 
     it("should generate multiple query strings correctly", () => {
-      const result = generateUrl("/app/users/:id", { id: "oneHundo" }, { from: "homepage", redirect: "/login" });
-      expect(result).toBe("/app/users/oneHundo?from=homepage&redirect=/login");
+      const result = generateUrl("/app/users/:id", { id: "oneHundo" }, { from: "homepage", to: "login" });
+      expect(result).toBe("/app/users/oneHundo?from=homepage&to=login");
+    });
+
+    it("should encode special characters correctly", () => {
+      const result = generateUrl(
+        "/app/users/:id",
+        { id: "oneHundo" },
+        { from: "/homepage", redirect: "https://domain.com/login?from=/home" }
+      );
+      expect(result).toBe("/app/users/oneHundo?from=%2Fhomepage&redirect=https%3A%2F%2Fdomain.com%2Flogin%3Ffrom%3D%2Fhome");
     });
 
     it("should generate 1 undefined query string correctly", () => {
@@ -117,8 +126,8 @@ describe("generateUrl", () => {
     });
   });
 
-  describe("with prefix", () => {
-    it("should generate url with prefix", () => {
+  describe("with origin", () => {
+    it("should generate url with origin", () => {
       const result = generateUrl("/app/users/:id", { id: "oneHundo" }, { from: "homepage" }, "https://test.domain");
       expect(result).toBe("https://test.domain/app/users/oneHundo?from=homepage");
     });
