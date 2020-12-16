@@ -1,9 +1,7 @@
-name: route-codegen release alpha
+name: "@route-codegen/core prerelease"
 on:
   push:
-    # branches:
-    #   - "master"
-    branches-ignore:
+    branches:
       - "master"
     paths:
       - "packages/core/**"
@@ -38,6 +36,6 @@ jobs:
         # https://github.com/actions/setup-node/issues/81
         run: |
           echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
-          ./scripts/ci/prerelease.sh @route-codegen/core
+          ./scripts/ci/prerelease.sh @route-codegen/core packages/core
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
