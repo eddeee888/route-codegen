@@ -29,10 +29,10 @@ jobs:
         run: yarn --frozen-lockfile
 
       - name: Build
-        run: yarn workspace @route-codegen/core build
+        run: yarn build:core
 
       - name: Run tests
-        run: yarn workspace @route-codegen/core jest
+        run: yarn test:core
 
       - name: Publish alpha
         # https://github.com/actions/setup-node/issues/81
