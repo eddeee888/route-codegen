@@ -1,11 +1,9 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
     "rootDir": "packages",
     "target": "es6",
     "lib": ["es5", "es6", "ES2017", "es2019", "dom", "esnext.asynciterable"],
     "module": "commonjs",
-    "jsx": "react",
     "sourceMap": true,
 
     "alwaysStrict": true,
@@ -28,5 +26,5 @@
     "noUnusedLocals": true
   },
   "include": ["packages"],
-  "exclude": ["node_modules", "sample/output", "src/**/*.test.ts", "src/**/*.test.tsx"]
+  "exclude": ["node_modules", "sample/output"]
 }

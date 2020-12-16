@@ -1,4 +1,18 @@
 {
   "name": "@route-codegen/core",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "dependencies": {
+    "js-yaml": "3.13.1",
+    "path-to-regexp": "6.1.0",
+    "yargs": "16.0.3"
+  },
+  "devDependencies": {
+    "@types/jest": "25.1.4",
+    "@types/js-yaml": "3.12.2",
+    "@types/node": "13.7.1",
+    "@types/yargs": "15.0.7",
+    "jest": "25.1.0",
+    "ts-jest": "25.2.1",
+    "typescript": "3.8.3"
+  }
 }

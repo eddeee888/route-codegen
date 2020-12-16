@@ -29,31 +29,15 @@
   "scripts": {
     "test": "jest",
     "generate:sample": "rm -rf ./sample/output && rm -rf ./sample/output-with-origins && yarn --silent build && node dist/bin/route-codegen.js --stacktrace --verbose --config sample/routegen.yml && PRIMARY_DOMAIN=domain.com node dist/bin/route-codegen.js --stacktrace --verbose --config sample/routegen-with-origins.yml && yarn --silent format:sample --loglevel silent ",
-    "build": "yarn build:main && yarn build:root",
-    "build:main": "rm -rf ./dist && tsc",
-    "build:root": "yarn build:rootDist && yarn build:rootFiles",
-    "build:rootDist": "rm -rf ./root/dist && yarn tsc --outDir ./root/dist",
-    "build:rootFiles": "tsc --project tsconfig.root.json",
+    "build": "rm -rf ./packages/core/dist && yarn workspace @route-codegen/core tsc",
     "format:src": "prettier --config .prettierrc --write \"src/**/*.{ts,tsx}\"",
     "format:sample": "prettier --config .prettierrc --write \"sample/**/*.{ts,tsx}\""
   },
   "devDependencies": {
-    "@types/jest": "^25.1.4",
-    "@types/js-yaml": "^3.12.2",
-    "@types/node": "^13.1.8",
-    "@types/react": "^16.9.34",
-    "@types/yargs": "^15.0.7",
-    "jest": "^25.1.0",
-    "prettier": "^2.0.5",
-    "semver": "^7.1.3",
-    "ts-jest": "^25.2.1",
-    "typescript": "^3.8.3"
+    "prettier": "2.0.5",
+    "semver": "^7.1.3"
   },
-  "dependencies": {
-    "js-yaml": "^3.13.1",
-    "path-to-regexp": "^6.1.0",
-    "yargs": "^16.0.3"
-  },
+  "dependencies": {},
   "keywords": [
     "react-router",
     "next-js",
