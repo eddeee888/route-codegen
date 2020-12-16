@@ -1,6 +1,11 @@
 {
   "name": "@route-codegen/core",
   "version": "0.0.1",
+  "author": "Eddy Nguyen <eddeee.nguyen@gmail.com>",
+  "license": "MIT",
+  "bin": {
+    "route-codegen": "./dist/bin/route-codegen.js"
+  },
   "dependencies": {
     "js-yaml": "3.13.1",
     "path-to-regexp": "6.1.0",
