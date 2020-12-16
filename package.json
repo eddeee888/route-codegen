@@ -14,8 +14,6 @@
   ],
   "scripts": {
     "test": "jest",
-    "prebuild": "rm -rf ./packages/core/dist",
-    "build": "yarn workspace @route-codegen/core tsc",
     "format": "prettier --config .prettierrc --write \"packages/**/*.{ts,tsx}\"",
     "generate:sample": "rm -rf ./sample/output && rm -rf ./sample/output-with-origins && yarn --silent build && node packages/core/dist/bin/route-codegen.js --stacktrace --verbose --config sample/routegen.yml && PRIMARY_DOMAIN=domain.com node packages/core/dist/bin/route-codegen.js --stacktrace --verbose --config sample/routegen-with-origins.yml && yarn --silent format:sample --loglevel silent ",
     "format:sample": "prettier --config .prettierrc --write \"sample/**/*.{ts,tsx}\""

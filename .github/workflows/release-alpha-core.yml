@@ -1,14 +1,16 @@
 name: route-codegen release alpha
 on:
   push:
-    branches:
+    # branches:
+    #   - "master"
+    branches-ignore:
       - "master"
     paths:
-      - "packages/**"
+      - "packages/core/**"
 jobs:
-  publish-alpha-on-merge:
+  release-alpha:
     runs-on: ubuntu-18.04
-    name: Test on merge
+    name: Release core alpha
 
     strategy:
       matrix:
@@ -27,10 +29,10 @@ jobs:
         run: yarn --frozen-lockfile
 
       - name: Build
-        run: yarn build
+        run: yarn workspace @route-codegen/core build
 
       - name: Run tests
-        run: yarn test
+        run: yarn workspace @route-codegen/core jest
 
       - name: Publish alpha
         # https://github.com/actions/setup-node/issues/81

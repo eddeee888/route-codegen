@@ -17,7 +17,9 @@
     "dist"
   ],
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "prebuild": "rm -rf dist",
+    "build": "tsc"
   },
   "dependencies": {
     "js-yaml": "3.13.1",

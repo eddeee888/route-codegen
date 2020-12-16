@@ -8,7 +8,7 @@ function prerelease() {
 
   prerelease_version=`yarn -s semver --increment prerelease --preid alpha $current_alpha_version`
   
-  yarn publish --no-git-tag-version --new-version $prerelease_version --tag alpha
+  yarn publish --no-git-tag-version --new-version $prerelease_version --tag alpha --access=public
 
   echo "*** Successfully released version: $prerelease_version"
 }
