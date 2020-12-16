@@ -6,6 +6,12 @@
   "bin": {
     "route-codegen": "./dist/bin/route-codegen.js"
   },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "jest"
+  },
   "dependencies": {
     "js-yaml": "3.13.1",
     "path-to-regexp": "6.1.0",

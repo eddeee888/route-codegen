@@ -2,15 +2,11 @@ name: route-codegen CI
 on:
   push:
     branches-ignore:
-      # Ignore the commits that are created when PR is merged into master
       - "master"
 jobs:
   test:
     name: Run tests on NodeJS
     runs-on: ubuntu-18.04
-    strategy:
-      matrix:
-        node-version: [12.x]
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
@@ -18,7 +14,7 @@ jobs:
       - name: Set up Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 12.x
 
       - name: Install packages
         run: yarn --frozen-lockfile
@@ -27,7 +23,7 @@ jobs:
         run: yarn build
 
       - name: Run tests
-        run: yarn test
+        run: yarn jest
 
       - name: Check that samples are generated
         run: ./scripts/ci/check-sample.sh
