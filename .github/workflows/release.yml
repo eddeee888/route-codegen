@@ -41,7 +41,7 @@ jobs:
         # https://github.com/actions/setup-node/issues/81
         run: |
           echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
-          ./bin/release.sh ${{ github.event.release.tag_name }}
+          ./scripts/ci/release.sh ${{ github.event.release.tag_name }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 

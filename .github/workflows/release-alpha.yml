@@ -4,9 +4,7 @@ on:
     branches:
       - "master"
     paths:
-      - "src/**"
-      - "tsconfig.json"
-      - "tsconfig.root.json"
+      - "packages/**"
 jobs:
   publish-alpha-on-merge:
     runs-on: ubuntu-18.04
@@ -38,6 +36,6 @@ jobs:
         # https://github.com/actions/setup-node/issues/81
         run: |
           echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
-          ./bin/prerelease.sh
+          ./scripts/ci/prerelease.sh @route-codegen/core
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
