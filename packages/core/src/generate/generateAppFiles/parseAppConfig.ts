@@ -64,12 +64,12 @@ interface TopLevelGenerateOptions {
 
 // Note: these imports are constants at the moment but we could open it up so people can pass their own functions in
 const IMPORT_GENERATE_URL: Import = {
-  defaultImport: "generateUrl",
-  from: "route-codegen/generateUrl",
+  namedImports: [{ name: "generateUrl" }],
+  from: "@route-codegen/utils",
 };
 const IMPORT_REDIRECT_SERVER_SIDE_COMPONENT: Import = {
-  defaultImport: "RedirectServerSide",
-  from: "route-codegen/RedirectServerSide",
+  namedImports: [{ name: "RedirectServerSide" }],
+  from: "@route-codegen/react",
 };
 
 const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedAppConfig => {

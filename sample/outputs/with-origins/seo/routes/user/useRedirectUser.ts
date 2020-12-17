@@ -1,6 +1,6 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 import { UrlPartsUser, patternUser, originUser } from "./patternUser";
-import generateUrl from "route-codegen/generateUrl";
+import { generateUrl } from "@route-codegen/utils";
 export type RedirectFnUser = (urlParts: UrlPartsUser) => void;
 const useRedirectUser = (): RedirectFnUser => {
   const redirect: RedirectFnUser = (urlParts) => {

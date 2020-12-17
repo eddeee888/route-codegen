@@ -15,6 +15,8 @@ const generateRedirectFileDefault = (params: GenerateRedirectFileDefaultParams):
 
   const functionName = `Redirect${routeName}`;
   const hasPathParams = !!patternNamedExports.pathParamsInterfaceName;
+  const generateUrlFnName = "generateUrl"; // TODO: find a better way to reference this
+  const redirectCompName = "RedirectServerSide"; // TODO: find a better way to reference this
 
   const template = `${printImport({ defaultImport: "React", from: "react" })}
   ${printImport(importRedirectServerSide)}
@@ -28,10 +30,10 @@ const generateRedirectFileDefault = (params: GenerateRedirectFileDefaultParams):
     from: `./${patternNamedExports.filename}`,
   })}
   const ${functionName}: React.FunctionComponent<${patternNamedExports.urlPartsInterfaceName} & { fallback?: React.ReactNode }> = props => {
-    const to = generateUrl(${patternNamedExports.patternName}, ${hasPathParams ? "props.path" : "{}"}, props.query, props.origin ?? ${
-    patternNamedExports.originName
-  });
-    return <${importRedirectServerSide.defaultImport} href={to} fallback={props.fallback} />;
+    const to = ${generateUrlFnName}(${patternNamedExports.patternName}, ${
+    hasPathParams ? "props.path" : "{}"
+  }, props.query, props.origin ?? ${patternNamedExports.originName});
+    return <${redirectCompName} href={to} fallback={props.fallback} />;
   };
   export default ${functionName}`;
 

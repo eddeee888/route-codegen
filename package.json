@@ -15,13 +15,15 @@
   ],
   "scripts": {
     "test": "jest",
+    "build": "yarn build:core && yarn build:utils && yarn build:react",
     "test:core": "yarn workspace @route-codegen/core jest",
     "build:core": "yarn workspace @route-codegen/core build",
     "test:utils": "yarn workspace @route-codegen/utils jest",
     "build:utils": "yarn workspace @route-codegen/utils build",
     "build:react": "yarn workspace @route-codegen/react build",
     "format": "prettier --config .prettierrc --write \"packages/**/*.{ts,tsx}\"",
-    "generate:sample": "yarn workspace @route-codegen/sample generate"
+    "generate:sample": "yarn build:core && yarn workspace @route-codegen/sample generate",
+    "release": "yarn build && yarn changeset publish"
   },
   "devDependencies": {
     "prettier": "2.0.5",
