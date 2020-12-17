@@ -1,4 +1,5 @@
-![](https://github.com/eddeee888/route-codegen/workflows/route-codegen%20CI/badge.svg)
+![CI](https://github.com/eddeee888/route-codegen/workflows/CI/badge.svg)
+![Release](https://github.com/eddeee888/route-codegen/workflows/Release/badge.svg)
 
 # route-codegen
 
