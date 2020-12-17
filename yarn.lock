@@ -296,6 +296,15 @@
     "@types/yargs" "^15.0.0"
     chalk "^3.0.0"
 
+"@route-codegen/core@latest":
+  version "0.0.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/@route-codegen/core/-/core-0.0.0-alpha.1.tgz#bcd56122df83ef64a00d3845f828469a1680f15d"
+  integrity sha512-IexZxrDeOTn+ay7y/s4s4XyTf83Q7PM/t6ar+AenTX/s1S2NAfJSdkz2dc8jk/pIaT7w35NoukoSo6T7nw6jvw==
+  dependencies:
+    js-yaml "3.13.1"
+    path-to-regexp "6.1.0"
+    yargs "16.0.3"
+
 "@sinonjs/commons@^1.7.0":
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/@sinonjs/commons/-/commons-1.7.1.tgz#da5fd19a5f71177a53778073978873964f49acf1"

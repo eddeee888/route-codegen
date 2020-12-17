@@ -10,7 +10,8 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "sample"
   ],
   "scripts": {
     "test": "jest",

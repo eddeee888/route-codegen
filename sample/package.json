@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "name": "@route-codegen/sample",
+  "version": "0.0.1",
+  "dependencies": {
+    "@route-codegen/core": "latest"
+  },
+  "scripts": {
+    "pregenerate": "rm -rf output",
+    "generate": "route-codegen --stacktrace --verbose --config routegen.yml"
+  }
+}
