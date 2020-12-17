@@ -1,10 +1,12 @@
 name: "Prerelease react"
 on:
   push:
-    branches:
+    # branches:
+    #   - "master"
+    # paths:
+    #   - "packages/react/**"
+    branches-ignore:
       - "master"
-    paths:
-      - "packages/react/**"
 jobs:
   release-alpha:
     runs-on: ubuntu-18.04
