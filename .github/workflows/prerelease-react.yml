@@ -1,12 +1,10 @@
 name: "@route-codegen/react prerelease"
 on:
   push:
-    # branches:
-    #   - "master"
-    # paths:
-    #   - "packages/react/**"
-    branches-ignore:
+    branches:
       - "master"
+    paths:
+      - "packages/react/**"
 jobs:
   release-alpha:
     runs-on: ubuntu-18.04
