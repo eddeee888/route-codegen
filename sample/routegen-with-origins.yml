@@ -4,7 +4,7 @@ apps:
     routes:
       user: /users/:id/:subview(pictures)?
     routingType: ReactRouterV5
-    destinationDir: sample/output-with-origins/app/routes
+    destinationDir: outputs/with-origins/app/routes
 
   seo:
     origin: https://${PRIMARY_DOMAIN}
@@ -12,7 +12,7 @@ apps:
       home: /
       terms: /terms
     routingType: NextJS
-    destinationDir: sample/output-with-origins/seo/routes
+    destinationDir: outputs/with-origins/seo/routes
 
   legacy:
     origin: https://legacy.domain.com
@@ -25,4 +25,4 @@ apps:
       graphql: /graphql
       activateAccount: /activate-account/:code
     generateLink: false
-    destinationDir: sample/output-with-origins/server/routes
+    destinationDir: outputs/with-origins/server/routes

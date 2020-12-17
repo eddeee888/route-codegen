@@ -10,7 +10,8 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "sample"
   ],
   "scripts": {
     "test": "jest",
@@ -20,8 +21,7 @@
     "build:utils": "yarn workspace @route-codegen/utils build",
     "build:react": "yarn workspace @route-codegen/react build",
     "format": "prettier --config .prettierrc --write \"packages/**/*.{ts,tsx}\"",
-    "generate:sample": "rm -rf ./sample/output && rm -rf ./sample/output-with-origins && yarn --silent build:core && node packages/core/dist/bin/route-codegen.js --stacktrace --verbose --config sample/routegen.yml && PRIMARY_DOMAIN=domain.com node packages/core/dist/bin/route-codegen.js --stacktrace --verbose --config sample/routegen-with-origins.yml && yarn --silent format:sample --loglevel silent ",
-    "format:sample": "prettier --config .prettierrc --write \"sample/**/*.{ts,tsx}\""
+    "generate:sample": "yarn workspace @route-codegen/sample generate"
   },
   "devDependencies": {
     "prettier": "2.0.5",
