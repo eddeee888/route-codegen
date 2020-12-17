@@ -1,4 +1,4 @@
-name: "Create Release PR or Release new packages"
+name: "Release"
 on:
   push:
     branches:
