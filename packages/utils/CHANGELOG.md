@@ -1,5 +1,11 @@
 # @route-codegen/utils
 
+## 0.1.1
+
+### Patch Changes
+
+- b64c883: Update READMEs
+
 ## 0.1.0
 
 ### Minor Changes
