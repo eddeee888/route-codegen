@@ -1,5 +1,11 @@
 # @route-codegen/utils
 
+## 0.0.6
+
+### Patch Changes
+
+- 66d63a5: Add LICENSE
+
 ## 0.0.5
 
 ### Patch Changes
