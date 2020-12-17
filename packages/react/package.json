@@ -1,4 +1,35 @@
 {
   "name": "@route-codegen/react",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "description": "React components to support route-codegen",
+  "author": "Eddy Nguyen <eddeee.nguyen@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/eddeee888/route-codegen",
+  "bugs": "https://github.com/eddeee888/route-codegen/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eddeee888/route-codegen.git"
+  },
+  "keywords": [
+    "react-router",
+    "next-js",
+    "route",
+    "generator"
+  ],
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "typescript": {
+    "definition": "dist/index.d.ts"
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts"
+  ],
+  "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "3.8.3"
+  }
 }
