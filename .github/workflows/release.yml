@@ -1,11 +1,12 @@
-name: route-codegen release new version
+name: "@route-codegen release new package version/s"
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - master
 jobs:
-  publish-on-release:
-    runs-on: ubuntu-18.04
+  release:
     name: Release
+    runs-on: ubuntu-18.04
 
     strategy:
       matrix:
@@ -14,6 +15,9 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
+        with:
+          # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
+          fetch-depth: 0
 
       - name: Set up Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
@@ -25,23 +29,25 @@ jobs:
       - name: Install packages
         run: yarn --frozen-lockfile
 
-      - name: Build
-        run: yarn build
-
-      - name: Run tests
-        run: yarn test
-
       - name: Setup GIT
         run: |
           git switch -c master
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git config user.name "$GITHUB_ACTOR"
 
+      - name: Create Release Pull Request or Publish to npm
+        id: changesets
+        uses: changesets/action@master
+        with:
+          publish: yarn release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Publish new version
         # https://github.com/actions/setup-node/issues/81
         run: |
           echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
-          ./scripts/ci/release.sh ${{ github.event.release.tag_name }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
