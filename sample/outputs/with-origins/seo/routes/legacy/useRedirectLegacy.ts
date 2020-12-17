@@ -1,6 +1,6 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 import { UrlPartsLegacy, patternLegacy, originLegacy } from "./patternLegacy";
-import generateUrl from "route-codegen/generateUrl";
+import { generateUrl } from "@route-codegen/utils";
 export type RedirectFnLegacy = (urlParts?: UrlPartsLegacy) => void;
 const useRedirectLegacy = (): RedirectFnLegacy => {
   const redirect: RedirectFnLegacy = (urlParts) => {

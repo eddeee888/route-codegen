@@ -1,6 +1,6 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 import { UrlPartsToc, patternToc, originToc } from "./patternToc";
-import generateUrl from "route-codegen/generateUrl";
+import { generateUrl } from "@route-codegen/utils";
 export type RedirectFnToc = (urlParts?: UrlPartsToc) => void;
 const useRedirectToc = (): RedirectFnToc => {
   const redirect: RedirectFnToc = (urlParts) => {

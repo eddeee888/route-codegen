@@ -1,6 +1,6 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 import React from "react";
-import generateUrl from "route-codegen/generateUrl";
+import { generateUrl } from "@route-codegen/utils";
 import Link, { AnchorProps } from "src/common/ui/Anchor";
 import { patternAbout, UrlPartsAbout, originAbout } from "./patternAbout";
 type LinkAboutProps = Omit<AnchorProps, "href"> & UrlPartsAbout;
