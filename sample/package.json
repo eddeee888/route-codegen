@@ -3,11 +3,12 @@
   "name": "@route-codegen/sample",
   "version": "0.0.1",
   "scripts": {
+    "route-codegen": "node ../node_modules/@route-codegen/core/dist/bin/route-codegen.js",
     "pregenerate": "rm -rf outputs",
     "generate": "yarn generate:default && yarn generate:with-origins",
     "postgenerate": "yarn --silent format --loglevel silent",
-    "generate:default": "route-codegen --stacktrace --verbose --config routegen.yml",
-    "generate:with-origins": "PRIMARY_DOMAIN=domain.com route-codegen --stacktrace --verbose --config routegen-with-origins.yml",
+    "generate:default": "yarn route-codegen --stacktrace --verbose --config routegen.yml",
+    "generate:with-origins": "PRIMARY_DOMAIN=domain.com yarn route-codegen --stacktrace --verbose --config routegen-with-origins.yml",
     "format": "prettier --config .prettierrc --write \"**/*.{ts,tsx}\""
   },
   "devDependencies": {
