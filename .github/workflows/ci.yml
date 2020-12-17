@@ -4,8 +4,8 @@ on:
     branches-ignore:
       - "master"
 jobs:
-  test:
-    name: Run tests on NodeJS
+  test-core:
+    name: "@route-codegen/core tests"
     runs-on: ubuntu-18.04
     steps:
       - name: Check out repository
@@ -27,3 +27,24 @@ jobs:
 
       - name: Check that samples are generated
         run: ./scripts/ci/check-sample.sh
+
+  test-utils:
+    name: "@route-codegen/utils tests"
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Install packages
+        run: yarn --frozen-lockfile
+
+      - name: Build
+        run: yarn build:utils
+
+      - name: Run tests
+        run: yarn test:utils
