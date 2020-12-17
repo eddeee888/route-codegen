@@ -1,7 +1,7 @@
 {
   "name": "@route-codegen/core",
-  "description": "Route generator to create route modules",
   "version": "0.0.1",
+  "description": "Route generator to create route modules",
   "author": "Eddy Nguyen <eddeee.nguyen@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/eddeee888/route-codegen",
@@ -15,6 +15,12 @@
   },
   "files": [
     "dist"
+  ],
+  "keywords": [
+    "react-router",
+    "next-js",
+    "route",
+    "generator"
   ],
   "scripts": {
     "test": "jest",
@@ -34,11 +40,5 @@
     "jest": "25.1.0",
     "ts-jest": "25.2.1",
     "typescript": "3.8.3"
-  },
-  "keywords": [
-    "react-router",
-    "next-js",
-    "route",
-    "generator"
-  ]
+  }
 }
