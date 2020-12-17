@@ -1,4 +1,4 @@
-name: "@route-codegen/react prerelease"
+name: "Prerelease react"
 on:
   push:
     branches:
@@ -29,10 +29,10 @@ jobs:
       - name: Build
         run: yarn build:react
 
-      - name: Publish alpha
-        # https://github.com/actions/setup-node/issues/81
-        run: |
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
-          ./scripts/ci/prerelease.sh @route-codegen/react packages/react
+      - name: Set up NPM credentials
+        run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish alpha
+        run: ./scripts/ci/prerelease.sh @route-codegen/react packages/react
