@@ -1,8 +1,8 @@
 name: "@route-codegen/core prerelease"
 on:
-  pull_request:
+  push:
     branches:
-      - master
+      - "master"
     paths:
       - "packages/core/**"
 jobs:
