@@ -1,16 +1,12 @@
-name: route-codegen CI
+name: "@route-codegen CI"
 on:
   push:
     branches-ignore:
-      # Ignore the commits that are created when PR is merged into master
       - "master"
 jobs:
-  test:
-    name: Run tests on NodeJS
+  test-core:
+    name: "@route-codegen/core tests"
     runs-on: ubuntu-18.04
-    strategy:
-      matrix:
-        node-version: [12.x]
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
@@ -18,16 +14,55 @@ jobs:
       - name: Set up Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 12.x
 
       - name: Install packages
         run: yarn --frozen-lockfile
 
       - name: Build
-        run: yarn build
+        run: yarn build:core
 
       - name: Run tests
-        run: yarn test
+        run: yarn test:core
 
       - name: Check that samples are generated
         run: ./scripts/ci/check-sample.sh
+
+  test-utils:
+    name: "@route-codegen/utils tests"
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Install packages
+        run: yarn --frozen-lockfile
+
+      - name: Build
+        run: yarn build:utils
+
+      - name: Run tests
+        run: yarn test:utils
+
+  test-react:
+    name: "@route-codegen/react tests"
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Install packages
+        run: yarn --frozen-lockfile
+
+      - name: Build
+        run: yarn build:react

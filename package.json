@@ -1,6 +1,4 @@
 {
-  "name": "route-codegen",
-  "version": "0.7.0",
   "description": "Route generator written in Typscript for React Router, NextJS, NodeJS and more",
   "homepage": "https://github.com/eddeee888/route-codegen",
   "bugs": "https://github.com/eddeee888/route-codegen/issues",
@@ -8,47 +6,26 @@
     "type": "git",
     "url": "git+https://github.com/eddeee888/route-codegen.git"
   },
+  "author": "Eddy Nguyen <eddeee.nguyen@gmail.com>",
   "license": "MIT",
-  "main": "./index.js",
-  "bin": {
-    "route-codegen": "./dist/bin/route-codegen.js"
-  },
-  "files": [
-    "dist/**/*",
-    "generateUrl.d.ts",
-    "generateUrl.js",
-    "index.d.ts",
-    "index.js",
-    "RedirectServerSide.d.ts",
-    "RedirectServerSide.js"
+  "private": true,
+  "workspaces": [
+    "packages/*"
   ],
   "scripts": {
     "test": "jest",
-    "generate:sample": "rm -rf ./sample/output && rm -rf ./sample/output-with-origins && yarn --silent build && node dist/bin/route-codegen.js --stacktrace --verbose --config sample/routegen.yml && PRIMARY_DOMAIN=domain.com node dist/bin/route-codegen.js --stacktrace --verbose --config sample/routegen-with-origins.yml && yarn --silent format:sample --loglevel silent ",
-    "build": "yarn build:main && yarn build:root",
-    "build:main": "rm -rf ./dist && tsc",
-    "build:root": "yarn build:rootDist && yarn build:rootFiles",
-    "build:rootDist": "rm -rf ./root/dist && yarn tsc --outDir ./root/dist",
-    "build:rootFiles": "tsc --project tsconfig.root.json",
-    "format:src": "prettier --config .prettierrc --write \"src/**/*.{ts,tsx}\"",
+    "test:core": "yarn workspace @route-codegen/core jest",
+    "build:core": "yarn workspace @route-codegen/core build",
+    "test:utils": "yarn workspace @route-codegen/utils jest",
+    "build:utils": "yarn workspace @route-codegen/utils build",
+    "build:react": "yarn workspace @route-codegen/react build",
+    "format": "prettier --config .prettierrc --write \"packages/**/*.{ts,tsx}\"",
+    "generate:sample": "rm -rf ./sample/output && rm -rf ./sample/output-with-origins && yarn --silent build:core && node packages/core/dist/bin/route-codegen.js --stacktrace --verbose --config sample/routegen.yml && PRIMARY_DOMAIN=domain.com node packages/core/dist/bin/route-codegen.js --stacktrace --verbose --config sample/routegen-with-origins.yml && yarn --silent format:sample --loglevel silent ",
     "format:sample": "prettier --config .prettierrc --write \"sample/**/*.{ts,tsx}\""
   },
   "devDependencies": {
-    "@types/jest": "^25.1.4",
-    "@types/js-yaml": "^3.12.2",
-    "@types/node": "^13.1.8",
-    "@types/react": "^16.9.34",
-    "@types/yargs": "^15.0.7",
-    "jest": "^25.1.0",
-    "prettier": "^2.0.5",
-    "semver": "^7.1.3",
-    "ts-jest": "^25.2.1",
-    "typescript": "^3.8.3"
-  },
-  "dependencies": {
-    "js-yaml": "^3.13.1",
-    "path-to-regexp": "^6.1.0",
-    "yargs": "^16.0.3"
+    "prettier": "2.0.5",
+    "semver": "^7.1.3"
   },
   "keywords": [
     "react-router",

@@ -1,16 +1,16 @@
-name: route-codegen release alpha
+name: "@route-codegen/react prerelease"
 on:
   push:
-    branches:
+    # branches:
+    #   - "master"
+    # paths:
+    #   - "packages/react/**"
+    branches-ignore:
       - "master"
-    paths:
-      - "src/**"
-      - "tsconfig.json"
-      - "tsconfig.root.json"
 jobs:
-  publish-alpha-on-merge:
+  release-alpha:
     runs-on: ubuntu-18.04
-    name: Test on merge
+    name: Release @route-codegen/react alpha
 
     strategy:
       matrix:
@@ -29,15 +29,12 @@ jobs:
         run: yarn --frozen-lockfile
 
       - name: Build
-        run: yarn build
-
-      - name: Run tests
-        run: yarn test
+        run: yarn build:react
 
       - name: Publish alpha
         # https://github.com/actions/setup-node/issues/81
         run: |
           echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
-          ./bin/prerelease.sh
+          ./scripts/ci/prerelease.sh @route-codegen/react packages/react
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}

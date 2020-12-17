@@ -1,10 +1,9 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
+    "rootDir": "packages",
     "target": "es6",
     "lib": ["es5", "es6", "ES2017", "es2019", "dom", "esnext.asynciterable"],
     "module": "commonjs",
-    "jsx": "react",
     "sourceMap": true,
 
     "alwaysStrict": true,
@@ -26,6 +25,6 @@
     "isolatedModules": true,
     "noUnusedLocals": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "sample/output", "src/**/*.test.ts", "src/**/*.test.tsx"]
+  "include": ["packages"],
+  "exclude": ["node_modules", "sample/output", "**/jest.config.js", "**/dist", "**/*.test.*"]
 }
