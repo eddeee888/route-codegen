@@ -6,6 +6,7 @@ on:
     paths:
       - "packages/react/**"
       - "!packages/react/CHANGELOG"
+      - "!packages/react/package.json"
 jobs:
   release-alpha:
     runs-on: ubuntu-18.04

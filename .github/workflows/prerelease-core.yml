@@ -6,6 +6,7 @@ on:
     paths:
       - "packages/core/**"
       - "!packages/core/CHANGELOG"
+      - "!packages/core/package.json"
 jobs:
   release-alpha:
     runs-on: ubuntu-18.04
