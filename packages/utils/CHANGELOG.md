@@ -1,5 +1,11 @@
 # @route-codegen/utils
 
+## 0.0.8
+
+### Patch Changes
+
+- 74c704f: Remove LICENSE
+
 ## 0.0.6
 
 ### Patch Changes
