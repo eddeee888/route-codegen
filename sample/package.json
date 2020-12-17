@@ -6,7 +6,7 @@
     "@route-codegen/core": "latest"
   },
   "scripts": {
-    "pregenerate": "rm -rf output",
+    "pregenerate": "rm -rf outputs",
     "generate": "yarn generate:default && yarn generate:with-origins",
     "postgenerate": "yarn --silent format --loglevel silent",
     "generate:default": "route-codegen --stacktrace --verbose --config routegen.yml",

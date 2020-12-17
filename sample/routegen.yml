@@ -4,7 +4,7 @@ apps:
       user: /app/users/:id/:subview(pictures)?
       account: /app/account
     routingType: ReactRouterV5
-    destinationDir: output/default/app/routes
+    destinationDir: outputs/default/app/routes
 
   auth:
     routes:
@@ -28,14 +28,14 @@ apps:
         propsNamedImport: AnchorProps
         hrefProp: href
         from: common/ui/Anchor
-    destinationDir: output/default/auth/routes
+    destinationDir: outputs/default/auth/routes
 
   seo:
     routes:
       home: /
       about: /about/:target(us|you)/:topic/:optional?/:optionalEnum(enumOne|enumTwo)?
     routingType: NextJS
-    destinationDir: output/default/seo/routes
+    destinationDir: outputs/default/seo/routes
 
   toc:
     routes:
@@ -53,7 +53,7 @@ apps:
         propsNamedImport: AnchorProps
         hrefProp: href
         from: src/common/ui/Anchor
-    destinationDir: output/default/toc/routes
+    destinationDir: outputs/default/toc/routes
 
   legacy:
     routes:
@@ -61,4 +61,4 @@ apps:
 
   server:
     generateLink: false
-    destinationDir: output/default/server/routes
+    destinationDir: outputs/default/server/routes
