@@ -1,5 +1,12 @@
 # @route-codegen/utils
 
+## 0.0.5
+
+### Patch Changes
+
+- ddf286b: Remove LICENSE
+- 9e39795: Add LICENSE
+
 ## 0.0.3
 
 ### Patch Changes
