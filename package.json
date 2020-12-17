@@ -23,7 +23,7 @@
     "build:react": "yarn workspace @route-codegen/react build",
     "format": "prettier --config .prettierrc --write \"packages/**/*.{ts,tsx}\"",
     "generate:sample": "yarn build:core && yarn workspace @route-codegen/sample generate",
-    "release": "yarn build && yarn changeset publish --access public"
+    "release": "yarn build && yarn changeset publish"
   },
   "devDependencies": {
     "prettier": "2.0.5",
