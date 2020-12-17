@@ -1,4 +1,4 @@
-name: "@route-codegen release new package version/s"
+name: "Create Release PR or Release new packages"
 on:
   push:
     branches:
