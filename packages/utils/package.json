@@ -1,7 +1,7 @@
 {
   "name": "@route-codegen/utils",
   "version": "0.0.1",
-  "description": "Route generator to create route modules",
+  "description": "Utility functions to support route-codegen",
   "author": "Eddy Nguyen <eddeee.nguyen@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/eddeee888/route-codegen",
@@ -22,7 +22,8 @@
     "definition": "dist/index.d.ts"
   },
   "files": [
-    "dist"
+    "dist/**/*.js",
+    "dist/**/*.d.ts"
   ],
   "scripts": {
     "test": "jest",

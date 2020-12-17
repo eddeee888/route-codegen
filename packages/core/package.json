@@ -14,7 +14,8 @@
     "route-codegen": "./dist/bin/route-codegen.js"
   },
   "files": [
-    "dist"
+    "dist/**/*.js",
+    "dist/**/*.d.ts"
   ],
   "keywords": [
     "react-router",
