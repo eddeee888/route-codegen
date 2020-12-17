@@ -5,6 +5,7 @@ on:
       - "master"
     paths:
       - "packages/react/**"
+      - "!packages/react/CHANGELOG"
 jobs:
   release-alpha:
     runs-on: ubuntu-18.04

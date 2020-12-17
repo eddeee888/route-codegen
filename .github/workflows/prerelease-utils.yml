@@ -5,6 +5,7 @@ on:
       - "master"
     paths:
       - "packages/utils/**"
+      - "!packages/utils/CHANGELOG"
 jobs:
   release-alpha:
     runs-on: ubuntu-18.04
