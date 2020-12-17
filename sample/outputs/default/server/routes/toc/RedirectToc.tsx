@@ -5,6 +5,6 @@ import { generateUrl } from "@route-codegen/utils";
 import { UrlPartsToc, patternToc, originToc } from "./patternToc";
 const RedirectToc: React.FunctionComponent<UrlPartsToc & { fallback?: React.ReactNode }> = (props) => {
   const to = generateUrl(patternToc, {}, props.query, props.origin ?? originToc);
-  return <undefined href={to} fallback={props.fallback} />;
+  return <RedirectServerSide href={to} fallback={props.fallback} />;
 };
 export default RedirectToc;

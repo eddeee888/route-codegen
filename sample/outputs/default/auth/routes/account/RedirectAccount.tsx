@@ -5,6 +5,6 @@ import { generateUrl } from "@route-codegen/utils";
 import { UrlPartsAccount, patternAccount, originAccount } from "./patternAccount";
 const RedirectAccount: React.FunctionComponent<UrlPartsAccount & { fallback?: React.ReactNode }> = (props) => {
   const to = generateUrl(patternAccount, {}, props.query, props.origin ?? originAccount);
-  return <undefined href={to} fallback={props.fallback} />;
+  return <RedirectServerSide href={to} fallback={props.fallback} />;
 };
 export default RedirectAccount;

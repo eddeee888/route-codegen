@@ -5,6 +5,6 @@ import { generateUrl } from "@route-codegen/utils";
 import { UrlPartsTerms, patternTerms, originTerms } from "./patternTerms";
 const RedirectTerms: React.FunctionComponent<UrlPartsTerms & { fallback?: React.ReactNode }> = (props) => {
   const to = generateUrl(patternTerms, {}, props.query, props.origin ?? originTerms);
-  return <undefined href={to} fallback={props.fallback} />;
+  return <RedirectServerSide href={to} fallback={props.fallback} />;
 };
 export default RedirectTerms;
