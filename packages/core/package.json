@@ -1,6 +1,6 @@
 {
   "name": "@route-codegen/core",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Route generator to create route modules",
   "author": "Eddy Nguyen <eddeee.nguyen@gmail.com>",
   "license": "MIT",

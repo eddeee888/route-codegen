@@ -1,5 +1,11 @@
 # @route-codegen/utils
 
+## 0.1.0
+
+### Minor Changes
+
+- e9dc945: Initial working end-to-end commit
+
 ## 0.0.8
 
 ### Patch Changes
