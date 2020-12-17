@@ -1,4 +1,4 @@
-name: "@route-codegen/core prerelease"
+name: "Prerelease core"
 on:
   push:
     branches:
@@ -32,10 +32,10 @@ jobs:
       - name: Run tests
         run: yarn test:core
 
-      - name: Publish alpha
-        # https://github.com/actions/setup-node/issues/81
-        run: |
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
-          ./scripts/ci/prerelease.sh @route-codegen/core packages/core
+      - name: Set up NPM credentials
+        run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish alpha
+        run: ./scripts/ci/prerelease.sh @route-codegen/core packages/core
