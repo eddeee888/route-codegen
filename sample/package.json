@@ -2,9 +2,6 @@
   "private": true,
   "name": "@route-codegen/sample",
   "version": "0.0.1",
-  "dependencies": {
-    "@route-codegen/core": "latest"
-  },
   "scripts": {
     "pregenerate": "rm -rf outputs",
     "generate": "yarn generate:default && yarn generate:with-origins",
