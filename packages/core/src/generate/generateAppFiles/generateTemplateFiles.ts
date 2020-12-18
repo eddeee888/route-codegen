@@ -113,6 +113,7 @@ const generateTemplateFiles = (params: GenerateTemplateFilesParams): TemplateFil
           destinationDir,
           pathParamsFilename: patternNamedExports.filename,
           pathParamsInterfaceName: patternNamedExports.pathParamsInterfaceNameNextJS,
+          mode: routeLinkOptions.NextJS.mode,
         });
         files.push(useParamsFileNextJS);
       }
