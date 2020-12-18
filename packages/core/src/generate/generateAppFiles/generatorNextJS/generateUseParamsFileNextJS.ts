@@ -20,55 +20,56 @@ const generateUseParamsFileNextJS = (params: GenerateUseParamsFileNextJSParams):
 
   const printFieldType = (keyName: string | number): string => `${pathParamsInterfaceName}["${keyName}"]`;
 
-  // TODO: make this betterer + use mapper
-  let resultTemplate = "";
-  if (mode === "strict") {
-    const templates = keys.map((key) => {
-      if (getKeyType(key) === KeyType.normal) {
-        if (key.modifier) {
-          // TODO: abstract key.modifier check to be a util
-          return `${key.name}: query.${key.name} ? (query.${key.name} as ${printFieldType(key.name)}) : undefined,`;
-        }
-        return `${key.name}: query.${key.name} as ${printFieldType(key.name)},`;
-      } else if (getKeyType(key) === KeyType.enum) {
-        const enumOptions = key.pattern.split("|");
-        const options = key.modifier ? [...enumOptions, undefined] : [...enumOptions];
-        const possibleValuesVarName = `${key.name}PossibleValues`;
-        let optonsTemplate = options.reduce((prev, option) => {
-          if (option === undefined) {
-            return `${prev}undefined,`;
+  const templateMap: Record<GenerateUseParamsFileNextJSParams["mode"], string> = {
+    strict: (function createStrictTemplate() {
+      const templates = keys.map((key) => {
+        if (getKeyType(key) === KeyType.normal) {
+          if (key.modifier) {
+            // TODO: abstract key.modifier check to be a util
+            return `${key.name}: query.${key.name} ? (query.${key.name} as ${printFieldType(key.name)}) : undefined,`;
           }
-          return `${prev}"${option}",`;
-        }, `const ${possibleValuesVarName} = [`);
-        optonsTemplate += "]";
+          return `${key.name}: query.${key.name} as ${printFieldType(key.name)},`;
+        } else if (getKeyType(key) === KeyType.enum) {
+          const enumOptions = key.pattern.split("|");
+          const options = key.modifier ? [...enumOptions, undefined] : [...enumOptions];
+          const possibleValuesVarName = `${key.name}PossibleValues`;
+          let optonsTemplate = options.reduce((prev, option) => {
+            if (option === undefined) {
+              return `${prev}undefined,`;
+            }
+            return `${prev}"${option}",`;
+          }, `const ${possibleValuesVarName} = [`);
+          optonsTemplate += "]";
 
-        const validatorTemplate = `if(${possibleValuesVarName}.findIndex((v) => v === query.${key.name}) === -1){
-          throw new Error("Mistake");
-        }`;
+          const validatorTemplate = `if(${possibleValuesVarName}.findIndex((v) => v === query.${key.name}) === -1){
+            throw new Error("Unable to match '${key.name}' with expected enums");
+          }`;
 
-        return `${key.name}: (() => {
-          ${optonsTemplate}
-          ${validatorTemplate}
-          return query.${key.name} as ${printFieldType(key.name)}
-        })(),`;
-      }
-      return throwError([routeName], "route-codegen is only supporting string and enum patterns at the moment.");
-    });
-    resultTemplate = templates.join("");
-  } else {
-    resultTemplate = `${keys.reduce((prev, key) => {
-      if (key.modifier) {
-        return `${prev}${key.name}: query.${key.name} ? (query.${key.name} as ${printFieldType(key.name)}) : undefined,`;
-      }
-      return `${prev}${key.name}: query.${key.name} as ${printFieldType(key.name)},`;
-    }, "")}`;
-  }
+          return `${key.name}: (() => {
+            ${optonsTemplate}
+            ${validatorTemplate}
+            return query.${key.name} as ${printFieldType(key.name)}
+          })(),`;
+        }
+        return throwError([routeName], "route-codegen is only supporting string and enum patterns at the moment.");
+      });
+      return templates.join("");
+    })(),
+    loose: (function createLooseTemplate() {
+      return `${keys.reduce((prev, key) => {
+        if (key.modifier) {
+          return `${prev}${key.name}: query.${key.name} ? (query.${key.name} as ${printFieldType(key.name)}) : undefined,`;
+        }
+        return `${prev}${key.name}: query.${key.name} as ${printFieldType(key.name)},`;
+      }, "")}`;
+    })(),
+  };
 
   const template = `${printImport({ namedImports: [{ name: pathParamsInterfaceName }], from: `./${pathParamsFilename}` })}
     ${printImport({ namedImports: [{ name: "useRouter" }], from: "next/router" })}
     const ${functionName} = (): ${pathParamsInterfaceName} => {
       const query = useRouter().query;
-      return {${resultTemplate}};
+      return {${templateMap[mode]}};
     }
     export default ${functionName};`;
 

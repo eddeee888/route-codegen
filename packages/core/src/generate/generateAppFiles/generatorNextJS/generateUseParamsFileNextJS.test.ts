@@ -18,7 +18,7 @@ describe("generateUseParamsFileNextJS", () => {
     import {useRouter,} from 'next/router'
     const useParamsUser = (): PathParamsNextJSUser => {
       const query = useRouter().query;
-      return {id: query.id as string,subview: query.subview as string,optional: query.optional ? (query.optional as string) : undefined,optionalEnum: query.optionalEnum ? (query.optionalEnum as string) : undefined,};
+      return {id: query.id as PathParamsNextJSUser["id"],subview: query.subview as PathParamsNextJSUser["subview"],optional: query.optional ? (query.optional as PathParamsNextJSUser["optional"]) : undefined,optionalEnum: query.optionalEnum ? (query.optionalEnum as PathParamsNextJSUser["optionalEnum"]) : undefined,};
     }
     export default useParamsUser;`);
   });
@@ -40,7 +40,19 @@ describe("generateUseParamsFileNextJS", () => {
     import {useRouter,} from 'next/router'
     const useParamsUser = (): PathParamsNextJSUser => {
       const query = useRouter().query;
-      return {id: query.id as string,subview: query.subview as string,optional: query.optional ? (query.optional as string) : undefined,optionalEnum: query.optionalEnum ? (query.optionalEnum as string) : undefined,};
+      return {id: query.id as PathParamsNextJSUser[\"id\"],subview: (() => {
+            const subviewPossibleValues = [\"profile\",\"pictures\",]
+            if(subviewPossibleValues.findIndex((v) => v === query.subview) === -1){
+            throw new Error("Unable to match 'subview' with expected enums");
+          }
+            return query.subview as PathParamsNextJSUser[\"subview\"]
+          })(),optional: query.optional ? (query.optional as PathParamsNextJSUser[\"optional\"]) : undefined,optionalEnum: (() => {
+            const optionalEnumPossibleValues = [\"enum1\",\"enum2\",undefined,]
+            if(optionalEnumPossibleValues.findIndex((v) => v === query.optionalEnum) === -1){
+            throw new Error("Unable to match 'optionalEnum' with expected enums");
+          }
+            return query.optionalEnum as PathParamsNextJSUser[\"optionalEnum\"]
+          })(),};
     }
     export default useParamsUser;`);
   });
