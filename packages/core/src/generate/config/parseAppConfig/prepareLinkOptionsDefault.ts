@@ -1,6 +1,5 @@
 import { PrepareLinkOptionsParamsDefault, ParsedLinkOptionsDefault } from "./types";
-import getOverriddenValue from "../../utils/getOverriddenValue";
-import info from "../../utils/info";
+import { getOverriddenValue, info } from "../../utils";
 import { handleImportCustomLink } from "./handleImportCustomLink";
 
 export const prepareLinkOptionsDefault = (params: PrepareLinkOptionsParamsDefault): ParsedLinkOptionsDefault => {

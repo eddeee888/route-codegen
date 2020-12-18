@@ -1,5 +1,5 @@
 import { TemplateFile } from "../../types";
-import printImport from "../../utils/printImport";
+import { printImport } from "../../utils";
 
 export interface GenerateUseParamsFileReactRouterV5Params {
   routeName: string;

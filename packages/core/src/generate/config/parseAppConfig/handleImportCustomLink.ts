@@ -1,7 +1,6 @@
 import { ImportCustomLink } from "../types";
 import { Import } from "../../types";
-import throwError from "../../utils/throwError";
-import info from "../../utils/info";
+import { throwError, info } from "../../utils";
 
 interface HandleImportCustomLinkParams {
   appName: string;

@@ -1,7 +1,6 @@
 import { TemplateFile, Import } from "../../types";
-import printImport from "../../utils/printImport";
+import { printImport, throwError } from "../../utils";
 import { RouteLinkOptions } from "../../config";
-import throwError from "../../utils/throwError";
 import { PatternNamedExports } from "../types";
 
 export interface GenerateLinkFileNextJSParams {

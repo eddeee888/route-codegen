@@ -1,10 +1,7 @@
 import { TemplateFile } from "../../types";
 import { Key } from "path-to-regexp";
 import { RoutingType } from "../../config";
-import throwError from "../../utils/throwError";
-import getKeyType from "../../utils/getKeyType";
-import { KeyType } from "../../utils/getKeyType/getKeyType";
-import getKeysFromRoutePattern from "../../utils/getKeysFromRoutePattern";
+import { throwError, getKeyType, KeyType, getKeysFromRoutePattern } from "../../utils";
 import { PatternNamedExports } from "../types";
 
 export interface GenerateRoutePatternFileParams {

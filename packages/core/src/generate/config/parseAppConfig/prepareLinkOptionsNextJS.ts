@@ -1,6 +1,5 @@
 import { PrepareLinkOptionsParamsNextJS, ParsedLinkOptionsNextJS } from "./types";
-import info from "../../utils/info";
-import getOverriddenValue from "../../utils/getOverriddenValue";
+import { getOverriddenValue, info } from "../../utils";
 import { handleImportCustomLink } from "./handleImportCustomLink";
 
 export const prepareLinkOptionsNextJS = (params: PrepareLinkOptionsParamsNextJS): ParsedLinkOptionsNextJS => {

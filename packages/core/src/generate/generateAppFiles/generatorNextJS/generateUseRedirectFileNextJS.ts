@@ -1,7 +1,6 @@
 import { PatternNamedExports } from "../types";
 import { Import, TemplateFile } from "../../types";
-import printImport from "../../utils/printImport";
-import throwError from "../../utils/throwError";
+import { printImport, throwError } from "../../utils";
 
 export interface GenerateUseRedirectFileNextJSParams {
   routeName: string;
