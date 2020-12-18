@@ -1,5 +1,5 @@
 import { parseAppConfig, ParsedLinkOptionsReactRouterV5, ParsedLinkOptionsNextJS, ParsedLinkOptionsDefault } from "./parseAppConfig";
-import { AppConfig, RoutingType } from "./config";
+import { AppConfig, RoutingType } from "./types";
 
 describe("parseAppConfig", () => {
   const defaultAppConfig: AppConfig = {
