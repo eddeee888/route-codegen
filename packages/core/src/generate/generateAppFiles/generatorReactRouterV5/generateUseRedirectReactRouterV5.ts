@@ -1,4 +1,4 @@
-import printImport from "../../utils/printImport";
+import { printImport } from "../../utils";
 import { TemplateFile, Import } from "../../types";
 import { PatternNamedExports } from "../types";
 
@@ -14,6 +14,7 @@ const generateUseRedirectReactRouterV5 = (params: GenerateUseRedirectReactRouter
   const functionName = `useRedirect${routeName}`;
   const pathVariable = patternNamedExports.pathParamsInterfaceName ? "urlParts.path" : "{}";
   const resultTypeInterface = `RedirectFn${routeName}`;
+  const generateUrlFnName = "generateUrl"; // TODO: find a better way to reference this
 
   const template = `${printImport({
     namedImports: [{ name: "useHistory" }],
@@ -30,7 +31,7 @@ const generateUseRedirectReactRouterV5 = (params: GenerateUseRedirectReactRouter
   const ${functionName} = (): ${resultTypeInterface} => {
     const history = useHistory();
     const redirect: ${resultTypeInterface} = urlParts => {
-      const to = generateUrl(${patternNamedExports.patternName}, ${pathVariable}, urlParts?.query, urlParts?.origin);
+      const to = ${generateUrlFnName}(${patternNamedExports.patternName}, ${pathVariable}, urlParts?.query, urlParts?.origin);
       history.push(to);
     }
     return redirect;

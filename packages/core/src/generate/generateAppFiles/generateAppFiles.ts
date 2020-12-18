@@ -1,8 +1,8 @@
 import { AppConfig } from "./../config";
 import generateTemplateFiles from "./generateTemplateFiles";
 import { TemplateFile } from "../types";
-import parseAppConfig from "./parseAppConfig";
-import info from "../utils/info";
+import { parseAppConfig } from "../config";
+import { info } from "../utils";
 
 const generateAppFiles = (appName: string, app: AppConfig): TemplateFile[] => {
   const { routes, routingType, destinationDir, routeLinkOptions, importGenerateUrl, importRedirectServerSide } = parseAppConfig(

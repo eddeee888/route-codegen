@@ -1,7 +1,7 @@
 import { Config, AppConfig } from "./config";
 import generateExternalRoutesConfig from "./generateExternalRoutesConfig";
 import generateAppFiles from "./generateAppFiles";
-import writeFile from "./utils/writeFile";
+import { writeFile } from "./utils";
 import { TemplateFile } from "./types";
 import handleCommandFlags, { CommandFlags } from "./handleCommandFlags";
 

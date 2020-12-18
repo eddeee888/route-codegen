@@ -1,4 +1,4 @@
-import printImport from "../../utils/printImport";
+import { printImport } from "../../utils";
 import { TemplateFile, Import } from "../../types";
 import { PatternNamedExports } from "../types";
 

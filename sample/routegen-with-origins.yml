@@ -4,6 +4,8 @@ apps:
     routes:
       user: /users/:id/:subview(pictures)?
     routingType: ReactRouterV5
+    reactRouterV5LinkOptions:
+      mode: strict
     destinationDir: outputs/with-origins/app/routes
 
   seo:

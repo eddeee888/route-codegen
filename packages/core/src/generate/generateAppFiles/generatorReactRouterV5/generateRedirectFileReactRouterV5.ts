@@ -1,5 +1,5 @@
 import { TemplateFile, Import } from "../../types";
-import printImport from "../../utils/printImport";
+import { printImport } from "../../utils";
 import { PatternNamedExports } from "../types";
 
 export interface GenerateRedirectFileReactRouterV5Params {
@@ -14,6 +14,7 @@ const generateRedirectFileReactRouterV5 = (params: GenerateRedirectFileReactRout
 
   const functionName = `Redirect${routeName}`;
   const hasPathParams = !!patternNamedExports.pathParamsInterfaceName;
+  const generateUrlFnName = "generateUrl"; // TODO: find a better way to reference this
 
   const template = `${printImport({ defaultImport: "React", from: "react" })}
   ${printImport(importGenerateUrl)}
@@ -23,7 +24,7 @@ const generateRedirectFileReactRouterV5 = (params: GenerateRedirectFileReactRout
     from: `./${patternNamedExports.filename}`,
   })}
   const ${functionName}: React.FunctionComponent<${patternNamedExports.urlPartsInterfaceName} & { fallback?: React.ReactNode }> = props => {
-    const to = generateUrl(${patternNamedExports.patternName}, ${hasPathParams ? "props.path" : "{}"}, props.query, props.origin);
+    const to = ${generateUrlFnName}(${patternNamedExports.patternName}, ${hasPathParams ? "props.path" : "{}"}, props.query, props.origin);
     return (
       <>
         <Redirect to={to} />

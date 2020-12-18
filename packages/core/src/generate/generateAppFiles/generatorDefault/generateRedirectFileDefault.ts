@@ -1,5 +1,5 @@
 import { TemplateFile, Import } from "../../types";
-import printImport from "../../utils/printImport";
+import { printImport } from "../../utils";
 import { PatternNamedExports } from "../types";
 
 export interface GenerateRedirectFileDefaultParams {
