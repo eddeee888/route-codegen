@@ -22,6 +22,7 @@ describe("parseAppConfig", () => {
     generateRedirectComponent: true,
     generateUseRedirect: true,
     generateUseParams: true,
+    mode: "loose",
   };
   const defaultParsedLinkOptionsNextJS: ParsedLinkOptionsNextJS = {
     importLink: {
@@ -136,6 +137,65 @@ describe("parseAppConfig", () => {
           generateRedirectComponent: true,
           generateUseRedirect: true,
           generateUseParams: true,
+          mode: "loose",
+        });
+      });
+
+      it("should parse mode correctly if passed explicitly", () => {
+        const parsedConfig = parseAppConfig("sampleApp", {
+          ...defaultAppConfig,
+          reactRouterV5LinkOptions: {
+            importCustomLink: {
+              componentNamedImport: "CustomLinkComponent",
+              propsNamedImport: "CustomLinkProps",
+              hrefProp: "customHref",
+              from: "path/to/CustomLink",
+            },
+            mode: "loose",
+          },
+        });
+
+        expect(parsedConfig.routeLinkOptions.ReactRouterV5).toEqual({
+          importLink: {
+            from: "path/to/CustomLink",
+            namedImports: [{ name: "CustomLinkProps" }, { name: "CustomLinkComponent", importAs: "Link" }],
+          },
+          linkComponent: "Link",
+          linkProps: "CustomLinkProps",
+          hrefProp: "customHref",
+          generateLinkComponent: true,
+          generateRedirectComponent: true,
+          generateUseRedirect: true,
+          generateUseParams: true,
+          mode: "loose",
+        });
+
+        const parsedConfig2 = parseAppConfig("sampleApp", {
+          ...defaultAppConfig,
+          reactRouterV5LinkOptions: {
+            importCustomLink: {
+              componentNamedImport: "CustomLinkComponent",
+              propsNamedImport: "CustomLinkProps",
+              hrefProp: "customHref",
+              from: "path/to/CustomLink",
+            },
+            mode: "strict",
+          },
+        });
+
+        expect(parsedConfig2.routeLinkOptions.ReactRouterV5).toEqual({
+          importLink: {
+            from: "path/to/CustomLink",
+            namedImports: [{ name: "CustomLinkProps" }, { name: "CustomLinkComponent", importAs: "Link" }],
+          },
+          linkComponent: "Link",
+          linkProps: "CustomLinkProps",
+          hrefProp: "customHref",
+          generateLinkComponent: true,
+          generateRedirectComponent: true,
+          generateUseRedirect: true,
+          generateUseParams: true,
+          mode: "strict",
         });
       });
 
@@ -164,6 +224,7 @@ describe("parseAppConfig", () => {
           generateRedirectComponent: true,
           generateUseRedirect: true,
           generateUseParams: true,
+          mode: "loose",
         });
       });
 

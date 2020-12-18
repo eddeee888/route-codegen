@@ -18,6 +18,7 @@ interface LinkOptions {
   generateRedirectComponent?: boolean;
   generateUseRedirect?: boolean;
   generateUseParams?: boolean;
+  mode?: string;
 }
 
 // TODO: The Object version is only being used internally when generating external routes. Test if it's safe for users to use
