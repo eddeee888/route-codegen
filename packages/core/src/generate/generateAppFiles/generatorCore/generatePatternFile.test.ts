@@ -63,7 +63,7 @@ describe("generatePatternFile", () => {
   });
 
   describe("NextJS", () => {
-    it("should generate template correctly with NextJS pattern", () => {
+    it("should generate template correctly with loose NextJS pattern", () => {
       const [templateFile, interfaceResult] = generatePatternFile({
         origin: "",
         routePattern: "/app/users/:id/:subview(profile|pictures)/:optional?/:optionalEnum(enum1|enum2)?",
@@ -94,6 +94,43 @@ describe("generatePatternFile", () => {
         patternNameNextJS: "patternNextJSUserInfo",
         pathParamsInterfaceName: "PathParamsUserInfo",
         pathParamsInterfaceNameNextJS: "PathParamsNextJSUserInfo",
+        urlPartsInterfaceName: "UrlPartsUserInfo",
+        filename: "patternUserInfo",
+        possiblePathParamsVariableName: "possilePathParamsUserInfo",
+      });
+    });
+
+    it("should generate template correctly with strict NextJS pattern", () => {
+      const [templateFile, interfaceResult] = generatePatternFile({
+        origin: "",
+        routePattern: "/app/users/:id/:subview(profile|pictures)/:optional?/:optionalEnum(enum1|enum2)?",
+        destinationDir: "path/to/routes",
+        routeName: "UserInfo",
+        routingType: RoutingType.NextJS,
+        linkOptionModeNextJS: "strict",
+      });
+
+      expect(templateFile.filename).toBe("patternUserInfo");
+      expect(templateFile.extension).toBe(".ts");
+      expect(templateFile.destinationDir).toBe("path/to/routes");
+      expect(templateFile.template)
+        .toContain(`export const patternUserInfo = '/app/users/:id/:subview(profile|pictures)/:optional?/:optionalEnum(enum1|enum2)?'
+  export const originUserInfo = ''
+  export const patternNextJSUserInfo = '/app/users/[id]/[subview]/[optional]/[optionalEnum]'
+  export type PathParamsUserInfo = {id: string;subview:'profile'|'pictures';optional?: string;optionalEnum?:'enum1'|'enum2';}
+  
+  export const possilePathParamsUserInfo = ['id','subview','optional','optionalEnum',]
+  export interface UrlPartsUserInfo {
+    path: PathParamsUserInfo;
+    query?: Record<string, string | undefined>;
+    origin?: string;
+  }`);
+      expect(interfaceResult).toEqual({
+        originName: "originUserInfo",
+        patternName: "patternUserInfo",
+        patternNameNextJS: "patternNextJSUserInfo",
+        pathParamsInterfaceName: "PathParamsUserInfo",
+        pathParamsInterfaceNameNextJS: undefined,
         urlPartsInterfaceName: "UrlPartsUserInfo",
         filename: "patternUserInfo",
         possiblePathParamsVariableName: "possilePathParamsUserInfo",
