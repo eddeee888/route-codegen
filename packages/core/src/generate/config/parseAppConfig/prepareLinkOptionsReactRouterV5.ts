@@ -31,7 +31,7 @@ export const prepareLinkOptionsReactRouterV5 = (params: PrepareLinkOptionsParams
     generateRedirectComponent: getOverriddenValue(defaultOptions.generateRedirectComponent, routeLinkOptions.generateRedirectComponent),
     generateUseParams: getOverriddenValue(defaultOptions.generateUseParams, routeLinkOptions.generateUseParams),
     generateUseRedirect: getOverriddenValue(defaultOptions.generateUseRedirect, routeLinkOptions.generateUseRedirect),
-    mode: (() => {
+    mode: ((): ParsedLinkOptionsReactRouterV5["mode"] => {
       const mode: ParsedLinkOptionsReactRouterV5["mode"] =
         routeLinkOptions.mode === "strict" || routeLinkOptions.mode === "loose" ? routeLinkOptions.mode : defaultOptions.mode;
       return getOverriddenValue(defaultOptions.mode, mode);
