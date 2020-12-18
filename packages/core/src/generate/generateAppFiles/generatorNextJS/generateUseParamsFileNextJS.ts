@@ -1,5 +1,6 @@
 import { TemplateFile } from "../../types";
-import { printImport, getKeysFromRoutePattern, getKeyType, KeyType, throwError } from "../../utils";
+import { printImport, keyHelpers, KeyType, throwError } from "../../utils";
+import isOptional from "../../utils/keyHelpers/isOptional";
 
 export interface GenerateUseParamsFileNextJSParams {
   routeName: string;
@@ -16,22 +17,21 @@ const generateUseParamsFileNextJS = (params: GenerateUseParamsFileNextJSParams):
 
   const functionName = `useParams${routeName}`;
 
-  const keys = getKeysFromRoutePattern(routePattern);
+  const keys = keyHelpers.getKeysFromRoutePattern(routePattern);
 
   const printFieldType = (keyName: string | number): string => `${pathParamsInterfaceName}["${keyName}"]`;
 
-  const templateMap: Record<GenerateUseParamsFileNextJSParams["mode"], string> = {
-    strict: (function createStrictTemplate() {
+  const templateMap: Record<GenerateUseParamsFileNextJSParams["mode"], () => string> = {
+    strict: function createStrictTemplate() {
       const templates = keys.map((key) => {
-        if (getKeyType(key) === KeyType.normal) {
-          if (key.modifier) {
-            // TODO: abstract key.modifier check to be a util
+        if (keyHelpers.getType(key) === KeyType.normal) {
+          if (keyHelpers.isOptional(key)) {
             return `${key.name}: query.${key.name} ? (query.${key.name} as ${printFieldType(key.name)}) : undefined,`;
           }
           return `${key.name}: query.${key.name} as ${printFieldType(key.name)},`;
-        } else if (getKeyType(key) === KeyType.enum) {
+        } else if (keyHelpers.getType(key) === KeyType.enum) {
           const enumOptions = key.pattern.split("|");
-          const options = key.modifier ? [...enumOptions, undefined] : [...enumOptions];
+          const options = keyHelpers.isOptional(key) ? [...enumOptions, undefined] : [...enumOptions];
           const possibleValuesVarName = `${key.name}PossibleValues`;
           let optonsTemplate = options.reduce((prev, option) => {
             if (option === undefined) {
@@ -54,22 +54,22 @@ const generateUseParamsFileNextJS = (params: GenerateUseParamsFileNextJSParams):
         return throwError([routeName], "route-codegen is only supporting string and enum patterns at the moment.");
       });
       return templates.join("");
-    })(),
-    loose: (function createLooseTemplate() {
+    },
+    loose: function createLooseTemplate() {
       return `${keys.reduce((prev, key) => {
-        if (key.modifier) {
+        if (isOptional(key)) {
           return `${prev}${key.name}: query.${key.name} ? (query.${key.name} as ${printFieldType(key.name)}) : undefined,`;
         }
         return `${prev}${key.name}: query.${key.name} as ${printFieldType(key.name)},`;
       }, "")}`;
-    })(),
+    },
   };
 
   const template = `${printImport({ namedImports: [{ name: pathParamsInterfaceName }], from: `./${pathParamsFilename}` })}
     ${printImport({ namedImports: [{ name: "useRouter" }], from: "next/router" })}
     const ${functionName} = (): ${pathParamsInterfaceName} => {
       const query = useRouter().query;
-      return {${templateMap[mode]}};
+      return {${templateMap[mode]()}};
     }
     export default ${functionName};`;
 

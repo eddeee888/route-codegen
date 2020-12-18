@@ -1,8 +1,9 @@
 import { TemplateFile } from "../../types";
 import { Key } from "path-to-regexp";
 import { RoutingType } from "../../config";
-import { throwError, getKeyType, KeyType, getKeysFromRoutePattern } from "../../utils";
+import { throwError, keyHelpers, KeyType } from "../../utils";
 import { PatternNamedExports } from "../types";
+import isOptional from "../../utils/keyHelpers/isOptional";
 
 export interface GenerateRoutePatternFileParams {
   origin: string;
@@ -16,7 +17,7 @@ export interface GenerateRoutePatternFileParams {
 const generateRoutePatternFile = (params: GenerateRoutePatternFileParams): [TemplateFile, PatternNamedExports] => {
   const { routePattern, routeName, destinationDir, routingType, origin, linkOptionModeNextJS } = params;
 
-  const keys = getKeysFromRoutePattern(routePattern);
+  const keys = keyHelpers.getKeysFromRoutePattern(routePattern);
 
   const patternName = `pattern${routeName}`;
   const originName = `origin${routeName}`;
@@ -77,26 +78,24 @@ const generatePathParamsInterface = (keys: Key[], routeName: string): PathParams
   // https://github.com/microsoft/TypeScript/issues/15300
   let template = `export type ${pathParamsInterfaceName} = {`;
   keys.forEach((key) => {
-    const { pattern, name, modifier } = key;
+    const fieldName = `${key.name}${isOptional(key) ? "?" : ""}`;
 
-    const fieldName = `${name}${modifier === "?" ? modifier : ""}`;
-
-    switch (getKeyType(key)) {
-      case KeyType.normal:
-        template += `${fieldName}: string;`;
-        break;
-      case KeyType.enum:
+    const templateMap: Record<KeyType, (t: string) => string> = {
+      normal: (t) => (t += `${fieldName}: string;`),
+      enum: (t) => {
         // Note: We are using enum here... this may not be safe
-        const enumArray = pattern.split("|");
+        const enumArray = key.pattern.split("|");
         if (enumArray.length > 0) {
-          template += `${fieldName}:`;
-          enumArray.forEach((enumValue) => (template += `'${enumValue}'|`));
+          t += `${fieldName}:`;
+          enumArray.forEach((enumValue) => (t += `'${enumValue}'|`));
           // Remove last '|'
-          template = template.slice(0, -1);
-          template += `;`;
+          t = t.slice(0, -1);
+          t += `;`;
         }
-        break;
-    }
+        return t;
+      },
+    };
+    template = templateMap[keyHelpers.getType(key)](template);
   });
   template += "}";
 
@@ -137,8 +136,7 @@ const generateNextJSPathParams = (keys: Key[], routeName: string): PathParamsInt
   let template = `export interface ${pathParamsInterfaceName} {`;
   keys.forEach((key) => {
     // TODO: check if NextJS support optional param?
-    const { name, modifier } = key;
-    const fieldName = `${name}${modifier === "?" ? modifier : ""}`;
+    const fieldName = `${key.name}${keyHelpers.isOptional(key) ? "?" : ""}`;
     template += `${fieldName}: string;`;
   });
   template += "}";
@@ -186,13 +184,16 @@ const generateNextJSPattern = (params: {
     }
 
     const matchedKey = keys.find((key) => {
-      switch (getKeyType(key)) {
-        case KeyType.normal:
-          return routePart === `:${key.name}${key.modifier}`;
-        case KeyType.enum:
-          return routePart === `:${key.name}(${key.pattern})${key.modifier}`;
-        default:
+      switch (keyHelpers.getType(key)) {
+        case KeyType.normal: {
+          return routePart === `:${key.name}${isOptional(key) ? "?" : ""}`;
+        }
+        case KeyType.enum: {
+          return routePart === `:${key.name}(${key.pattern})${isOptional(key) ? "?" : ""}`;
+        }
+        default: {
           return false;
+        }
       }
     });
 

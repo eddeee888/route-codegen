@@ -57,6 +57,7 @@ describe("generateTemplateFiles", () => {
         generateLinkComponent: true,
         generateUseParams: true,
         generateUseRedirect: true,
+        mode: "loose",
       },
     },
   };

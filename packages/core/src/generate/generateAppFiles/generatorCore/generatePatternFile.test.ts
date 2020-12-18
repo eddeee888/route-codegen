@@ -10,6 +10,7 @@ describe("generatePatternFile", () => {
         destinationDir: "path/to/routes",
         routeName: "Login",
         routingType: RoutingType.Default,
+        linkOptionModeNextJS: "loose",
       });
 
       expect(templateFile.filename).toBe("patternLogin");
@@ -31,6 +32,7 @@ describe("generatePatternFile", () => {
         destinationDir: "path/to/routes",
         routeName: "UserInfo",
         routingType: RoutingType.Default,
+        linkOptionModeNextJS: "loose",
       });
 
       expect(templateFile.filename).toBe("patternUserInfo");
@@ -68,6 +70,7 @@ describe("generatePatternFile", () => {
         destinationDir: "path/to/routes",
         routeName: "UserInfo",
         routingType: RoutingType.NextJS,
+        linkOptionModeNextJS: "loose",
       });
 
       expect(templateFile.filename).toBe("patternUserInfo");
@@ -106,6 +109,7 @@ describe("generatePatternFile", () => {
         destinationDir: "path/to/routes",
         routeName: "UserInfo",
         routingType: RoutingType.Default,
+        linkOptionModeNextJS: "loose",
       });
 
       expect(templateFile.filename).toBe("patternUserInfo");
