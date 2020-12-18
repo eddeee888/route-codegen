@@ -52,7 +52,7 @@ const generateTemplateFiles = (params: GenerateTemplateFilesParams): TemplateFil
 
   // Handle file generation for each routing type
   switch (routingType) {
-    case RoutingType.ReactRouterV5:
+    case RoutingType.ReactRouterV5: {
       if (routeLinkOptions.ReactRouterV5.generateLinkComponent) {
         const linkFile = generatorReactRouterV5.generateLinkFile({
           routeName,
@@ -70,6 +70,7 @@ const generateTemplateFiles = (params: GenerateTemplateFilesParams): TemplateFil
           patternName: patternNamedExports.patternName,
           pathParamsFilename: patternNamedExports.filename,
           pathParamsInterfaceName: patternNamedExports.pathParamsInterfaceName,
+          mode: routeLinkOptions.ReactRouterV5.mode,
         });
         files.push(useParamsFile);
       }
@@ -93,8 +94,8 @@ const generateTemplateFiles = (params: GenerateTemplateFilesParams): TemplateFil
       }
 
       break;
-
-    case RoutingType.NextJS:
+    }
+    case RoutingType.NextJS: {
       if (routeLinkOptions.NextJS.generateLinkComponent) {
         const linkFile = generatorNextJS.generateLinkFile({
           routeName,
@@ -125,8 +126,8 @@ const generateTemplateFiles = (params: GenerateTemplateFilesParams): TemplateFil
         files.push(useRedirectFileNextJS);
       }
       break;
-
-    case RoutingType.Default:
+    }
+    case RoutingType.Default: {
       if (routeLinkOptions.Default.generateLinkComponent) {
         const linkFile = generatorDefault.generateLinkFile({
           routeName,
@@ -157,6 +158,7 @@ const generateTemplateFiles = (params: GenerateTemplateFilesParams): TemplateFil
         files.push(redirectFile);
       }
       break;
+    }
   }
 
   return files;
