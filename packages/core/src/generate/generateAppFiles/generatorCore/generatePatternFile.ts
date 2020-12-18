@@ -10,10 +10,11 @@ export interface GenerateRoutePatternFileParams {
   routePattern: string;
   destinationDir: string;
   routingType: RoutingType;
+  linkOptionModeNextJS: "strict" | "loose";
 }
 
 const generateRoutePatternFile = (params: GenerateRoutePatternFileParams): [TemplateFile, PatternNamedExports] => {
-  const { routePattern, routeName, destinationDir, routingType, origin } = params;
+  const { routePattern, routeName, destinationDir, routingType, origin, linkOptionModeNextJS } = params;
 
   const keys = getKeysFromRoutePattern(routePattern);
 
@@ -25,7 +26,8 @@ const generateRoutePatternFile = (params: GenerateRoutePatternFileParams): [Temp
   const urlParts = generateUrlPartsInterface(routeName, pathParams);
 
   const patternNextJS = routingType === RoutingType.NextJS ? generateNextJSPattern({ keys, routeName, routePattern }) : null;
-  const pathParamsNextJS = routingType === RoutingType.NextJS ? generateNextJSPathParams(keys, routeName) : null;
+  const pathParamsNextJS =
+    routingType === RoutingType.NextJS && linkOptionModeNextJS === "loose" ? generateNextJSPathParams(keys, routeName) : null;
 
   const template = `export const ${patternName} = '${routePattern}'
   export const ${originName} = '${origin}'

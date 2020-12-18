@@ -5,6 +5,7 @@ import generatorCore from "./generatorCore";
 import generatorDefault from "./generatorDefault";
 import generatorReactRouterV5 from "./generatorReactRouterV5";
 import generatorNextJS from "./generatorNextJS";
+import { PatternNamedExports } from "./types";
 
 export interface GenerateTemplateFilesParams {
   origin: string;
@@ -39,6 +40,7 @@ const generateTemplateFiles = (params: GenerateTemplateFilesParams): TemplateFil
     routePattern,
     destinationDir,
     routingType,
+    linkOptionModeNextJS: routeLinkOptions.NextJS.mode,
   });
 
   const genUrlFile = generatorCore.generateUrlFile({
@@ -106,13 +108,27 @@ const generateTemplateFiles = (params: GenerateTemplateFilesParams): TemplateFil
         });
         files.push(linkFile);
       }
-      if (routeLinkOptions.NextJS.generateUseParams && !!patternNamedExports.pathParamsInterfaceNameNextJS) {
+
+      const checkPathParamsInterfaceName = (
+        patternNamedExports: PatternNamedExports
+      ): { type: "none" } | { type: "normal"; pathParamsInterfaceName: string } | { type: "nextJS"; pathParamsInterfaceName: string } => {
+        if (patternNamedExports.pathParamsInterfaceNameNextJS) {
+          return { type: "nextJS", pathParamsInterfaceName: patternNamedExports.pathParamsInterfaceNameNextJS };
+        }
+        if (patternNamedExports.pathParamsInterfaceName) {
+          return { type: "normal", pathParamsInterfaceName: patternNamedExports.pathParamsInterfaceName };
+        }
+        return { type: "none" };
+      };
+
+      const pathParamsData = checkPathParamsInterfaceName(patternNamedExports);
+      if (routeLinkOptions.NextJS.generateUseParams && pathParamsData.type !== "none") {
         const useParamsFileNextJS = generatorNextJS.generateUseParamsFile({
           routeName,
           routePattern,
           destinationDir,
           pathParamsFilename: patternNamedExports.filename,
-          pathParamsInterfaceName: patternNamedExports.pathParamsInterfaceNameNextJS,
+          pathParamsInterfaceName: pathParamsData.pathParamsInterfaceName,
           mode: routeLinkOptions.NextJS.mode,
         });
         files.push(useParamsFileNextJS);

@@ -18,6 +18,8 @@ const generateUseParamsFileNextJS = (params: GenerateUseParamsFileNextJSParams):
 
   const keys = getKeysFromRoutePattern(routePattern);
 
+  const printFieldType = (keyName: string | number): string => `${pathParamsInterfaceName}["${keyName}"]`;
+
   // TODO: make this betterer + use mapper
   let resultTemplate = "";
   if (mode === "strict") {
@@ -25,9 +27,9 @@ const generateUseParamsFileNextJS = (params: GenerateUseParamsFileNextJSParams):
       if (getKeyType(key) === KeyType.normal) {
         if (key.modifier) {
           // TODO: abstract key.modifier check to be a util
-          return `${key.name}: query.${key.name} ? (query.${key.name} as string) : undefined,`;
+          return `${key.name}: query.${key.name} ? (query.${key.name} as ${printFieldType(key.name)}) : undefined,`;
         }
-        return `${key.name}: query.${key.name} as string,`;
+        return `${key.name}: query.${key.name} as ${printFieldType(key.name)},`;
       } else if (getKeyType(key) === KeyType.enum) {
         const enumOptions = key.pattern.split("|");
         const options = key.modifier ? [...enumOptions, undefined] : [...enumOptions];
@@ -47,7 +49,7 @@ const generateUseParamsFileNextJS = (params: GenerateUseParamsFileNextJSParams):
         return `${key.name}: (() => {
           ${optonsTemplate}
           ${validatorTemplate}
-          return query.${key.name} as ${pathParamsInterfaceName}["${key.name}"]
+          return query.${key.name} as ${printFieldType(key.name)}
         })(),`;
       }
       return throwError([routeName], "route-codegen is only supporting string and enum patterns at the moment.");
@@ -56,9 +58,9 @@ const generateUseParamsFileNextJS = (params: GenerateUseParamsFileNextJSParams):
   } else {
     resultTemplate = `${keys.reduce((prev, key) => {
       if (key.modifier) {
-        return `${prev}${key.name}: query.${key.name} ? (query.${key.name} as string) : undefined,`;
+        return `${prev}${key.name}: query.${key.name} ? (query.${key.name} as ${printFieldType(key.name)}) : undefined,`;
       }
-      return `${prev}${key.name}: query.${key.name} as string,`;
+      return `${prev}${key.name}: query.${key.name} as ${printFieldType(key.name)},`;
     }, "")}`;
   }
 
