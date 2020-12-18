@@ -32,6 +32,7 @@ describe("generateTemplateFiles", () => {
         generateUseRedirect: true,
         generateUseParams: true,
         generateRedirectComponent: true,
+        mode: "strict",
       },
       Default: {
         hrefProp: "href",
