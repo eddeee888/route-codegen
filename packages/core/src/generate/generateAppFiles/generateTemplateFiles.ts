@@ -1,6 +1,6 @@
 import { RoutingType } from "../config";
 import { TemplateFile, Import } from "../types";
-import { RouteLinkOptions } from "./parseAppConfig";
+import { RouteLinkOptions } from "../config";
 import generatorCore from "./generatorCore";
 import generatorDefault from "./generatorDefault";
 import generatorReactRouterV5 from "./generatorReactRouterV5";

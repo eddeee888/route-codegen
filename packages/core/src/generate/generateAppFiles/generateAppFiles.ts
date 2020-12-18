@@ -1,7 +1,7 @@
 import { AppConfig } from "./../config";
 import generateTemplateFiles from "./generateTemplateFiles";
 import { TemplateFile } from "../types";
-import parseAppConfig from "./parseAppConfig";
+import { parseAppConfig } from "../config";
 import info from "../utils/info";
 
 const generateAppFiles = (appName: string, app: AppConfig): TemplateFile[] => {

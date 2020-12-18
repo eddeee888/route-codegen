@@ -1,6 +1,6 @@
 import { TemplateFile, Import } from "../../types";
 import printImport from "../../utils/printImport";
-import { RouteLinkOptions } from "../parseAppConfig";
+import { RouteLinkOptions } from "../../config";
 import throwError from "../../utils/throwError";
 import { PatternNamedExports } from "../types";
 

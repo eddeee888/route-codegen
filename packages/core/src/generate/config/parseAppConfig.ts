@@ -72,7 +72,7 @@ const IMPORT_REDIRECT_SERVER_SIDE_COMPONENT: Import = {
   from: "@route-codegen/react",
 };
 
-const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedAppConfig => {
+export const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedAppConfig => {
   const {
     routingType = RoutingType.Default,
     origin = "",
@@ -327,5 +327,3 @@ const handleImportCustomLink = (
 
   return { importLink: finalImportCustomLink, hrefProp, linkComponent, linkProps: propsNamedImport };
 };
-
-export default parseAppConfig;
