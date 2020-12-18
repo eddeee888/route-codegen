@@ -21,6 +21,7 @@ export interface ParsedLinkOptionsNextJS {
   generateLinkComponent: boolean;
   generateUseParams: boolean;
   generateUseRedirect: boolean;
+  mode: "strict" | "loose";
 }
 
 export interface ParsedLinkOptionsDefault {

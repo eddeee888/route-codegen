@@ -17,6 +17,7 @@ export const prepareLinkOptionsNextJS = (params: PrepareLinkOptionsParamsNextJS)
     generateLinkComponent: topLevelGenerateOptions.generateLinkComponent,
     generateUseParams: topLevelGenerateOptions.generateUseParams,
     generateUseRedirect: topLevelGenerateOptions.generateUseRedirect,
+    mode: "loose",
   };
   if (!routeLinkOptions) {
     info([appName, "nextJSLinkOptions"], "custom options not found... Using default");
@@ -28,6 +29,11 @@ export const prepareLinkOptionsNextJS = (params: PrepareLinkOptionsParamsNextJS)
     generateLinkComponent: getOverriddenValue(defaultOptions.generateLinkComponent, routeLinkOptions.generateLinkComponent),
     generateUseParams: getOverriddenValue(defaultOptions.generateUseParams, routeLinkOptions.generateUseParams),
     generateUseRedirect: getOverriddenValue(defaultOptions.generateUseRedirect, routeLinkOptions.generateUseRedirect),
+    mode: (() => {
+      const mode: ParsedLinkOptionsNextJS["mode"] =
+        routeLinkOptions.mode === "strict" || routeLinkOptions.mode === "loose" ? routeLinkOptions.mode : defaultOptions.mode;
+      return getOverriddenValue(defaultOptions.mode, mode);
+    })(),
   };
 
   if (!routeLinkOptions.importCustomLink) {
