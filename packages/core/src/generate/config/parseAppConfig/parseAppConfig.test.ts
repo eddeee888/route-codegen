@@ -36,6 +36,7 @@ describe("parseAppConfig", () => {
     generateLinkComponent: true,
     generateUseParams: true,
     generateUseRedirect: true,
+    mode: "loose",
   };
   const defaultParsedLinkOptionsDefault: ParsedLinkOptionsDefault = {
     hrefProp: "href",
@@ -144,25 +145,17 @@ describe("parseAppConfig", () => {
       it("should parse mode correctly if passed explicitly", () => {
         const parsedConfig = parseAppConfig("sampleApp", {
           ...defaultAppConfig,
-          reactRouterV5LinkOptions: {
-            importCustomLink: {
-              componentNamedImport: "CustomLinkComponent",
-              propsNamedImport: "CustomLinkProps",
-              hrefProp: "customHref",
-              from: "path/to/CustomLink",
-            },
-            mode: "loose",
-          },
+          reactRouterV5LinkOptions: { mode: "loose" },
         });
 
         expect(parsedConfig.routeLinkOptions.ReactRouterV5).toEqual({
           importLink: {
-            from: "path/to/CustomLink",
-            namedImports: [{ name: "CustomLinkProps" }, { name: "CustomLinkComponent", importAs: "Link" }],
+            from: "react-router-dom",
+            namedImports: [{ name: "LinkProps" }, { name: "Link" }],
           },
           linkComponent: "Link",
-          linkProps: "CustomLinkProps",
-          hrefProp: "customHref",
+          linkProps: "LinkProps",
+          hrefProp: "to",
           generateLinkComponent: true,
           generateRedirectComponent: true,
           generateUseRedirect: true,
@@ -172,25 +165,17 @@ describe("parseAppConfig", () => {
 
         const parsedConfig2 = parseAppConfig("sampleApp", {
           ...defaultAppConfig,
-          reactRouterV5LinkOptions: {
-            importCustomLink: {
-              componentNamedImport: "CustomLinkComponent",
-              propsNamedImport: "CustomLinkProps",
-              hrefProp: "customHref",
-              from: "path/to/CustomLink",
-            },
-            mode: "strict",
-          },
+          reactRouterV5LinkOptions: { mode: "strict" },
         });
 
         expect(parsedConfig2.routeLinkOptions.ReactRouterV5).toEqual({
           importLink: {
-            from: "path/to/CustomLink",
-            namedImports: [{ name: "CustomLinkProps" }, { name: "CustomLinkComponent", importAs: "Link" }],
+            from: "react-router-dom",
+            namedImports: [{ name: "LinkProps" }, { name: "Link" }],
           },
           linkComponent: "Link",
-          linkProps: "CustomLinkProps",
-          hrefProp: "customHref",
+          linkProps: "LinkProps",
+          hrefProp: "to",
           generateLinkComponent: true,
           generateRedirectComponent: true,
           generateUseRedirect: true,
@@ -397,6 +382,7 @@ describe("parseAppConfig", () => {
           generateLinkComponent: true,
           generateUseParams: true,
           generateUseRedirect: true,
+          mode: "loose",
         });
       });
 
@@ -424,6 +410,7 @@ describe("parseAppConfig", () => {
           generateLinkComponent: true,
           generateUseParams: true,
           generateUseRedirect: true,
+          mode: "loose",
         });
       });
 
@@ -527,6 +514,48 @@ describe("parseAppConfig", () => {
             },
           })
         ).toThrowError('sampleApp.nextJSLinkOptions.importCustomLink - "from" is required');
+      });
+
+      it("should parse mode correctly if passed explicitly", () => {
+        const parsedConfig = parseAppConfig("sampleApp", {
+          ...defaultAppConfig,
+          nextJSLinkOptions: { mode: "loose" },
+        });
+
+        expect(parsedConfig.routeLinkOptions.NextJS).toEqual({
+          importLink: {
+            from: "next/link",
+            defaultImport: "Link",
+            namedImports: [{ name: "LinkProps" }],
+          },
+          linkComponent: "Link",
+          linkProps: "LinkProps",
+          hrefProp: "href",
+          generateLinkComponent: true,
+          generateUseRedirect: true,
+          generateUseParams: true,
+          mode: "loose",
+        });
+
+        const parsedConfig2 = parseAppConfig("sampleApp", {
+          ...defaultAppConfig,
+          nextJSLinkOptions: { mode: "strict" },
+        });
+
+        expect(parsedConfig2.routeLinkOptions.NextJS).toEqual({
+          importLink: {
+            from: "next/link",
+            defaultImport: "Link",
+            namedImports: [{ name: "LinkProps" }],
+          },
+          linkComponent: "Link",
+          linkProps: "LinkProps",
+          hrefProp: "href",
+          generateLinkComponent: true,
+          generateUseRedirect: true,
+          generateUseParams: true,
+          mode: "strict",
+        });
       });
     });
 

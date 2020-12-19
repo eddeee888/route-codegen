@@ -7,7 +7,7 @@ export enum KeyType {
 
 const NORMAL_PATTERN = "[^\\/#\\?]+?";
 
-const getKeyType = (key: Key): KeyType => {
+const getType = (key: Key): KeyType => {
   if (key.pattern === NORMAL_PATTERN) {
     return KeyType.normal;
   }
@@ -16,4 +16,4 @@ const getKeyType = (key: Key): KeyType => {
   return KeyType.enum;
 };
 
-export default getKeyType;
+export default getType;

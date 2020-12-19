@@ -15,6 +15,7 @@ describe("generateLinkFileNextJS", () => {
       generateLinkComponent: true,
       generateUseParams: true,
       generateUseRedirect: true,
+      mode: "loose",
     },
     routeName: "Login",
     patternNamedExports: {
@@ -99,6 +100,7 @@ describe("generateLinkFileNextJS", () => {
           generateLinkComponent: true,
           generateUseParams: true,
           generateUseRedirect: true,
+          mode: "loose",
         },
       });
 
@@ -139,6 +141,7 @@ describe("generateLinkFileNextJS", () => {
             generateLinkComponent: true,
             generateUseParams: true,
             generateUseRedirect: true,
+            mode: "loose",
           },
           patternNamedExports: {
             ...defaultParams.patternNamedExports,

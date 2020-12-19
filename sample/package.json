@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@types/react-router": "^5.1.8",
+    "next": "^9.3.4",
     "react-router": "^5.2.0"
   }
 }
