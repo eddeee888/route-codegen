@@ -34,13 +34,13 @@ apps:
   seo:
     routes:
       home: /
-      about: /about/:target(us|you)/:topic/:optional?/:optionalEnum(enumOne|enumTwo)?
+      about: /about/:target(us|you)/:topic/:region(en)/:optional?/:optionalEnum(enumOne|enumTwo)?
     routingType: NextJS
     destinationDir: outputs/default/seo/routes
 
   seo-strict:
     routes:
-      contact: /contact/:target(us|you)/:topic/:optional?/:optionalEnum(enumOne|enumTwo)?
+      contact: /contact/:target(us|you)/:topic/:region(en)/:optional?/:optionalEnum(enumOne|enumTwo)?
     routingType: NextJS
     nextJSLinkOptions:
       mode: strict
