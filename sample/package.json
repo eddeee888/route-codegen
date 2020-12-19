@@ -12,11 +12,13 @@
     "format": "prettier --config .prettierrc --write \"**/*.{ts,tsx}\""
   },
   "devDependencies": {
+    "@types/react-router": "^5.1.8",
+    "@types/react-router-dom": "^5.1.6",
     "prettier": "2.0.5"
   },
   "dependencies": {
-    "@types/react-router": "^5.1.8",
     "next": "^9.3.4",
-    "react-router": "^5.2.0"
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0"
   }
 }
