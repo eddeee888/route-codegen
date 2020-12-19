@@ -1,5 +1,5 @@
 import { TemplateFile } from "../../types";
-import { printImport, keyHelpers, KeyType, throwError } from "../../utils";
+import { printImport, keyHelpers, KeyType } from "../../utils";
 import isOptional from "../../utils/keyHelpers/isOptional";
 
 export interface GenerateUseParamsFileNextJSParams {
@@ -24,36 +24,37 @@ const generateUseParamsFileNextJS = (params: GenerateUseParamsFileNextJSParams):
   const templateMap: Record<GenerateUseParamsFileNextJSParams["mode"], () => string> = {
     strict: function createStrictTemplate() {
       const templates = keys.map((key) => {
-        if (keyHelpers.getType(key) === KeyType.normal) {
-          if (keyHelpers.isOptional(key)) {
-            return `${key.name}: query.${key.name} ? (query.${key.name} as ${printFieldType(key.name)}) : undefined,`;
-          }
-          return `${key.name}: query.${key.name} as ${printFieldType(key.name)},`;
-        } else if (keyHelpers.getType(key) === KeyType.enum) {
-          const enumOptions = key.pattern.split("|");
-          const options = keyHelpers.isOptional(key) ? [...enumOptions, undefined] : [...enumOptions];
-          const possibleValuesVarName = `${key.name}PossibleValues`;
-          let optonsTemplate = options.reduce((prev, option) => {
-            if (option === undefined) {
-              return `${prev}undefined,`;
+        const templateMap: Record<KeyType, () => string> = {
+          normal: () => {
+            if (keyHelpers.isOptional(key)) {
+              return `${key.name}: query.${key.name} ? (query.${key.name} as ${printFieldType(key.name)}) : undefined,`;
             }
-            return `${prev}"${option}",`;
-          }, `const ${possibleValuesVarName} = [`);
-          optonsTemplate += "]";
+            return `${key.name}: query.${key.name} as ${printFieldType(key.name)},`;
+          },
+          enum: () => {
+            const enumOptions = key.pattern.split("|");
+            const options = keyHelpers.isOptional(key) ? [...enumOptions, undefined] : [...enumOptions];
+            const possibleValuesVarName = `${key.name}PossibleValues`;
+            let optonsTemplate = options.reduce((prev, option) => {
+              if (option === undefined) {
+                return `${prev}undefined,`;
+              }
+              return `${prev}"${option}",`;
+            }, `const ${possibleValuesVarName} = [`);
+            optonsTemplate += "]";
 
-          const validatorTemplate = `if(${possibleValuesVarName}.findIndex((v) => v === query.${key.name}) === -1){
-            throw new Error("Unable to match '${key.name}' with expected enums");
-          }`;
+            const validatorTemplate = `if(${possibleValuesVarName}.findIndex((v) => v === query.${key.name}) === -1){ throw new Error("Unable to match '${key.name}' with expected enums"); }`;
 
-          return `${key.name}: (() => {
-            ${optonsTemplate}
-            ${validatorTemplate}
-            return query.${key.name} as ${printFieldType(key.name)}
-          })(),`;
-        }
-        return throwError([routeName], "route-codegen is only supporting string and enum patterns at the moment.");
+            return `${key.name}: (() => {
+              ${optonsTemplate}
+              ${validatorTemplate}
+              return query.${key.name} as ${printFieldType(key.name)}
+            })(),`;
+          },
+        };
+        return templateMap[keyHelpers.getType(key)]();
       });
-      return templates.join("");
+      return templates.join("\n");
     },
     loose: function createLooseTemplate() {
       return `${keys.reduce((prev, key) => {
