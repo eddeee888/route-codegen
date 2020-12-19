@@ -27,6 +27,7 @@ If `generateLinkComponent`, `generateUsePararms` or `generateUseRedirect` are de
 | generateRedirectComponent | N/A                    | boolean | true      | <b>Optional</b>. If this is `true`, a redirect component would be generated for each route.                                                                                                              |
 | generateUseParams         | N/A                    | boolean | true      | <b>Optional</b>. If this is `true`, `useParams` a helper function would be generated for each route if the route has dynamic path.                                                                       |
 | generateUseRedirect       | N/A                    | boolean | true      | <b>Optional</b>. If this is true, `useRedirect` a helper function would be generated for each route.                                                                                                     |
+| mode                      | N/A                    | enum    | "loose"   | <b>Optional</b>. "strict" or "loose" ( default ). If this is "strict", error will be thrown if type safety is not guaranteed                                                                             |
 
 ### Example
 
@@ -61,23 +62,25 @@ apps:
         from: common/components/Link
       useParams: false
       useRedirect: false
+      mode: "strict"
 ```
 
 ## nextJSLinkOptions
 
 ### Options
 
-| Option                    | Sub option             | Type    | Default   | Note                                                                                                                                                                                       |
-| ------------------------- | ---------------------- | ------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| importCustomLink          |                        | object  | undefined | <b>Optional</b>. Use this if you want to use a custom link instead of `next/link`. Default option would be used if this is undefined. If this is defined, the sub options must be handled. |
-|                           | componentDefaultImport | boolean | undefined | <b>Optional</b>. Set this to `true` if the custom link component uses default export. Either this or `componentNamedImport` must be declared.                                              |
-|                           | componentNamedImport   | string  | undefined | <b>Optional</b>. Use this if the custom link component uses named export. Either this or `componentDefaultImport` must be declared.                                                        |
-|                           | propsNamedImport       | string  | undefined | <b>Required</b>. The named export of the custom link props.                                                                                                                                |
-|                           | hrefProp               | string  | undefined | <b>Required</b>. The prop that the custom link component uses to set the destination of the link e.g. `href` for `<a />`.                                                                  |
-|                           | from                   | string  | undefined | <b>Required</b>. Absolute path to the custom link component and props.                                                                                                                     |
-| generateLinkComponent     | N/A                    | boolean | true      | <b>Optional</b>. If this is `true`, a link component would be generated for each route.                                                                                                    |
-| generateRedirectComponent | N/A                    | boolean | true      | <b>Optional</b>. If this is `true`, a redirect component would be generated for each route.                                                                                                |
-| generateUseParams         | N/A                    | boolean | true      | <b>Optional</b>. If this is `true`, a `useParams` helper function would be generated for each route if the route has dynamic path.                                                         |
+| Option                    | Sub option             | Type    | Default   | Note                                                                                                                                                                                                                              |
+| ------------------------- | ---------------------- | ------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| importCustomLink          |                        | object  | undefined | <b>Optional</b>. Use this if you want to use a custom link instead of `next/link`. Default option would be used if this is undefined. If this is defined, the sub options must be handled.                                        |
+|                           | componentDefaultImport | boolean | undefined | <b>Optional</b>. Set this to `true` if the custom link component uses default export. Either this or `componentNamedImport` must be declared.                                                                                     |
+|                           | componentNamedImport   | string  | undefined | <b>Optional</b>. Use this if the custom link component uses named export. Either this or `componentDefaultImport` must be declared.                                                                                               |
+|                           | propsNamedImport       | string  | undefined | <b>Required</b>. The named export of the custom link props.                                                                                                                                                                       |
+|                           | hrefProp               | string  | undefined | <b>Required</b>. The prop that the custom link component uses to set the destination of the link e.g. `href` for `<a />`.                                                                                                         |
+|                           | from                   | string  | undefined | <b>Required</b>. Absolute path to the custom link component and props.                                                                                                                                                            |
+| generateLinkComponent     | N/A                    | boolean | true      | <b>Optional</b>. If this is `true`, a link component would be generated for each route.                                                                                                                                           |
+| generateRedirectComponent | N/A                    | boolean | true      | <b>Optional</b>. If this is `true`, a redirect component would be generated for each route.                                                                                                                                       |
+| generateUseParams         | N/A                    | boolean | true      | <b>Optional</b>. If this is `true`, a `useParams` helper function would be generated for each route if the route has dynamic path.                                                                                                |
+| mode                      | N/A                    | enum    | "loose"   | <b>Optional</b>. "strict" or "loose" ( default ). If this is "strict", error will be thrown if type safety is not guaranteed. This allows better route handling at component level but may not be the the recommended Next.JS way |
 
 ### Example
 
@@ -109,6 +112,7 @@ apps:
         propsNamedImport: LinkProps
         hrefProp: customHref
         from: common/components/Link
+      mode: "loose"
 ```
 
 ## defaultLinkOptions
