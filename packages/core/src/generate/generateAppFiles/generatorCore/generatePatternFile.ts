@@ -85,13 +85,11 @@ const generatePathParamsInterface = (keys: Key[], routeName: string): PathParams
       enum: (t) => {
         // Note: We are using enum here... this may not be safe
         const enumArray = key.pattern.split("|");
-        if (enumArray.length > 0) {
-          t += `${fieldName}:`;
-          enumArray.forEach((enumValue) => (t += `'${enumValue}'|`));
-          // Remove last '|'
-          t = t.slice(0, -1);
-          t += `;`;
-        }
+        t += `${fieldName}:`;
+        enumArray.forEach((enumValue) => (t += `'${enumValue}'|`));
+        // Remove last '|'
+        t = t.slice(0, -1);
+        t += `;`;
         return t;
       },
     };
