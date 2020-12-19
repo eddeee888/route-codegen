@@ -1,2 +1,1 @@
-sample/output/**/*.* linguist-generated
-sample/output-with-origins/**/*.* linguist-generated
+sample/outputs/**/*.* linguist-generated
