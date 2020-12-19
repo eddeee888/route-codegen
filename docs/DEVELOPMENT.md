@@ -16,17 +16,18 @@ yarn build
 
 ## Unit tests
 
-```
-yarn test
+```bash
+yarn test # All files
+yarn test:core # Only tests in the core package
 ```
 
-## Build and run sample config/tests
+## Build and generate sample files
 
 ```bash
-yarn test:sample
+yarn generate:sample
 ```
 
-Sample config file here can be found [here](./sample/routegen.yml) and the [generated code here](./sample/output)
+Sample config files here can be found [here](../sample/routegen.yml) and the [generated code here](../sample/outputs)
 
 ## How the codegen works
 

@@ -23,13 +23,17 @@ This library can help you avoid routing errors like this:
 If you only have one app, you can install at project root:
 
 ```bash
-yarn add route-codegen
+yarn add -D @route-codegen/core
+yarn add @route-codegen/utils
+yarn add @route-codegen/react # Only if you use generateRedirectComponent option for react
 ```
 
 Or
 
 ```bash
-npm i route-codegen
+npm i --save-dev @route-codegen/core
+npm i @route-codegen/utils
+npm i @route-codegen/react # Only if you use generateRedirectComponent option for react
 ```
 
 Add `route-codegen.yml` to project root. Example:
@@ -47,32 +51,34 @@ apps:
 
 More details about [config file](#configuration).
 
-### Monorepo / multi-app project
+### Monorepos
 
 [Example mono repo](https://github.com/eddeee888/base-react-app)
 
 If you have more than one app and want to manage all routes in one config file, you will need to run the cli command at project root. Run the following at project root or in a route manager package:
 
 ```bash
-yarn add -D route-codegen
+yarn add @route-codegen/core
 ```
 
 Or
 
 ```bash
-npm i --save-dev route-codegen
+npm i @route-codegen/core
 ```
 
-The library contains some utility functions for the generated files. Therefore, it also needs to be installed in each app:
+Install supporting packages in each app:
 
 ```bash
-yarn add route-codegen
+yarn add @route-codegen/utils
+yarn add @route-codegen/react # Only if you use generateRedirectComponent option for react
 ```
 
 Or
 
 ```bash
-npm i route-codegen
+npm i @route-codegen/utils
+npm i @route-codegen/react # Only if you use generateRedirectComponent option for react
 ```
 
 Add `route-codegen.yml` to project root / route manager package. Example:
@@ -164,28 +170,28 @@ yarn route-codegen --verbose --stacktrace --config path/to/routegen.yml
 
 ### Pattern file
 
-[Example](./sample/output/app/routes/user/patternUser.ts)
+[Example](./sample/outputs/default/app/routes/user/patternUser.ts)
 
 This file contains the pattern of a route and typescript interfaces that come with it.
 
 ### Generate URL file
 
-[Exampe](./sample/output/app/routes/user/generateUrlUser.ts)
+[Exampe](./sample/outputs/default/app/routes/user/generateUrlUser.ts)
 
 This file contains a function to generate the URL of a particular route. Interfaces from the pattern files are used here to ensure type safety. This function is used in other components / functions of the route module to ensure URLs are generated the same way.
 
 ### Link component
 
-[react-router v5 example](./sample/output/app/routes/user/LinkUser.tsx)
+[react-router v5 example](./sample/outputs/default/app/routes/user/LinkUser.tsx)
 
-[NextJS example](./sample/output/seo/routes/home/LinkHome.tsx)
+[NextJS example](./sample/outputs/default/seo/routes/home/LinkHome.tsx)
 
-[Default anchor example](./sample/output/app/routes/about/LinkAbout.tsx)
+[Default anchor example](./sample/outputs/default/app/routes/about/LinkAbout.tsx)
 
 Each routing framework has different API for their link. The generated `Link` component is an abstraction that handles:
 
 - destination of a link
-- URL origin e.g. `https://domain.com`
+- URL origin e.g. `https://example.com`
 - path parameters
 - query strings
 - client-side vs server-side routing
@@ -205,24 +211,24 @@ The generated Link component has the same props so you can do the following in a
 
 ```typescript
 // Works in any app
-<LinkUser path={{ id: "100" }} urlQuery={{ from: "home" }} />
+<LinkUser path={{ id: "100" }} query={{ from: "home" }} />
 ```
 
 Or with origin:
 
 ```typescript
-<LinkUser path={{ id: "100" }} urlQuery={{ from: "home" }} origin="https://domain.com" />
+<LinkUser path={{ id: "100" }} query={{ from: "home" }} origin="https://example.com" />
 ```
 
 ### Redirect component
 
-Similar to the `Link` component but redirects the user when mounted.
+Similar to the `Link` component but redirects the user when mounted. If this option is used make sure that `@route-codegen/react` is installed in the consuming app.
 
 ### Other files
 
-- `useParams`: Get dynamic params in the URL. Available for `react-router` and `NextJS`. [Example](./sample/output/app/routes/user/useParamsUser.ts)
+- `useParams`: Get dynamic params in the URL. Available for `react-router` and `NextJS`. [Example](./sample/outputs/default/app/routes/user/useParamsUser.ts)
 
-- `useRedirect`: Creates a function to redirect the user to a route. [Example](./sample/output/app/routes/user/useRedirectUser.ts)
+- `useRedirect`: Creates a function to redirect the user to a route. [Example](./sample/outputs/default/app/routes/user/useRedirectUser.ts)
 
 ## Development
 
