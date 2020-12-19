@@ -1,5 +1,12 @@
 # @route-codegen/core
 
+## 0.2.0
+
+### Minor Changes
+
+- 3831241: Add mode to react router config. Values are "strict" or "loose". Default is "loose"
+- 2035a4e: Implement strict mode nextjs
+
 ## 0.1.1
 
 ### Patch Changes
