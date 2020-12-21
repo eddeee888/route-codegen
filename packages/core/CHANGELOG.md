@@ -1,5 +1,11 @@
 # @route-codegen/core
 
+## 0.2.1
+
+### Patch Changes
+
+- 9e1e472: NextJS loose mode templates use NextJS types for path params
+
 ## 0.2.0
 
 ### Minor Changes
