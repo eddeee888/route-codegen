@@ -10,18 +10,14 @@ jobs:
     runs-on: ubuntu-18.04
     name: Release @route-codegen/react alpha
 
-    strategy:
-      matrix:
-        node-version: [12.x]
-
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
 
-      - name: Set up Node.js ${{ matrix.node-version }}
+      - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 12.x
 
       - name: Install packages
         run: yarn --frozen-lockfile
