@@ -19,7 +19,7 @@ describe("generateUseParamsFileNextJS", () => {
           import {useRouter,} from 'next/router'
           const useParamsUser = (): PathParamsNextJSUser => {
             const query = useRouter().query;
-            return {id: query.id,subview: query.subview,singleEnum: query.singleEnum,optional: query.optional ? (query.optional : undefined,optionalEnum: query.optionalEnum ? (query.optionalEnum : undefined,};
+            return {id: query.id,subview: query.subview,singleEnum: query.singleEnum,optional: query.optional ? query.optional : undefined,optionalEnum: query.optionalEnum ? query.optionalEnum : undefined,};
           }
           export default useParamsUser;"
     `);

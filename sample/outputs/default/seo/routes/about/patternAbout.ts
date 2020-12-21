@@ -10,11 +10,11 @@ export type PathParamsAbout = {
   optionalEnum?: "enumOne" | "enumTwo";
 };
 export interface PathParamsNextJSAbout {
-  target: string;
-  topic: string;
-  region: string;
-  optional?: string;
-  optionalEnum?: string;
+  target: string | string[];
+  topic: string | string[];
+  region: string | string[];
+  optional?: string | string[];
+  optionalEnum?: string | string[];
 }
 export const possilePathParamsAbout = ["target", "topic", "region", "optional", "optionalEnum"];
 export interface UrlPartsAbout {

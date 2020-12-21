@@ -4,11 +4,11 @@ import { useRouter } from "next/router";
 const useParamsAbout = (): PathParamsNextJSAbout => {
   const query = useRouter().query;
   return {
-    target: query.target as PathParamsNextJSAbout["target"],
-    topic: query.topic as PathParamsNextJSAbout["topic"],
-    region: query.region as PathParamsNextJSAbout["region"],
-    optional: query.optional ? (query.optional as PathParamsNextJSAbout["optional"]) : undefined,
-    optionalEnum: query.optionalEnum ? (query.optionalEnum as PathParamsNextJSAbout["optionalEnum"]) : undefined,
+    target: query.target,
+    topic: query.topic,
+    region: query.region,
+    optional: query.optional ? query.optional : undefined,
+    optionalEnum: query.optionalEnum ? query.optionalEnum : undefined,
   };
 };
 export default useParamsAbout;
