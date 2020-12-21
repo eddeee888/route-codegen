@@ -135,7 +135,7 @@ const generateNextJSPathParams = (keys: Key[], routeName: string): PathParamsInt
   keys.forEach((key) => {
     // TODO: check if NextJS support optional param?
     const fieldName = `${key.name}${keyHelpers.isOptional(key) ? "?" : ""}`;
-    template += `${fieldName}: string;`;
+    template += `${fieldName}: string | string[];`;
   });
   template += "}";
 

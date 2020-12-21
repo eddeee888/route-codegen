@@ -59,9 +59,9 @@ const generateUseParamsFileNextJS = (params: GenerateUseParamsFileNextJSParams):
     loose: function createLooseTemplate() {
       return `${keys.reduce((prev, key) => {
         if (isOptional(key)) {
-          return `${prev}${key.name}: query.${key.name} ? (query.${key.name} as ${printFieldType(key.name)}) : undefined,`;
+          return `${prev}${key.name}: query.${key.name} ? query.${key.name} : undefined,`;
         }
-        return `${prev}${key.name}: query.${key.name} as ${printFieldType(key.name)},`;
+        return `${prev}${key.name}: query.${key.name},`;
       }, "")}`;
     },
   };
