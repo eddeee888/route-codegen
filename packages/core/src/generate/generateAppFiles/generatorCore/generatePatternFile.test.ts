@@ -81,7 +81,7 @@ describe("generatePatternFile", () => {
           export const originUserInfo = ''
           export const patternNextJSUserInfo = '/app/users/[id]/[subview]/[singleEnum]/[optional]/[optionalEnum]'
           export type PathParamsUserInfo = {id: string;subview:'profile'|'pictures';singleEnum:'only';optional?: string;optionalEnum?:'enum1'|'enum2';}
-          export interface PathParamsNextJSUserInfo {id: string;subview: string;singleEnum: string;optional?: string;optionalEnum?: string;}
+          export interface PathParamsNextJSUserInfo {id: string | string[];subview: string | string[];singleEnum: string | string[];optional?: string | string[];optionalEnum?: string | string[];}
           export const possilePathParamsUserInfo = ['id','subview','singleEnum','optional','optionalEnum',]
           export interface UrlPartsUserInfo {
             path: PathParamsUserInfo;
