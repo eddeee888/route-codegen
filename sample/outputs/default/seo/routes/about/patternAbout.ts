@@ -2,8 +2,8 @@
 export const patternAbout = "/about/:target(us|you)/:topic/:region(en)/:optional?/:optionalEnum(enumOne|enumTwo)?";
 export const originAbout = "";
 /** Recommended file paths:
- * - "src/pages/about/[target]/[topic]/[region]/[optional]/[optionalEnum].tsx"
- * - "pages/about/[target]/[topic]/[region]/[optional]/[optionalEnum].tsx"
+ * - "src/pages/about/[target]/[topic]/[region]/[optional]/[optionalEnum]/index.tsx"
+ * - "pages/about/[target]/[topic]/[region]/[optional]/[optionalEnum]/index.tsx"
  */
 export const patternNextJSAbout = "/about/[target]/[topic]/[region]/[optional]/[optionalEnum]";
 export type PathParamsAbout = {

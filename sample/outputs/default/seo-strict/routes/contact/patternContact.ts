@@ -2,8 +2,8 @@
 export const patternContact = "/contact/:target(us|you)/:topic/:region(en)/:optional?/:optionalEnum(enumOne|enumTwo)?";
 export const originContact = "";
 /** Recommended file paths:
- * - "src/pages/contact/[target]/[topic]/[region]/[optional]/[optionalEnum].tsx"
- * - "pages/contact/[target]/[topic]/[region]/[optional]/[optionalEnum].tsx"
+ * - "src/pages/contact/[target]/[topic]/[region]/[optional]/[optionalEnum]/index.tsx"
+ * - "pages/contact/[target]/[topic]/[region]/[optional]/[optionalEnum]/index.tsx"
  */
 export const patternNextJSContact = "/contact/[target]/[topic]/[region]/[optional]/[optionalEnum]";
 export type PathParamsContact = {

@@ -146,6 +146,48 @@ describe("generatePatternFile", () => {
         possiblePathParamsVariableName: "possilePathParamsUserInfo",
       });
     });
+
+    it("should generate template correctly for home page", () => {
+      const [templateFile, interfaceResult] = generatePatternFile({
+        origin: "",
+        routePattern: "/",
+        destinationDir: "path/to/routes",
+        routeName: "UserInfo",
+        routingType: RoutingType.NextJS,
+        linkOptionModeNextJS: "strict",
+      });
+
+      expect(templateFile.filename).toBe("patternUserInfo");
+      expect(templateFile.extension).toBe(".ts");
+      expect(templateFile.destinationDir).toBe("path/to/routes");
+      expect(templateFile.template).toMatchInlineSnapshot(`
+"export const patternUserInfo = '/'
+  export const originUserInfo = ''
+  /** Recommended file paths:
+   * - \\"src/pages/index.tsx\\"
+   * - \\"pages/index.tsx\\"
+   */
+  export const patternNextJSUserInfo = \\"\\"
+  
+  
+  
+  export interface UrlPartsUserInfo {
+    
+    query?: Record<string, string | undefined>;
+    origin?: string;
+  }"
+`);
+      expect(interfaceResult).toEqual({
+        originName: "originUserInfo",
+        patternName: "patternUserInfo",
+        patternNameNextJS: "patternNextJSUserInfo",
+        pathParamsInterfaceName: undefined,
+        pathParamsInterfaceNameNextJS: undefined,
+        urlPartsInterfaceName: "UrlPartsUserInfo",
+        filename: "patternUserInfo",
+        possiblePathParamsVariableName: undefined,
+      });
+    });
   });
 
   describe("Custom origin", () => {

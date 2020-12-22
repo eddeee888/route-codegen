@@ -2,8 +2,8 @@
 export const patternToc = "/terms-and-conditions";
 export const originToc = "";
 /** Recommended file paths:
- * - "src/pages/terms-and-conditions.tsx"
- * - "pages/terms-and-conditions.tsx"
+ * - "src/pages/terms-and-conditions/index.tsx"
+ * - "pages/terms-and-conditions/index.tsx"
  */
 export const patternNextJSToc = "/terms-and-conditions";
 

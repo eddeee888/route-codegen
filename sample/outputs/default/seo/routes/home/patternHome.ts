@@ -2,10 +2,10 @@
 export const patternHome = "/";
 export const originHome = "";
 /** Recommended file paths:
- * - "src/pages/.tsx"
- * - "pages/.tsx"
+ * - "src/pages/index.tsx"
+ * - "pages/index.tsx"
  */
-export const patternNextJSHome = "/";
+export const patternNextJSHome = "";
 
 export interface UrlPartsHome {
   query?: Record<string, string | undefined>;
