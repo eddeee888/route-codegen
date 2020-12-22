@@ -203,13 +203,13 @@ const generateNextJSPattern = (params: {
     return `[${matchedKey.name}]`;
   });
 
-  let routePath = `${routePartsNextJS.join("/")}`;
-  // We are already adding the last connecting "/" by default so we just remove the last "/" if the routePath ends with it
+  const routePath = `${routePartsNextJS.join("/")}`;
+  // We are already adding the last connecting "/" manually so we just remove the last "/" if the routePath ends with it
   // An example is when the routePath is just "/"
-  routePath = routePath.charAt(routePath.length - 1) === "/" ? routePath.slice(0, -1) : routePath;
+  const recommendedRoutePath = routePath.charAt(routePath.length - 1) === "/" ? routePath.slice(0, -1) : routePath;
   const template = `/** Recommended file paths:
-   * - "src/pages${routePath}/index.tsx"
-   * - "pages${routePath}/index.tsx"
+   * - "src/pages${recommendedRoutePath}/index.tsx"
+   * - "pages${recommendedRoutePath}/index.tsx"
    */
   export const ${variableName} = "${routePath}"`;
 

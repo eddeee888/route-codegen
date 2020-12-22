@@ -167,7 +167,7 @@ describe("generatePatternFile", () => {
    * - \\"src/pages/index.tsx\\"
    * - \\"pages/index.tsx\\"
    */
-  export const patternNextJSUserInfo = \\"\\"
+  export const patternNextJSUserInfo = \\"/\\"
   
   
   

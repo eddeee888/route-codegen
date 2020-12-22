@@ -5,7 +5,7 @@ export const originHome = "https://domain.com";
  * - "src/pages/index.tsx"
  * - "pages/index.tsx"
  */
-export const patternNextJSHome = "";
+export const patternNextJSHome = "/";
 
 export interface UrlPartsHome {
   query?: Record<string, string | undefined>;
