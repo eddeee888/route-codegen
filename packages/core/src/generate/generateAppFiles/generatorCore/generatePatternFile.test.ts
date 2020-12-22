@@ -79,7 +79,11 @@ describe("generatePatternFile", () => {
       expect(templateFile.template).toMatchInlineSnapshot(`
         "export const patternUserInfo = '/app/users/:id/:subview(profile|pictures)/:singleEnum(only)/:optional?/:optionalEnum(enum1|enum2)?'
           export const originUserInfo = ''
-          export const patternNextJSUserInfo = '/app/users/[id]/[subview]/[singleEnum]/[optional]/[optionalEnum]'
+          /** Recommended file path:
+           * - \\"src/pages/app/users/[id]/[subview]/[singleEnum]/[optional]/[optionalEnum].tsx\\"
+           * - \\"pages//app/users/[id]/[subview]/[singleEnum]/[optional]/[optionalEnum].tsx\\"
+           */
+          export const patternNextJSUserInfo = \\"/app/users/[id]/[subview]/[singleEnum]/[optional]/[optionalEnum]\\"
           export type PathParamsUserInfo = {id: string;subview:'profile'|'pictures';singleEnum:'only';optional?: string;optionalEnum?:'enum1'|'enum2';}
           export interface PathParamsNextJSUserInfo {id: string | string[];subview: string | string[];singleEnum: string | string[];optional?: string | string[];optionalEnum?: string | string[];}
           export const possilePathParamsUserInfo = ['id','subview','singleEnum','optional','optionalEnum',]
@@ -115,18 +119,22 @@ describe("generatePatternFile", () => {
       expect(templateFile.extension).toBe(".ts");
       expect(templateFile.destinationDir).toBe("path/to/routes");
       expect(templateFile.template).toMatchInlineSnapshot(`
-"export const patternUserInfo = '/app/users/:id/:subview(profile|pictures)/:singleEnum(only)/:optional?/:optionalEnum(enum1|enum2)?'
-  export const originUserInfo = ''
-  export const patternNextJSUserInfo = '/app/users/[id]/[subview]/[singleEnum]/[optional]/[optionalEnum]'
-  export type PathParamsUserInfo = {id: string;subview:'profile'|'pictures';singleEnum:'only';optional?: string;optionalEnum?:'enum1'|'enum2';}
-  
-  export const possilePathParamsUserInfo = ['id','subview','singleEnum','optional','optionalEnum',]
-  export interface UrlPartsUserInfo {
-    path: PathParamsUserInfo;
-    query?: Record<string, string | undefined>;
-    origin?: string;
-  }"
-`);
+        "export const patternUserInfo = '/app/users/:id/:subview(profile|pictures)/:singleEnum(only)/:optional?/:optionalEnum(enum1|enum2)?'
+          export const originUserInfo = ''
+          /** Recommended file path:
+           * - \\"src/pages/app/users/[id]/[subview]/[singleEnum]/[optional]/[optionalEnum].tsx\\"
+           * - \\"pages//app/users/[id]/[subview]/[singleEnum]/[optional]/[optionalEnum].tsx\\"
+           */
+          export const patternNextJSUserInfo = \\"/app/users/[id]/[subview]/[singleEnum]/[optional]/[optionalEnum]\\"
+          export type PathParamsUserInfo = {id: string;subview:'profile'|'pictures';singleEnum:'only';optional?: string;optionalEnum?:'enum1'|'enum2';}
+          
+          export const possilePathParamsUserInfo = ['id','subview','singleEnum','optional','optionalEnum',]
+          export interface UrlPartsUserInfo {
+            path: PathParamsUserInfo;
+            query?: Record<string, string | undefined>;
+            origin?: string;
+          }"
+      `);
       expect(interfaceResult).toEqual({
         originName: "originUserInfo",
         patternName: "patternUserInfo",

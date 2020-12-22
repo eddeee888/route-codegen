@@ -203,7 +203,12 @@ const generateNextJSPattern = (params: {
     return `[${matchedKey.name}]`;
   });
 
-  const template = `export const ${variableName} = '${routePartsNextJS.join("/")}'`;
+  const routePath = `${routePartsNextJS.join("/")}`;
+  const template = `/** Recommended file path:
+   * - "src/pages${routePath}.tsx"
+   * - "pages/${routePath}.tsx"
+   */
+  export const ${variableName} = "${routePath}"`;
 
   return { template, variableName };
 };
