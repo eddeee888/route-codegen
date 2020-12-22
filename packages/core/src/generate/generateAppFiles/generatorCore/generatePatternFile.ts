@@ -205,8 +205,8 @@ const generateNextJSPattern = (params: {
 
   const routePath = `${routePartsNextJS.join("/")}`;
   const template = `/** Recommended file paths:
-   * - "src/pages${routePath}.tsx"
-   * - "pages${routePath}.tsx"
+   * - "src/pages${routePath}/index.tsx"
+   * - "pages${routePath}/index.tsx"
    */
   export const ${variableName} = "${routePath}"`;
 

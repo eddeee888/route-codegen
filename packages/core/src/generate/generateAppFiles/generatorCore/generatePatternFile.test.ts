@@ -80,8 +80,8 @@ describe("generatePatternFile", () => {
         "export const patternUserInfo = '/app/users/:id/:subview(profile|pictures)/:singleEnum(only)/:optional?/:optionalEnum(enum1|enum2)?'
           export const originUserInfo = ''
           /** Recommended file paths:
-           * - \\"src/pages/app/users/[id]/[subview]/[singleEnum]/[optional]/[optionalEnum].tsx\\"
-           * - \\"pages/app/users/[id]/[subview]/[singleEnum]/[optional]/[optionalEnum].tsx\\"
+           * - \\"src/pages/app/users/[id]/[subview]/[singleEnum]/[optional]/[optionalEnum]/index.tsx\\"
+           * - \\"pages/app/users/[id]/[subview]/[singleEnum]/[optional]/[optionalEnum]/index.tsx\\"
            */
           export const patternNextJSUserInfo = \\"/app/users/[id]/[subview]/[singleEnum]/[optional]/[optionalEnum]\\"
           export type PathParamsUserInfo = {id: string;subview:'profile'|'pictures';singleEnum:'only';optional?: string;optionalEnum?:'enum1'|'enum2';}
@@ -122,8 +122,8 @@ describe("generatePatternFile", () => {
         "export const patternUserInfo = '/app/users/:id/:subview(profile|pictures)/:singleEnum(only)/:optional?/:optionalEnum(enum1|enum2)?'
           export const originUserInfo = ''
           /** Recommended file paths:
-           * - \\"src/pages/app/users/[id]/[subview]/[singleEnum]/[optional]/[optionalEnum].tsx\\"
-           * - \\"pages/app/users/[id]/[subview]/[singleEnum]/[optional]/[optionalEnum].tsx\\"
+           * - \\"src/pages/app/users/[id]/[subview]/[singleEnum]/[optional]/[optionalEnum]/index.tsx\\"
+           * - \\"pages/app/users/[id]/[subview]/[singleEnum]/[optional]/[optionalEnum]/index.tsx\\"
            */
           export const patternNextJSUserInfo = \\"/app/users/[id]/[subview]/[singleEnum]/[optional]/[optionalEnum]\\"
           export type PathParamsUserInfo = {id: string;subview:'profile'|'pictures';singleEnum:'only';optional?: string;optionalEnum?:'enum1'|'enum2';}
