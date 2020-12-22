@@ -1,5 +1,11 @@
 # @route-codegen/core
 
+## 0.2.2
+
+### Patch Changes
+
+- 21be2af: Add NextJS suggested file paths
+
 ## 0.2.1
 
 ### Patch Changes
