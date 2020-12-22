@@ -203,7 +203,15 @@ const generateNextJSPattern = (params: {
     return `[${matchedKey.name}]`;
   });
 
-  const template = `export const ${variableName} = '${routePartsNextJS.join("/")}'`;
+  const routePath = `${routePartsNextJS.join("/")}`;
+  // We are already adding the last connecting "/" manually so we just remove the last "/" if the routePath ends with it
+  // An example is when the routePath is just "/"
+  const recommendedRoutePath = routePath.charAt(routePath.length - 1) === "/" ? routePath.slice(0, -1) : routePath;
+  const template = `/** Recommended file paths:
+   * - "src/pages${recommendedRoutePath}/index.tsx"
+   * - "pages${recommendedRoutePath}/index.tsx"
+   */
+  export const ${variableName} = "${routePath}"`;
 
   return { template, variableName };
 };
