@@ -1,9 +1,9 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 export const patternAbout = "/about/:target(us|you)/:topic/:region(en)/:optional?/:optionalEnum(enumOne|enumTwo)?";
 export const originAbout = "";
-/** Recommended file path:
+/** Recommended file paths:
  * - "src/pages/about/[target]/[topic]/[region]/[optional]/[optionalEnum].tsx"
- * - "pages//about/[target]/[topic]/[region]/[optional]/[optionalEnum].tsx"
+ * - "pages/about/[target]/[topic]/[region]/[optional]/[optionalEnum].tsx"
  */
 export const patternNextJSAbout = "/about/[target]/[topic]/[region]/[optional]/[optionalEnum]";
 export type PathParamsAbout = {

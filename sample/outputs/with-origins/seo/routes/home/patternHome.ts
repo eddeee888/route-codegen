@@ -1,9 +1,9 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 export const patternHome = "/";
 export const originHome = "https://domain.com";
-/** Recommended file path:
+/** Recommended file paths:
  * - "src/pages/.tsx"
- * - "pages//.tsx"
+ * - "pages/.tsx"
  */
 export const patternNextJSHome = "/";
 
