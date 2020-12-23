@@ -47,6 +47,32 @@ describe("generateAppFiles", () => {
       expect(files[7].filename).toEqual("RedirectUser");
       expect(files[7].extension).toEqual(".tsx");
     });
+
+    it("should generate root index file", () => {
+      const files = generateAppFiles("testApp", {
+        ...appConfig,
+        generate: { rootIndex: true, linkComponent: false, redirectComponent: false, useParams: false, useRedirect: false },
+      });
+      expect(files).toHaveLength(5);
+      expect(files[0].destinationDir).toEqual("path/to/routes/login");
+      expect(files[0].filename).toEqual("patternLogin");
+      expect(files[0].extension).toEqual(".ts");
+      expect(files[1].destinationDir).toEqual("path/to/routes/login");
+      expect(files[1].filename).toEqual("generateUrlLogin");
+      expect(files[1].extension).toEqual(".ts");
+      expect(files[2].destinationDir).toEqual("path/to/routes/user");
+      expect(files[2].filename).toEqual("patternUser");
+      expect(files[2].extension).toEqual(".ts");
+      expect(files[3].destinationDir).toEqual("path/to/routes/user");
+      expect(files[3].filename).toEqual("generateUrlUser");
+      expect(files[3].extension).toEqual(".ts");
+      expect(files[4].destinationDir).toEqual("path/to/routes");
+      expect(files[4].filename).toEqual("index");
+      expect(files[4].extension).toEqual(".ts");
+      expect(files[4].template).toMatchInlineSnapshot(
+        `"export * from \\"./login/patternLogin\\";export { default as generateUrlLogin } from \\"./login/generateUrlLogin\\";export * from \\"./user/patternUser\\";export { default as generateUrlUser } from \\"./user/generateUrlUser\\";"`
+      );
+    });
   });
 
   describe("Default", () => {
