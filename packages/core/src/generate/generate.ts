@@ -4,6 +4,7 @@ import generateAppFiles from "./generateAppFiles";
 import { writeFile } from "./utils";
 import { TemplateFile } from "./types";
 import handleCommandFlags, { CommandFlags } from "./handleCommandFlags";
+import templateFileHelpers from "./utils/templateFileHelpers";
 
 const generate = (config: Config, commandFlags: CommandFlags): void => {
   handleCommandFlags(commandFlags);
@@ -31,18 +32,11 @@ const generateFilesToWrite = (apps: Record<string, AppConfig>): TemplateFile[] =
     if (!file) {
       return prevResult;
     }
+
     const newResult: TemplateFile[] = [...prevResult];
-    const matchedIndex = newResult.findIndex(
-      (resultFile) =>
-        resultFile.destinationDir === file.destinationDir &&
-        resultFile.extension === file.extension &&
-        resultFile.filename === file.filename
-    );
+    const matchedIndex = newResult.findIndex((resultFile) => templateFileHelpers.samePath(resultFile, file));
     if (matchedIndex > -1) {
-      newResult[matchedIndex] = {
-        ...newResult[matchedIndex],
-        template: `${newResult[matchedIndex].template}${file.template}`,
-      };
+      newResult[matchedIndex] = templateFileHelpers.mergeTemplate(newResult[matchedIndex], file);
     } else {
       newResult.push({ ...file });
     }
