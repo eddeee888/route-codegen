@@ -74,6 +74,8 @@ const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): TemplateF
     filename: functionName,
     extension: ".tsx",
     destinationDir,
+    hasDefaultExport: true,
+    hasNamedExports: false,
   };
 
   return templateFile;

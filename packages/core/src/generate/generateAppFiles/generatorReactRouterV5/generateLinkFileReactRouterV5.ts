@@ -53,6 +53,8 @@ const generateLinkFileReactRouterV5 = (params: GenerateLinkFileReactRouterV5Para
     filename: functionName,
     extension: ".tsx",
     destinationDir,
+    hasDefaultExport: true,
+    hasNamedExports: false,
   };
 
   return templateFile;

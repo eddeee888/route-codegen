@@ -39,6 +39,8 @@ const generateRedirectFileReactRouterV5 = (params: GenerateRedirectFileReactRout
     destinationDir,
     extension: ".tsx",
     template,
+    hasDefaultExport: true,
+    hasNamedExports: false,
   };
 };
 

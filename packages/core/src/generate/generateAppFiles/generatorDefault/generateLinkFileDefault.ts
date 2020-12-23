@@ -52,6 +52,8 @@ const generateLinkFileDefault = (params: GenerateLinkFileDefaultParams): Templat
     filename: functionName,
     extension: ".tsx",
     destinationDir,
+    hasDefaultExport: true,
+    hasNamedExports: false,
   };
 
   return templateFile;

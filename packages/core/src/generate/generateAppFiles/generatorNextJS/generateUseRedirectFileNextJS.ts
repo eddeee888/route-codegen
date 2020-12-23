@@ -64,6 +64,8 @@ const generateUseRedirectFileNextJS = (params: GenerateUseRedirectFileNextJSPara
     filename: functionName,
     extension: ".ts",
     destinationDir,
+    hasDefaultExport: true,
+    hasNamedExports: true,
   };
 
   return templateFile;

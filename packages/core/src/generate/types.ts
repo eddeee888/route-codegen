@@ -3,6 +3,8 @@ export interface TemplateFile {
   filename: string;
   extension: string;
   destinationDir: string;
+  hasDefaultExport: boolean;
+  hasNamedExports: boolean;
 }
 
 export interface Import {

@@ -44,6 +44,8 @@ const generateRoutePatternFile = (params: GenerateRoutePatternFileParams): [Temp
       filename,
       extension: ".ts",
       destinationDir,
+      hasDefaultExport: false,
+      hasNamedExports: true,
     },
     {
       originName,

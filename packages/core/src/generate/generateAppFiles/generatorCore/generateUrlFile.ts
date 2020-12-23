@@ -33,6 +33,8 @@ const generateUrlFile: GenerateUrlFile = ({
     filename: functionName,
     extension: ".ts",
     destinationDir,
+    hasDefaultExport: true,
+    hasNamedExports: false,
   };
 
   return templateFile;

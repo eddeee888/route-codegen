@@ -43,6 +43,8 @@ const generateUseParamsFileReactRouterV5 = (params: GenerateUseParamsFileReactRo
     extension: ".ts",
     filename: functionName,
     destinationDir,
+    hasDefaultExport: true,
+    hasNamedExports: false,
   };
 };
 

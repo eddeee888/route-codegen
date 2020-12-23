@@ -43,6 +43,8 @@ const generateUseRedirectReactRouterV5 = (params: GenerateUseRedirectReactRouter
     filename: functionName,
     extension: ".ts",
     destinationDir,
+    hasDefaultExport: true,
+    hasNamedExports: true,
   };
 
   return templateFile;

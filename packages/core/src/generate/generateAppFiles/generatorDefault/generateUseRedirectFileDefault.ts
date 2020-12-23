@@ -46,6 +46,8 @@ const generateUseRedirectFileDefault = (params: GenerateUseRedirectFileDefaultPa
     filename: functionName,
     extension: ".ts",
     destinationDir,
+    hasDefaultExport: true,
+    hasNamedExports: true,
   };
 
   return templateFile;

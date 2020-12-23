@@ -42,6 +42,8 @@ const generateRedirectFileDefault = (params: GenerateRedirectFileDefaultParams):
     destinationDir,
     extension: ".tsx",
     template,
+    hasDefaultExport: true,
+    hasNamedExports: false,
   };
 };
 
