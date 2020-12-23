@@ -15,6 +15,7 @@ apps:
       linkComponent: true
       useParams: true
       useRedirect: true
+      rootIndex: true
     reactRouterV5LinkOptions:
       importCustomLink:
         componentDefaultImport: true
@@ -52,6 +53,8 @@ apps:
     routes:
       toc: /terms-and-conditions
     routingType: NextJS
+    generate: 
+      rootIndex: true
     nextJSLinkOptions:
       importCustomLink:
         componentDefaultImport: true
