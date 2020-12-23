@@ -1,5 +1,6 @@
 import { AppConfig } from "./../config";
 import generateTemplateFiles from "./generateTemplateFiles";
+import generatorRootIndex from "./generatorRootIndex";
 import { TemplateFile } from "../types";
 import { parseAppConfig } from "../config";
 import { info } from "../utils";
@@ -40,16 +41,11 @@ const generateAppFiles = (appName: string, app: AppConfig): TemplateFile[] => {
     }
 
     if (generateRootIndex) {
-      const rootIndexFile: TemplateFile = {
-        destinationDir: destinationDir,
-        extension: ".ts",
-        filename: "index",
-        hasDefaultExport: false,
-        hasNamedExports: true,
-        template: `test`,
-      };
-
-      return [...filesToGenerate, rootIndexFile];
+      const rootIndexFile = generatorRootIndex.generate({ destinationDir, files: filesToGenerate });
+      if (rootIndexFile) {
+        return [...filesToGenerate, rootIndexFile];
+      }
+      return filesToGenerate;
     }
 
     return filesToGenerate;

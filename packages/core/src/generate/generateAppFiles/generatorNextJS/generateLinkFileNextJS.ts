@@ -1,5 +1,5 @@
 import { TemplateFile, Import } from "../../types";
-import { printImport, throwError } from "../../utils";
+import { printImport, throwError, capitalizeFirstChar } from "../../utils";
 import { RouteLinkOptions } from "../../config";
 import { PatternNamedExports } from "../types";
 
@@ -13,7 +13,7 @@ export interface GenerateLinkFileNextJSParams {
 
 const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): TemplateFile => {
   const {
-    routeName,
+    routeName: originalRouteName,
     routeLinkOption,
     destinationDir,
     patternNamedExports: {
@@ -24,6 +24,8 @@ const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): TemplateF
       possiblePathParamsVariableName,
     },
   } = params;
+
+  const routeName = capitalizeFirstChar(originalRouteName);
 
   const functionName = `Link${routeName}`;
   const defaultLinkPropsInterfaceName = `Link${routeName}Props`;
@@ -74,6 +76,7 @@ const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): TemplateF
     filename: functionName,
     extension: ".tsx",
     destinationDir,
+    routeName: originalRouteName,
     hasDefaultExport: true,
     hasNamedExports: false,
   };

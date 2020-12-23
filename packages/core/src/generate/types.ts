@@ -5,6 +5,7 @@ export interface TemplateFile {
   destinationDir: string;
   hasDefaultExport: boolean;
   hasNamedExports: boolean;
+  routeName: string;
 }
 
 export interface Import {

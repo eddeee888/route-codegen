@@ -1,6 +1,7 @@
 export { default as getOverriddenValue } from "./getOverriddenValue";
 export { default as printImport } from "./printImport";
 export { default as writeFile } from "./writeFile";
+export * from "./capitalizeFirstChar";
 
 export { default as keyHelpers } from "./keyHelpers";
 export * from "./keyHelpers";

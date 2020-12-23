@@ -1,4 +1,4 @@
-import { printImport } from "../../utils";
+import { printImport, capitalizeFirstChar } from "../../utils";
 import { TemplateFile, Import } from "../../types";
 import { PatternNamedExports } from "../types";
 
@@ -10,7 +10,10 @@ export interface GenerateUseRedirectFileDefaultParams {
 }
 
 const generateUseRedirectFileDefault = (params: GenerateUseRedirectFileDefaultParams): TemplateFile => {
-  const { routeName, patternNamedExports, destinationDir, importGenerateUrl } = params;
+  const { routeName: originalRouteName, patternNamedExports, destinationDir, importGenerateUrl } = params;
+
+  const routeName = capitalizeFirstChar(originalRouteName);
+
   const functionName = `useRedirect${routeName}`;
   const pathVariable = patternNamedExports.pathParamsInterfaceName ? "urlParts.path" : "{}";
   const resultTypeInterface = `RedirectFn${routeName}`;
@@ -46,6 +49,7 @@ const generateUseRedirectFileDefault = (params: GenerateUseRedirectFileDefaultPa
     filename: functionName,
     extension: ".ts",
     destinationDir,
+    routeName: originalRouteName,
     hasDefaultExport: true,
     hasNamedExports: true,
   };

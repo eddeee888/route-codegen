@@ -1,5 +1,5 @@
 import { TemplateFile, Import } from "../../types";
-import { printImport } from "../../utils";
+import { printImport, capitalizeFirstChar } from "../../utils";
 import { RouteLinkOptions } from "../../config";
 import { PatternNamedExports } from "../types";
 
@@ -13,12 +13,14 @@ export interface GenerateLinkFileDefaultParams {
 
 const generateLinkFileDefault = (params: GenerateLinkFileDefaultParams): TemplateFile => {
   const {
-    routeName,
+    routeName: originalRouteName,
     routeLinkOption,
     destinationDir,
     patternNamedExports: { patternName, pathParamsInterfaceName, filename: routePatternFilename, urlPartsInterfaceName, originName },
     importGenerateUrl,
   } = params;
+
+  const routeName = capitalizeFirstChar(originalRouteName);
 
   const functionName = `Link${routeName}`;
   const defaultLinkPropsInterfaceName = `Link${routeName}Props`;
@@ -52,6 +54,7 @@ const generateLinkFileDefault = (params: GenerateLinkFileDefaultParams): Templat
     filename: functionName,
     extension: ".tsx",
     destinationDir,
+    routeName: originalRouteName,
     hasDefaultExport: true,
     hasNamedExports: false,
   };

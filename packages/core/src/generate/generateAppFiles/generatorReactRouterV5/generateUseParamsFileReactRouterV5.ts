@@ -1,5 +1,5 @@
 import { TemplateFile, Import } from "../../types";
-import { printImport } from "../../utils";
+import { printImport, capitalizeFirstChar } from "../../utils";
 
 export interface GenerateUseParamsFileReactRouterV5Params {
   routeName: string;
@@ -11,7 +11,9 @@ export interface GenerateUseParamsFileReactRouterV5Params {
 }
 
 const generateUseParamsFileReactRouterV5 = (params: GenerateUseParamsFileReactRouterV5Params): TemplateFile => {
-  const { routeName, destinationDir, patternName, pathParamsInterfaceName, pathParamsFilename, mode } = params;
+  const { routeName: originalRouteName, destinationDir, patternName, pathParamsInterfaceName, pathParamsFilename, mode } = params;
+
+  const routeName = capitalizeFirstChar(originalRouteName);
 
   const functionName = `useParams${routeName}`;
 
@@ -43,6 +45,7 @@ const generateUseParamsFileReactRouterV5 = (params: GenerateUseParamsFileReactRo
     extension: ".ts",
     filename: functionName,
     destinationDir,
+    routeName: originalRouteName,
     hasDefaultExport: true,
     hasNamedExports: false,
   };

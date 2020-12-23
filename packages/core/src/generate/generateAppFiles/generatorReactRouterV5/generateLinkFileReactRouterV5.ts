@@ -1,5 +1,5 @@
 import { TemplateFile, Import } from "../../types";
-import { printImport } from "../../utils";
+import { printImport, capitalizeFirstChar } from "../../utils";
 import { RouteLinkOptions } from "../../config";
 import { PatternNamedExports } from "../types";
 
@@ -13,12 +13,14 @@ export interface GenerateLinkFileReactRouterV5Params {
 
 const generateLinkFileReactRouterV5 = (params: GenerateLinkFileReactRouterV5Params): TemplateFile => {
   const {
-    routeName,
+    routeName: originalRouteName,
     routeLinkOption,
     destinationDir,
     patternNamedExports: { patternName, pathParamsInterfaceName, filename: routePatternFilename, urlPartsInterfaceName },
     importGenerateUrl,
   } = params;
+
+  const routeName = capitalizeFirstChar(originalRouteName);
 
   const functionName = `Link${routeName}`;
   const defaultLinkPropsInterfaceName = `Link${routeName}Props`;
@@ -53,6 +55,7 @@ const generateLinkFileReactRouterV5 = (params: GenerateLinkFileReactRouterV5Para
     filename: functionName,
     extension: ".tsx",
     destinationDir,
+    routeName: originalRouteName,
     hasDefaultExport: true,
     hasNamedExports: false,
   };

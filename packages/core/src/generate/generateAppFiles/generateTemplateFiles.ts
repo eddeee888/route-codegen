@@ -21,7 +21,7 @@ export interface GenerateTemplateFilesParams {
 const generateTemplateFiles = (params: GenerateTemplateFilesParams): TemplateFile[] => {
   const {
     origin,
-    routeName: originalRouteName,
+    routeName,
     routePattern,
     destinationDir: originalDestinationDir,
     routingType,
@@ -30,9 +30,7 @@ const generateTemplateFiles = (params: GenerateTemplateFilesParams): TemplateFil
     importRedirectServerSide,
   } = params;
 
-  const routeNameString = originalRouteName.toString();
-  const routeName = routeNameString[0].toUpperCase() + routeNameString.slice(1);
-  const destinationDir = `${originalDestinationDir}/${originalRouteName}`;
+  const destinationDir = `${originalDestinationDir}/${routeName}`;
 
   const [patternFile, patternNamedExports] = generatorCore.generatePatternFile({
     origin,
