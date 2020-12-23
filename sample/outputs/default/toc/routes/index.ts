@@ -1,4 +1,9 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
+export * from "./toc/patternToc";
+export { default as generateUrlToc } from "./toc/generateUrlToc";
+export { default as LinkToc } from "./toc/LinkToc";
+export { default as useRedirectToc } from "./toc/useRedirectToc";
+export * from "./toc/useRedirectToc";
 export * from "./user/patternUser";
 export { default as generateUrlUser } from "./user/generateUrlUser";
 export { default as LinkUser } from "./user/LinkUser";

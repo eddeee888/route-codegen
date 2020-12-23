@@ -5,9 +5,9 @@ export interface GenerateRootIndexFileParams {
   files: TemplateFile[];
 }
 
-export const generateRootIndexFile = ({ files, destinationDir }: GenerateRootIndexFileParams): TemplateFile | null => {
+export const generateRootIndexFile = ({ files, destinationDir }: GenerateRootIndexFileParams): TemplateFile | undefined => {
   if (files.length === 0) {
-    return null;
+    return undefined;
   }
 
   const template = files.reduce((prevTemplate, file) => {

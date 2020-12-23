@@ -1,4 +1,12 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
+export * from "./login/patternLogin";
+export { default as generateUrlLogin } from "./login/generateUrlLogin";
+export { default as LinkLogin } from "./login/LinkLogin";
+export { default as RedirectLogin } from "./login/RedirectLogin";
+export * from "./signup/patternSignup";
+export { default as generateUrlSignup } from "./signup/generateUrlSignup";
+export { default as LinkSignup } from "./signup/LinkSignup";
+export { default as RedirectSignup } from "./signup/RedirectSignup";
 export * from "./user/patternUser";
 export { default as generateUrlUser } from "./user/generateUrlUser";
 export { default as LinkUser } from "./user/LinkUser";
