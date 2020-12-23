@@ -6,7 +6,7 @@ describe("generateRootIndexFile()", () => {
       destinationDir: "apps/",
       files: [],
     });
-    expect(result).toBeNull();
+    expect(result).toBeUndefined();
   });
 
   it("returns index template correctly", () => {
