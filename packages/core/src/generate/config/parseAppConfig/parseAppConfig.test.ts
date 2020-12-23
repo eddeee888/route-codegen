@@ -74,6 +74,7 @@ describe("parseAppConfig", () => {
           NextJS: { ...defaultParsedLinkOptionsNextJS },
           Default: { ...defaultParsedLinkOptionsDefault },
         },
+        generateRootIndex: false,
       });
     });
 
@@ -107,6 +108,14 @@ describe("parseAppConfig", () => {
       const parsedConfig2 = parseAppConfig("sampleApp", { ...defaultAppConfig, generate: { redirectComponent: true } });
       expect(parsedConfig2.routeLinkOptions.Default.generateRedirectComponent).toBe(true);
       expect(parsedConfig2.routeLinkOptions.ReactRouterV5.generateRedirectComponent).toBe(true);
+    });
+
+    it("should parse generateRootIndex", () => {
+      const parsedConfig = parseAppConfig("sampleApp", { ...defaultAppConfig, generate: { rootIndex: false } });
+      expect(parsedConfig.generateRootIndex).toBe(false);
+
+      const parsedConfig2 = parseAppConfig("sampleApp", { ...defaultAppConfig, generate: { rootIndex: true } });
+      expect(parsedConfig2.generateRootIndex).toBe(true);
     });
   });
 

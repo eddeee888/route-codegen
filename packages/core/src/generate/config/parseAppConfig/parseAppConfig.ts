@@ -13,6 +13,7 @@ export interface ParsedAppConfig {
   routeLinkOptions: RouteLinkOptions;
   importGenerateUrl: Import;
   importRedirectServerSide: Import;
+  generateRootIndex: boolean;
 }
 
 // Note: these imports are constants at the moment but we could open it up so people can pass their own functions in
@@ -82,6 +83,7 @@ export const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedApp
     },
     importGenerateUrl: IMPORT_GENERATE_URL,
     importRedirectServerSide: IMPORT_REDIRECT_SERVER_SIDE_COMPONENT,
+    generateRootIndex: generate?.rootIndex ?? false,
   };
 
   return parsedConfig;

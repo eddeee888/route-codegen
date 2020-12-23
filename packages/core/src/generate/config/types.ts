@@ -42,6 +42,7 @@ export interface AppConfig {
     redirectComponent?: boolean;
     useParams?: boolean;
     useRedirect?: boolean;
+    rootIndex?: boolean;
   };
 }
 
