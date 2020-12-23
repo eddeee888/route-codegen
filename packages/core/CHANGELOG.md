@@ -1,5 +1,11 @@
 # @route-codegen/core
 
+## 0.3.0
+
+### Minor Changes
+
+- 2857d34: Add generate.rootIndex. Merge all generate\* options into generate object
+
 ## 0.2.2
 
 ### Patch Changes
