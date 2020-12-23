@@ -1,5 +1,5 @@
 import { TemplateFile } from "../../types";
-import { printImport, keyHelpers, KeyType } from "../../utils";
+import { printImport, keyHelpers, KeyType, capitalizeFirstChar } from "../../utils";
 import isOptional from "../../utils/keyHelpers/isOptional";
 
 export interface GenerateUseParamsFileNextJSParams {
@@ -13,7 +13,9 @@ export interface GenerateUseParamsFileNextJSParams {
 
 // NextJS useRouter simply returns all dynamic params as strings
 const generateUseParamsFileNextJS = (params: GenerateUseParamsFileNextJSParams): TemplateFile => {
-  const { routeName, routePattern, destinationDir, pathParamsInterfaceName, pathParamsFilename, mode } = params;
+  const { routeName: originalRouteName, routePattern, destinationDir, pathParamsInterfaceName, pathParamsFilename, mode } = params;
+
+  const routeName = capitalizeFirstChar(originalRouteName);
 
   const functionName = `useParams${routeName}`;
 
@@ -79,6 +81,9 @@ const generateUseParamsFileNextJS = (params: GenerateUseParamsFileNextJSParams):
     extension: ".ts",
     filename: functionName,
     destinationDir,
+    routeName: originalRouteName,
+    hasDefaultExport: true,
+    hasNamedExports: false,
   };
 };
 

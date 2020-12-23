@@ -11,17 +11,20 @@ apps:
       login: /login
       signup: /signup
     routingType: ReactRouterV5
-    generateLinkComponent: true
-    generateUseParams: true
-    generateUseRedirect: true
+    generate:
+      linkComponent: true
+      useParams: true
+      useRedirect: true
+      rootIndex: true
     reactRouterV5LinkOptions:
       importCustomLink:
         componentDefaultImport: true
         propsNamedImport: LinkProps
         hrefProp: to
         from: common/components/Link
-      generateUseParams: false
-      generateUseRedirect: false
+      generate:
+        useParams: false
+        useRedirect: false
       mode: strict
     defaultLinkOptions:
       importCustomLink:
@@ -50,6 +53,8 @@ apps:
     routes:
       toc: /terms-and-conditions
     routingType: NextJS
+    generate: 
+      rootIndex: true
     nextJSLinkOptions:
       importCustomLink:
         componentDefaultImport: true
@@ -69,5 +74,6 @@ apps:
       legacy: /legacy/app
 
   server:
-    generateLink: false
+    generate:
+      linkComponent: false
     destinationDir: outputs/default/server/routes

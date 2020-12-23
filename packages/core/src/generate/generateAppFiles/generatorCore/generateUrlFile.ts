@@ -1,5 +1,5 @@
 import { TemplateFile, Import } from "../../types";
-import { printImport } from "../../utils";
+import { printImport, capitalizeFirstChar } from "../../utils";
 import { PatternNamedExports } from "../types";
 
 type GenerateUrlFile = (params: {
@@ -12,9 +12,11 @@ type GenerateUrlFile = (params: {
 const generateUrlFile: GenerateUrlFile = ({
   importGenerateUrl,
   patternNamedExports: { patternName, urlPartsInterfaceName, filename, pathParamsInterfaceName, originName },
-  routeName,
+  routeName: originalRouteName,
   destinationDir,
 }) => {
+  const routeName = capitalizeFirstChar(originalRouteName);
+
   const functionName = `generateUrl${routeName}`;
   const pathVariable = pathParamsInterfaceName ? "urlParts.path" : "{}";
   const urlPartOptionalModifier = pathParamsInterfaceName ? "" : "?";
@@ -33,6 +35,9 @@ const generateUrlFile: GenerateUrlFile = ({
     filename: functionName,
     extension: ".ts",
     destinationDir,
+    routeName: originalRouteName,
+    hasDefaultExport: true,
+    hasNamedExports: false,
   };
 
   return templateFile;

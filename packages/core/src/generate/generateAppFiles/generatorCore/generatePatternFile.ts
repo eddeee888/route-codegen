@@ -1,7 +1,7 @@
 import { TemplateFile } from "../../types";
 import { Key } from "path-to-regexp";
 import { RoutingType } from "../../config";
-import { throwError, keyHelpers, KeyType } from "../../utils";
+import { throwError, keyHelpers, KeyType, capitalizeFirstChar } from "../../utils";
 import { PatternNamedExports } from "../types";
 import isOptional from "../../utils/keyHelpers/isOptional";
 
@@ -15,9 +15,11 @@ export interface GenerateRoutePatternFileParams {
 }
 
 const generateRoutePatternFile = (params: GenerateRoutePatternFileParams): [TemplateFile, PatternNamedExports] => {
-  const { routePattern, routeName, destinationDir, routingType, origin, linkOptionModeNextJS } = params;
+  const { routePattern, routeName: originalRouteName, destinationDir, routingType, origin, linkOptionModeNextJS } = params;
 
   const keys = keyHelpers.getKeysFromRoutePattern(routePattern);
+
+  const routeName = capitalizeFirstChar(originalRouteName);
 
   const patternName = `pattern${routeName}`;
   const originName = `origin${routeName}`;
@@ -44,6 +46,9 @@ const generateRoutePatternFile = (params: GenerateRoutePatternFileParams): [Temp
       filename,
       extension: ".ts",
       destinationDir,
+      routeName: originalRouteName,
+      hasDefaultExport: false,
+      hasNamedExports: true,
     },
     {
       originName,

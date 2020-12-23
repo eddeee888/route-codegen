@@ -26,5 +26,6 @@ apps:
     routes:
       graphql: /graphql
       activateAccount: /activate-account/:code
-    generateLink: false
+    generate:
+      linkComponent: false
     destinationDir: outputs/with-origins/server/routes

@@ -1,6 +1,6 @@
 import { PatternNamedExports } from "../types";
 import { Import, TemplateFile } from "../../types";
-import { printImport, throwError } from "../../utils";
+import { printImport, throwError, capitalizeFirstChar } from "../../utils";
 
 export interface GenerateUseRedirectFileNextJSParams {
   routeName: string;
@@ -11,7 +11,7 @@ export interface GenerateUseRedirectFileNextJSParams {
 
 const generateUseRedirectFileNextJS = (params: GenerateUseRedirectFileNextJSParams): TemplateFile => {
   const {
-    routeName,
+    routeName: originalRouteName,
     patternNamedExports: {
       pathParamsInterfaceName,
       filename: routePatternFilename,
@@ -25,6 +25,8 @@ const generateUseRedirectFileNextJS = (params: GenerateUseRedirectFileNextJSPara
   if (!patternNameNextJS) {
     return throwError([], 'Missing "patternNameNextJS". This is most likely a problem with route-codegen.');
   }
+
+  const routeName = capitalizeFirstChar(originalRouteName);
 
   const functionName = `useRedirect${routeName}`;
   const pathVariable = pathParamsInterfaceName ? "urlParts.path" : "{}";
@@ -64,6 +66,9 @@ const generateUseRedirectFileNextJS = (params: GenerateUseRedirectFileNextJSPara
     filename: functionName,
     extension: ".ts",
     destinationDir,
+    routeName: originalRouteName,
+    hasDefaultExport: true,
+    hasNamedExports: true,
   };
 
   return templateFile;

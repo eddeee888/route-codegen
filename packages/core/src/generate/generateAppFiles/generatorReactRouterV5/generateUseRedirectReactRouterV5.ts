@@ -1,4 +1,4 @@
-import { printImport } from "../../utils";
+import { printImport, capitalizeFirstChar } from "../../utils";
 import { TemplateFile, Import } from "../../types";
 import { PatternNamedExports } from "../types";
 
@@ -10,7 +10,10 @@ export interface GenerateUseRedirectReactRouterV5Params {
 }
 
 const generateUseRedirectReactRouterV5 = (params: GenerateUseRedirectReactRouterV5Params): TemplateFile => {
-  const { routeName, patternNamedExports, destinationDir, importGenerateUrl } = params;
+  const { routeName: originalRouteName, patternNamedExports, destinationDir, importGenerateUrl } = params;
+
+  const routeName = capitalizeFirstChar(originalRouteName);
+
   const functionName = `useRedirect${routeName}`;
   const pathVariable = patternNamedExports.pathParamsInterfaceName ? "urlParts.path" : "{}";
   const resultTypeInterface = `RedirectFn${routeName}`;
@@ -43,6 +46,9 @@ const generateUseRedirectReactRouterV5 = (params: GenerateUseRedirectReactRouter
     filename: functionName,
     extension: ".ts",
     destinationDir,
+    routeName: originalRouteName,
+    hasDefaultExport: true,
+    hasNamedExports: true,
   };
 
   return templateFile;

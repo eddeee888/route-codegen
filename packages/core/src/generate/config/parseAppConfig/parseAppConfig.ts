@@ -13,6 +13,7 @@ export interface ParsedAppConfig {
   routeLinkOptions: RouteLinkOptions;
   importGenerateUrl: Import;
   importRedirectServerSide: Import;
+  generateRootIndex: boolean;
 }
 
 // Note: these imports are constants at the moment but we could open it up so people can pass their own functions in
@@ -39,10 +40,7 @@ export const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedApp
     reactRouterV5LinkOptions,
     nextJSLinkOptions,
     defaultLinkOptions,
-    generateLinkComponent = true,
-    generateRedirectComponent = true,
-    generateUseParams = true,
-    generateUseRedirect = true,
+    generate,
   } = appConfig;
 
   if (routingType !== RoutingType.NextJS && routingType !== RoutingType.ReactRouterV5 && routingType !== RoutingType.Default) {
@@ -53,10 +51,10 @@ export const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedApp
   }
 
   const topLevelGenerateOptions: TopLevelGenerateOptions = {
-    generateLinkComponent,
-    generateRedirectComponent,
-    generateUseParams,
-    generateUseRedirect,
+    generateLinkComponent: generate?.linkComponent ?? true,
+    generateRedirectComponent: generate?.redirectComponent ?? true,
+    generateUseParams: generate?.useParams ?? true,
+    generateUseRedirect: generate?.useRedirect ?? true,
   };
 
   // Turn ALL routes into AppRoute i.e. with origin built in because it is needed when generating templates for external routes.
@@ -85,6 +83,7 @@ export const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedApp
     },
     importGenerateUrl: IMPORT_GENERATE_URL,
     importRedirectServerSide: IMPORT_REDIRECT_SERVER_SIDE_COMPONENT,
+    generateRootIndex: generate?.rootIndex ?? false,
   };
 
   return parsedConfig;

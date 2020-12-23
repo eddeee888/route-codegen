@@ -1,5 +1,5 @@
 import { TemplateFile, Import } from "../../types";
-import { printImport } from "../../utils";
+import { printImport, capitalizeFirstChar } from "../../utils";
 import { PatternNamedExports } from "../types";
 
 export interface GenerateRedirectFileDefaultParams {
@@ -11,7 +11,9 @@ export interface GenerateRedirectFileDefaultParams {
 }
 
 const generateRedirectFileDefault = (params: GenerateRedirectFileDefaultParams): TemplateFile => {
-  const { routeName, destinationDir, importGenerateUrl, patternNamedExports, importRedirectServerSide } = params;
+  const { routeName: originalRouteName, destinationDir, importGenerateUrl, patternNamedExports, importRedirectServerSide } = params;
+
+  const routeName = capitalizeFirstChar(originalRouteName);
 
   const functionName = `Redirect${routeName}`;
   const hasPathParams = !!patternNamedExports.pathParamsInterfaceName;
@@ -42,6 +44,9 @@ const generateRedirectFileDefault = (params: GenerateRedirectFileDefaultParams):
     destinationDir,
     extension: ".tsx",
     template,
+    routeName: originalRouteName,
+    hasDefaultExport: true,
+    hasNamedExports: false,
   };
 };
 

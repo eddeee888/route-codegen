@@ -91,6 +91,8 @@ apps:
       logout: /logout
       user: /user/:id/:subview(profile|pictures)?
     routingType: ReactRouterV5 # "ReactRouterV5", "NextJS" or "Default" ( normal <a />)
+    generate:
+      rootIndex: true # Create a "barrel" style index function that exports all route modules
     destinationDir: client/src/routes
 
   client-seo:
@@ -103,10 +105,11 @@ apps:
   # In this case, this app can still generate url to other apps
   # `generateLinkComponent`, `generateUseParams`, `generateRedirectComponent` and `generateUseRedirect` should be false to avoid generating unncessary files
   express-server:
-    generateLinkComponent: false
-    generateRedirectComponent: false
-    generateUseParams: false
-    generateUseRedirect: false
+    generate:
+      linkComponent: false
+      redirectComponent: false
+      useParams: false
+      useRedirect: false
     destinationDir: server/src/routes
 
   # Leave out `destinationDir` if no route needs to be generated.
@@ -123,7 +126,7 @@ apps:
       externalAppHome: /
 ```
 
-More details about [config file](#configuration).
+More details about the [config file](#configuration).
 
 ## Configuration
 

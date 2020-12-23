@@ -3,6 +3,9 @@ export interface TemplateFile {
   filename: string;
   extension: string;
   destinationDir: string;
+  hasDefaultExport: boolean;
+  hasNamedExports: boolean;
+  routeName: string;
 }
 
 export interface Import {
