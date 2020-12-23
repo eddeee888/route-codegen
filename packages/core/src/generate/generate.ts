@@ -16,23 +16,18 @@ const generate = (config: Config, commandFlags: CommandFlags): void => {
 
 /**
  * Function to prepare all the files to be written to disk
- * 1. Go through the apps and generate the main route files for an app i.e. routes that are immediately inside the app
- * 2. Go and find check the routes that are outside of each app. These are called external routes and `default` link option is used
- * 3. Merge index files together if exists
  */
 const generateFilesToWrite = (apps: Record<string, AppConfig>): TemplateFile[] => {
+  // 1. Go through the apps and generate the main route files for an app i.e. routes that are immediately inside the app
   const mainAppFiles = Object.entries(apps).map(([appName, appConfig]) => generateAppFiles(appName, appConfig));
 
+  // 2. Go and find check the routes that are outside of each app. These are called external routes and `default` link option is used
   const otherApps = generateExternalRoutesConfig(apps);
   const otherAppFiles = Object.entries(otherApps).map(([appName, appConfig]) => generateAppFiles(appName, appConfig));
 
-  const mainAppRouteFiles = mainAppFiles.map(({ routeFiles }) => routeFiles);
-  const otherAppsRouteFiles = otherAppFiles.map(({ routeFiles }) => routeFiles);
-  const allAppsRouteFiles = [...mainAppRouteFiles, ...otherAppsRouteFiles].flat();
-
-  const mainAppRootIndexFiles = mainAppFiles.map(({ rootIndexFile }) => rootIndexFile);
-  const otherAppsRootIndexFiles = otherAppFiles.map(({ rootIndexFile }) => rootIndexFile);
-  const allRootIndexFiles = [...mainAppRootIndexFiles, ...otherAppsRootIndexFiles].reduce<TemplateFile[]>((prevResult, file) => {
+  // 3. Merge content of the files at the same directory path to make sure they are not being overwritten
+  const allFiles = [...mainAppFiles, ...otherAppFiles].flat();
+  const mergedFiles = allFiles.reduce<TemplateFile[]>((prevResult, file) => {
     if (!file) {
       return prevResult;
     }
@@ -55,7 +50,7 @@ const generateFilesToWrite = (apps: Record<string, AppConfig>): TemplateFile[] =
     return [...newResult];
   }, []);
 
-  return [...allAppsRouteFiles, ...allRootIndexFiles];
+  return [...mergedFiles];
 };
 
 export default generate;

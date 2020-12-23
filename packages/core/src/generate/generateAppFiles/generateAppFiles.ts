@@ -5,7 +5,7 @@ import { TemplateFile } from "../types";
 import { parseAppConfig } from "../config";
 import { info } from "../utils";
 
-const generateAppFiles = (appName: string, app: AppConfig): { routeFiles: TemplateFile[]; rootIndexFile?: TemplateFile } => {
+const generateAppFiles = (appName: string, app: AppConfig): TemplateFile[] => {
   const {
     routes,
     routingType,
@@ -42,15 +42,18 @@ const generateAppFiles = (appName: string, app: AppConfig): { routeFiles: Templa
 
     if (generateRootIndex) {
       const rootIndexFile = generatorRootIndex.generate({ destinationDir, files: filesToGenerate });
-      return { routeFiles: filesToGenerate, rootIndexFile: rootIndexFile };
+      if (rootIndexFile) {
+        return [...filesToGenerate, rootIndexFile];
+      }
+      return [...filesToGenerate];
     }
 
-    return { routeFiles: filesToGenerate, rootIndexFile: undefined };
+    return filesToGenerate;
   }
 
   info([appName], `*** No destinationDir. Not generating files ***\n`);
 
-  return { routeFiles: [], rootIndexFile: undefined };
+  return [];
 };
 
 export default generateAppFiles;
