@@ -73,11 +73,7 @@ export const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedApp
     destinationDir,
     routingType,
     routeLinkOptions: {
-      ReactRouterV5: prepareLinkOptionsReactRouterV5({
-        appName,
-        routeLinkOptions: reactRouterV5LinkOptions,
-        topLevelGenerateOptions,
-      }),
+      ReactRouterV5: prepareLinkOptionsReactRouterV5({ appName, routeLinkOptions: reactRouterV5LinkOptions, topLevelGenerateOptions }),
       NextJS: prepareLinkOptionsNextJS({ appName, routeLinkOptions: nextJSLinkOptions, topLevelGenerateOptions }),
       Default: prepareLinkOptionsDefault({ appName, routeLinkOptions: defaultLinkOptions, topLevelGenerateOptions }),
     },
