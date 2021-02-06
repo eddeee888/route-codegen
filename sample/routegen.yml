@@ -94,8 +94,4 @@ apps:
       legacy: /legacy/app
 
   server:
-    generate:
-      linkComponent: false
-      useRedirect: true
-      redirectComponent: true
     destinationDir: outputs/default/server/routes
