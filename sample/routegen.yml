@@ -4,6 +4,11 @@ apps:
       user: /app/users/:id/:subview(pictures)?
       account: /app/account
     routingType: ReactRouterV5
+    generate:
+      linkComponent: true
+      useParams: true
+      useRedirect: true
+      redirectComponent: true
     destinationDir: outputs/default/app/routes
 
   auth:
@@ -15,6 +20,7 @@ apps:
       linkComponent: true
       useParams: true
       useRedirect: true
+      redirectComponent: true
       rootIndex: true
     reactRouterV5LinkOptions:
       importCustomLink:
@@ -39,12 +45,22 @@ apps:
       home: /
       about: /about/:target(us|you)/:topic/:region(en)/:optional?/:optionalEnum(enumOne|enumTwo)?
     routingType: NextJS
+    generate:
+      linkComponent: true
+      useParams: true
+      useRedirect: true
+      redirectComponent: true
     destinationDir: outputs/default/seo/routes
 
   seo-strict:
     routes:
       contact: /contact/:target(us|you)/:topic/:region(en)/:optional?/:optionalEnum(enumOne|enumTwo)?
     routingType: NextJS
+    generate:
+      linkComponent: true
+      useParams: true
+      useRedirect: true
+      redirectComponent: true
     nextJSLinkOptions:
       mode: strict
     destinationDir: outputs/default/seo-strict/routes
@@ -53,7 +69,11 @@ apps:
     routes:
       toc: /terms-and-conditions
     routingType: NextJS
-    generate: 
+    generate:
+      linkComponent: true
+      useParams: true
+      useRedirect: true
+      redirectComponent: true
       rootIndex: true
     nextJSLinkOptions:
       importCustomLink:
@@ -76,4 +96,6 @@ apps:
   server:
     generate:
       linkComponent: false
+      useRedirect: true
+      redirectComponent: true
     destinationDir: outputs/default/server/routes
