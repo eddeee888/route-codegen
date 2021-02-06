@@ -74,7 +74,7 @@ describe("generateUseRedirectFileNextJS", () => {
     const redirect: RedirectFnUserInfo = urlParts => {
       const query = urlParts?.query ?? {};
       const path = urlParts.path;
-      const pathname = possiblePathParamsUserInfo.filter((key) => !(key in urlParts.path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(${"`/[${suppliedParam}]`"}, \"\"), patternNextJSUserInfo);
+      const pathname = possiblePathParamsUserInfo.filter((key) => !(key in urlParts.path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(${"`/[${suppliedParam}]`"}, ""), patternNextJSUserInfo);
       router.push({
         pathname: pathname,
         query: {

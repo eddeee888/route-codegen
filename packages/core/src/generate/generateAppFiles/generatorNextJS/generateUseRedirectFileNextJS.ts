@@ -33,7 +33,7 @@ const generateUseRedirectFileNextJS = (params: GenerateUseRedirectFileNextJSPara
   const urlPartsModifier = pathParamsInterfaceName ? "" : "?";
   const resultTypeInterface = `RedirectFn${routeName}`;
 
-  let namedImportsFromPatternFile = [{ name: urlPartsInterfaceName }, { name: patternNameNextJS }];
+  const namedImportsFromPatternFile = [{ name: urlPartsInterfaceName }, { name: patternNameNextJS }];
   let pathnameTemplate = `const pathname = ${patternNameNextJS};`;
   if (possiblePathParamsVariableName) {
     namedImportsFromPatternFile.push({ name: possiblePathParamsVariableName });
