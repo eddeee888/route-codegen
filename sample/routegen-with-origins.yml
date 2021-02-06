@@ -4,6 +4,12 @@ apps:
     routes:
       user: /users/:id/:subview(pictures)?
     routingType: ReactRouterV5
+    generate:
+      linkComponent: true
+      useParams: true
+      useRedirect: true
+      redirectComponent: true
+      rootIndex: false
     reactRouterV5LinkOptions:
       mode: strict
     destinationDir: outputs/with-origins/app/routes
@@ -14,6 +20,11 @@ apps:
       home: /
       terms: /terms
     routingType: NextJS
+    generate:
+      linkComponent: true
+      useParams: true
+      useRedirect: true
+      redirectComponent: true
     destinationDir: outputs/with-origins/seo/routes
 
   legacy:
@@ -28,4 +39,6 @@ apps:
       activateAccount: /activate-account/:code
     generate:
       linkComponent: false
+      useRedirect: true
+      redirectComponent: true
     destinationDir: outputs/with-origins/server/routes

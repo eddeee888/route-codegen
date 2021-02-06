@@ -19,7 +19,15 @@ describe("generateAppFiles", () => {
     });
 
     it("should not generate Link if not needed", () => {
-      const files = generateAppFiles("testApp", { ...appConfig, generate: { linkComponent: false } });
+      const files = generateAppFiles("testApp", {
+        ...appConfig,
+        generate: {
+          redirectComponent: true,
+          useParams: true,
+          useRedirect: true,
+          linkComponent: false,
+        },
+      });
       expect(files).toHaveLength(8);
       expect(files[0].destinationDir).toEqual("path/to/routes/login");
       expect(files[0].filename).toEqual("patternLogin");
@@ -51,7 +59,13 @@ describe("generateAppFiles", () => {
     it("should generate root index file", () => {
       const files = generateAppFiles("testApp", {
         ...appConfig,
-        generate: { rootIndex: true, linkComponent: false, redirectComponent: false, useParams: false, useRedirect: false },
+        generate: {
+          rootIndex: true,
+          linkComponent: false,
+          redirectComponent: false,
+          useParams: false,
+          useRedirect: false,
+        },
       });
       expect(files).toHaveLength(5);
       expect(files[0].destinationDir).toEqual("path/to/routes/login");
@@ -77,7 +91,16 @@ describe("generateAppFiles", () => {
 
   describe("Default", () => {
     it("should generate files", () => {
-      const files = generateAppFiles("testApp", { ...appConfig, routingType: "Default" });
+      const files = generateAppFiles("testApp", {
+        ...appConfig,
+        routingType: "Default",
+        generate: {
+          linkComponent: true,
+          redirectComponent: true,
+          useParams: true,
+          useRedirect: true,
+        },
+      });
 
       expect(files).toHaveLength(10);
       expect(files[0].destinationDir).toEqual("path/to/routes/login");
@@ -116,7 +139,16 @@ describe("generateAppFiles", () => {
 
   describe("NextJS", () => {
     it("should generate files", () => {
-      const files = generateAppFiles("testApp", { ...appConfig, routingType: "NextJS" });
+      const files = generateAppFiles("testApp", {
+        ...appConfig,
+        routingType: "NextJS",
+        generate: {
+          linkComponent: true,
+          useParams: true,
+          redirectComponent: true,
+          useRedirect: true,
+        },
+      });
 
       expect(files).toHaveLength(9);
       expect(files[0].destinationDir).toEqual("path/to/routes/login");
@@ -152,7 +184,16 @@ describe("generateAppFiles", () => {
 
   describe("ReactRouterV5", () => {
     it("should generate files", () => {
-      const files = generateAppFiles("testApp", { ...appConfig, routingType: "ReactRouterV5" });
+      const files = generateAppFiles("testApp", {
+        ...appConfig,
+        routingType: "ReactRouterV5",
+        generate: {
+          linkComponent: true,
+          useRedirect: true,
+          redirectComponent: true,
+          useParams: true,
+        },
+      });
 
       expect(files).toHaveLength(11);
       expect(files[0].destinationDir).toEqual("path/to/routes/login");
@@ -195,7 +236,14 @@ describe("generateAppFiles", () => {
       const files = generateAppFiles("testApp", {
         ...appConfig,
         routingType: "ReactRouterV5",
-        reactRouterV5LinkOptions: { generate: { useParams: false } },
+        reactRouterV5LinkOptions: {
+          generate: {
+            linkComponent: true,
+            redirectComponent: true,
+            useRedirect: true,
+            useParams: false,
+          },
+        },
       });
 
       expect(files).toHaveLength(10);
@@ -236,7 +284,14 @@ describe("generateAppFiles", () => {
       const files = generateAppFiles("testApp", {
         ...appConfig,
         routingType: "ReactRouterV5",
-        reactRouterV5LinkOptions: { generate: { useRedirect: false } },
+        reactRouterV5LinkOptions: {
+          generate: {
+            linkComponent: true,
+            redirectComponent: true,
+            useParams: true,
+            useRedirect: false,
+          },
+        },
       });
 
       expect(files).toHaveLength(9);

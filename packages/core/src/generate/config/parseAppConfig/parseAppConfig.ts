@@ -51,10 +51,10 @@ export const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedApp
   }
 
   const topLevelGenerateOptions: TopLevelGenerateOptions = {
-    generateLinkComponent: generate?.linkComponent ?? true,
-    generateRedirectComponent: generate?.redirectComponent ?? true,
-    generateUseParams: generate?.useParams ?? true,
-    generateUseRedirect: generate?.useRedirect ?? true,
+    generateLinkComponent: generate?.linkComponent || false,
+    generateRedirectComponent: generate?.redirectComponent || false,
+    generateUseParams: generate?.useParams || false,
+    generateUseRedirect: generate?.useRedirect || false,
   };
 
   // Turn ALL routes into AppRoute i.e. with origin built in because it is needed when generating templates for external routes.
@@ -73,11 +73,7 @@ export const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedApp
     destinationDir,
     routingType,
     routeLinkOptions: {
-      ReactRouterV5: prepareLinkOptionsReactRouterV5({
-        appName,
-        routeLinkOptions: reactRouterV5LinkOptions,
-        topLevelGenerateOptions,
-      }),
+      ReactRouterV5: prepareLinkOptionsReactRouterV5({ appName, routeLinkOptions: reactRouterV5LinkOptions, topLevelGenerateOptions }),
       NextJS: prepareLinkOptionsNextJS({ appName, routeLinkOptions: nextJSLinkOptions, topLevelGenerateOptions }),
       Default: prepareLinkOptionsDefault({ appName, routeLinkOptions: defaultLinkOptions, topLevelGenerateOptions }),
     },

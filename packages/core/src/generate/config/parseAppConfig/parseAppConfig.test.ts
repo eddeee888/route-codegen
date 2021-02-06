@@ -18,10 +18,10 @@ describe("parseAppConfig", () => {
     linkComponent: "Link",
     linkProps: "LinkProps",
     hrefProp: "to",
-    generateLinkComponent: true,
-    generateRedirectComponent: true,
-    generateUseRedirect: true,
-    generateUseParams: true,
+    generateLinkComponent: false,
+    generateRedirectComponent: false,
+    generateUseRedirect: false,
+    generateUseParams: false,
     mode: "loose",
   };
   const defaultParsedLinkOptionsNextJS: ParsedLinkOptionsNextJS = {
@@ -33,9 +33,9 @@ describe("parseAppConfig", () => {
     linkComponent: "Link",
     linkProps: "LinkProps",
     hrefProp: "href",
-    generateLinkComponent: true,
-    generateUseParams: true,
-    generateUseRedirect: true,
+    generateLinkComponent: false,
+    generateUseParams: false,
+    generateUseRedirect: false,
     mode: "loose",
   };
   const defaultParsedLinkOptionsDefault: ParsedLinkOptionsDefault = {
@@ -45,9 +45,9 @@ describe("parseAppConfig", () => {
       template: `type LinkProps = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, 'href'>`,
       linkProps: "LinkProps",
     },
-    generateLinkComponent: true,
-    generateRedirectComponent: true,
-    generateUseRedirect: true,
+    generateLinkComponent: false,
+    generateRedirectComponent: false,
+    generateUseRedirect: false,
   };
 
   describe("general config", () => {
@@ -143,10 +143,10 @@ describe("parseAppConfig", () => {
           linkComponent: "Link",
           linkProps: "CustomLinkProps",
           hrefProp: "customHref",
-          generateLinkComponent: true,
-          generateRedirectComponent: true,
-          generateUseRedirect: true,
-          generateUseParams: true,
+          generateLinkComponent: false,
+          generateRedirectComponent: false,
+          generateUseRedirect: false,
+          generateUseParams: false,
           mode: "loose",
         });
       });
@@ -165,10 +165,10 @@ describe("parseAppConfig", () => {
           linkComponent: "Link",
           linkProps: "LinkProps",
           hrefProp: "to",
-          generateLinkComponent: true,
-          generateRedirectComponent: true,
-          generateUseRedirect: true,
-          generateUseParams: true,
+          generateLinkComponent: false,
+          generateRedirectComponent: false,
+          generateUseRedirect: false,
+          generateUseParams: false,
           mode: "loose",
         });
 
@@ -185,10 +185,10 @@ describe("parseAppConfig", () => {
           linkComponent: "Link",
           linkProps: "LinkProps",
           hrefProp: "to",
-          generateLinkComponent: true,
-          generateRedirectComponent: true,
-          generateUseRedirect: true,
-          generateUseParams: true,
+          generateLinkComponent: false,
+          generateRedirectComponent: false,
+          generateUseRedirect: false,
+          generateUseParams: false,
           mode: "strict",
         });
       });
@@ -214,10 +214,10 @@ describe("parseAppConfig", () => {
           linkComponent: "Link",
           linkProps: "CustomLinkProps",
           hrefProp: "customHref",
-          generateLinkComponent: true,
-          generateRedirectComponent: true,
-          generateUseRedirect: true,
-          generateUseParams: true,
+          generateLinkComponent: false,
+          generateRedirectComponent: false,
+          generateUseRedirect: false,
+          generateUseParams: false,
           mode: "loose",
         });
       });
@@ -388,9 +388,9 @@ describe("parseAppConfig", () => {
           linkComponent: "Link",
           linkProps: "CustomLinkProps",
           hrefProp: "customHref",
-          generateLinkComponent: true,
-          generateUseParams: true,
-          generateUseRedirect: true,
+          generateLinkComponent: false,
+          generateUseParams: false,
+          generateUseRedirect: false,
           mode: "loose",
         });
       });
@@ -416,9 +416,9 @@ describe("parseAppConfig", () => {
           linkComponent: "Link",
           linkProps: "CustomLinkProps",
           hrefProp: "customHref",
-          generateLinkComponent: true,
-          generateUseParams: true,
-          generateUseRedirect: true,
+          generateLinkComponent: false,
+          generateUseParams: false,
+          generateUseRedirect: false,
           mode: "loose",
         });
       });
@@ -540,9 +540,9 @@ describe("parseAppConfig", () => {
           linkComponent: "Link",
           linkProps: "LinkProps",
           hrefProp: "href",
-          generateLinkComponent: true,
-          generateUseRedirect: true,
-          generateUseParams: true,
+          generateLinkComponent: false,
+          generateUseRedirect: false,
+          generateUseParams: false,
           mode: "loose",
         });
 
@@ -560,9 +560,9 @@ describe("parseAppConfig", () => {
           linkComponent: "Link",
           linkProps: "LinkProps",
           hrefProp: "href",
-          generateLinkComponent: true,
-          generateUseRedirect: true,
-          generateUseParams: true,
+          generateLinkComponent: false,
+          generateUseRedirect: false,
+          generateUseParams: false,
           mode: "strict",
         });
       });
@@ -591,9 +591,9 @@ describe("parseAppConfig", () => {
           linkComponent: "Link",
           linkProps: "CustomLinkProps",
           hrefProp: "customHref",
-          generateLinkComponent: true,
-          generateRedirectComponent: true,
-          generateUseRedirect: true,
+          generateLinkComponent: false,
+          generateRedirectComponent: false,
+          generateUseRedirect: false,
         });
       });
 
@@ -618,9 +618,9 @@ describe("parseAppConfig", () => {
           linkComponent: "Link",
           linkProps: "CustomLinkProps",
           hrefProp: "customHref",
-          generateLinkComponent: true,
-          generateRedirectComponent: true,
-          generateUseRedirect: true,
+          generateLinkComponent: false,
+          generateRedirectComponent: false,
+          generateUseRedirect: false,
         });
       });
 
