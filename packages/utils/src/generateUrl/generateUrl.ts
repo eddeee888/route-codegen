@@ -1,5 +1,6 @@
 import { compile, PathFunction } from "path-to-regexp";
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 const cache: Record<string, (data?: object) => string> = {};
 const cacheLimit = 10000;
 let cacheCount = 0;
@@ -41,6 +42,7 @@ const generateQueryString = (query?: Record<string, string | undefined>): string
 
 export type GenerateUrl = <P>(pattern: string, path: P, query?: Record<string, string | undefined>, origin?: string) => string;
 const generateUrl: GenerateUrl = (pattern, path, query, origin) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (origin ?? "") + generatePath(pattern, path as any) + generateQueryString(query);
 };
 

@@ -11,7 +11,7 @@ const generateExternalRoutesConfig = (apps: Record<string, AppConfig>): Record<s
     delete otherApps[appName];
 
     // Use otherApps to generate the external route from current app
-    const appRoutes = Object.entries(otherApps).reduce<Record<string, AppRoute>>((prevAppRoutes, [app, { origin = "", routes }]) => {
+    const appRoutes = Object.entries(otherApps).reduce<Record<string, AppRoute>>((prevAppRoutes, [__app, { origin = "", routes }]) => {
       if (!routes) {
         return prevAppRoutes;
       }
