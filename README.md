@@ -3,13 +3,14 @@
 
 # route-codegen
 
-This library generates route modules which can be used to manage client-side ( e.g. [react-router](https://github.com/ReactTraining/react-router), [NextJS](https://github.com/zeit/next.js/), etc. ) and server-side routing ( normal `<a />`).
+Route Codegen is a library that generates Typescript functions, hooks and types. There are concerns at different levels when routing in modern web applications:
 
-Given a route pattern, automatically detect and generate link components to go to routes in the same app via client-side routing or routes in a different app via server-side routing. Typescript interfaces and helper functions / hooks are generated as well to make routing safe and easy.
+- URL generation
+- Safely accessing dynamic path params of a URL
+- Linking to a route inside the app vs linking to an external route
+- Making sure href of all anchors are correct even when a route pattern changes
 
-This library can help you avoid routing errors like this:
-
-![CRAroutenotfound](https://user-images.githubusercontent.com/33769523/77838225-9de4da00-71bd-11ea-991f-a3721a537dc8.gif)
+Route Codegen aims to simplify developmement workflows by keeping apps' routes in one config file and generates the codes that take care of the listed concerns.
 
 ## Supports
 
@@ -18,14 +19,10 @@ This library can help you avoid routing errors like this:
 
 ## Installation
 
-### Single app project
-
-If you only have one app, you can install at project root:
-
 ```bash
 yarn add -D @route-codegen/core
 yarn add @route-codegen/utils
-yarn add @route-codegen/react # Only if you use generateRedirectComponent option for react
+yarn add @route-codegen/react # Only if you use generate.redirectComponent option
 ```
 
 Or
@@ -33,10 +30,12 @@ Or
 ```bash
 npm i --save-dev @route-codegen/core
 npm i @route-codegen/utils
-npm i @route-codegen/react # Only if you use generateRedirectComponent option for react
+npm i @route-codegen/react # Only if you use generate.redirectComponent option
 ```
 
-Add `route-codegen.yml` to project root. Example:
+## Get started
+
+Add `route-codegen.yml` to your project root:
 
 ```yml
 apps:
@@ -46,42 +45,26 @@ apps:
       logout: /logout
       user: /user/:id/:subview(profile|pictures)?
     routingType: ReactRouterV5 # "ReactRouterV5", "NextJS" or "Default" ( normal <a />)
-    destinationDir: client/src/routes
+    destinationDir: src/routes
 ```
 
-More details about [config file](#configuration).
-
-### Monorepos
-
-[Example mono repo](https://github.com/eddeee888/base-react-app)
-
-If you have more than one app and want to manage all routes in one config file, you will need to run the cli command at project root. Run the following at project root or in a route manager package:
+Then run the following command:
 
 ```bash
-yarn add @route-codegen/core
+yarn route-codegen
 ```
 
 Or
 
 ```bash
-npm i @route-codegen/core
+npx route-codegen
 ```
 
-Install supporting packages in each app:
+You will get fully typed functions to generate URLs to login, logout and user routes. These files are accompanied by related types based on the app's main routing approach.
 
-```bash
-yarn add @route-codegen/utils
-yarn add @route-codegen/react # Only if you use generateRedirectComponent option for react
-```
+### Advanced usage
 
-Or
-
-```bash
-npm i @route-codegen/utils
-npm i @route-codegen/react # Only if you use generateRedirectComponent option for react
-```
-
-Add `route-codegen.yml` to project root / route manager package. Example:
+If you have more than one app and want to manage all routes in one config file, you can use one config file to do so:
 
 ```yml
 apps:
@@ -92,24 +75,23 @@ apps:
       user: /user/:id/:subview(profile|pictures)?
     routingType: ReactRouterV5 # "ReactRouterV5", "NextJS" or "Default" ( normal <a />)
     generate:
+      linkComponent: true
+      redirectComponent: true
+      useParams: true
+      useRedirect: true
       rootIndex: true # Create a "barrel" style index function that exports all route modules
     destinationDir: client/src/routes
 
   client-seo:
     routes:
       home: /
+      about: /about
     routingType: NextJS
     destinationDir: client-seo/src/routes
 
   # An app without `routes` is still valid.
   # In this case, this app can still generate url to other apps
-  # `generateLinkComponent`, `generateUseParams`, `generateRedirectComponent` and `generateUseRedirect` should be false to avoid generating unncessary files
   express-server:
-    generate:
-      linkComponent: false
-      redirectComponent: false
-      useParams: false
-      useRedirect: false
     destinationDir: server/src/routes
 
   # Leave out `destinationDir` if no route needs to be generated.
@@ -126,7 +108,11 @@ apps:
       externalAppHome: /
 ```
 
-More details about the [config file](#configuration).
+Check out this [example config of a website](https://github.com/eddeee888/base-app-monorepo/blob/master/services/route-manager/route-codegen.yml) that has multiple services:
+
+- One [create-react-app](https://create-react-app.dev/) with [react-router](https://reactrouter.com/)
+- One [NextJS](https://nextjs.org/) app
+- One express server
 
 ## Configuration
 
@@ -142,18 +128,6 @@ Path parameter patterns are a subset of https://github.com/pillarjs/path-to-rege
 ### Customising links
 
 If you have custom links ( e.g. to apply styling on top of underlying link components ), check out the [link options doc](./docs/LINK_OPTIONS.md).
-
-## Generating route modules
-
-```bash
-yarn route-codegen
-```
-
-Or
-
-```bash
-npx route-codegen
-```
 
 ### CLI Options
 
