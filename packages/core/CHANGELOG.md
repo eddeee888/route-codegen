@@ -1,5 +1,12 @@
 # @route-codegen/core
 
+## 0.3.1
+
+### Patch Changes
+
+- f33b3dd: Lint minor type issues
+- c6ef5ab: Make default generate options false
+
 ## 0.3.0
 
 ### Minor Changes

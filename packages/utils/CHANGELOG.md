@@ -1,5 +1,11 @@
 # @route-codegen/utils
 
+## 0.1.2
+
+### Patch Changes
+
+- f33b3dd: Lint minor type issues
+
 ## 0.1.1
 
 ### Patch Changes
