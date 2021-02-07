@@ -3,14 +3,14 @@
 
 # route-codegen
 
-Route Codegen is a library that generates Typescript functions, hooks and types. There are concerns at different levels when routing in modern web applications:
+Route Codegen is a library that generates Typescript functions, hooks and types for routing purposes. There are many areas in modern web application routing:
 
 - URL generation
 - Safely accessing dynamic path params of a URL
 - Linking to a route inside the app vs linking to an external route
-- Making sure href of all anchors are correct even when a route pattern changes
+- Making sure href of all anchors are correct when route patterns change
 
-Route Codegen aims to simplify developmement workflows by keeping apps' routes in one config file and generates the codes that take care of the listed concerns.
+Route Codegen aims to simplify workflows by keeping apps' routes in one config file and generates the code to handle routing concerns.
 
 ## Supports
 
@@ -33,7 +33,7 @@ npm i @route-codegen/utils
 npm i @route-codegen/react # Only if you use generate.redirectComponent option
 ```
 
-## Get started
+## Basic usage
 
 Add `route-codegen.yml` to your project root:
 
@@ -89,13 +89,12 @@ apps:
     routingType: NextJS
     destinationDir: client-seo/src/routes
 
-  # An app without `routes` is still valid.
-  # In this case, this app can still generate url to other apps
+  # An app without `routes` will get generated code to support routing to other apps.
   express-server:
     destinationDir: server/src/routes
 
-  # Leave out `destinationDir` if no route needs to be generated.
-  # Other apps still generates routes to navigate to this app
+  # An app without `destinationDir` will not get generated code.
+  # Other apps will get generated code to support routing to this app.
   legacy:
     routes:
       legacyApp: /legacy/app
