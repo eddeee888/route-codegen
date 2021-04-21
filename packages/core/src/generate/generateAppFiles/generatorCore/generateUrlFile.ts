@@ -2,14 +2,14 @@ import { TemplateFile, Import } from "../../types";
 import { printImport, capitalizeFirstChar } from "../../utils";
 import { PatternNamedExports } from "../types";
 
-type GenerateUrlFile = (params: {
+export type GenerateUrlFile = (params: {
   importGenerateUrl: Import;
   patternNamedExports: PatternNamedExports;
   routeName: string;
   destinationDir: string;
 }) => TemplateFile;
 
-const generateUrlFile: GenerateUrlFile = ({
+export const generateUrlFile: GenerateUrlFile = ({
   importGenerateUrl,
   patternNamedExports: { patternName, urlPartsInterfaceName, filename, pathParamsInterfaceName, originName },
   routeName: originalRouteName,
@@ -26,9 +26,7 @@ const generateUrlFile: GenerateUrlFile = ({
     namedImports: [{ name: patternName }, { name: urlPartsInterfaceName }, { name: originName }],
     from: `./${filename}`,
   })}
-  const ${functionName} = ( urlParts${urlPartOptionalModifier}: ${urlPartsInterfaceName} ): string => generateUrl(${patternName}, ${pathVariable}, urlParts?.query, urlParts?.origin ?? ${originName});
-  export default ${functionName};
-  `;
+  export const ${functionName} = ( urlParts${urlPartOptionalModifier}: ${urlPartsInterfaceName} ): string => generateUrl({pattern: ${patternName}, path: ${pathVariable}, query: urlParts?.query, origin: urlParts?.origin ?? ${originName}});`;
 
   const templateFile: TemplateFile = {
     template,
@@ -36,11 +34,9 @@ const generateUrlFile: GenerateUrlFile = ({
     extension: ".ts",
     destinationDir,
     routeName: originalRouteName,
-    hasDefaultExport: true,
-    hasNamedExports: false,
+    hasDefaultExport: false,
+    hasNamedExports: true,
   };
 
   return templateFile;
 };
-
-export default generateUrlFile;

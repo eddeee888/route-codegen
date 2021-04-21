@@ -1,4 +1,4 @@
-import { commandFlags } from "../../handleCommandFlags";
+import { commandFlags } from "../handleCommandFlags";
 
 const info = (path: string[], message: string): void => {
   if (commandFlags.verbose) {
