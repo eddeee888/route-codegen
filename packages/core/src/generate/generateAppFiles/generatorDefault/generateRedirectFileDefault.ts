@@ -25,14 +25,14 @@ export const generateRedirectFileDefault = (params: GenerateRedirectFileDefaultP
   ${printImport(importGenerateUrl)}
   ${printImport({
     namedImports: [
-      { name: patternNamedExports.urlPartsInterfaceName },
+      { name: patternNamedExports.urlParamsInterfaceName },
       { name: patternNamedExports.patternName },
       { name: patternNamedExports.originName },
     ],
     from: `./${patternNamedExports.filename}`,
   })}
   export const ${functionName}: React.FunctionComponent<${
-    patternNamedExports.urlPartsInterfaceName
+    patternNamedExports.urlParamsInterfaceName
   } & { fallback?: React.ReactNode }> = props => {
     const to = ${generateUrlFnName}(${patternNamedExports.patternName}, { path: ${
     hasPathParams ? "props.path" : "{}"

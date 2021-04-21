@@ -20,7 +20,7 @@ export const generateUseRedirectFileDefault = (params: GenerateUseRedirectFileDe
 
   const template = `${printImport({
     namedImports: [
-      { name: patternNamedExports.urlPartsInterfaceName },
+      { name: patternNamedExports.urlParamsInterfaceName },
       { name: patternNamedExports.patternName },
       { name: patternNamedExports.originName },
     ],
@@ -28,7 +28,7 @@ export const generateUseRedirectFileDefault = (params: GenerateUseRedirectFileDe
   })}
   ${printImport(importGenerateUrl)}
   export type ${resultTypeInterface} = (urlParts${!patternNamedExports.pathParamsInterfaceName ? "?" : ""}: ${
-    patternNamedExports.urlPartsInterfaceName
+    patternNamedExports.urlParamsInterfaceName
   }) => void;
   export const ${functionName} = (): ${resultTypeInterface} => {
     const redirect: ${resultTypeInterface} = urlParts => {
