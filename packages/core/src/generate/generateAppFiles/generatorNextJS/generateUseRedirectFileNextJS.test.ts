@@ -1,4 +1,4 @@
-import generateUseRedirectFileNextJS, { GenerateUseRedirectFileNextJSParams } from "./generateUseRedirectFileNextJS";
+import { generateUseRedirectFileNextJS, GenerateUseRedirectFileNextJSParams } from "./generateUseRedirectFileNextJS";
 
 describe("generateUseRedirectFileNextJS", () => {
   it("should generate when there is no pathParams", () => {
@@ -21,26 +21,27 @@ describe("generateUseRedirectFileNextJS", () => {
     expect(templateFile.filename).toBe("useRedirectLogin");
     expect(templateFile.extension).toBe(".ts");
     expect(templateFile.destinationDir).toBe("path/to/routes");
-    expect(templateFile.template).toContain(`import {useRouter,} from 'next/router'
-  import {UrlPartsLogin,patternNextJSLogin,} from './patternLogin'
-  export type RedirectFnLogin = (urlParts?: UrlPartsLogin) => void;
-  const useRedirectLogin = (): RedirectFnLogin => {
-    const router = useRouter();
-    const redirect: RedirectFnLogin = urlParts => {
-      const query = urlParts?.query ?? {};
-      const path = {};
-      const pathname = patternNextJSLogin;
-      router.push({
-        pathname: pathname,
-        query: {
-          ...path,
-          ...query,
-        },
-      })
-    }
-    return redirect;
-  }
-  export default useRedirectLogin`);
+    expect(templateFile.template).toMatchInlineSnapshot(`
+      "import {useRouter,} from 'next/router'
+        import {UrlPartsLogin,patternNextJSLogin,} from './patternLogin'
+        export type RedirectFnLogin = (urlParts?: UrlPartsLogin) => void;
+        export const useRedirectLogin = (): RedirectFnLogin => {
+          const router = useRouter();
+          const redirect: RedirectFnLogin = urlParts => {
+            const query = urlParts?.query ?? {};
+            const path = {};
+            const pathname = patternNextJSLogin;
+            router.push({
+              pathname: pathname,
+              query: {
+                ...path,
+                ...query,
+              },
+            })
+          }
+          return redirect;
+        }"
+    `);
   });
 
   it("should generate when there is pathParams", () => {
@@ -66,25 +67,26 @@ describe("generateUseRedirectFileNextJS", () => {
     expect(templateFile.filename).toBe("useRedirectUserInfo");
     expect(templateFile.extension).toBe(".ts");
     expect(templateFile.destinationDir).toBe("path/to/routes");
-    expect(templateFile.template).toContain(`import {useRouter,} from 'next/router'
-  import {UrlPartsUserInfo,patternNextJSUserInfo,possiblePathParamsUserInfo,} from './patternUserInfo'
-  export type RedirectFnUserInfo = (urlParts: UrlPartsUserInfo) => void;
-  const useRedirectUserInfo = (): RedirectFnUserInfo => {
-    const router = useRouter();
-    const redirect: RedirectFnUserInfo = urlParts => {
-      const query = urlParts?.query ?? {};
-      const path = urlParts.path;
-      const pathname = possiblePathParamsUserInfo.filter((key) => !(key in urlParts.path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(${"`/[${suppliedParam}]`"}, ""), patternNextJSUserInfo);
-      router.push({
-        pathname: pathname,
-        query: {
-          ...path,
-          ...query,
-        },
-      })
-    }
-    return redirect;
-  }
-  export default useRedirectUserInfo`);
+    expect(templateFile.template).toMatchInlineSnapshot(`
+      "import {useRouter,} from 'next/router'
+        import {UrlPartsUserInfo,patternNextJSUserInfo,possiblePathParamsUserInfo,} from './patternUserInfo'
+        export type RedirectFnUserInfo = (urlParts: UrlPartsUserInfo) => void;
+        export const useRedirectUserInfo = (): RedirectFnUserInfo => {
+          const router = useRouter();
+          const redirect: RedirectFnUserInfo = urlParts => {
+            const query = urlParts?.query ?? {};
+            const path = urlParts.path;
+            const pathname = possiblePathParamsUserInfo.filter((key) => !(key in urlParts.path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[\${suppliedParam}]\`, \\"\\"), patternNextJSUserInfo);
+            router.push({
+              pathname: pathname,
+              query: {
+                ...path,
+                ...query,
+              },
+            })
+          }
+          return redirect;
+        }"
+    `);
   });
 });
