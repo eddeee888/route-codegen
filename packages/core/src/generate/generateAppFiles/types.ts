@@ -5,6 +5,6 @@ export interface PatternNamedExports {
   pathParamsInterfaceName?: string;
   pathParamsInterfaceNameNextJS?: string;
   possiblePathParamsVariableName?: string;
-  urlPartsInterfaceName: string;
+  urlParamsInterfaceName: string;
   filename: string;
 }

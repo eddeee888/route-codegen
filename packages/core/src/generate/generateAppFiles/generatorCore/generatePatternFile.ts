@@ -25,7 +25,7 @@ const generateRoutePatternFile = (params: GenerateRoutePatternFileParams): [Temp
   const filename = patternName;
   const pathParams = generatePathParamsInterface(keys, routeName);
   const possiblePathParams = generatePossiblePathParams(keys, routeName);
-  const urlParts = generateUrlPartsInterface(routeName, pathParams);
+  const urlParams = generateUrlParamsInterface(routeName, pathParams);
 
   const patternNextJS = routingType === RoutingType.NextJS ? generateNextJSPattern({ keys, routeName, routePattern }) : null;
   const pathParamsNextJS =
@@ -37,7 +37,7 @@ const generateRoutePatternFile = (params: GenerateRoutePatternFileParams): [Temp
   ${pathParams ? pathParams.template : ""}
   ${pathParamsNextJS ? pathParamsNextJS.template : ""}
   ${possiblePathParams ? possiblePathParams.template : ""}
-  ${urlParts.template}`;
+  ${urlParams.template}`;
 
   const result: [TemplateFile, PatternNamedExports] = [
     {
@@ -56,7 +56,7 @@ const generateRoutePatternFile = (params: GenerateRoutePatternFileParams): [Temp
       pathParamsInterfaceName: pathParams ? pathParams.interfaceName : undefined,
       pathParamsInterfaceNameNextJS: pathParamsNextJS ? pathParamsNextJS.interfaceName : undefined,
       possiblePathParamsVariableName: possiblePathParams ? possiblePathParams.variableName : undefined,
-      urlPartsInterfaceName: urlParts.interfaceName,
+      urlParamsInterfaceName: urlParams.interfaceName,
       filename,
     },
   ];
@@ -149,11 +149,11 @@ const generateNextJSPathParams = (keys: Key[], routeName: string): PathParamsInt
   };
 };
 
-const generateUrlPartsInterface = (
+const generateUrlParamsInterface = (
   routeName: string,
   pathParams: PathParamsInterfaceResult | undefined
 ): { template: string; interfaceName: string } => {
-  const interfaceName = `UrlParts${routeName}`;
+  const interfaceName = `UrlParams${routeName}`;
 
   const template = `export interface ${interfaceName} {
     ${pathParams ? `path: ${pathParams.interfaceName};` : ""}
