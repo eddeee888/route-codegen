@@ -10,7 +10,7 @@ export interface GenerateRedirectFileDefaultParams {
   importRedirectServerSide: Import;
 }
 
-const generateRedirectFileDefault = (params: GenerateRedirectFileDefaultParams): TemplateFile => {
+export const generateRedirectFileDefault = (params: GenerateRedirectFileDefaultParams): TemplateFile => {
   const { routeName: originalRouteName, destinationDir, importGenerateUrl, patternNamedExports, importRedirectServerSide } = params;
 
   const routeName = capitalizeFirstChar(originalRouteName);
@@ -31,13 +31,14 @@ const generateRedirectFileDefault = (params: GenerateRedirectFileDefaultParams):
     ],
     from: `./${patternNamedExports.filename}`,
   })}
-  const ${functionName}: React.FunctionComponent<${patternNamedExports.urlPartsInterfaceName} & { fallback?: React.ReactNode }> = props => {
-    const to = ${generateUrlFnName}(${patternNamedExports.patternName}, ${
+  export const ${functionName}: React.FunctionComponent<${
+    patternNamedExports.urlPartsInterfaceName
+  } & { fallback?: React.ReactNode }> = props => {
+    const to = ${generateUrlFnName}({ pattern: ${patternNamedExports.patternName}, path: ${
     hasPathParams ? "props.path" : "{}"
-  }, props.query, props.origin ?? ${patternNamedExports.originName});
+  }, query: props.query, origin: props.origin ?? ${patternNamedExports.originName} });
     return <${redirectCompName} href={to} fallback={props.fallback} />;
-  };
-  export default ${functionName}`;
+  };`;
 
   return {
     filename: functionName,
@@ -45,9 +46,7 @@ const generateRedirectFileDefault = (params: GenerateRedirectFileDefaultParams):
     extension: ".tsx",
     template,
     routeName: originalRouteName,
-    hasDefaultExport: true,
-    hasNamedExports: false,
+    hasDefaultExport: false,
+    hasNamedExports: true,
   };
 };
-
-export default generateRedirectFileDefault;
