@@ -5,6 +5,6 @@ import Link, { LinkProps } from "common/components/Link";
 import { patternSignup, UrlPartsSignup } from "./patternSignup";
 type LinkSignupProps = Omit<LinkProps, "to"> & UrlPartsSignup;
 export const LinkSignup: React.FunctionComponent<LinkSignupProps> = ({ query, origin, ...props }) => {
-  const to = generateUrl({ pattern: patternSignup, path: {}, query, origin });
+  const to = generateUrl(patternSignup, { path: {}, query, origin });
   return <Link {...props} to={to} />;
 };

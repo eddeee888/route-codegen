@@ -4,8 +4,7 @@ import { generateUrl } from "@route-codegen/utils";
 export type RedirectFnActivateAccount = (urlParts: UrlPartsActivateAccount) => void;
 export const useRedirectActivateAccount = (): RedirectFnActivateAccount => {
   const redirect: RedirectFnActivateAccount = (urlParts) => {
-    const to = generateUrl({
-      pattern: patternActivateAccount,
+    const to = generateUrl(patternActivateAccount, {
       path: urlParts.path,
       query: urlParts?.query,
       origin: urlParts?.origin ?? originActivateAccount,

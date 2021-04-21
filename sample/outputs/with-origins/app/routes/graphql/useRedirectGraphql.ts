@@ -4,7 +4,7 @@ import { generateUrl } from "@route-codegen/utils";
 export type RedirectFnGraphql = (urlParts?: UrlPartsGraphql) => void;
 export const useRedirectGraphql = (): RedirectFnGraphql => {
   const redirect: RedirectFnGraphql = (urlParts) => {
-    const to = generateUrl({ pattern: patternGraphql, path: {}, query: urlParts?.query, origin: urlParts?.origin ?? originGraphql });
+    const to = generateUrl(patternGraphql, { path: {}, query: urlParts?.query, origin: urlParts?.origin ?? originGraphql });
     if (!!window && !!window.location) {
       window.location.href = to;
     }

@@ -2,4 +2,4 @@
 import { generateUrl } from "@route-codegen/utils";
 import { patternHome, UrlPartsHome, originHome } from "./patternHome";
 export const generateUrlHome = (urlParts?: UrlPartsHome): string =>
-  generateUrl({ pattern: patternHome, path: {}, query: urlParts?.query, origin: urlParts?.origin ?? originHome });
+  generateUrl(patternHome, { path: {}, query: urlParts?.query, origin: urlParts?.origin ?? originHome });

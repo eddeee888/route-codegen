@@ -4,7 +4,7 @@ import { generateUrl } from "@route-codegen/utils";
 export type RedirectFnUser = (urlParts: UrlPartsUser) => void;
 export const useRedirectUser = (): RedirectFnUser => {
   const redirect: RedirectFnUser = (urlParts) => {
-    const to = generateUrl({ pattern: patternUser, path: urlParts.path, query: urlParts?.query, origin: urlParts?.origin ?? originUser });
+    const to = generateUrl(patternUser, { path: urlParts.path, query: urlParts?.query, origin: urlParts?.origin ?? originUser });
     if (!!window && !!window.location) {
       window.location.href = to;
     }

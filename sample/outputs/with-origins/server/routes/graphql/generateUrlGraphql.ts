@@ -2,4 +2,4 @@
 import { generateUrl } from "@route-codegen/utils";
 import { patternGraphql, UrlPartsGraphql, originGraphql } from "./patternGraphql";
 export const generateUrlGraphql = (urlParts?: UrlPartsGraphql): string =>
-  generateUrl({ pattern: patternGraphql, path: {}, query: urlParts?.query, origin: urlParts?.origin ?? originGraphql });
+  generateUrl(patternGraphql, { path: {}, query: urlParts?.query, origin: urlParts?.origin ?? originGraphql });

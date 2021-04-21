@@ -5,6 +5,6 @@ import { AnchorProps, CustomAnchor as Link } from "common/ui/Anchor";
 import { patternAbout, UrlPartsAbout, originAbout } from "./patternAbout";
 type LinkAboutProps = Omit<AnchorProps, "href"> & UrlPartsAbout;
 export const LinkAbout: React.FunctionComponent<LinkAboutProps> = ({ path, query, origin, ...props }) => {
-  const to = generateUrl({ pattern: patternAbout, path: path, query, origin: origin ?? originAbout });
+  const to = generateUrl(patternAbout, { path: path, query, origin: origin ?? originAbout });
   return <Link {...props} href={to} />;
 };

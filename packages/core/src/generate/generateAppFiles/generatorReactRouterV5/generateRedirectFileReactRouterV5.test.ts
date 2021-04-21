@@ -26,7 +26,7 @@ describe("generateRedirectFileReactRouterV5", () => {
         import {Redirect,} from 'react-router'
         import {UrlPartsLogin,patternLogin,} from './patternLogin'
         export const RedirectLogin: React.FunctionComponent<UrlPartsLogin & { fallback?: React.ReactNode }> = props => {
-          const to = generateUrl(patternLogin, { path: {}, query: props.query, origin: props.origin);
+          const to = generateUrl(patternLogin, { path: {}, query: props.query, origin: props.origin });
           return (
             <>
               <Redirect to={to} />
@@ -55,7 +55,7 @@ describe("generateRedirectFileReactRouterV5", () => {
         import {Redirect,} from 'react-router'
         import {UrlPartsLogin,patternLogin,} from './patternLogin'
         export const RedirectLogin: React.FunctionComponent<UrlPartsLogin & { fallback?: React.ReactNode }> = props => {
-          const to = generateUrl(patternLogin, { path: props.path, query: props.query, origin: props.origin);
+          const to = generateUrl(patternLogin, { path: props.path, query: props.query, origin: props.origin });
           return (
             <>
               <Redirect to={to} />

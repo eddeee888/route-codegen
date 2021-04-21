@@ -5,6 +5,6 @@ import Link, { AnchorProps } from "src/common/ui/Anchor";
 import { patternLogin, UrlPartsLogin, originLogin } from "./patternLogin";
 type LinkLoginProps = Omit<AnchorProps, "href"> & UrlPartsLogin;
 export const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({ query, origin, ...props }) => {
-  const to = generateUrl({ pattern: patternLogin, path: {}, query, origin: origin ?? originLogin });
+  const to = generateUrl(patternLogin, { path: {}, query, origin: origin ?? originLogin });
   return <Link {...props} href={to} />;
 };

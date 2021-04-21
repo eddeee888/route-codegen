@@ -5,6 +5,6 @@ import { generateUrl } from "@route-codegen/utils";
 import { patternToc, UrlPartsToc, originToc } from "./patternToc";
 type LinkProps = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, "href"> & UrlPartsToc;
 export const LinkToc: React.FunctionComponent<LinkProps> = ({ query, origin, ...props }) => {
-  const to = generateUrl({ pattern: patternToc, path: {}, query, origin: origin ?? originToc });
+  const to = generateUrl(patternToc, { path: {}, query, origin: origin ?? originToc });
   return <a {...props} href={to} />;
 };

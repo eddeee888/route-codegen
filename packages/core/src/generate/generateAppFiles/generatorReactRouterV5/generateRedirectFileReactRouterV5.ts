@@ -30,7 +30,7 @@ export const generateRedirectFileReactRouterV5 = (params: GenerateRedirectFileRe
   } & { fallback?: React.ReactNode }> = props => {
     const to = ${generateUrlFnName}(${patternNamedExports.patternName}, { path: ${
     hasPathParams ? "props.path" : "{}"
-  }, query: props.query, origin: props.origin);
+  }, query: props.query, origin: props.origin });
     return (
       <>
         <Redirect to={to} />

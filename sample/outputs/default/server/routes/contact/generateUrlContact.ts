@@ -2,4 +2,4 @@
 import { generateUrl } from "@route-codegen/utils";
 import { patternContact, UrlPartsContact, originContact } from "./patternContact";
 export const generateUrlContact = (urlParts: UrlPartsContact): string =>
-  generateUrl({ pattern: patternContact, path: urlParts.path, query: urlParts?.query, origin: urlParts?.origin ?? originContact });
+  generateUrl(patternContact, { path: urlParts.path, query: urlParts?.query, origin: urlParts?.origin ?? originContact });
