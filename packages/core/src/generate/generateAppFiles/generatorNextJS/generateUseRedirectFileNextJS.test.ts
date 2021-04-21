@@ -24,11 +24,11 @@ describe("generateUseRedirectFileNextJS", () => {
     expect(templateFile.template).toMatchInlineSnapshot(`
       "import {useRouter,} from 'next/router'
         import {UrlParamsLogin,patternNextJSLogin,} from './patternLogin'
-        export type RedirectFnLogin = (urlParts?: UrlParamsLogin) => void;
+        export type RedirectFnLogin = (urlParams?: UrlParamsLogin) => void;
         export const useRedirectLogin = (): RedirectFnLogin => {
           const router = useRouter();
-          const redirect: RedirectFnLogin = urlParts => {
-            const query = urlParts?.query ?? {};
+          const redirect: RedirectFnLogin = urlParams => {
+            const query = urlParams?.query ?? {};
             const path = {};
             const pathname = patternNextJSLogin;
             router.push({
@@ -70,13 +70,13 @@ describe("generateUseRedirectFileNextJS", () => {
     expect(templateFile.template).toMatchInlineSnapshot(`
       "import {useRouter,} from 'next/router'
         import {UrlParamsUserInfo,patternNextJSUserInfo,possiblePathParamsUserInfo,} from './patternUserInfo'
-        export type RedirectFnUserInfo = (urlParts: UrlParamsUserInfo) => void;
+        export type RedirectFnUserInfo = (urlParams: UrlParamsUserInfo) => void;
         export const useRedirectUserInfo = (): RedirectFnUserInfo => {
           const router = useRouter();
-          const redirect: RedirectFnUserInfo = urlParts => {
-            const query = urlParts?.query ?? {};
-            const path = urlParts.path;
-            const pathname = possiblePathParamsUserInfo.filter((key) => !(key in urlParts.path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[\${suppliedParam}]\`, \\"\\"), patternNextJSUserInfo);
+          const redirect: RedirectFnUserInfo = urlParams => {
+            const query = urlParams?.query ?? {};
+            const path = urlParams.path;
+            const pathname = possiblePathParamsUserInfo.filter((key) => !(key in urlParams.path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[\${suppliedParam}]\`, \\"\\"), patternNextJSUserInfo);
             router.push({
               pathname: pathname,
               query: {
