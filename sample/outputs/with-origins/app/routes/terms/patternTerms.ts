@@ -2,7 +2,7 @@
 export const patternTerms = "/terms";
 export const originTerms = "https://domain.com";
 
-export interface UrlPartsTerms {
+export interface UrlParamsTerms {
   query?: Record<string, string | undefined>;
   origin?: string;
 }

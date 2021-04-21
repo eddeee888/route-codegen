@@ -19,7 +19,7 @@ export const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): Te
     patternNamedExports: {
       filename: routePatternFilename,
       pathParamsInterfaceName,
-      urlPartsInterfaceName,
+      urlParamsInterfaceName,
       patternNameNextJS,
       possiblePathParamsVariableName,
     },
@@ -33,7 +33,7 @@ export const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): Te
 
   const { hrefProp, importLink, linkComponent, linkPropsTemplate, linkPropsInterfaceName } = generateLinkInterface({
     defaultLinkPropsInterfaceName,
-    urlPartsInterfaceName,
+    urlParamsInterfaceName,
     routeLinkOption,
   });
 
@@ -41,7 +41,7 @@ export const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): Te
     return throwError([], 'Missing "patternNameNextJS". This is most likely a problem with route-codegen.');
   }
 
-  const namedImportsFromPatternFile = [{ name: urlPartsInterfaceName }, { name: patternNameNextJS }];
+  const namedImportsFromPatternFile = [{ name: urlParamsInterfaceName }, { name: patternNameNextJS }];
   let pathnameTemplate = `const pathname = ${patternNameNextJS};`;
   if (possiblePathParamsVariableName) {
     namedImportsFromPatternFile.push({ name: possiblePathParamsVariableName });
@@ -85,7 +85,7 @@ export const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): Te
 interface GenerateLinkInterfaceParams {
   routeLinkOption: RouteLinkOptions["NextJS"];
   defaultLinkPropsInterfaceName: string;
-  urlPartsInterfaceName: string;
+  urlParamsInterfaceName: string;
 }
 
 interface GenerateLinkInterfaceResult {
@@ -98,11 +98,11 @@ interface GenerateLinkInterfaceResult {
 }
 
 const generateLinkInterface = (params: GenerateLinkInterfaceParams): GenerateLinkInterfaceResult => {
-  const { routeLinkOption, defaultLinkPropsInterfaceName, urlPartsInterfaceName } = params;
+  const { routeLinkOption, defaultLinkPropsInterfaceName, urlParamsInterfaceName } = params;
 
   const { hrefProp, linkProps, importLink, linkComponent } = routeLinkOption;
 
-  const linkPropsTemplate = `type ${defaultLinkPropsInterfaceName} = Omit<${linkProps}, '${hrefProp}'> & ${urlPartsInterfaceName}`;
+  const linkPropsTemplate = `type ${defaultLinkPropsInterfaceName} = Omit<${linkProps}, '${hrefProp}'> & ${urlParamsInterfaceName}`;
   const linkPropsInterfaceName = defaultLinkPropsInterfaceName;
 
   return {

@@ -8,7 +8,7 @@ describe("generateUseRedirectReactRouterV5", () => {
         originName: "originLogin",
         filename: "patternLogin",
         patternName: "patternLogin",
-        urlPartsInterfaceName: "UrlPartsLogin",
+        urlParamsInterfaceName: "UrlParamsLogin",
       },
       destinationDir: "path/to/routes",
       importGenerateUrl: {
@@ -22,13 +22,13 @@ describe("generateUseRedirectReactRouterV5", () => {
     expect(templateFile.destinationDir).toBe("path/to/routes");
     expect(templateFile.template).toMatchInlineSnapshot(`
       "import {useHistory,} from 'react-router'
-        import {UrlPartsLogin,patternLogin,} from './patternLogin'
+        import {UrlParamsLogin,patternLogin,} from './patternLogin'
         import {generateUrl,} from 'route-codegen'
-        export type RedirectFnLogin = (urlParts?: UrlPartsLogin) => void;
+        export type RedirectFnLogin = (urlParams?: UrlParamsLogin) => void;
         export const useRedirectLogin = (): RedirectFnLogin => {
           const history = useHistory();
-          const redirect: RedirectFnLogin = urlParts => {
-            const to = generateUrl(patternLogin, { path: {}, query: urlParts?.query, origin: urlParts?.origin });
+          const redirect: RedirectFnLogin = urlParams => {
+            const to = generateUrl(patternLogin, { path: {}, query: urlParams?.query, origin: urlParams?.origin });
             history.push(to);
           }
           return redirect;
@@ -43,7 +43,7 @@ describe("generateUseRedirectReactRouterV5", () => {
         originName: "originLogin",
         filename: "patternUserInfo",
         patternName: "patternUserInfo",
-        urlPartsInterfaceName: "UrlPartsUserInfo",
+        urlParamsInterfaceName: "UrlParamsUserInfo",
         pathParamsInterfaceName: "PathParamsUserInfo",
       },
       destinationDir: "path/to/routes",
@@ -58,13 +58,13 @@ describe("generateUseRedirectReactRouterV5", () => {
     expect(templateFile.destinationDir).toBe("path/to/routes");
     expect(templateFile.template).toMatchInlineSnapshot(`
       "import {useHistory,} from 'react-router'
-        import {UrlPartsUserInfo,patternUserInfo,} from './patternUserInfo'
+        import {UrlParamsUserInfo,patternUserInfo,} from './patternUserInfo'
         import {generateUrl,} from 'route-codegen'
-        export type RedirectFnUserInfo = (urlParts: UrlPartsUserInfo) => void;
+        export type RedirectFnUserInfo = (urlParams: UrlParamsUserInfo) => void;
         export const useRedirectUserInfo = (): RedirectFnUserInfo => {
           const history = useHistory();
-          const redirect: RedirectFnUserInfo = urlParts => {
-            const to = generateUrl(patternUserInfo, { path: urlParts.path, query: urlParts?.query, origin: urlParts?.origin });
+          const redirect: RedirectFnUserInfo = urlParams => {
+            const to = generateUrl(patternUserInfo, { path: urlParams.path, query: urlParams?.query, origin: urlParams?.origin });
             history.push(to);
           }
           return redirect;

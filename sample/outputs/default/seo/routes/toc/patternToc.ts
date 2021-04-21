@@ -2,7 +2,7 @@
 export const patternToc = "/terms-and-conditions";
 export const originToc = "";
 
-export interface UrlPartsToc {
+export interface UrlParamsToc {
   query?: Record<string, string | undefined>;
   origin?: string;
 }

@@ -2,8 +2,8 @@
 import React from "react";
 import { generateUrl } from "@route-codegen/utils";
 
-import { patternContact, UrlPartsContact, originContact } from "./patternContact";
-type LinkProps = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, "href"> & UrlPartsContact;
+import { patternContact, UrlParamsContact, originContact } from "./patternContact";
+type LinkProps = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, "href"> & UrlParamsContact;
 export const LinkContact: React.FunctionComponent<LinkProps> = ({ path, query, origin, ...props }) => {
   const to = generateUrl(patternContact, { path: path, query, origin: origin ?? originContact });
   return <a {...props} href={to} />;

@@ -22,7 +22,7 @@ describe("generateLinkFileNextJS", () => {
       originName: "originLogin",
       filename: "patternLogin",
       patternName: "patternLogin",
-      urlPartsInterfaceName: "UrlPartsLogin",
+      urlParamsInterfaceName: "UrlParamsLogin",
       patternNameNextJS: "patternNextJSLogin",
     },
     destinationDir: "path/to/routes",
@@ -38,8 +38,8 @@ describe("generateLinkFileNextJS", () => {
       expect(templateFile.template).toMatchInlineSnapshot(`
         "import React from 'react'
           import Link, {NextJSLinkProps,} from 'src/NextJS/Link'
-          import {UrlPartsLogin,patternNextJSLogin,} from './patternLogin'
-          type LinkLoginProps = Omit<NextJSLinkProps, 'customHref'> & UrlPartsLogin
+          import {UrlParamsLogin,patternNextJSLogin,} from './patternLogin'
+          type LinkLoginProps = Omit<NextJSLinkProps, 'customHref'> & UrlParamsLogin
           export const LinkLogin: React.FunctionComponent<LinkLoginProps> = props => {
             const { query = {}, ...rest } = props; const path = {};
             const pathname = patternNextJSLogin;
@@ -71,8 +71,8 @@ describe("generateLinkFileNextJS", () => {
       expect(templateFile.template).toMatchInlineSnapshot(`
         "import React from 'react'
           import Link, {NextJSLinkProps,} from 'src/NextJS/Link'
-          import {UrlPartsLogin,patternNextJSLogin,possiblePathParamsLogin,} from './patternLogin'
-          type LinkLoginProps = Omit<NextJSLinkProps, 'customHref'> & UrlPartsLogin
+          import {UrlParamsLogin,patternNextJSLogin,possiblePathParamsLogin,} from './patternLogin'
+          type LinkLoginProps = Omit<NextJSLinkProps, 'customHref'> & UrlParamsLogin
           export const LinkLogin: React.FunctionComponent<LinkLoginProps> = props => {
             const { path = {}, query = {}, ...rest } = props;
             const pathname = possiblePathParamsLogin.filter((key) => !(key in path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[\${suppliedParam}]\`, \\"\\"), patternNextJSLogin);
@@ -112,8 +112,8 @@ describe("generateLinkFileNextJS", () => {
       expect(templateFile.template).toMatchInlineSnapshot(`
         "import React from 'react'
           import {CustomLinkProps,CustomLink as Link,} from 'src/common/Link'
-          import {UrlPartsLogin,patternNextJSLogin,} from './patternLogin'
-          type LinkLoginProps = Omit<CustomLinkProps, 'to'> & UrlPartsLogin
+          import {UrlParamsLogin,patternNextJSLogin,} from './patternLogin'
+          type LinkLoginProps = Omit<CustomLinkProps, 'to'> & UrlParamsLogin
           export const LinkLogin: React.FunctionComponent<LinkLoginProps> = props => {
             const { query = {}, ...rest } = props; const path = {};
             const pathname = patternNextJSLogin;

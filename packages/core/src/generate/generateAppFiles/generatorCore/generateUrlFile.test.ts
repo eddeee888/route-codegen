@@ -7,7 +7,7 @@ describe("generateUseParamsFile", () => {
       patternNamedExports: {
         filename: "patternUser",
         patternName: "patternUser",
-        urlPartsInterfaceName: "UrlPartsUser",
+        urlParamsInterfaceName: "UrlParamsUser",
         originName: "originUser",
       },
       destinationDir: "path/to/routes",
@@ -19,8 +19,8 @@ describe("generateUseParamsFile", () => {
     expect(templateFile.destinationDir).toBe("path/to/routes");
     expect(templateFile.template).toMatchInlineSnapshot(`
       "import {generateUrl,} from 'route-codegen'
-        import {patternUser,UrlPartsUser,originUser,} from './patternUser'
-        export const generateUrlUser = ( urlParts?: UrlPartsUser ): string => generateUrl(patternUser, { path: {}, query: urlParts?.query, origin: urlParts?.origin ?? originUser});"
+        import {patternUser,UrlParamsUser,originUser,} from './patternUser'
+        export const generateUrlUser = ( urlParams?: UrlParamsUser ): string => generateUrl(patternUser, { path: {}, query: urlParams?.query, origin: urlParams?.origin ?? originUser});"
     `);
   });
 
@@ -30,7 +30,7 @@ describe("generateUseParamsFile", () => {
       patternNamedExports: {
         filename: "patternUser",
         patternName: "patternUser",
-        urlPartsInterfaceName: "UrlPartsUser",
+        urlParamsInterfaceName: "UrlParamsUser",
         pathParamsInterfaceName: "PathParamsUser",
         originName: "originUser",
       },
@@ -43,8 +43,8 @@ describe("generateUseParamsFile", () => {
     expect(templateFile.destinationDir).toBe("path/to/routes");
     expect(templateFile.template).toMatchInlineSnapshot(`
       "import {generateUrl,} from 'route-codegen'
-        import {patternUser,UrlPartsUser,originUser,} from './patternUser'
-        export const generateUrlUser = ( urlParts: UrlPartsUser ): string => generateUrl(patternUser, { path: urlParts.path, query: urlParts?.query, origin: urlParts?.origin ?? originUser});"
+        import {patternUser,UrlParamsUser,originUser,} from './patternUser'
+        export const generateUrlUser = ( urlParams: UrlParamsUser ): string => generateUrl(patternUser, { path: urlParams.path, query: urlParams?.query, origin: urlParams?.origin ?? originUser});"
     `);
   });
 });

@@ -2,7 +2,7 @@
 export const patternLegacy = "/legacy/app";
 export const originLegacy = "https://legacy.domain.com";
 
-export interface UrlPartsLegacy {
+export interface UrlParamsLegacy {
   query?: Record<string, string | undefined>;
   origin?: string;
 }

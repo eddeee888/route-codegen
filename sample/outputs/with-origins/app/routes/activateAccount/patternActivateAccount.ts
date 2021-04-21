@@ -5,7 +5,7 @@ export const originActivateAccount = "https://api.domain.com";
 export type PathParamsActivateAccount = { code: string };
 
 export const possilePathParamsActivateAccount = ["code"];
-export interface UrlPartsActivateAccount {
+export interface UrlParamsActivateAccount {
   path: PathParamsActivateAccount;
   query?: Record<string, string | undefined>;
   origin?: string;

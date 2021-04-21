@@ -1,8 +1,8 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 import React from "react";
 import Link, { LinkProps } from "next/link";
-import { UrlPartsAbout, patternNextJSAbout, possilePathParamsAbout } from "./patternAbout";
-type LinkAboutProps = Omit<LinkProps, "href"> & UrlPartsAbout;
+import { UrlParamsAbout, patternNextJSAbout, possilePathParamsAbout } from "./patternAbout";
+type LinkAboutProps = Omit<LinkProps, "href"> & UrlParamsAbout;
 export const LinkAbout: React.FunctionComponent<LinkAboutProps> = (props) => {
   const { path = {}, query = {}, ...rest } = props;
   const pathname = possilePathParamsAbout

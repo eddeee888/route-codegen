@@ -1,5 +1,5 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 import { generateUrl } from "@route-codegen/utils";
-import { patternLegacy, UrlPartsLegacy, originLegacy } from "./patternLegacy";
-export const generateUrlLegacy = (urlParts?: UrlPartsLegacy): string =>
-  generateUrl(patternLegacy, { path: {}, query: urlParts?.query, origin: urlParts?.origin ?? originLegacy });
+import { patternLegacy, UrlParamsLegacy, originLegacy } from "./patternLegacy";
+export const generateUrlLegacy = (urlParams?: UrlParamsLegacy): string =>
+  generateUrl(patternLegacy, { path: {}, query: urlParams?.query, origin: urlParams?.origin ?? originLegacy });

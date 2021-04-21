@@ -8,7 +8,7 @@ describe("generateUseRedirectFileNextJS", () => {
         originName: "originLogin",
         filename: "patternLogin",
         patternName: "patternLogin",
-        urlPartsInterfaceName: "UrlPartsLogin",
+        urlParamsInterfaceName: "UrlParamsLogin",
         patternNameNextJS: "patternNextJSLogin",
       },
       destinationDir: "path/to/routes",
@@ -23,12 +23,12 @@ describe("generateUseRedirectFileNextJS", () => {
     expect(templateFile.destinationDir).toBe("path/to/routes");
     expect(templateFile.template).toMatchInlineSnapshot(`
       "import {useRouter,} from 'next/router'
-        import {UrlPartsLogin,patternNextJSLogin,} from './patternLogin'
-        export type RedirectFnLogin = (urlParts?: UrlPartsLogin) => void;
+        import {UrlParamsLogin,patternNextJSLogin,} from './patternLogin'
+        export type RedirectFnLogin = (urlParams?: UrlParamsLogin) => void;
         export const useRedirectLogin = (): RedirectFnLogin => {
           const router = useRouter();
-          const redirect: RedirectFnLogin = urlParts => {
-            const query = urlParts?.query ?? {};
+          const redirect: RedirectFnLogin = urlParams => {
+            const query = urlParams?.query ?? {};
             const path = {};
             const pathname = patternNextJSLogin;
             router.push({
@@ -51,7 +51,7 @@ describe("generateUseRedirectFileNextJS", () => {
         originName: "originUserInfo",
         filename: "patternUserInfo",
         patternName: "patternUserInfo",
-        urlPartsInterfaceName: "UrlPartsUserInfo",
+        urlParamsInterfaceName: "UrlParamsUserInfo",
         pathParamsInterfaceName: "PathParamsUserInfo",
         patternNameNextJS: "patternNextJSUserInfo",
         possiblePathParamsVariableName: "possiblePathParamsUserInfo",
@@ -69,14 +69,14 @@ describe("generateUseRedirectFileNextJS", () => {
     expect(templateFile.destinationDir).toBe("path/to/routes");
     expect(templateFile.template).toMatchInlineSnapshot(`
       "import {useRouter,} from 'next/router'
-        import {UrlPartsUserInfo,patternNextJSUserInfo,possiblePathParamsUserInfo,} from './patternUserInfo'
-        export type RedirectFnUserInfo = (urlParts: UrlPartsUserInfo) => void;
+        import {UrlParamsUserInfo,patternNextJSUserInfo,possiblePathParamsUserInfo,} from './patternUserInfo'
+        export type RedirectFnUserInfo = (urlParams: UrlParamsUserInfo) => void;
         export const useRedirectUserInfo = (): RedirectFnUserInfo => {
           const router = useRouter();
-          const redirect: RedirectFnUserInfo = urlParts => {
-            const query = urlParts?.query ?? {};
-            const path = urlParts.path;
-            const pathname = possiblePathParamsUserInfo.filter((key) => !(key in urlParts.path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[\${suppliedParam}]\`, \\"\\"), patternNextJSUserInfo);
+          const redirect: RedirectFnUserInfo = urlParams => {
+            const query = urlParams?.query ?? {};
+            const path = urlParams.path;
+            const pathname = possiblePathParamsUserInfo.filter((key) => !(key in urlParams.path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[\${suppliedParam}]\`, \\"\\"), patternNextJSUserInfo);
             router.push({
               pathname: pathname,
               query: {

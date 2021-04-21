@@ -20,7 +20,7 @@ describe("generatePatternFile", () => {
       expect(interfaceResult).toEqual({
         originName: "originLogin",
         patternName: "patternLogin",
-        urlPartsInterfaceName: "UrlPartsLogin",
+        urlParamsInterfaceName: "UrlParamsLogin",
         filename: "patternLogin",
       });
     });
@@ -45,7 +45,7 @@ describe("generatePatternFile", () => {
   export type PathParamsUserInfo = {id: string;subview:'profile'|'pictures';}
   
   export const possilePathParamsUserInfo = ['id','subview',]
-  export interface UrlPartsUserInfo {
+  export interface UrlParamsUserInfo {
     path: PathParamsUserInfo;
     query?: Record<string, string | undefined>;
     origin?: string;
@@ -55,7 +55,7 @@ describe("generatePatternFile", () => {
         originName: "originUserInfo",
         patternName: "patternUserInfo",
         pathParamsInterfaceName: "PathParamsUserInfo",
-        urlPartsInterfaceName: "UrlPartsUserInfo",
+        urlParamsInterfaceName: "UrlParamsUserInfo",
         filename: "patternUserInfo",
         possiblePathParamsVariableName: "possilePathParamsUserInfo",
       });
@@ -87,7 +87,7 @@ describe("generatePatternFile", () => {
           export type PathParamsUserInfo = {id: string;subview:'profile'|'pictures';singleEnum:'only';optional?: string;optionalEnum?:'enum1'|'enum2';}
           export interface PathParamsNextJSUserInfo {id: string | string[];subview: string | string[];singleEnum: string | string[];optional?: string | string[];optionalEnum?: string | string[];}
           export const possilePathParamsUserInfo = ['id','subview','singleEnum','optional','optionalEnum',]
-          export interface UrlPartsUserInfo {
+          export interface UrlParamsUserInfo {
             path: PathParamsUserInfo;
             query?: Record<string, string | undefined>;
             origin?: string;
@@ -99,7 +99,7 @@ describe("generatePatternFile", () => {
         patternNameNextJS: "patternNextJSUserInfo",
         pathParamsInterfaceName: "PathParamsUserInfo",
         pathParamsInterfaceNameNextJS: "PathParamsNextJSUserInfo",
-        urlPartsInterfaceName: "UrlPartsUserInfo",
+        urlParamsInterfaceName: "UrlParamsUserInfo",
         filename: "patternUserInfo",
         possiblePathParamsVariableName: "possilePathParamsUserInfo",
       });
@@ -129,7 +129,7 @@ describe("generatePatternFile", () => {
           export type PathParamsUserInfo = {id: string;subview:'profile'|'pictures';singleEnum:'only';optional?: string;optionalEnum?:'enum1'|'enum2';}
           
           export const possilePathParamsUserInfo = ['id','subview','singleEnum','optional','optionalEnum',]
-          export interface UrlPartsUserInfo {
+          export interface UrlParamsUserInfo {
             path: PathParamsUserInfo;
             query?: Record<string, string | undefined>;
             origin?: string;
@@ -141,7 +141,7 @@ describe("generatePatternFile", () => {
         patternNameNextJS: "patternNextJSUserInfo",
         pathParamsInterfaceName: "PathParamsUserInfo",
         pathParamsInterfaceNameNextJS: undefined,
-        urlPartsInterfaceName: "UrlPartsUserInfo",
+        urlParamsInterfaceName: "UrlParamsUserInfo",
         filename: "patternUserInfo",
         possiblePathParamsVariableName: "possilePathParamsUserInfo",
       });
@@ -171,7 +171,7 @@ describe("generatePatternFile", () => {
   
   
   
-  export interface UrlPartsUserInfo {
+  export interface UrlParamsUserInfo {
     
     query?: Record<string, string | undefined>;
     origin?: string;
@@ -183,7 +183,7 @@ describe("generatePatternFile", () => {
         patternNameNextJS: "patternNextJSUserInfo",
         pathParamsInterfaceName: undefined,
         pathParamsInterfaceNameNextJS: undefined,
-        urlPartsInterfaceName: "UrlPartsUserInfo",
+        urlParamsInterfaceName: "UrlParamsUserInfo",
         filename: "patternUserInfo",
         possiblePathParamsVariableName: undefined,
       });
@@ -211,7 +211,7 @@ describe("generatePatternFile", () => {
   export type PathParamsUserInfo = {id: string;subview:'profile'|'pictures';}
   
   export const possilePathParamsUserInfo = ['id','subview',]
-  export interface UrlPartsUserInfo {
+  export interface UrlParamsUserInfo {
     path: PathParamsUserInfo;
     query?: Record<string, string | undefined>;
     origin?: string;
@@ -221,7 +221,7 @@ describe("generatePatternFile", () => {
         originName: "originUserInfo",
         patternName: "patternUserInfo",
         pathParamsInterfaceName: "PathParamsUserInfo",
-        urlPartsInterfaceName: "UrlPartsUserInfo",
+        urlParamsInterfaceName: "UrlParamsUserInfo",
         filename: "patternUserInfo",
         possiblePathParamsVariableName: "possilePathParamsUserInfo",
       });

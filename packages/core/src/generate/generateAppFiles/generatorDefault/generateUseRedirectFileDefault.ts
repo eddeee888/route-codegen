@@ -15,26 +15,26 @@ export const generateUseRedirectFileDefault = (params: GenerateUseRedirectFileDe
   const routeName = capitalizeFirstChar(originalRouteName);
 
   const functionName = `useRedirect${routeName}`;
-  const pathVariable = patternNamedExports.pathParamsInterfaceName ? "urlParts.path" : "{}";
+  const pathVariable = patternNamedExports.pathParamsInterfaceName ? "urlParams.path" : "{}";
   const resultTypeInterface = `RedirectFn${routeName}`;
 
   const template = `${printImport({
     namedImports: [
-      { name: patternNamedExports.urlPartsInterfaceName },
+      { name: patternNamedExports.urlParamsInterfaceName },
       { name: patternNamedExports.patternName },
       { name: patternNamedExports.originName },
     ],
     from: `./${patternNamedExports.filename}`,
   })}
   ${printImport(importGenerateUrl)}
-  export type ${resultTypeInterface} = (urlParts${!patternNamedExports.pathParamsInterfaceName ? "?" : ""}: ${
-    patternNamedExports.urlPartsInterfaceName
+  export type ${resultTypeInterface} = (urlParams${!patternNamedExports.pathParamsInterfaceName ? "?" : ""}: ${
+    patternNamedExports.urlParamsInterfaceName
   }) => void;
   export const ${functionName} = (): ${resultTypeInterface} => {
-    const redirect: ${resultTypeInterface} = urlParts => {
+    const redirect: ${resultTypeInterface} = urlParams => {
       const to = generateUrl(${
         patternNamedExports.patternName
-      }, { path: ${pathVariable}, query: urlParts?.query, origin: urlParts?.origin ?? ${patternNamedExports.originName} });
+      }, { path: ${pathVariable}, query: urlParams?.query, origin: urlParams?.origin ?? ${patternNamedExports.originName} });
       if (!!window && !!window.location) {
         window.location.href = to;
       }

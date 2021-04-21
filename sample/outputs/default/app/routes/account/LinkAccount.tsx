@@ -2,8 +2,8 @@
 import React from "react";
 import { generateUrl } from "@route-codegen/utils";
 import { LinkProps, Link } from "react-router-dom";
-import { patternAccount, UrlPartsAccount } from "./patternAccount";
-type LinkAccountProps = Omit<LinkProps, "to"> & UrlPartsAccount;
+import { patternAccount, UrlParamsAccount } from "./patternAccount";
+type LinkAccountProps = Omit<LinkProps, "to"> & UrlParamsAccount;
 export const LinkAccount: React.FunctionComponent<LinkAccountProps> = ({ query, origin, ...props }) => {
   const to = generateUrl(patternAccount, { path: {}, query, origin });
   return <Link {...props} to={to} />;

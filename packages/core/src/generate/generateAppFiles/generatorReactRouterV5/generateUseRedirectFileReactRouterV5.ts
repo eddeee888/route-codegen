@@ -15,7 +15,7 @@ export const generateUseRedirectFileReactRouterV5 = (params: GenerateUseRedirect
   const routeName = capitalizeFirstChar(originalRouteName);
 
   const functionName = `useRedirect${routeName}`;
-  const pathVariable = patternNamedExports.pathParamsInterfaceName ? "urlParts.path" : "{}";
+  const pathVariable = patternNamedExports.pathParamsInterfaceName ? "urlParams.path" : "{}";
   const resultTypeInterface = `RedirectFn${routeName}`;
   const generateUrlFnName = "generateUrl"; // TODO: find a better way to reference this
 
@@ -24,19 +24,19 @@ export const generateUseRedirectFileReactRouterV5 = (params: GenerateUseRedirect
     from: "react-router",
   })}
   ${printImport({
-    namedImports: [{ name: patternNamedExports.urlPartsInterfaceName }, { name: patternNamedExports.patternName }],
+    namedImports: [{ name: patternNamedExports.urlParamsInterfaceName }, { name: patternNamedExports.patternName }],
     from: `./${patternNamedExports.filename}`,
   })}
   ${printImport(importGenerateUrl)}
-  export type ${resultTypeInterface} = (urlParts${!patternNamedExports.pathParamsInterfaceName ? "?" : ""}: ${
-    patternNamedExports.urlPartsInterfaceName
+  export type ${resultTypeInterface} = (urlParams${!patternNamedExports.pathParamsInterfaceName ? "?" : ""}: ${
+    patternNamedExports.urlParamsInterfaceName
   }) => void;
   export const ${functionName} = (): ${resultTypeInterface} => {
     const history = useHistory();
-    const redirect: ${resultTypeInterface} = urlParts => {
+    const redirect: ${resultTypeInterface} = urlParams => {
       const to = ${generateUrlFnName}(${
     patternNamedExports.patternName
-  }, { path: ${pathVariable}, query: urlParts?.query, origin: urlParts?.origin });
+  }, { path: ${pathVariable}, query: urlParams?.query, origin: urlParams?.origin });
       history.push(to);
     }
     return redirect;

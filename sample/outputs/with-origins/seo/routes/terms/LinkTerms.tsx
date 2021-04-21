@@ -1,8 +1,8 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 import React from "react";
 import Link, { LinkProps } from "next/link";
-import { UrlPartsTerms, patternNextJSTerms } from "./patternTerms";
-type LinkTermsProps = Omit<LinkProps, "href"> & UrlPartsTerms;
+import { UrlParamsTerms, patternNextJSTerms } from "./patternTerms";
+type LinkTermsProps = Omit<LinkProps, "href"> & UrlParamsTerms;
 export const LinkTerms: React.FunctionComponent<LinkTermsProps> = (props) => {
   const { query = {}, ...rest } = props;
   const path = {};
