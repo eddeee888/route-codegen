@@ -1,6 +1,5 @@
 import { TemplateFile } from "../../types";
 import { printImport, keyHelpers, KeyType, capitalizeFirstChar } from "../../utils";
-import isOptional from "../../utils/keyHelpers/isOptional";
 
 export interface GenerateUseParamsFileNextJSParams {
   routeName: string;
@@ -12,7 +11,7 @@ export interface GenerateUseParamsFileNextJSParams {
 }
 
 // NextJS useRouter simply returns all dynamic params as strings
-const generateUseParamsFileNextJS = (params: GenerateUseParamsFileNextJSParams): TemplateFile => {
+export const generateUseParamsFileNextJS = (params: GenerateUseParamsFileNextJSParams): TemplateFile => {
   const { routeName: originalRouteName, routePattern, destinationDir, pathParamsInterfaceName, pathParamsFilename, mode } = params;
 
   const routeName = capitalizeFirstChar(originalRouteName);
@@ -60,7 +59,7 @@ const generateUseParamsFileNextJS = (params: GenerateUseParamsFileNextJSParams):
     },
     loose: function createLooseTemplate() {
       return `${keys.reduce((prev, key) => {
-        if (isOptional(key)) {
+        if (keyHelpers.isOptional(key)) {
           return `${prev}${key.name}: query.${key.name} ? query.${key.name} : undefined,`;
         }
         return `${prev}${key.name}: query.${key.name},`;
@@ -70,11 +69,10 @@ const generateUseParamsFileNextJS = (params: GenerateUseParamsFileNextJSParams):
 
   const template = `${printImport({ namedImports: [{ name: pathParamsInterfaceName }], from: `./${pathParamsFilename}` })}
     ${printImport({ namedImports: [{ name: "useRouter" }], from: "next/router" })}
-    const ${functionName} = (): ${pathParamsInterfaceName} => {
+    export const ${functionName} = (): ${pathParamsInterfaceName} => {
       const query = useRouter().query;
       return {${templateMap[mode]()}};
-    }
-    export default ${functionName};`;
+    }`;
 
   return {
     template,
@@ -82,9 +80,7 @@ const generateUseParamsFileNextJS = (params: GenerateUseParamsFileNextJSParams):
     filename: functionName,
     destinationDir,
     routeName: originalRouteName,
-    hasDefaultExport: true,
-    hasNamedExports: false,
+    hasDefaultExport: false,
+    hasNamedExports: true,
   };
 };
-
-export default generateUseParamsFileNextJS;
