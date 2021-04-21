@@ -11,7 +11,7 @@ export interface GenerateLinkFileNextJSParams {
   importGenerateUrl: Import;
 }
 
-const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): TemplateFile => {
+export const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): TemplateFile => {
   const {
     routeName: originalRouteName,
     routeLinkOption,
@@ -56,7 +56,7 @@ const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): TemplateF
   ${importLink ? printImport(importLink) : ""}
   ${printImport({ namedImports: namedImportsFromPatternFile, from: `./${routePatternFilename}` })}
   ${linkPropsTemplate}
-  const ${functionName}: React.FunctionComponent<${linkPropsInterfaceName}> = props => {
+  export const ${functionName}: React.FunctionComponent<${linkPropsInterfaceName}> = props => {
     ${variablesTemplate}
     ${pathnameTemplate}
     const nextHref = {
@@ -67,9 +67,7 @@ const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): TemplateF
       },
     }
     return <${linkComponent} {...rest} ${hrefProp}={nextHref} />;
-  }
-  export default ${functionName};
-  `;
+  }`;
 
   const templateFile: TemplateFile = {
     template,
@@ -77,8 +75,8 @@ const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): TemplateF
     extension: ".tsx",
     destinationDir,
     routeName: originalRouteName,
-    hasDefaultExport: true,
-    hasNamedExports: false,
+    hasDefaultExport: false,
+    hasNamedExports: true,
   };
 
   return templateFile;
@@ -115,5 +113,3 @@ const generateLinkInterface = (params: GenerateLinkInterfaceParams): GenerateLin
     linkPropsInterfaceName,
   };
 };
-
-export default generateLinkFileNextJS;

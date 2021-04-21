@@ -1,1 +1,1 @@
-export { default } from "./generatorNextJS";
+export * from "./generatorNextJS";

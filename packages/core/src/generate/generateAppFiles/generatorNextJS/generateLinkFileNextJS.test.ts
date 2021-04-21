@@ -1,4 +1,4 @@
-import generateLinkFileNextJS, { GenerateLinkFileNextJSParams } from "./generateLinkFileNextJS";
+import { generateLinkFileNextJS, GenerateLinkFileNextJSParams } from "./generateLinkFileNextJS";
 
 describe("generateLinkFileNextJS", () => {
   const defaultParams: GenerateLinkFileNextJSParams = {
@@ -35,23 +35,24 @@ describe("generateLinkFileNextJS", () => {
       expect(templateFile.filename).toBe("LinkLogin");
       expect(templateFile.extension).toBe(".tsx");
       expect(templateFile.destinationDir).toBe("path/to/routes");
-      expect(templateFile.template).toContain(`import React from 'react'
-  import Link, {NextJSLinkProps,} from 'src/NextJS/Link'
-  import {UrlPartsLogin,patternNextJSLogin,} from './patternLogin'
-  type LinkLoginProps = Omit<NextJSLinkProps, 'customHref'> & UrlPartsLogin
-  const LinkLogin: React.FunctionComponent<LinkLoginProps> = props => {
-    const { query = {}, ...rest } = props; const path = {};
-    const pathname = patternNextJSLogin;
-    const nextHref = {
-      pathname: pathname,
-      query: {
-        ...path,
-        ...query,
-      },
-    }
-    return <Link {...rest} customHref={nextHref} />;
-  }
-  export default LinkLogin;`);
+      expect(templateFile.template).toMatchInlineSnapshot(`
+        "import React from 'react'
+          import Link, {NextJSLinkProps,} from 'src/NextJS/Link'
+          import {UrlPartsLogin,patternNextJSLogin,} from './patternLogin'
+          type LinkLoginProps = Omit<NextJSLinkProps, 'customHref'> & UrlPartsLogin
+          export const LinkLogin: React.FunctionComponent<LinkLoginProps> = props => {
+            const { query = {}, ...rest } = props; const path = {};
+            const pathname = patternNextJSLogin;
+            const nextHref = {
+              pathname: pathname,
+              query: {
+                ...path,
+                ...query,
+              },
+            }
+            return <Link {...rest} customHref={nextHref} />;
+          }"
+      `);
     });
 
     it("should generate correctly with path params", () => {
@@ -67,23 +68,24 @@ describe("generateLinkFileNextJS", () => {
       expect(templateFile.filename).toBe("LinkLogin");
       expect(templateFile.extension).toBe(".tsx");
       expect(templateFile.destinationDir).toBe("path/to/routes");
-      expect(templateFile.template).toContain(`import React from 'react'
-  import Link, {NextJSLinkProps,} from 'src/NextJS/Link'
-  import {UrlPartsLogin,patternNextJSLogin,possiblePathParamsLogin,} from './patternLogin'
-  type LinkLoginProps = Omit<NextJSLinkProps, 'customHref'> & UrlPartsLogin
-  const LinkLogin: React.FunctionComponent<LinkLoginProps> = props => {
-    const { path = {}, query = {}, ...rest } = props;
-    const pathname = possiblePathParamsLogin.filter((key) => !(key in path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[${"${suppliedParam"}}]\`, ""), patternNextJSLogin);
-    const nextHref = {
-      pathname: pathname,
-      query: {
-        ...path,
-        ...query,
-      },
-    }
-    return <Link {...rest} customHref={nextHref} />;
-  }
-  export default LinkLogin;`);
+      expect(templateFile.template).toMatchInlineSnapshot(`
+        "import React from 'react'
+          import Link, {NextJSLinkProps,} from 'src/NextJS/Link'
+          import {UrlPartsLogin,patternNextJSLogin,possiblePathParamsLogin,} from './patternLogin'
+          type LinkLoginProps = Omit<NextJSLinkProps, 'customHref'> & UrlPartsLogin
+          export const LinkLogin: React.FunctionComponent<LinkLoginProps> = props => {
+            const { path = {}, query = {}, ...rest } = props;
+            const pathname = possiblePathParamsLogin.filter((key) => !(key in path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[\${suppliedParam}]\`, \\"\\"), patternNextJSLogin);
+            const nextHref = {
+              pathname: pathname,
+              query: {
+                ...path,
+                ...query,
+              },
+            }
+            return <Link {...rest} customHref={nextHref} />;
+          }"
+      `);
     });
 
     it("should generate correctly with named component import", () => {
@@ -107,23 +109,24 @@ describe("generateLinkFileNextJS", () => {
       expect(templateFile.filename).toBe("LinkLogin");
       expect(templateFile.extension).toBe(".tsx");
       expect(templateFile.destinationDir).toBe("path/to/routes");
-      expect(templateFile.template).toContain(`import React from 'react'
-  import {CustomLinkProps,CustomLink as Link,} from 'src/common/Link'
-  import {UrlPartsLogin,patternNextJSLogin,} from './patternLogin'
-  type LinkLoginProps = Omit<CustomLinkProps, 'to'> & UrlPartsLogin
-  const LinkLogin: React.FunctionComponent<LinkLoginProps> = props => {
-    const { query = {}, ...rest } = props; const path = {};
-    const pathname = patternNextJSLogin;
-    const nextHref = {
-      pathname: pathname,
-      query: {
-        ...path,
-        ...query,
-      },
-    }
-    return <Link {...rest} to={nextHref} />;
-  }
-  export default LinkLogin;`);
+      expect(templateFile.template).toMatchInlineSnapshot(`
+        "import React from 'react'
+          import {CustomLinkProps,CustomLink as Link,} from 'src/common/Link'
+          import {UrlPartsLogin,patternNextJSLogin,} from './patternLogin'
+          type LinkLoginProps = Omit<CustomLinkProps, 'to'> & UrlPartsLogin
+          export const LinkLogin: React.FunctionComponent<LinkLoginProps> = props => {
+            const { query = {}, ...rest } = props; const path = {};
+            const pathname = patternNextJSLogin;
+            const nextHref = {
+              pathname: pathname,
+              query: {
+                ...path,
+                ...query,
+              },
+            }
+            return <Link {...rest} to={nextHref} />;
+          }"
+      `);
     });
 
     it("should throw error if no patternNameNextJS", () => {

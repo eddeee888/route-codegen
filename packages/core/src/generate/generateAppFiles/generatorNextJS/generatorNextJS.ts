@@ -1,9 +1,9 @@
 import { default as generateUseParamsFile } from "./generateUseParamsFileNextJS";
-import { default as generateLinkFile } from "./generateLinkFileNextJS";
+import { generateLinkFileNextJS } from "./generateLinkFileNextJS";
 import { default as generateUseRedirectFile } from "./generateUseRedirectFileNextJS";
 
-export default {
+export const generatorNextJS = {
   generateUseParamsFile,
-  generateLinkFile,
+  generateLinkFile: generateLinkFileNextJS,
   generateUseRedirectFile,
 };
