@@ -11,22 +11,22 @@ export type GenerateUrlFile = (params: {
 
 export const generateUrlFile: GenerateUrlFile = ({
   importGenerateUrl,
-  patternNamedExports: { patternName, urlPartsInterfaceName, filename, pathParamsInterfaceName, originName },
+  patternNamedExports: { patternName, urlParamsInterfaceName, filename, pathParamsInterfaceName, originName },
   routeName: originalRouteName,
   destinationDir,
 }) => {
   const routeName = capitalizeFirstChar(originalRouteName);
 
   const functionName = `generateUrl${routeName}`;
-  const pathVariable = pathParamsInterfaceName ? "urlParts.path" : "{}";
+  const pathVariable = pathParamsInterfaceName ? "urlParams.path" : "{}";
   const urlPartOptionalModifier = pathParamsInterfaceName ? "" : "?";
 
   const template = `${printImport(importGenerateUrl)}
   ${printImport({
-    namedImports: [{ name: patternName }, { name: urlPartsInterfaceName }, { name: originName }],
+    namedImports: [{ name: patternName }, { name: urlParamsInterfaceName }, { name: originName }],
     from: `./${filename}`,
   })}
-  export const ${functionName} = ( urlParts${urlPartOptionalModifier}: ${urlPartsInterfaceName} ): string => generateUrl(${patternName}, { path: ${pathVariable}, query: urlParts?.query, origin: urlParts?.origin ?? ${originName}});`;
+  export const ${functionName} = ( urlParams${urlPartOptionalModifier}: ${urlParamsInterfaceName} ): string => generateUrl(${patternName}, { path: ${pathVariable}, query: urlParams?.query, origin: urlParams?.origin ?? ${originName}});`;
 
   const templateFile: TemplateFile = {
     template,
