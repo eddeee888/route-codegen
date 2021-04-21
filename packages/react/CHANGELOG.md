@@ -1,5 +1,11 @@
 # @route-codegen/react
 
+## 0.1.2
+
+### Patch Changes
+
+- 40c51a3: Update deps
+
 ## 0.1.1
 
 ### Patch Changes
