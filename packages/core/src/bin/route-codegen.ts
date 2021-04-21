@@ -26,8 +26,16 @@ try {
     });
   }
 
-  const configContent = yaml.safeLoad(ymlContent);
-  generate(configContent, { verbose });
+  const configContent = yaml.load(ymlContent);
+  if (!configContent) {
+    throw new Error("Unable to load route-codegen config");
+  }
+
+  if (typeof configContent === "string" || typeof configContent === "number") {
+    throw new Error("route-codegen config is invalid");
+  }
+
+  generate(configContent as any, { verbose });
   console.log("route-codegen END!");
 } catch (e) {
   if (stacktrace) {
