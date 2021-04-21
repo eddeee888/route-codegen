@@ -1,1 +1,1 @@
-export { default } from "./generatorDefault";
+export * from "./generatorDefault";
