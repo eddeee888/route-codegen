@@ -2,7 +2,7 @@
 import { useRouter } from "next/router";
 import { UrlPartsToc, patternNextJSToc } from "./patternToc";
 export type RedirectFnToc = (urlParts?: UrlPartsToc) => void;
-const useRedirectToc = (): RedirectFnToc => {
+export const useRedirectToc = (): RedirectFnToc => {
   const router = useRouter();
   const redirect: RedirectFnToc = (urlParts) => {
     const query = urlParts?.query ?? {};
@@ -18,4 +18,3 @@ const useRedirectToc = (): RedirectFnToc => {
   };
   return redirect;
 };
-export default useRedirectToc;

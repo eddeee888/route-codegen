@@ -4,8 +4,7 @@ import { generateUrl } from "@route-codegen/utils";
 
 import { patternAccount, UrlPartsAccount, originAccount } from "./patternAccount";
 type LinkProps = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, "href"> & UrlPartsAccount;
-const LinkAccount: React.FunctionComponent<LinkProps> = ({ query, origin, ...props }) => {
-  const to = generateUrl(patternAccount, {}, query, origin ?? originAccount);
+export const LinkAccount: React.FunctionComponent<LinkProps> = ({ query, origin, ...props }) => {
+  const to = generateUrl({ pattern: patternAccount, path: {}, query, origin: origin ?? originAccount });
   return <a {...props} href={to} />;
 };
-export default LinkAccount;

@@ -2,7 +2,7 @@
 import { useRouter } from "next/router";
 import { UrlPartsContact, patternNextJSContact, possilePathParamsContact } from "./patternContact";
 export type RedirectFnContact = (urlParts: UrlPartsContact) => void;
-const useRedirectContact = (): RedirectFnContact => {
+export const useRedirectContact = (): RedirectFnContact => {
   const router = useRouter();
   const redirect: RedirectFnContact = (urlParts) => {
     const query = urlParts?.query ?? {};
@@ -20,4 +20,3 @@ const useRedirectContact = (): RedirectFnContact => {
   };
   return redirect;
 };
-export default useRedirectContact;

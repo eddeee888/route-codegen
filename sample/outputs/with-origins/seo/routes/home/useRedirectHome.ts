@@ -2,7 +2,7 @@
 import { useRouter } from "next/router";
 import { UrlPartsHome, patternNextJSHome } from "./patternHome";
 export type RedirectFnHome = (urlParts?: UrlPartsHome) => void;
-const useRedirectHome = (): RedirectFnHome => {
+export const useRedirectHome = (): RedirectFnHome => {
   const router = useRouter();
   const redirect: RedirectFnHome = (urlParts) => {
     const query = urlParts?.query ?? {};
@@ -18,4 +18,3 @@ const useRedirectHome = (): RedirectFnHome => {
   };
   return redirect;
 };
-export default useRedirectHome;

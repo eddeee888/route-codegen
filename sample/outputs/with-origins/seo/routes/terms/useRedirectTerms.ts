@@ -2,7 +2,7 @@
 import { useRouter } from "next/router";
 import { UrlPartsTerms, patternNextJSTerms } from "./patternTerms";
 export type RedirectFnTerms = (urlParts?: UrlPartsTerms) => void;
-const useRedirectTerms = (): RedirectFnTerms => {
+export const useRedirectTerms = (): RedirectFnTerms => {
   const router = useRouter();
   const redirect: RedirectFnTerms = (urlParts) => {
     const query = urlParts?.query ?? {};
@@ -18,4 +18,3 @@ const useRedirectTerms = (): RedirectFnTerms => {
   };
   return redirect;
 };
-export default useRedirectTerms;

@@ -2,9 +2,9 @@
 import { UrlPartsToc, patternToc, originToc } from "./patternToc";
 import { generateUrl } from "@route-codegen/utils";
 export type RedirectFnToc = (urlParts?: UrlPartsToc) => void;
-const useRedirectToc = (): RedirectFnToc => {
+export const useRedirectToc = (): RedirectFnToc => {
   const redirect: RedirectFnToc = (urlParts) => {
-    const to = generateUrl(patternToc, {}, urlParts?.query, urlParts?.origin ?? originToc);
+    const to = generateUrl({ pattern: patternToc, path: {}, query: urlParts?.query, origin: urlParts?.origin ?? originToc });
     if (!!window && !!window.location) {
       window.location.href = to;
     }
@@ -12,4 +12,3 @@ const useRedirectToc = (): RedirectFnToc => {
   };
   return redirect;
 };
-export default useRedirectToc;

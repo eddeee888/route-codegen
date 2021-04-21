@@ -3,7 +3,7 @@ import React from "react";
 import Link, { LinkProps } from "next/link";
 import { UrlPartsAbout, patternNextJSAbout, possilePathParamsAbout } from "./patternAbout";
 type LinkAboutProps = Omit<LinkProps, "href"> & UrlPartsAbout;
-const LinkAbout: React.FunctionComponent<LinkAboutProps> = (props) => {
+export const LinkAbout: React.FunctionComponent<LinkAboutProps> = (props) => {
   const { path = {}, query = {}, ...rest } = props;
   const pathname = possilePathParamsAbout
     .filter((key) => !(key in path))
@@ -17,4 +17,3 @@ const LinkAbout: React.FunctionComponent<LinkAboutProps> = (props) => {
   };
   return <Link {...rest} href={nextHref} />;
 };
-export default LinkAbout;

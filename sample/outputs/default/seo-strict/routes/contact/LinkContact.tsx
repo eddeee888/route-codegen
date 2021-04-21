@@ -3,7 +3,7 @@ import React from "react";
 import Link, { LinkProps } from "next/link";
 import { UrlPartsContact, patternNextJSContact, possilePathParamsContact } from "./patternContact";
 type LinkContactProps = Omit<LinkProps, "href"> & UrlPartsContact;
-const LinkContact: React.FunctionComponent<LinkContactProps> = (props) => {
+export const LinkContact: React.FunctionComponent<LinkContactProps> = (props) => {
   const { path = {}, query = {}, ...rest } = props;
   const pathname = possilePathParamsContact
     .filter((key) => !(key in path))
@@ -17,4 +17,3 @@ const LinkContact: React.FunctionComponent<LinkContactProps> = (props) => {
   };
   return <Link {...rest} href={nextHref} />;
 };
-export default LinkContact;

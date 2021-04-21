@@ -2,7 +2,7 @@
 import { useRouter } from "next/router";
 import { UrlPartsAbout, patternNextJSAbout, possilePathParamsAbout } from "./patternAbout";
 export type RedirectFnAbout = (urlParts: UrlPartsAbout) => void;
-const useRedirectAbout = (): RedirectFnAbout => {
+export const useRedirectAbout = (): RedirectFnAbout => {
   const router = useRouter();
   const redirect: RedirectFnAbout = (urlParts) => {
     const query = urlParts?.query ?? {};
@@ -20,4 +20,3 @@ const useRedirectAbout = (): RedirectFnAbout => {
   };
   return redirect;
 };
-export default useRedirectAbout;

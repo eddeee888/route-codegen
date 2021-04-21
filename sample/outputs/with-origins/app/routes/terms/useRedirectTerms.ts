@@ -2,9 +2,9 @@
 import { UrlPartsTerms, patternTerms, originTerms } from "./patternTerms";
 import { generateUrl } from "@route-codegen/utils";
 export type RedirectFnTerms = (urlParts?: UrlPartsTerms) => void;
-const useRedirectTerms = (): RedirectFnTerms => {
+export const useRedirectTerms = (): RedirectFnTerms => {
   const redirect: RedirectFnTerms = (urlParts) => {
-    const to = generateUrl(patternTerms, {}, urlParts?.query, urlParts?.origin ?? originTerms);
+    const to = generateUrl({ pattern: patternTerms, path: {}, query: urlParts?.query, origin: urlParts?.origin ?? originTerms });
     if (!!window && !!window.location) {
       window.location.href = to;
     }
@@ -12,4 +12,3 @@ const useRedirectTerms = (): RedirectFnTerms => {
   };
   return redirect;
 };
-export default useRedirectTerms;

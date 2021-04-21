@@ -2,9 +2,9 @@
 import { UrlPartsLogin, patternLogin, originLogin } from "./patternLogin";
 import { generateUrl } from "@route-codegen/utils";
 export type RedirectFnLogin = (urlParts?: UrlPartsLogin) => void;
-const useRedirectLogin = (): RedirectFnLogin => {
+export const useRedirectLogin = (): RedirectFnLogin => {
   const redirect: RedirectFnLogin = (urlParts) => {
-    const to = generateUrl(patternLogin, {}, urlParts?.query, urlParts?.origin ?? originLogin);
+    const to = generateUrl({ pattern: patternLogin, path: {}, query: urlParts?.query, origin: urlParts?.origin ?? originLogin });
     if (!!window && !!window.location) {
       window.location.href = to;
     }
@@ -12,4 +12,3 @@ const useRedirectLogin = (): RedirectFnLogin => {
   };
   return redirect;
 };
-export default useRedirectLogin;
