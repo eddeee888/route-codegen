@@ -11,7 +11,7 @@ export interface GenerateLinkFileDefaultParams {
   importGenerateUrl: Import;
 }
 
-const generateLinkFileDefault = (params: GenerateLinkFileDefaultParams): TemplateFile => {
+export const generateLinkFileDefault = (params: GenerateLinkFileDefaultParams): TemplateFile => {
   const {
     routeName: originalRouteName,
     routeLinkOption,
@@ -40,14 +40,12 @@ const generateLinkFileDefault = (params: GenerateLinkFileDefaultParams): Templat
     from: `./${routePatternFilename}`,
   })}
   ${linkPropsTemplate}
-  const ${functionName}: React.FunctionComponent<${linkPropsInterfaceName}> = ({ ${
+  export const ${functionName}: React.FunctionComponent<${linkPropsInterfaceName}> = ({ ${
     hasPathParams ? "path," : ""
   } query, origin, ...props }) => {
-    const to = generateUrl(${patternName}, ${hasPathParams ? "path" : "{}"}, query, origin ?? ${originName});
+    const to = generateUrl(${patternName}, { path: ${hasPathParams ? "path" : "{}"}, query, origin: origin ?? ${originName} });
     return <${linkComponent} {...props} ${hrefProp}={to} />;
-  }
-  export default ${functionName};
-  `;
+  }`;
 
   const templateFile: TemplateFile = {
     template,
@@ -55,8 +53,8 @@ const generateLinkFileDefault = (params: GenerateLinkFileDefaultParams): Templat
     extension: ".tsx",
     destinationDir,
     routeName: originalRouteName,
-    hasDefaultExport: true,
-    hasNamedExports: false,
+    hasDefaultExport: false,
+    hasNamedExports: true,
   };
 
   return templateFile;
@@ -98,5 +96,3 @@ const generateLinkInterface = (params: GenerateLinkInterfaceParams): GenerateLin
     linkPropsInterfaceName,
   };
 };
-
-export default generateLinkFileDefault;

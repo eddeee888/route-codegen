@@ -10,7 +10,7 @@ export interface GenerateUseParamsFileReactRouterV5Params {
   mode: "strict" | "loose";
 }
 
-const generateUseParamsFileReactRouterV5 = (params: GenerateUseParamsFileReactRouterV5Params): TemplateFile => {
+export const generateUseParamsFileReactRouterV5 = (params: GenerateUseParamsFileReactRouterV5Params): TemplateFile => {
   const { routeName: originalRouteName, destinationDir, patternName, pathParamsInterfaceName, pathParamsFilename, mode } = params;
 
   const routeName = capitalizeFirstChar(originalRouteName);
@@ -35,10 +35,9 @@ const generateUseParamsFileReactRouterV5 = (params: GenerateUseParamsFileReactRo
 
   const template = `${printImport({ namedImports: modeMap[mode].namedImports, from: `./${pathParamsFilename}` })}
     ${printImport({ namedImports: [{ name: "useRouteMatch" }], from: "react-router" })}
-    const ${functionName} = (): ${pathParamsInterfaceName} => {
+    export const ${functionName} = (): ${pathParamsInterfaceName} => {
       ${modeMap[mode].template}
-    }
-    export default ${functionName};`;
+    }`;
 
   return {
     template,
@@ -46,9 +45,7 @@ const generateUseParamsFileReactRouterV5 = (params: GenerateUseParamsFileReactRo
     filename: functionName,
     destinationDir,
     routeName: originalRouteName,
-    hasDefaultExport: true,
-    hasNamedExports: false,
+    hasDefaultExport: false,
+    hasNamedExports: true,
   };
 };
-
-export default generateUseParamsFileReactRouterV5;

@@ -4,8 +4,7 @@ import { generateUrl } from "@route-codegen/utils";
 import Link, { LinkProps } from "common/components/Link";
 import { patternLogin, UrlPartsLogin } from "./patternLogin";
 type LinkLoginProps = Omit<LinkProps, "to"> & UrlPartsLogin;
-const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({ query, origin, ...props }) => {
-  const to = generateUrl(patternLogin, {}, query, origin);
+export const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({ query, origin, ...props }) => {
+  const to = generateUrl(patternLogin, { path: {}, query, origin });
   return <Link {...props} to={to} />;
 };
-export default LinkLogin;

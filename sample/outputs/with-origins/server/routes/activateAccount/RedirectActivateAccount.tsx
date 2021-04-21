@@ -3,8 +3,7 @@ import React from "react";
 import { RedirectServerSide } from "@route-codegen/react";
 import { generateUrl } from "@route-codegen/utils";
 import { UrlPartsActivateAccount, patternActivateAccount, originActivateAccount } from "./patternActivateAccount";
-const RedirectActivateAccount: React.FunctionComponent<UrlPartsActivateAccount & { fallback?: React.ReactNode }> = (props) => {
-  const to = generateUrl(patternActivateAccount, props.path, props.query, props.origin ?? originActivateAccount);
+export const RedirectActivateAccount: React.FunctionComponent<UrlPartsActivateAccount & { fallback?: React.ReactNode }> = (props) => {
+  const to = generateUrl(patternActivateAccount, { path: props.path, query: props.query, origin: props.origin ?? originActivateAccount });
   return <RedirectServerSide href={to} fallback={props.fallback} />;
 };
-export default RedirectActivateAccount;

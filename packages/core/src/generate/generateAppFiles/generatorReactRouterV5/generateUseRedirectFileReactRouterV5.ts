@@ -2,14 +2,14 @@ import { printImport, capitalizeFirstChar } from "../../utils";
 import { TemplateFile, Import } from "../../types";
 import { PatternNamedExports } from "../types";
 
-export interface GenerateUseRedirectReactRouterV5Params {
+export interface GenerateUseRedirectFileReactRouterV5Params {
   routeName: string;
   patternNamedExports: PatternNamedExports;
   destinationDir: string;
   importGenerateUrl: Import;
 }
 
-const generateUseRedirectReactRouterV5 = (params: GenerateUseRedirectReactRouterV5Params): TemplateFile => {
+export const generateUseRedirectFileReactRouterV5 = (params: GenerateUseRedirectFileReactRouterV5Params): TemplateFile => {
   const { routeName: originalRouteName, patternNamedExports, destinationDir, importGenerateUrl } = params;
 
   const routeName = capitalizeFirstChar(originalRouteName);
@@ -31,15 +31,16 @@ const generateUseRedirectReactRouterV5 = (params: GenerateUseRedirectReactRouter
   export type ${resultTypeInterface} = (urlParts${!patternNamedExports.pathParamsInterfaceName ? "?" : ""}: ${
     patternNamedExports.urlPartsInterfaceName
   }) => void;
-  const ${functionName} = (): ${resultTypeInterface} => {
+  export const ${functionName} = (): ${resultTypeInterface} => {
     const history = useHistory();
     const redirect: ${resultTypeInterface} = urlParts => {
-      const to = ${generateUrlFnName}(${patternNamedExports.patternName}, ${pathVariable}, urlParts?.query, urlParts?.origin);
+      const to = ${generateUrlFnName}(${
+    patternNamedExports.patternName
+  }, { path: ${pathVariable}, query: urlParts?.query, origin: urlParts?.origin });
       history.push(to);
     }
     return redirect;
-  }
-  export default ${functionName}`;
+  }`;
 
   const templateFile: TemplateFile = {
     template,
@@ -47,11 +48,9 @@ const generateUseRedirectReactRouterV5 = (params: GenerateUseRedirectReactRouter
     extension: ".ts",
     destinationDir,
     routeName: originalRouteName,
-    hasDefaultExport: true,
+    hasDefaultExport: false,
     hasNamedExports: true,
   };
 
   return templateFile;
 };
-
-export default generateUseRedirectReactRouterV5;

@@ -1,4 +1,4 @@
-import generateUrlFile from "./generateUrlFile";
+import { generateUrlFile } from "./generateUrlFile";
 
 describe("generateUseParamsFile", () => {
   it("should generate correctly if no path params", () => {
@@ -17,10 +17,11 @@ describe("generateUseParamsFile", () => {
     expect(templateFile.filename).toBe("generateUrlUser");
     expect(templateFile.extension).toBe(".ts");
     expect(templateFile.destinationDir).toBe("path/to/routes");
-    expect(templateFile.template).toContain(`import {generateUrl,} from 'route-codegen'
-  import {patternUser,UrlPartsUser,originUser,} from './patternUser'
-  const generateUrlUser = ( urlParts?: UrlPartsUser ): string => generateUrl(patternUser, {}, urlParts?.query, urlParts?.origin ?? originUser);
-  export default generateUrlUser;`);
+    expect(templateFile.template).toMatchInlineSnapshot(`
+      "import {generateUrl,} from 'route-codegen'
+        import {patternUser,UrlPartsUser,originUser,} from './patternUser'
+        export const generateUrlUser = ( urlParts?: UrlPartsUser ): string => generateUrl(patternUser, { path: {}, query: urlParts?.query, origin: urlParts?.origin ?? originUser});"
+    `);
   });
 
   it("should generate correctly if has path params", () => {
@@ -40,9 +41,10 @@ describe("generateUseParamsFile", () => {
     expect(templateFile.filename).toBe("generateUrlUser");
     expect(templateFile.extension).toBe(".ts");
     expect(templateFile.destinationDir).toBe("path/to/routes");
-    expect(templateFile.template).toContain(`import {generateUrl,} from 'route-codegen'
-  import {patternUser,UrlPartsUser,originUser,} from './patternUser'
-  const generateUrlUser = ( urlParts: UrlPartsUser ): string => generateUrl(patternUser, urlParts.path, urlParts?.query, urlParts?.origin ?? originUser);
-  export default generateUrlUser;`);
+    expect(templateFile.template).toMatchInlineSnapshot(`
+      "import {generateUrl,} from 'route-codegen'
+        import {patternUser,UrlPartsUser,originUser,} from './patternUser'
+        export const generateUrlUser = ( urlParts: UrlPartsUser ): string => generateUrl(patternUser, { path: urlParts.path, query: urlParts?.query, origin: urlParts?.origin ?? originUser});"
+    `);
   });
 });

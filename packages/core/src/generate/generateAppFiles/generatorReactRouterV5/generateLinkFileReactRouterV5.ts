@@ -11,7 +11,7 @@ export interface GenerateLinkFileReactRouterV5Params {
   importGenerateUrl: Import;
 }
 
-const generateLinkFileReactRouterV5 = (params: GenerateLinkFileReactRouterV5Params): TemplateFile => {
+export const generateLinkFileReactRouterV5 = (params: GenerateLinkFileReactRouterV5Params): TemplateFile => {
   const {
     routeName: originalRouteName,
     routeLinkOption,
@@ -41,14 +41,12 @@ const generateLinkFileReactRouterV5 = (params: GenerateLinkFileReactRouterV5Para
     from: `./${routePatternFilename}`,
   })}
   ${linkPropsTemplate}
-  const ${functionName}: React.FunctionComponent<${linkPropsInterfaceName}> = ({ ${
+  export const ${functionName}: React.FunctionComponent<${linkPropsInterfaceName}> = ({ ${
     hasPathParams ? "path," : ""
   } query, origin, ...props }) => {
-    const to = ${generateUrlFnName}(${patternName}, ${hasPathParams ? "path" : "{}"}, query, origin);
+    const to = ${generateUrlFnName}(${patternName}, { path: ${hasPathParams ? "path" : "{}"}, query, origin });
     return <${linkComponent} {...props} ${hrefProp}={to} />;
-  }
-  export default ${functionName};
-  `;
+  }`;
 
   const templateFile: TemplateFile = {
     template,
@@ -56,8 +54,8 @@ const generateLinkFileReactRouterV5 = (params: GenerateLinkFileReactRouterV5Para
     extension: ".tsx",
     destinationDir,
     routeName: originalRouteName,
-    hasDefaultExport: true,
-    hasNamedExports: false,
+    hasDefaultExport: false,
+    hasNamedExports: true,
   };
 
   return templateFile;
@@ -94,5 +92,3 @@ const generateLinkInterface = (params: GenerateLinkInterfaceParams): GenerateLin
     linkPropsInterfaceName,
   };
 };
-
-export default generateLinkFileReactRouterV5;

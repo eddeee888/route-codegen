@@ -1,9 +1,8 @@
-import { TemplateFile } from "../../types";
 import { Key } from "path-to-regexp";
+import { TemplateFile } from "../../types";
 import { RoutingType } from "../../config";
 import { throwError, keyHelpers, KeyType, capitalizeFirstChar } from "../../utils";
 import { PatternNamedExports } from "../types";
-import isOptional from "../../utils/keyHelpers/isOptional";
 
 export interface GenerateRoutePatternFileParams {
   origin: string;
@@ -83,7 +82,7 @@ const generatePathParamsInterface = (keys: Key[], routeName: string): PathParams
   // https://github.com/microsoft/TypeScript/issues/15300
   let template = `export type ${pathParamsInterfaceName} = {`;
   keys.forEach((key) => {
-    const fieldName = `${key.name}${isOptional(key) ? "?" : ""}`;
+    const fieldName = `${key.name}${keyHelpers.isOptional(key) ? "?" : ""}`;
 
     const templateMap: Record<KeyType, (t: string) => string> = {
       normal: (t) => (t += `${fieldName}: string;`),
@@ -189,10 +188,10 @@ const generateNextJSPattern = (params: {
     const matchedKey = keys.find((key) => {
       switch (keyHelpers.getType(key)) {
         case KeyType.normal: {
-          return routePart === `:${key.name}${isOptional(key) ? "?" : ""}`;
+          return routePart === `:${key.name}${keyHelpers.isOptional(key) ? "?" : ""}`;
         }
         case KeyType.enum: {
-          return routePart === `:${key.name}(${key.pattern})${isOptional(key) ? "?" : ""}`;
+          return routePart === `:${key.name}(${key.pattern})${keyHelpers.isOptional(key) ? "?" : ""}`;
         }
         default: {
           return false;

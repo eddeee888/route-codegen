@@ -1,5 +1,5 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 import { generateUrl } from "@route-codegen/utils";
 import { patternToc, UrlPartsToc, originToc } from "./patternToc";
-const generateUrlToc = (urlParts?: UrlPartsToc): string => generateUrl(patternToc, {}, urlParts?.query, urlParts?.origin ?? originToc);
-export default generateUrlToc;
+export const generateUrlToc = (urlParts?: UrlPartsToc): string =>
+  generateUrl(patternToc, { path: {}, query: urlParts?.query, origin: urlParts?.origin ?? originToc });

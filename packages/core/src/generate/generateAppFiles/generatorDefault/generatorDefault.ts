@@ -1,9 +1,9 @@
-import { default as generateUseRedirectFile } from "./generateUseRedirectFileDefault";
-import { default as generateLinkFile } from "./generateLinkFileDefault";
-import { default as generateRedirectFile } from "./generateRedirectFileDefault";
+import { generateUseRedirectFileDefault } from "./generateUseRedirectFileDefault";
+import { generateLinkFileDefault } from "./generateLinkFileDefault";
+import { generateRedirectFileDefault } from "./generateRedirectFileDefault";
 
-export default {
-  generateUseRedirectFile,
-  generateLinkFile,
-  generateRedirectFile,
+export const generatorDefault = {
+  generateUseRedirectFile: generateUseRedirectFileDefault,
+  generateLinkFile: generateLinkFileDefault,
+  generateRedirectFile: generateRedirectFileDefault,
 };

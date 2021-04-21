@@ -3,8 +3,8 @@ import React from "react";
 import { generateUrl } from "@route-codegen/utils";
 import { Redirect } from "react-router";
 import { UrlPartsLogin, patternLogin } from "./patternLogin";
-const RedirectLogin: React.FunctionComponent<UrlPartsLogin & { fallback?: React.ReactNode }> = (props) => {
-  const to = generateUrl(patternLogin, {}, props.query, props.origin);
+export const RedirectLogin: React.FunctionComponent<UrlPartsLogin & { fallback?: React.ReactNode }> = (props) => {
+  const to = generateUrl(patternLogin, { path: {}, query: props.query, origin: props.origin });
   return (
     <>
       <Redirect to={to} />
@@ -12,4 +12,3 @@ const RedirectLogin: React.FunctionComponent<UrlPartsLogin & { fallback?: React.
     </>
   );
 };
-export default RedirectLogin;

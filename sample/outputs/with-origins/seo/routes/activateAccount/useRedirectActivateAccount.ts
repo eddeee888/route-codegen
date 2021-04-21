@@ -2,9 +2,13 @@
 import { UrlPartsActivateAccount, patternActivateAccount, originActivateAccount } from "./patternActivateAccount";
 import { generateUrl } from "@route-codegen/utils";
 export type RedirectFnActivateAccount = (urlParts: UrlPartsActivateAccount) => void;
-const useRedirectActivateAccount = (): RedirectFnActivateAccount => {
+export const useRedirectActivateAccount = (): RedirectFnActivateAccount => {
   const redirect: RedirectFnActivateAccount = (urlParts) => {
-    const to = generateUrl(patternActivateAccount, urlParts.path, urlParts?.query, urlParts?.origin ?? originActivateAccount);
+    const to = generateUrl(patternActivateAccount, {
+      path: urlParts.path,
+      query: urlParts?.query,
+      origin: urlParts?.origin ?? originActivateAccount,
+    });
     if (!!window && !!window.location) {
       window.location.href = to;
     }
@@ -12,4 +16,3 @@ const useRedirectActivateAccount = (): RedirectFnActivateAccount => {
   };
   return redirect;
 };
-export default useRedirectActivateAccount;

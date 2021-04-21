@@ -9,7 +9,7 @@ export interface GenerateUseRedirectFileNextJSParams {
   importGenerateUrl: Import;
 }
 
-const generateUseRedirectFileNextJS = (params: GenerateUseRedirectFileNextJSParams): TemplateFile => {
+export const generateUseRedirectFileNextJS = (params: GenerateUseRedirectFileNextJSParams): TemplateFile => {
   const {
     routeName: originalRouteName,
     patternNamedExports: {
@@ -43,7 +43,7 @@ const generateUseRedirectFileNextJS = (params: GenerateUseRedirectFileNextJSPara
   const template = `${printImport({ namedImports: [{ name: "useRouter" }], from: "next/router" })}
   ${printImport({ namedImports: namedImportsFromPatternFile, from: `./${routePatternFilename}` })}
   export type ${resultTypeInterface} = (urlParts${urlPartsModifier}: ${urlPartsInterfaceName}) => void;
-  const ${functionName} = (): ${resultTypeInterface} => {
+  export const ${functionName} = (): ${resultTypeInterface} => {
     const router = useRouter();
     const redirect: ${resultTypeInterface} = urlParts => {
       const query = urlParts?.query ?? {};
@@ -58,8 +58,7 @@ const generateUseRedirectFileNextJS = (params: GenerateUseRedirectFileNextJSPara
       })
     }
     return redirect;
-  }
-  export default ${functionName}`;
+  }`;
 
   const templateFile: TemplateFile = {
     template,
@@ -73,5 +72,3 @@ const generateUseRedirectFileNextJS = (params: GenerateUseRedirectFileNextJSPara
 
   return templateFile;
 };
-
-export default generateUseRedirectFileNextJS;

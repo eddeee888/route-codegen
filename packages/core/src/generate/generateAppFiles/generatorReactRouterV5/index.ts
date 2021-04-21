@@ -1,1 +1,1 @@
-export { default } from "./generatorReactrouterV5";
+export * from "./generatorReactrouterV5";

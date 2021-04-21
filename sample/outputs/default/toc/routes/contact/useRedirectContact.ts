@@ -2,9 +2,9 @@
 import { UrlPartsContact, patternContact, originContact } from "./patternContact";
 import { generateUrl } from "@route-codegen/utils";
 export type RedirectFnContact = (urlParts: UrlPartsContact) => void;
-const useRedirectContact = (): RedirectFnContact => {
+export const useRedirectContact = (): RedirectFnContact => {
   const redirect: RedirectFnContact = (urlParts) => {
-    const to = generateUrl(patternContact, urlParts.path, urlParts?.query, urlParts?.origin ?? originContact);
+    const to = generateUrl(patternContact, { path: urlParts.path, query: urlParts?.query, origin: urlParts?.origin ?? originContact });
     if (!!window && !!window.location) {
       window.location.href = to;
     }
@@ -12,4 +12,3 @@ const useRedirectContact = (): RedirectFnContact => {
   };
   return redirect;
 };
-export default useRedirectContact;

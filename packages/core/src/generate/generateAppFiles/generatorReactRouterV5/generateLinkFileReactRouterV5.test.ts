@@ -1,4 +1,4 @@
-import generateLinkFileReactRouterV5, { GenerateLinkFileReactRouterV5Params } from "./generateLinkFileReactRouterV5";
+import { generateLinkFileReactRouterV5, GenerateLinkFileReactRouterV5Params } from "./generateLinkFileReactRouterV5";
 
 describe("generateLinkFileReactRouterV5", () => {
   const defaultParams: GenerateLinkFileReactRouterV5Params = {
@@ -36,16 +36,17 @@ describe("generateLinkFileReactRouterV5", () => {
       expect(templateFile.filename).toBe("LinkLogin");
       expect(templateFile.extension).toBe(".tsx");
       expect(templateFile.destinationDir).toBe("path/to/routes");
-      expect(templateFile.template).toContain(`import React from 'react'
-  import {generateUrl,} from 'route-codegen'
-  import Link, {CustomLinkProps,} from 'src/common/Link'
-  import {patternLogin,UrlPartsLogin,} from './patternLogin'
-  type LinkLoginProps = Omit<CustomLinkProps, 'to'> & UrlPartsLogin
-  const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({  query, origin, ...props }) => {
-    const to = generateUrl(patternLogin, {}, query, origin);
-    return <Link {...props} to={to} />;
-  }
-  export default LinkLogin;`);
+      expect(templateFile.template).toMatchInlineSnapshot(`
+        "import React from 'react'
+          import {generateUrl,} from 'route-codegen'
+          import Link, {CustomLinkProps,} from 'src/common/Link'
+          import {patternLogin,UrlPartsLogin,} from './patternLogin'
+          type LinkLoginProps = Omit<CustomLinkProps, 'to'> & UrlPartsLogin
+          export const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({  query, origin, ...props }) => {
+            const to = generateUrl(patternLogin, { path: {}, query, origin });
+            return <Link {...props} to={to} />;
+          }"
+      `);
     });
 
     it("should generate correctly with path params", () => {
@@ -60,16 +61,17 @@ describe("generateLinkFileReactRouterV5", () => {
       expect(templateFile.filename).toBe("LinkLogin");
       expect(templateFile.extension).toBe(".tsx");
       expect(templateFile.destinationDir).toBe("path/to/routes");
-      expect(templateFile.template).toContain(`import React from 'react'
-  import {generateUrl,} from 'route-codegen'
-  import Link, {CustomLinkProps,} from 'src/common/Link'
-  import {patternLogin,UrlPartsLogin,} from './patternLogin'
-  type LinkLoginProps = Omit<CustomLinkProps, 'to'> & UrlPartsLogin
-  const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({ path, query, origin, ...props }) => {
-    const to = generateUrl(patternLogin, path, query, origin);
-    return <Link {...props} to={to} />;
-  }
-  export default LinkLogin;`);
+      expect(templateFile.template).toMatchInlineSnapshot(`
+        "import React from 'react'
+          import {generateUrl,} from 'route-codegen'
+          import Link, {CustomLinkProps,} from 'src/common/Link'
+          import {patternLogin,UrlPartsLogin,} from './patternLogin'
+          type LinkLoginProps = Omit<CustomLinkProps, 'to'> & UrlPartsLogin
+          export const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({ path, query, origin, ...props }) => {
+            const to = generateUrl(patternLogin, { path: path, query, origin });
+            return <Link {...props} to={to} />;
+          }"
+      `);
     });
 
     it("should generate correctly with named component import", () => {
@@ -94,16 +96,17 @@ describe("generateLinkFileReactRouterV5", () => {
       expect(templateFile.filename).toBe("LinkLogin");
       expect(templateFile.extension).toBe(".tsx");
       expect(templateFile.destinationDir).toBe("path/to/routes");
-      expect(templateFile.template).toContain(`import React from 'react'
-  import {generateUrl,} from 'route-codegen'
-  import {CustomLinkProps,CustomLink as Link,} from 'src/common/Link'
-  import {patternLogin,UrlPartsLogin,} from './patternLogin'
-  type LinkLoginProps = Omit<CustomLinkProps, 'to'> & UrlPartsLogin
-  const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({  query, origin, ...props }) => {
-    const to = generateUrl(patternLogin, {}, query, origin);
-    return <Link {...props} to={to} />;
-  }
-  export default LinkLogin;`);
+      expect(templateFile.template).toMatchInlineSnapshot(`
+        "import React from 'react'
+          import {generateUrl,} from 'route-codegen'
+          import {CustomLinkProps,CustomLink as Link,} from 'src/common/Link'
+          import {patternLogin,UrlPartsLogin,} from './patternLogin'
+          type LinkLoginProps = Omit<CustomLinkProps, 'to'> & UrlPartsLogin
+          export const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({  query, origin, ...props }) => {
+            const to = generateUrl(patternLogin, { path: {}, query, origin });
+            return <Link {...props} to={to} />;
+          }"
+      `);
     });
   });
 });

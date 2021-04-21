@@ -1,4 +1,4 @@
-import generateRedirectFileReactRouterV5, { GenerateRedirectFileReactRouterV5Params } from "./generateRedirectFileReactRouterV5";
+import { generateRedirectFileReactRouterV5, GenerateRedirectFileReactRouterV5Params } from "./generateRedirectFileReactRouterV5";
 
 describe("generateRedirectFileReactRouterV5", () => {
   const defaultParams: GenerateRedirectFileReactRouterV5Params = {
@@ -20,20 +20,21 @@ describe("generateRedirectFileReactRouterV5", () => {
     expect(templateFile.filename).toBe("RedirectLogin");
     expect(templateFile.extension).toBe(".tsx");
     expect(templateFile.destinationDir).toBe("path/to/routes");
-    expect(templateFile.template).toContain(`import React from 'react'
-  import {generateUrl,} from 'route-codegen'
-  import {Redirect,} from 'react-router'
-  import {UrlPartsLogin,patternLogin,} from './patternLogin'
-  const RedirectLogin: React.FunctionComponent<UrlPartsLogin & { fallback?: React.ReactNode }> = props => {
-    const to = generateUrl(patternLogin, {}, props.query, props.origin);
-    return (
-      <>
-        <Redirect to={to} />
-        {props.fallback}
-      </>
-    );
-  };
-  export default RedirectLogin`);
+    expect(templateFile.template).toMatchInlineSnapshot(`
+      "import React from 'react'
+        import {generateUrl,} from 'route-codegen'
+        import {Redirect,} from 'react-router'
+        import {UrlPartsLogin,patternLogin,} from './patternLogin'
+        export const RedirectLogin: React.FunctionComponent<UrlPartsLogin & { fallback?: React.ReactNode }> = props => {
+          const to = generateUrl(patternLogin, { path: {}, query: props.query, origin: props.origin });
+          return (
+            <>
+              <Redirect to={to} />
+              {props.fallback}
+            </>
+          );
+        };"
+    `);
   });
 
   it("should generate correctly with path params", () => {
@@ -48,19 +49,20 @@ describe("generateRedirectFileReactRouterV5", () => {
     expect(templateFile.filename).toBe("RedirectLogin");
     expect(templateFile.extension).toBe(".tsx");
     expect(templateFile.destinationDir).toBe("path/to/routes");
-    expect(templateFile.template).toContain(`import React from 'react'
-  import {generateUrl,} from 'route-codegen'
-  import {Redirect,} from 'react-router'
-  import {UrlPartsLogin,patternLogin,} from './patternLogin'
-  const RedirectLogin: React.FunctionComponent<UrlPartsLogin & { fallback?: React.ReactNode }> = props => {
-    const to = generateUrl(patternLogin, props.path, props.query, props.origin);
-    return (
-      <>
-        <Redirect to={to} />
-        {props.fallback}
-      </>
-    );
-  };
-  export default RedirectLogin`);
+    expect(templateFile.template).toMatchInlineSnapshot(`
+      "import React from 'react'
+        import {generateUrl,} from 'route-codegen'
+        import {Redirect,} from 'react-router'
+        import {UrlPartsLogin,patternLogin,} from './patternLogin'
+        export const RedirectLogin: React.FunctionComponent<UrlPartsLogin & { fallback?: React.ReactNode }> = props => {
+          const to = generateUrl(patternLogin, { path: props.path, query: props.query, origin: props.origin });
+          return (
+            <>
+              <Redirect to={to} />
+              {props.fallback}
+            </>
+          );
+        };"
+    `);
   });
 });

@@ -1,11 +1,11 @@
-import { default as generateUseParamsFile } from "./generateUseParamsFileReactRouterV5";
-import { default as generateUseRedirectFile } from "./generateUseRedirectReactRouterV5";
-import { default as generateLinkFile } from "./generateLinkFileReactRouterV5";
-import { default as generateRedirectFile } from "./generateRedirectFileReactRouterV5";
+import { generateUseParamsFileReactRouterV5 } from "./generateUseParamsFileReactRouterV5";
+import { generateUseRedirectFileReactRouterV5 } from "./generateUseRedirectFileReactRouterV5";
+import { generateLinkFileReactRouterV5 } from "./generateLinkFileReactRouterV5";
+import { generateRedirectFileReactRouterV5 } from "./generateRedirectFileReactRouterV5";
 
-export default {
-  generateUseParamsFile,
-  generateUseRedirectFile,
-  generateLinkFile,
-  generateRedirectFile,
+export const generatorReactRouterV5 = {
+  generateUseParamsFile: generateUseParamsFileReactRouterV5,
+  generateUseRedirectFile: generateUseRedirectFileReactRouterV5,
+  generateLinkFile: generateLinkFileReactRouterV5,
+  generateRedirectFile: generateRedirectFileReactRouterV5,
 };

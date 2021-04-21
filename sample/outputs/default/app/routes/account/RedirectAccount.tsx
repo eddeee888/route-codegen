@@ -3,8 +3,8 @@ import React from "react";
 import { generateUrl } from "@route-codegen/utils";
 import { Redirect } from "react-router";
 import { UrlPartsAccount, patternAccount } from "./patternAccount";
-const RedirectAccount: React.FunctionComponent<UrlPartsAccount & { fallback?: React.ReactNode }> = (props) => {
-  const to = generateUrl(patternAccount, {}, props.query, props.origin);
+export const RedirectAccount: React.FunctionComponent<UrlPartsAccount & { fallback?: React.ReactNode }> = (props) => {
+  const to = generateUrl(patternAccount, { path: {}, query: props.query, origin: props.origin });
   return (
     <>
       <Redirect to={to} />
@@ -12,4 +12,3 @@ const RedirectAccount: React.FunctionComponent<UrlPartsAccount & { fallback?: Re
     </>
   );
 };
-export default RedirectAccount;

@@ -1,12 +1,10 @@
 import { Config, AppConfig } from "./config";
 import generateExternalRoutesConfig from "./generateExternalRoutesConfig";
 import generateAppFiles from "./generateAppFiles";
-import { writeFile } from "./utils";
 import { TemplateFile } from "./types";
-import handleCommandFlags, { CommandFlags } from "./handleCommandFlags";
-import templateFileHelpers from "./utils/templateFileHelpers";
+import { handleCommandFlags, CommandFlags, writeFile, templateFileHelpers } from "./utils";
 
-const generate = (config: Config, commandFlags: CommandFlags): void => {
+export const generate = (config: Config, commandFlags: CommandFlags): void => {
   handleCommandFlags(commandFlags);
 
   // TODO: make this async maybe
@@ -46,5 +44,3 @@ const generateFilesToWrite = (apps: Record<string, AppConfig>): TemplateFile[] =
 
   return [...mergedFiles];
 };
-
-export default generate;

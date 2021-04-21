@@ -3,14 +3,10 @@ export interface CommandFlags {
 }
 
 // This is the default commandFlags. This is what used across the whole run & in tests
-const commandFlags: CommandFlags = {
+export const commandFlags: CommandFlags = {
   verbose: false,
 };
 
-const handleCommandFlags = (suppliedCommandFlags: CommandFlags): void => {
+export const handleCommandFlags = (suppliedCommandFlags: CommandFlags): void => {
   commandFlags.verbose = suppliedCommandFlags.verbose;
 };
-
-export { commandFlags };
-
-export default handleCommandFlags;

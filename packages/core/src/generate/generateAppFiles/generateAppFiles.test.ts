@@ -84,7 +84,7 @@ describe("generateAppFiles", () => {
       expect(files[4].filename).toEqual("index");
       expect(files[4].extension).toEqual(".ts");
       expect(files[4].template).toMatchInlineSnapshot(
-        `"export * from \\"./login/patternLogin\\";export { default as generateUrlLogin } from \\"./login/generateUrlLogin\\";export * from \\"./user/patternUser\\";export { default as generateUrlUser } from \\"./user/generateUrlUser\\";"`
+        `"export * from \\"./login/patternLogin\\";export * from \\"./login/generateUrlLogin\\";export * from \\"./user/patternUser\\";export * from \\"./user/generateUrlUser\\";"`
       );
     });
   });

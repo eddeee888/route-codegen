@@ -1,4 +1,4 @@
-import generateUseParamsFileNextJS from "./generateUseParamsFileNextJS";
+import { generateUseParamsFileNextJS } from "./generateUseParamsFileNextJS";
 
 describe("generateUseParamsFileNextJS", () => {
   it("should generate correctly for loose mode", () => {
@@ -17,11 +17,10 @@ describe("generateUseParamsFileNextJS", () => {
     expect(templateFile.template).toMatchInlineSnapshot(`
       "import {PathParamsNextJSUser,} from './patternUser'
           import {useRouter,} from 'next/router'
-          const useParamsUser = (): PathParamsNextJSUser => {
+          export const useParamsUser = (): PathParamsNextJSUser => {
             const query = useRouter().query;
             return {id: query.id,subview: query.subview,singleEnum: query.singleEnum,optional: query.optional ? query.optional : undefined,optionalEnum: query.optionalEnum ? query.optionalEnum : undefined,};
-          }
-          export default useParamsUser;"
+          }"
     `);
   });
 
@@ -41,7 +40,7 @@ describe("generateUseParamsFileNextJS", () => {
     expect(templateFile.template).toMatchInlineSnapshot(`
       "import {PathParamsNextJSUser,} from './patternUser'
           import {useRouter,} from 'next/router'
-          const useParamsUser = (): PathParamsNextJSUser => {
+          export const useParamsUser = (): PathParamsNextJSUser => {
             const query = useRouter().query;
             return {id: query.id as PathParamsNextJSUser[\\"id\\"],
       subview: (() => {
@@ -60,8 +59,7 @@ describe("generateUseParamsFileNextJS", () => {
                     if(optionalEnumPossibleValues.findIndex((v) => v === query.optionalEnum) === -1){ throw new Error(\\"Unable to match 'optionalEnum' with expected enums\\"); }
                     return query.optionalEnum as PathParamsNextJSUser[\\"optionalEnum\\"]
                   })(),};
-          }
-          export default useParamsUser;"
+          }"
     `);
   });
 });

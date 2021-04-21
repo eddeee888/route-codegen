@@ -1,1 +1,1 @@
-export { default } from "./templateFileHelpers";
+export * from "./templateFileHelpers";

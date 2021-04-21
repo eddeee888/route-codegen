@@ -9,7 +9,7 @@ export interface GenerateUseRedirectFileDefaultParams {
   importGenerateUrl: Import;
 }
 
-const generateUseRedirectFileDefault = (params: GenerateUseRedirectFileDefaultParams): TemplateFile => {
+export const generateUseRedirectFileDefault = (params: GenerateUseRedirectFileDefaultParams): TemplateFile => {
   const { routeName: originalRouteName, patternNamedExports, destinationDir, importGenerateUrl } = params;
 
   const routeName = capitalizeFirstChar(originalRouteName);
@@ -30,19 +30,18 @@ const generateUseRedirectFileDefault = (params: GenerateUseRedirectFileDefaultPa
   export type ${resultTypeInterface} = (urlParts${!patternNamedExports.pathParamsInterfaceName ? "?" : ""}: ${
     patternNamedExports.urlPartsInterfaceName
   }) => void;
-  const ${functionName} = (): ${resultTypeInterface} => {
+  export const ${functionName} = (): ${resultTypeInterface} => {
     const redirect: ${resultTypeInterface} = urlParts => {
-      const to = generateUrl(${patternNamedExports.patternName}, ${pathVariable}, urlParts?.query, urlParts?.origin ?? ${
-    patternNamedExports.originName
-  });
+      const to = generateUrl(${
+        patternNamedExports.patternName
+      }, { path: ${pathVariable}, query: urlParts?.query, origin: urlParts?.origin ?? ${patternNamedExports.originName} });
       if (!!window && !!window.location) {
         window.location.href = to;
       }
       return;
     }
     return redirect;
-  }
-  export default ${functionName}`;
+  }`;
 
   const templateFile: TemplateFile = {
     template,
@@ -50,11 +49,9 @@ const generateUseRedirectFileDefault = (params: GenerateUseRedirectFileDefaultPa
     extension: ".ts",
     destinationDir,
     routeName: originalRouteName,
-    hasDefaultExport: true,
+    hasDefaultExport: false,
     hasNamedExports: true,
   };
 
   return templateFile;
 };
-
-export default generateUseRedirectFileDefault;

@@ -2,9 +2,9 @@
 import { UrlPartsLegacy, patternLegacy, originLegacy } from "./patternLegacy";
 import { generateUrl } from "@route-codegen/utils";
 export type RedirectFnLegacy = (urlParts?: UrlPartsLegacy) => void;
-const useRedirectLegacy = (): RedirectFnLegacy => {
+export const useRedirectLegacy = (): RedirectFnLegacy => {
   const redirect: RedirectFnLegacy = (urlParts) => {
-    const to = generateUrl(patternLegacy, {}, urlParts?.query, urlParts?.origin ?? originLegacy);
+    const to = generateUrl(patternLegacy, { path: {}, query: urlParts?.query, origin: urlParts?.origin ?? originLegacy });
     if (!!window && !!window.location) {
       window.location.href = to;
     }
@@ -12,4 +12,3 @@ const useRedirectLegacy = (): RedirectFnLegacy => {
   };
   return redirect;
 };
-export default useRedirectLegacy;
