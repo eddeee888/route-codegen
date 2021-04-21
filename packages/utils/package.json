@@ -1,6 +1,6 @@
 {
   "name": "@route-codegen/utils",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Utility functions to support route-codegen",
   "author": "Eddy Nguyen <eddeee.nguyen@gmail.com>",
   "license": "MIT",

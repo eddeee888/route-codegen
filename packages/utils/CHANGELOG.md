@@ -1,5 +1,16 @@
 # @route-codegen/utils
 
+## 0.2.0
+
+### Minor Changes
+
+- 6fbd6ef: Update generateUrl to take an object instead of normal params
+- ad7a325: [Breaking change] Update generateUrl usage. UrlParams are now passed in as an object.
+
+### Patch Changes
+
+- 40c51a3: Update deps
+
 ## 0.1.2
 
 ### Patch Changes

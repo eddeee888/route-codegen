@@ -1,5 +1,16 @@
 # @route-codegen/core
 
+## 0.4.0
+
+### Minor Changes
+
+- c76be6a: Update all UrlParts refs to UrlParams
+- ad7a325: [Breaking change] Update generateUrl usage. UrlParams are now passed in as an object.
+
+### Patch Changes
+
+- 40c51a3: Update deps
+
 ## 0.3.1
 
 ### Patch Changes
