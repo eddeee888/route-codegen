@@ -5,7 +5,7 @@ export const originUser = "https://app.domain.com";
 export type PathParamsUser = { id: string; subview?: "pictures" };
 
 export const possilePathParamsUser = ["id", "subview"];
-export interface UrlPartsUser {
+export interface UrlParamsUser {
   path: PathParamsUser;
   query?: Record<string, string | undefined>;
   origin?: string;

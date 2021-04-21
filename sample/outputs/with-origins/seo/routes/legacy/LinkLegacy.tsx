@@ -2,8 +2,8 @@
 import React from "react";
 import { generateUrl } from "@route-codegen/utils";
 
-import { patternLegacy, UrlPartsLegacy, originLegacy } from "./patternLegacy";
-type LinkProps = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, "href"> & UrlPartsLegacy;
+import { patternLegacy, UrlParamsLegacy, originLegacy } from "./patternLegacy";
+type LinkProps = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, "href"> & UrlParamsLegacy;
 export const LinkLegacy: React.FunctionComponent<LinkProps> = ({ query, origin, ...props }) => {
   const to = generateUrl(patternLegacy, { path: {}, query, origin: origin ?? originLegacy });
   return <a {...props} href={to} />;

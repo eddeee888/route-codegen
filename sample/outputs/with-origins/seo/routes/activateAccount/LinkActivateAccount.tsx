@@ -2,9 +2,9 @@
 import React from "react";
 import { generateUrl } from "@route-codegen/utils";
 
-import { patternActivateAccount, UrlPartsActivateAccount, originActivateAccount } from "./patternActivateAccount";
+import { patternActivateAccount, UrlParamsActivateAccount, originActivateAccount } from "./patternActivateAccount";
 type LinkProps = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, "href"> &
-  UrlPartsActivateAccount;
+  UrlParamsActivateAccount;
 export const LinkActivateAccount: React.FunctionComponent<LinkProps> = ({ path, query, origin, ...props }) => {
   const to = generateUrl(patternActivateAccount, { path: path, query, origin: origin ?? originActivateAccount });
   return <a {...props} href={to} />;

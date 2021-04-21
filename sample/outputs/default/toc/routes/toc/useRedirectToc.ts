@@ -1,7 +1,7 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 import { useRouter } from "next/router";
-import { UrlPartsToc, patternNextJSToc } from "./patternToc";
-export type RedirectFnToc = (urlParts?: UrlPartsToc) => void;
+import { UrlParamsToc, patternNextJSToc } from "./patternToc";
+export type RedirectFnToc = (urlParts?: UrlParamsToc) => void;
 export const useRedirectToc = (): RedirectFnToc => {
   const router = useRouter();
   const redirect: RedirectFnToc = (urlParts) => {

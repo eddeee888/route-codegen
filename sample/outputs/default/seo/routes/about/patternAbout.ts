@@ -21,7 +21,7 @@ export interface PathParamsNextJSAbout {
   optionalEnum?: string | string[];
 }
 export const possilePathParamsAbout = ["target", "topic", "region", "optional", "optionalEnum"];
-export interface UrlPartsAbout {
+export interface UrlParamsAbout {
   path: PathParamsAbout;
   query?: Record<string, string | undefined>;
   origin?: string;

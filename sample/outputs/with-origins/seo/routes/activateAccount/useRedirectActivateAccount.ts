@@ -1,7 +1,7 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
-import { UrlPartsActivateAccount, patternActivateAccount, originActivateAccount } from "./patternActivateAccount";
+import { UrlParamsActivateAccount, patternActivateAccount, originActivateAccount } from "./patternActivateAccount";
 import { generateUrl } from "@route-codegen/utils";
-export type RedirectFnActivateAccount = (urlParts: UrlPartsActivateAccount) => void;
+export type RedirectFnActivateAccount = (urlParts: UrlParamsActivateAccount) => void;
 export const useRedirectActivateAccount = (): RedirectFnActivateAccount => {
   const redirect: RedirectFnActivateAccount = (urlParts) => {
     const to = generateUrl(patternActivateAccount, {

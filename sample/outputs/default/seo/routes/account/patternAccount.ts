@@ -2,7 +2,7 @@
 export const patternAccount = "/app/account";
 export const originAccount = "";
 
-export interface UrlPartsAccount {
+export interface UrlParamsAccount {
   query?: Record<string, string | undefined>;
   origin?: string;
 }

@@ -15,7 +15,7 @@ export type PathParamsContact = {
 };
 
 export const possilePathParamsContact = ["target", "topic", "region", "optional", "optionalEnum"];
-export interface UrlPartsContact {
+export interface UrlParamsContact {
   path: PathParamsContact;
   query?: Record<string, string | undefined>;
   origin?: string;

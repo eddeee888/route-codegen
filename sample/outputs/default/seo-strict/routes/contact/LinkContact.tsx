@@ -1,8 +1,8 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 import React from "react";
 import Link, { LinkProps } from "next/link";
-import { UrlPartsContact, patternNextJSContact, possilePathParamsContact } from "./patternContact";
-type LinkContactProps = Omit<LinkProps, "href"> & UrlPartsContact;
+import { UrlParamsContact, patternNextJSContact, possilePathParamsContact } from "./patternContact";
+type LinkContactProps = Omit<LinkProps, "href"> & UrlParamsContact;
 export const LinkContact: React.FunctionComponent<LinkContactProps> = (props) => {
   const { path = {}, query = {}, ...rest } = props;
   const pathname = possilePathParamsContact
