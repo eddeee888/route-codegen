@@ -32,9 +32,9 @@ export const generateUseRedirectFileDefault = (params: GenerateUseRedirectFileDe
   }) => void;
   export const ${functionName} = (): ${resultTypeInterface} => {
     const redirect: ${resultTypeInterface} = urlParts => {
-      const to = generateUrl({ pattern: ${
+      const to = generateUrl(${
         patternNamedExports.patternName
-      }, path: ${pathVariable}, query: urlParts?.query, origin: urlParts?.origin ?? ${patternNamedExports.originName} });
+      }, { path: ${pathVariable}, query: urlParts?.query, origin: urlParts?.origin ?? ${patternNamedExports.originName} });
       if (!!window && !!window.location) {
         window.location.href = to;
       }

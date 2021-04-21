@@ -43,7 +43,7 @@ describe("generateLinkFileReactRouterV5", () => {
           import {patternLogin,UrlPartsLogin,} from './patternLogin'
           type LinkLoginProps = Omit<CustomLinkProps, 'to'> & UrlPartsLogin
           export const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({  query, origin, ...props }) => {
-            const to = generateUrl({ pattern: patternLogin, path: {}, query, origin });
+            const to = generateUrl(patternLogin, { path: {}, query, origin });
             return <Link {...props} to={to} />;
           }"
       `);
@@ -68,7 +68,7 @@ describe("generateLinkFileReactRouterV5", () => {
           import {patternLogin,UrlPartsLogin,} from './patternLogin'
           type LinkLoginProps = Omit<CustomLinkProps, 'to'> & UrlPartsLogin
           export const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({ path, query, origin, ...props }) => {
-            const to = generateUrl({ pattern: patternLogin, path: path, query, origin });
+            const to = generateUrl(patternLogin, { path: path, query, origin });
             return <Link {...props} to={to} />;
           }"
       `);
@@ -103,7 +103,7 @@ describe("generateLinkFileReactRouterV5", () => {
           import {patternLogin,UrlPartsLogin,} from './patternLogin'
           type LinkLoginProps = Omit<CustomLinkProps, 'to'> & UrlPartsLogin
           export const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({  query, origin, ...props }) => {
-            const to = generateUrl({ pattern: patternLogin, path: {}, query, origin });
+            const to = generateUrl(patternLogin, { path: {}, query, origin });
             return <Link {...props} to={to} />;
           }"
       `);

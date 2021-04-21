@@ -28,7 +28,7 @@ describe("generateUseRedirectReactRouterV5", () => {
         export const useRedirectLogin = (): RedirectFnLogin => {
           const history = useHistory();
           const redirect: RedirectFnLogin = urlParts => {
-            const to = generateUrl({ pattern: patternLogin, path: {}, query: urlParts?.query, origin: urlParts?.origin });
+            const to = generateUrl(patternLogin, { path: {}, query: urlParts?.query, origin: urlParts?.origin });
             history.push(to);
           }
           return redirect;
@@ -64,7 +64,7 @@ describe("generateUseRedirectReactRouterV5", () => {
         export const useRedirectUserInfo = (): RedirectFnUserInfo => {
           const history = useHistory();
           const redirect: RedirectFnUserInfo = urlParts => {
-            const to = generateUrl({ pattern: patternUserInfo, path: urlParts.path, query: urlParts?.query, origin: urlParts?.origin });
+            const to = generateUrl(patternUserInfo, { path: urlParts.path, query: urlParts?.query, origin: urlParts?.origin });
             history.push(to);
           }
           return redirect;

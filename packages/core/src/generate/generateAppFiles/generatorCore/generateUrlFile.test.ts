@@ -20,7 +20,7 @@ describe("generateUseParamsFile", () => {
     expect(templateFile.template).toMatchInlineSnapshot(`
       "import {generateUrl,} from 'route-codegen'
         import {patternUser,UrlPartsUser,originUser,} from './patternUser'
-        export const generateUrlUser = ( urlParts?: UrlPartsUser ): string => generateUrl({pattern: patternUser, path: {}, query: urlParts?.query, origin: urlParts?.origin ?? originUser});"
+        export const generateUrlUser = ( urlParts?: UrlPartsUser ): string => generateUrl(patternUser, { path: {}, query: urlParts?.query, origin: urlParts?.origin ?? originUser});"
     `);
   });
 
@@ -44,7 +44,7 @@ describe("generateUseParamsFile", () => {
     expect(templateFile.template).toMatchInlineSnapshot(`
       "import {generateUrl,} from 'route-codegen'
         import {patternUser,UrlPartsUser,originUser,} from './patternUser'
-        export const generateUrlUser = ( urlParts: UrlPartsUser ): string => generateUrl({pattern: patternUser, path: urlParts.path, query: urlParts?.query, origin: urlParts?.origin ?? originUser});"
+        export const generateUrlUser = ( urlParts: UrlPartsUser ): string => generateUrl(patternUser, { path: urlParts.path, query: urlParts?.query, origin: urlParts?.origin ?? originUser});"
     `);
   });
 });

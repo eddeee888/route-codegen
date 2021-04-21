@@ -44,7 +44,7 @@ export const generateLinkFileReactRouterV5 = (params: GenerateLinkFileReactRoute
   export const ${functionName}: React.FunctionComponent<${linkPropsInterfaceName}> = ({ ${
     hasPathParams ? "path," : ""
   } query, origin, ...props }) => {
-    const to = ${generateUrlFnName}({ pattern: ${patternName}, path: ${hasPathParams ? "path" : "{}"}, query, origin });
+    const to = ${generateUrlFnName}(${patternName}, { path: ${hasPathParams ? "path" : "{}"}, query, origin });
     return <${linkComponent} {...props} ${hrefProp}={to} />;
   }`;
 

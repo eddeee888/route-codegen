@@ -26,7 +26,7 @@ export const generateUrlFile: GenerateUrlFile = ({
     namedImports: [{ name: patternName }, { name: urlPartsInterfaceName }, { name: originName }],
     from: `./${filename}`,
   })}
-  export const ${functionName} = ( urlParts${urlPartOptionalModifier}: ${urlPartsInterfaceName} ): string => generateUrl({pattern: ${patternName}, path: ${pathVariable}, query: urlParts?.query, origin: urlParts?.origin ?? ${originName}});`;
+  export const ${functionName} = ( urlParts${urlPartOptionalModifier}: ${urlPartsInterfaceName} ): string => generateUrl(${patternName}, { path: ${pathVariable}, query: urlParts?.query, origin: urlParts?.origin ?? ${originName}});`;
 
   const templateFile: TemplateFile = {
     template,

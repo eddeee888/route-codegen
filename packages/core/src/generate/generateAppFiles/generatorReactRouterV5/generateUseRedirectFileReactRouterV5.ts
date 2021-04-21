@@ -34,9 +34,9 @@ export const generateUseRedirectFileReactRouterV5 = (params: GenerateUseRedirect
   export const ${functionName} = (): ${resultTypeInterface} => {
     const history = useHistory();
     const redirect: ${resultTypeInterface} = urlParts => {
-      const to = ${generateUrlFnName}({ pattern: ${
+      const to = ${generateUrlFnName}(${
     patternNamedExports.patternName
-  }, path: ${pathVariable}, query: urlParts?.query, origin: urlParts?.origin });
+  }, { path: ${pathVariable}, query: urlParts?.query, origin: urlParts?.origin });
       history.push(to);
     }
     return redirect;

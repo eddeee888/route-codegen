@@ -43,7 +43,7 @@ export const generateLinkFileDefault = (params: GenerateLinkFileDefaultParams): 
   export const ${functionName}: React.FunctionComponent<${linkPropsInterfaceName}> = ({ ${
     hasPathParams ? "path," : ""
   } query, origin, ...props }) => {
-    const to = generateUrl({ pattern: ${patternName}, path: ${hasPathParams ? "path" : "{}"}, query, origin: origin ?? ${originName} });
+    const to = generateUrl(${patternName}, { path: ${hasPathParams ? "path" : "{}"}, query, origin: origin ?? ${originName} });
     return <${linkComponent} {...props} ${hrefProp}={to} />;
   }`;
 
