@@ -22,7 +22,7 @@ describe("generateLinkFileNextJS", () => {
       originName: "originLogin",
       filename: "patternLogin",
       patternName: "patternLogin",
-      urlPartsInterfaceName: "UrlPartsLogin",
+      urlParamsInterfaceName: "UrlParamsLogin",
       patternNameNextJS: "patternNextJSLogin",
     },
     destinationDir: "path/to/routes",
