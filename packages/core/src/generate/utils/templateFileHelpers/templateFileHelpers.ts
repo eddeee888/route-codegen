@@ -1,7 +1,7 @@
 import { samePath } from "./samePath";
 import { mergeTemplate } from "./mergeTemplate";
 
-export default {
+export const templateFileHelpers = {
   samePath,
   mergeTemplate,
 };

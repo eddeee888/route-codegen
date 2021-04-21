@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 
 import yargs from "yargs";
-import generate from "./../generate";
+import { generate } from "./../generate";
 import yaml from "js-yaml";
 import { readFileSync } from "fs";
-import { log } from "util";
 
 const argv = yargs.options({
   config: { type: "string", default: "route-codegen.yml" },
@@ -21,7 +20,7 @@ try {
   // Allow passing variables by replacing ${...} with its correspondent value in process.env
   if (typeof process !== "undefined" && "env" in process) {
     ymlContent = ymlContent.replace(/\$\{(.*)\}/g, (str, variable) => {
-      log(`Replacing \${${variable}} with ${process.env[variable]}`);
+      console.log(`Replacing \${${variable}} with ${process.env[variable]}`);
       return process.env[variable] ?? "";
     });
   }
