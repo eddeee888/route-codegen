@@ -40,10 +40,16 @@ const generateQueryString = (query?: Record<string, string | undefined>): string
   return `?${new URLSearchParams(filteredQuery).toString()}`;
 };
 
-export type GenerateUrl = <P>(pattern: string, path: P, query?: Record<string, string | undefined>, origin?: string) => string;
-const generateUrl: GenerateUrl = (pattern, path, query, origin) => {
+export interface UrlParams<P> {
+  pattern: string;
+  path: P;
+  query?: Record<string, string | undefined>;
+  origin?: string;
+}
+
+export type GenerateUrl = <P>(params: UrlParams<P>) => string;
+
+export const generateUrl: GenerateUrl = ({ pattern, path, query, origin }) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (origin ?? "") + generatePath(pattern, path as any) + generateQueryString(query);
 };
-
-export default generateUrl;
