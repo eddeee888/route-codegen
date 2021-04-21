@@ -8,7 +8,7 @@ describe("generateRedirectFileReactRouterV5", () => {
       originName: "originLogin",
       filename: "patternLogin",
       patternName: "patternLogin",
-      urlPartsInterfaceName: "UrlPartsLogin",
+      urlParamsInterfaceName: "UrlParamsLogin",
       patternNameNextJS: "patternNextJSLogin",
     },
     destinationDir: "path/to/routes",
@@ -24,8 +24,8 @@ describe("generateRedirectFileReactRouterV5", () => {
       "import React from 'react'
         import {generateUrl,} from 'route-codegen'
         import {Redirect,} from 'react-router'
-        import {UrlPartsLogin,patternLogin,} from './patternLogin'
-        export const RedirectLogin: React.FunctionComponent<UrlPartsLogin & { fallback?: React.ReactNode }> = props => {
+        import {UrlParamsLogin,patternLogin,} from './patternLogin'
+        export const RedirectLogin: React.FunctionComponent<UrlParamsLogin & { fallback?: React.ReactNode }> = props => {
           const to = generateUrl(patternLogin, { path: {}, query: props.query, origin: props.origin });
           return (
             <>
@@ -53,8 +53,8 @@ describe("generateRedirectFileReactRouterV5", () => {
       "import React from 'react'
         import {generateUrl,} from 'route-codegen'
         import {Redirect,} from 'react-router'
-        import {UrlPartsLogin,patternLogin,} from './patternLogin'
-        export const RedirectLogin: React.FunctionComponent<UrlPartsLogin & { fallback?: React.ReactNode }> = props => {
+        import {UrlParamsLogin,patternLogin,} from './patternLogin'
+        export const RedirectLogin: React.FunctionComponent<UrlParamsLogin & { fallback?: React.ReactNode }> = props => {
           const to = generateUrl(patternLogin, { path: props.path, query: props.query, origin: props.origin });
           return (
             <>

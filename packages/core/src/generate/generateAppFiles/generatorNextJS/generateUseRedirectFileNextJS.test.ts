@@ -23,8 +23,8 @@ describe("generateUseRedirectFileNextJS", () => {
     expect(templateFile.destinationDir).toBe("path/to/routes");
     expect(templateFile.template).toMatchInlineSnapshot(`
       "import {useRouter,} from 'next/router'
-        import {UrlPartsLogin,patternNextJSLogin,} from './patternLogin'
-        export type RedirectFnLogin = (urlParts?: UrlPartsLogin) => void;
+        import {UrlParamsLogin,patternNextJSLogin,} from './patternLogin'
+        export type RedirectFnLogin = (urlParts?: UrlParamsLogin) => void;
         export const useRedirectLogin = (): RedirectFnLogin => {
           const router = useRouter();
           const redirect: RedirectFnLogin = urlParts => {
@@ -69,8 +69,8 @@ describe("generateUseRedirectFileNextJS", () => {
     expect(templateFile.destinationDir).toBe("path/to/routes");
     expect(templateFile.template).toMatchInlineSnapshot(`
       "import {useRouter,} from 'next/router'
-        import {UrlPartsUserInfo,patternNextJSUserInfo,possiblePathParamsUserInfo,} from './patternUserInfo'
-        export type RedirectFnUserInfo = (urlParts: UrlPartsUserInfo) => void;
+        import {UrlParamsUserInfo,patternNextJSUserInfo,possiblePathParamsUserInfo,} from './patternUserInfo'
+        export type RedirectFnUserInfo = (urlParts: UrlParamsUserInfo) => void;
         export const useRedirectUserInfo = (): RedirectFnUserInfo => {
           const router = useRouter();
           const redirect: RedirectFnUserInfo = urlParts => {
