@@ -1,4 +1,4 @@
-import generateUrl from "./generateUrl";
+import { generateUrl } from "./generateUrl";
 
 describe("generateUrl", () => {
   describe("no path or query string", () => {

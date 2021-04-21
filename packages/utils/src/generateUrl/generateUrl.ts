@@ -49,9 +49,7 @@ export interface UrlParams<P> {
 
 export type GenerateUrl = <P>(params: UrlParams<P>) => string;
 
-const generateUrl: GenerateUrl = ({ pattern, path, query, origin }) => {
+export const generateUrl: GenerateUrl = ({ pattern, path, query, origin }) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (origin ?? "") + generatePath(pattern, path as any) + generateQueryString(query);
 };
-
-export default generateUrl;
