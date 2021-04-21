@@ -14,7 +14,7 @@ Route Codegen aims to simplify workflows by keeping apps' routes in one config f
 
 ## Supports
 
-- [NextJS](https://github.com/zeit/next.js/) v9.3.4^
+- [Next.js](https://github.com/zeit/next.js/) v9.3.4^
 - [React router](https://github.com/ReactTraining/react-router) v5^
 
 ## Installation
@@ -186,7 +186,6 @@ Each routing framework has different API for their link. The generated `Link` co
 The generated Link component has the same props so you can do the following in any app:
 
 ```typescript
-// Works in any app
 <LinkUser path={{ id: "100" }} query={{ from: "home" }} />
 ```
 
