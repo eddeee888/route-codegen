@@ -35,6 +35,7 @@ export const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): Te
     defaultLinkPropsInterfaceName,
     urlParamsInterfaceName,
     routeLinkOption,
+    hasPathParams,
   });
 
   if (!patternNameNextJS) {
@@ -48,16 +49,13 @@ export const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): Te
     pathnameTemplate = `const pathname = ${possiblePathParamsVariableName}.filter((key) => !(key in path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[${"${suppliedParam"}}]\`, ""), ${patternNameNextJS});`;
   }
 
-  const variablesTemplate = hasPathParams
-    ? `const { path = {}, query = {}, ...rest } = props;`
-    : `const { query = {}, ...rest } = props; const path = {};`;
-
   const template = `${printImport({ defaultImport: "React", from: "react" })}
   ${importLink ? printImport(importLink) : ""}
   ${printImport({ namedImports: namedImportsFromPatternFile, from: `./${routePatternFilename}` })}
   ${linkPropsTemplate}
-  export const ${functionName}: React.FunctionComponent<${linkPropsInterfaceName}> = props => {
-    ${variablesTemplate}
+  export const ${functionName}: React.FunctionComponent<${linkPropsInterfaceName}> = ({ urlParams, ...props}) => {
+    const { query = {} } = urlParams;
+    const path = ${hasPathParams ? "urlParams.path" : "{}"};
     ${pathnameTemplate}
     const nextHref = {
       pathname: pathname,
@@ -66,7 +64,7 @@ export const generateLinkFileNextJS = (params: GenerateLinkFileNextJSParams): Te
         ...query,
       },
     }
-    return <${linkComponent} {...rest} ${hrefProp}={nextHref} />;
+    return <${linkComponent} {...props} ${hrefProp}={nextHref} />;
   }`;
 
   const templateFile: TemplateFile = {
@@ -86,6 +84,7 @@ interface GenerateLinkInterfaceParams {
   routeLinkOption: RouteLinkOptions["NextJS"];
   defaultLinkPropsInterfaceName: string;
   urlParamsInterfaceName: string;
+  hasPathParams: boolean;
 }
 
 interface GenerateLinkInterfaceResult {
@@ -98,11 +97,13 @@ interface GenerateLinkInterfaceResult {
 }
 
 const generateLinkInterface = (params: GenerateLinkInterfaceParams): GenerateLinkInterfaceResult => {
-  const { routeLinkOption, defaultLinkPropsInterfaceName, urlParamsInterfaceName } = params;
-
+  const { routeLinkOption, defaultLinkPropsInterfaceName, urlParamsInterfaceName, hasPathParams } = params;
   const { hrefProp, linkProps, importLink, linkComponent } = routeLinkOption;
 
-  const linkPropsTemplate = `type ${defaultLinkPropsInterfaceName} = Omit<${linkProps}, '${hrefProp}'> & ${urlParamsInterfaceName}`;
+  const urlParamsModifier = hasPathParams ? "" : "?";
+  const urlParamsTemplate = `{ urlParams${urlParamsModifier}: ${urlParamsInterfaceName} }`;
+
+  const linkPropsTemplate = `type ${defaultLinkPropsInterfaceName} = Omit<${linkProps}, '${hrefProp}'> & ${urlParamsTemplate}`;
   const linkPropsInterfaceName = defaultLinkPropsInterfaceName;
 
   return {

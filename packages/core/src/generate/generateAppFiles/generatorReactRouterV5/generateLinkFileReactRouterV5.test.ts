@@ -41,9 +41,9 @@ describe("generateLinkFileReactRouterV5", () => {
           import {generateUrl,} from 'route-codegen'
           import Link, {CustomLinkProps,} from 'src/common/Link'
           import {patternLogin,UrlParamsLogin,} from './patternLogin'
-          type LinkLoginProps = Omit<CustomLinkProps, 'to'> & UrlParamsLogin
-          export const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({  query, origin, ...props }) => {
-            const to = generateUrl(patternLogin, { path: {}, query, origin });
+          type LinkLoginProps = Omit<CustomLinkProps, 'to'> & { urlParams?: UrlParamsLogin }
+          export const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({ urlParams, ...props }) => {
+            const to = generateUrl(patternLogin, { path: {}, query: urlParams?.query, origin: urlParams?.origin });
             return <Link {...props} to={to} />;
           }"
       `);
@@ -66,9 +66,9 @@ describe("generateLinkFileReactRouterV5", () => {
           import {generateUrl,} from 'route-codegen'
           import Link, {CustomLinkProps,} from 'src/common/Link'
           import {patternLogin,UrlParamsLogin,} from './patternLogin'
-          type LinkLoginProps = Omit<CustomLinkProps, 'to'> & UrlParamsLogin
-          export const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({ path, query, origin, ...props }) => {
-            const to = generateUrl(patternLogin, { path: path, query, origin });
+          type LinkLoginProps = Omit<CustomLinkProps, 'to'> & { urlParams: UrlParamsLogin }
+          export const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({ urlParams, ...props }) => {
+            const to = generateUrl(patternLogin, { path: urlParams.path, query: urlParams?.query, origin: urlParams?.origin });
             return <Link {...props} to={to} />;
           }"
       `);
@@ -101,9 +101,9 @@ describe("generateLinkFileReactRouterV5", () => {
           import {generateUrl,} from 'route-codegen'
           import {CustomLinkProps,CustomLink as Link,} from 'src/common/Link'
           import {patternLogin,UrlParamsLogin,} from './patternLogin'
-          type LinkLoginProps = Omit<CustomLinkProps, 'to'> & UrlParamsLogin
-          export const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({  query, origin, ...props }) => {
-            const to = generateUrl(patternLogin, { path: {}, query, origin });
+          type LinkLoginProps = Omit<CustomLinkProps, 'to'> & { urlParams?: UrlParamsLogin }
+          export const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({ urlParams, ...props }) => {
+            const to = generateUrl(patternLogin, { path: {}, query: urlParams?.query, origin: urlParams?.origin });
             return <Link {...props} to={to} />;
           }"
       `);

@@ -31,6 +31,7 @@ export const generateLinkFileReactRouterV5 = (params: GenerateLinkFileReactRoute
     defaultLinkPropsInterfaceName,
     urlParamsInterfaceName,
     routeLinkOption,
+    hasPathParams,
   });
 
   const template = `${printImport({ defaultImport: "React", from: "react" })}
@@ -41,10 +42,10 @@ export const generateLinkFileReactRouterV5 = (params: GenerateLinkFileReactRoute
     from: `./${routePatternFilename}`,
   })}
   ${linkPropsTemplate}
-  export const ${functionName}: React.FunctionComponent<${linkPropsInterfaceName}> = ({ ${
-    hasPathParams ? "path," : ""
-  } query, origin, ...props }) => {
-    const to = ${generateUrlFnName}(${patternName}, { path: ${hasPathParams ? "path" : "{}"}, query, origin });
+  export const ${functionName}: React.FunctionComponent<${linkPropsInterfaceName}> = ({ urlParams, ...props }) => {
+    const to = ${generateUrlFnName}(${patternName}, { path: ${
+    hasPathParams ? "urlParams.path" : "{}"
+  }, query: urlParams?.query, origin: urlParams?.origin });
     return <${linkComponent} {...props} ${hrefProp}={to} />;
   }`;
 
@@ -65,6 +66,7 @@ interface GenerateLinkInterfaceParams {
   routeLinkOption: RouteLinkOptions["ReactRouterV5"];
   defaultLinkPropsInterfaceName: string;
   urlParamsInterfaceName: string;
+  hasPathParams: boolean;
 }
 
 interface GenerateLinkInterfaceResult {
@@ -77,11 +79,13 @@ interface GenerateLinkInterfaceResult {
 }
 
 const generateLinkInterface = (params: GenerateLinkInterfaceParams): GenerateLinkInterfaceResult => {
-  const { routeLinkOption, defaultLinkPropsInterfaceName, urlParamsInterfaceName } = params;
-
+  const { routeLinkOption, defaultLinkPropsInterfaceName, urlParamsInterfaceName, hasPathParams } = params;
   const { hrefProp, linkProps, importLink, linkComponent } = routeLinkOption;
 
-  const linkPropsTemplate = `type ${defaultLinkPropsInterfaceName} = Omit<${linkProps}, '${hrefProp}'> & ${urlParamsInterfaceName}`;
+  const urlParamsModifier = hasPathParams ? "" : "?";
+  const urlParamsTemplate = `{ urlParams${urlParamsModifier}: ${urlParamsInterfaceName} }`;
+
+  const linkPropsTemplate = `type ${defaultLinkPropsInterfaceName} = Omit<${linkProps}, '${hrefProp}'> & ${urlParamsTemplate}`;
   const linkPropsInterfaceName = defaultLinkPropsInterfaceName;
 
   return {
