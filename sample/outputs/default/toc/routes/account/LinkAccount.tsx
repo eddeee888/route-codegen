@@ -3,8 +3,8 @@ import React from "react";
 import { generateUrl } from "@route-codegen/utils";
 import Link, { AnchorProps } from "src/common/ui/Anchor";
 import { patternAccount, UrlParamsAccount, originAccount } from "./patternAccount";
-type LinkAccountProps = Omit<AnchorProps, "href"> & UrlParamsAccount;
-export const LinkAccount: React.FunctionComponent<LinkAccountProps> = ({ query, origin, ...props }) => {
-  const to = generateUrl(patternAccount, { path: {}, query, origin: origin ?? originAccount });
+type LinkAccountProps = Omit<AnchorProps, "href"> & { urlParams?: UrlParamsAccount };
+export const LinkAccount: React.FunctionComponent<LinkAccountProps> = ({ urlParams, ...props }) => {
+  const to = generateUrl(patternAccount, { path: {}, query: urlParams?.query, origin: urlParams?.origin ?? originAccount });
   return <Link {...props} href={to} />;
 };

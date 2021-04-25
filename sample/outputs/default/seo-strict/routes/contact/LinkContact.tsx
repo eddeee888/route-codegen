@@ -2,9 +2,10 @@
 import React from "react";
 import Link, { LinkProps } from "next/link";
 import { UrlParamsContact, patternNextJSContact, possilePathParamsContact } from "./patternContact";
-type LinkContactProps = Omit<LinkProps, "href"> & UrlParamsContact;
-export const LinkContact: React.FunctionComponent<LinkContactProps> = (props) => {
-  const { path = {}, query = {}, ...rest } = props;
+type LinkContactProps = Omit<LinkProps, "href"> & { urlParams: UrlParamsContact };
+export const LinkContact: React.FunctionComponent<LinkContactProps> = ({ urlParams, ...props }) => {
+  const { query = {} } = urlParams;
+  const path = urlParams.path;
   const pathname = possilePathParamsContact
     .filter((key) => !(key in path))
     .reduce((prevPattern, suppliedParam) => prevPattern.replace(`/[${suppliedParam}]`, ""), patternNextJSContact);
@@ -15,5 +16,5 @@ export const LinkContact: React.FunctionComponent<LinkContactProps> = (props) =>
       ...query,
     },
   };
-  return <Link {...rest} href={nextHref} />;
+  return <Link {...props} href={nextHref} />;
 };

@@ -3,8 +3,8 @@ import React from "react";
 import { generateUrl } from "@route-codegen/utils";
 import { AnchorProps, CustomAnchor as Link } from "common/ui/Anchor";
 import { patternContact, UrlParamsContact, originContact } from "./patternContact";
-type LinkContactProps = Omit<AnchorProps, "href"> & UrlParamsContact;
-export const LinkContact: React.FunctionComponent<LinkContactProps> = ({ path, query, origin, ...props }) => {
-  const to = generateUrl(patternContact, { path: path, query, origin: origin ?? originContact });
+type LinkContactProps = Omit<AnchorProps, "href"> & { urlParams: UrlParamsContact };
+export const LinkContact: React.FunctionComponent<LinkContactProps> = ({ urlParams, ...props }) => {
+  const to = generateUrl(patternContact, { path: urlParams.path, query: urlParams?.query, origin: urlParams?.origin ?? originContact });
   return <Link {...props} href={to} />;
 };
