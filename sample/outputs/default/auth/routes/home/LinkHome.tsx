@@ -3,8 +3,8 @@ import React from "react";
 import { generateUrl } from "@route-codegen/utils";
 import { AnchorProps, CustomAnchor as Link } from "common/ui/Anchor";
 import { patternHome, UrlParamsHome, originHome } from "./patternHome";
-type LinkHomeProps = Omit<AnchorProps, "href"> & UrlParamsHome;
-export const LinkHome: React.FunctionComponent<LinkHomeProps> = ({ query, origin, ...props }) => {
-  const to = generateUrl(patternHome, { path: {}, query, origin: origin ?? originHome });
+type LinkHomeProps = Omit<AnchorProps, "href"> & { urlParams?: UrlParamsHome };
+export const LinkHome: React.FunctionComponent<LinkHomeProps> = ({ urlParams, ...props }) => {
+  const to = generateUrl(patternHome, { path: {}, query: urlParams?.query, origin: urlParams?.origin ?? originHome });
   return <Link {...props} href={to} />;
 };

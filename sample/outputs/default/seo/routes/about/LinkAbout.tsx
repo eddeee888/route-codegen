@@ -2,9 +2,10 @@
 import React from "react";
 import Link, { LinkProps } from "next/link";
 import { UrlParamsAbout, patternNextJSAbout, possilePathParamsAbout } from "./patternAbout";
-type LinkAboutProps = Omit<LinkProps, "href"> & UrlParamsAbout;
-export const LinkAbout: React.FunctionComponent<LinkAboutProps> = (props) => {
-  const { path = {}, query = {}, ...rest } = props;
+type LinkAboutProps = Omit<LinkProps, "href"> & { urlParams: UrlParamsAbout };
+export const LinkAbout: React.FunctionComponent<LinkAboutProps> = ({ urlParams, ...props }) => {
+  const { query = {} } = urlParams;
+  const path = urlParams.path;
   const pathname = possilePathParamsAbout
     .filter((key) => !(key in path))
     .reduce((prevPattern, suppliedParam) => prevPattern.replace(`/[${suppliedParam}]`, ""), patternNextJSAbout);
@@ -15,5 +16,5 @@ export const LinkAbout: React.FunctionComponent<LinkAboutProps> = (props) => {
       ...query,
     },
   };
-  return <Link {...rest} href={nextHref} />;
+  return <Link {...props} href={nextHref} />;
 };

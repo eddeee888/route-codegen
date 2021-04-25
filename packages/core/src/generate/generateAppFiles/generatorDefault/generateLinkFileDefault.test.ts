@@ -52,9 +52,9 @@ describe("generateLinkFileDefault", () => {
           import {generateUrl,} from 'route-codegen'
           import Link, {CustomLinkProps,} from 'src/Default/Link'
           import {patternLogin,UrlParamsLogin,originLogin,} from './patternLogin'
-          type LinkLoginProps = Omit<CustomLinkProps, 'customDefaultHref'> & UrlParamsLogin
-          export const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({  query, origin, ...props }) => {
-            const to = generateUrl(patternLogin, { path: {}, query, origin: origin ?? originLogin });
+          type LinkLoginProps = Omit<CustomLinkProps, 'customDefaultHref'> & { urlParams?: UrlParamsLogin }
+          export const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({ urlParams, ...props }) => {
+            const to = generateUrl(patternLogin, { path: {}, query: urlParams?.query, origin: urlParams?.origin ?? originLogin });
             return <Link {...props} customDefaultHref={to} />;
           }"
       `);
@@ -71,9 +71,9 @@ describe("generateLinkFileDefault", () => {
           import {generateUrl,} from 'route-codegen'
           
           import {patternLogin,UrlParamsLogin,originLogin,} from './patternLogin'
-          type InlineLinkProps = Omit<React.SomeReallyLongReactHTMLProps, 'href'> & UrlParamsLogin
-          export const LinkLogin: React.FunctionComponent<InlineLinkProps> = ({  query, origin, ...props }) => {
-            const to = generateUrl(patternLogin, { path: {}, query, origin: origin ?? originLogin });
+          type InlineLinkProps = Omit<React.SomeReallyLongReactHTMLProps, 'href'> & { urlParams?: UrlParamsLogin }
+          export const LinkLogin: React.FunctionComponent<InlineLinkProps> = ({ urlParams, ...props }) => {
+            const to = generateUrl(patternLogin, { path: {}, query: urlParams?.query, origin: urlParams?.origin ?? originLogin });
             return <a {...props} href={to} />;
           }"
       `);
@@ -96,9 +96,9 @@ describe("generateLinkFileDefault", () => {
           import {generateUrl,} from 'route-codegen'
           
           import {patternLogin,UrlParamsLogin,originLogin,} from './patternLogin'
-          type InlineLinkProps = Omit<React.SomeReallyLongReactHTMLProps, 'href'> & UrlParamsLogin
-          export const LinkLogin: React.FunctionComponent<InlineLinkProps> = ({ path, query, origin, ...props }) => {
-            const to = generateUrl(patternLogin, { path: path, query, origin: origin ?? originLogin });
+          type InlineLinkProps = Omit<React.SomeReallyLongReactHTMLProps, 'href'> & { urlParams: UrlParamsLogin }
+          export const LinkLogin: React.FunctionComponent<InlineLinkProps> = ({ urlParams, ...props }) => {
+            const to = generateUrl(patternLogin, { path: urlParams.path, query: urlParams?.query, origin: urlParams?.origin ?? originLogin });
             return <a {...props} href={to} />;
           }"
       `);
@@ -129,9 +129,9 @@ describe("generateLinkFileDefault", () => {
           import {generateUrl,} from 'route-codegen'
           import {CustomLinkProps,CustomLink as Link,} from 'src/common/Link'
           import {patternLogin,UrlParamsLogin,originLogin,} from './patternLogin'
-          type LinkLoginProps = Omit<CustomLinkProps, 'to'> & UrlParamsLogin
-          export const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({  query, origin, ...props }) => {
-            const to = generateUrl(patternLogin, { path: {}, query, origin: origin ?? originLogin });
+          type LinkLoginProps = Omit<CustomLinkProps, 'to'> & { urlParams?: UrlParamsLogin }
+          export const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({ urlParams, ...props }) => {
+            const to = generateUrl(patternLogin, { path: {}, query: urlParams?.query, origin: urlParams?.origin ?? originLogin });
             return <Link {...props} to={to} />;
           }"
       `);
