@@ -18,6 +18,9 @@ export const generateRedirectFileReactRouterV5 = (params: GenerateRedirectFileRe
   const hasPathParams = !!patternNamedExports.pathParamsInterfaceName;
   const generateUrlFnName = "generateUrl"; // TODO: find a better way to reference this
 
+  const urlParamsModifier = hasPathParams ? "" : "?";
+  const urlParamsTemplate = `urlParams${urlParamsModifier}: ${patternNamedExports.urlParamsInterfaceName}`;
+
   const template = `${printImport({ defaultImport: "React", from: "react" })}
   ${printImport(importGenerateUrl)}
   ${printImport({ namedImports: [{ name: "Redirect" }], from: "react-router" })}
@@ -25,12 +28,10 @@ export const generateRedirectFileReactRouterV5 = (params: GenerateRedirectFileRe
     namedImports: [{ name: patternNamedExports.urlParamsInterfaceName }, { name: patternNamedExports.patternName }],
     from: `./${patternNamedExports.filename}`,
   })}
-  export const ${functionName}: React.FunctionComponent<${
-    patternNamedExports.urlParamsInterfaceName
-  } & { fallback?: React.ReactNode }> = props => {
+  export const ${functionName}: React.FunctionComponent<{ fallback?: React.ReactNode, ${urlParamsTemplate} }> = ({ urlParams, ...props }) => {
     const to = ${generateUrlFnName}(${patternNamedExports.patternName}, { path: ${
-    hasPathParams ? "props.path" : "{}"
-  }, query: props.query, origin: props.origin });
+    hasPathParams ? "urlParams.path" : "{}"
+  }, query: urlParams.query, origin: urlParams.origin });
     return (
       <>
         <Redirect to={to} />
