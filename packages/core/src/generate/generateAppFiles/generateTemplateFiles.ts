@@ -1,11 +1,11 @@
 import { RoutingType, RouteLinkOptions } from "../config";
 import { TemplateFile, Import } from "../types";
 import { PatternNamedExports } from "./types";
-import { generatorDefault } from "./generatorDefault";
 import { generatorReactRouterV5 } from "./generatorReactRouterV5";
 import { generatorNextJS } from "./generatorNextJS";
 import TypescriptPatternPlugin from "../../plugins/TypescriptPattern";
 import TypescriptGenerateUrl from "../../plugins/TypescriptGenerateUrl";
+import TypescriptAnchor from "../../plugins/TypescriptAnchor";
 
 export interface GenerateTemplateFilesParams {
   origin: string;
@@ -143,35 +143,16 @@ const generateTemplateFiles = (params: GenerateTemplateFilesParams): TemplateFil
       break;
     }
     case RoutingType.Default: {
-      if (routeLinkOptions.Default.generateLinkComponent) {
-        const linkFile = generatorDefault.generateLinkFile({
-          routeName,
-          destinationDir,
-          routeLinkOption: routeLinkOptions.Default,
-          patternNamedExports,
-          importGenerateUrl,
-        });
-        files.push(linkFile);
-      }
-      if (routeLinkOptions.Default.generateUseRedirect) {
-        const useRedirectDefault = generatorDefault.generateUseRedirectFile({
-          routeName,
-          importGenerateUrl,
-          destinationDir,
-          patternNamedExports,
-        });
-        files.push(useRedirectDefault);
-      }
-      if (routeLinkOptions.Default.generateRedirectComponent) {
-        const redirectFile = generatorDefault.generateRedirectFile({
-          routeName,
-          destinationDir,
-          importGenerateUrl,
-          patternNamedExports,
-          importRedirectServerSide,
-        });
-        files.push(redirectFile);
-      }
+      const anchorFiles = new TypescriptAnchor({
+        routeName,
+        destinationDir,
+        routeLinkOption: routeLinkOptions.Default,
+        patternNamedExports,
+        importGenerateUrl,
+        importRedirectServerSide,
+      }).generate();
+
+      files.push(...anchorFiles);
       break;
     }
   }
