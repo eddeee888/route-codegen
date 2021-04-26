@@ -1,9 +1,9 @@
 import { AppConfig } from "./../config";
 import generateTemplateFiles from "./generateTemplateFiles";
-import generatorRootIndex from "./generatorRootIndex";
 import { TemplateFile } from "../types";
 import { parseAppConfig } from "../config";
 import { info } from "../utils";
+import TypescriptRootIndexPlugin from "../../plugins/typescript-root-index";
 
 const generateAppFiles = (appName: string, app: AppConfig): TemplateFile[] => {
   const {
@@ -41,7 +41,7 @@ const generateAppFiles = (appName: string, app: AppConfig): TemplateFile[] => {
     }
 
     if (generateRootIndex) {
-      const rootIndexFile = generatorRootIndex.generate({ destinationDir, files: filesToGenerate });
+      const rootIndexFile = new TypescriptRootIndexPlugin({ destinationDir, files: filesToGenerate }).generate();
       if (rootIndexFile) {
         return [...filesToGenerate, rootIndexFile];
       }
