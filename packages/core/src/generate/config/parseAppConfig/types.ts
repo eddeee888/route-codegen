@@ -1,5 +1,5 @@
 import { AppConfig } from "../types";
-import { Import } from "../../types";
+import { Import } from "../../../utils";
 
 export interface ParsedLinkOptionsReactRouterV5 {
   importLink: Import;

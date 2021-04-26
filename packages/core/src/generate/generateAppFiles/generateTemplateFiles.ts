@@ -1,5 +1,5 @@
 import { RoutingType, RouteLinkOptions } from "../config";
-import { TemplateFile, Import } from "../types";
+import { TemplateFile, Import } from "../../utils";
 import TypescriptPatternPlugin from "../../plugins/typescript-pattern";
 import TypescriptGenerateUrlPlugin from "../../plugins/typescript-generate-url";
 import TypescriptAnchorPlugin from "../../plugins/typescript-anchor";

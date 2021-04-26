@@ -1,8 +1,6 @@
-import { AppConfig } from "./../config";
+import { AppConfig, parseAppConfig } from "./../config";
 import generateTemplateFiles from "./generateTemplateFiles";
-import { TemplateFile } from "../types";
-import { parseAppConfig } from "../config";
-import { info } from "../utils";
+import { info, TemplateFile } from "../../utils";
 import TypescriptRootIndexPlugin from "../../plugins/typescript-root-index";
 
 const generateAppFiles = (appName: string, app: AppConfig): TemplateFile[] => {
