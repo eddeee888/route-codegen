@@ -1,5 +1,4 @@
-import { capitalizeFirstChar, Import, PatternNamedExports, printImport, TemplateFile } from "../../utils";
-import BasePlugin from "../../utils/BasePlugin";
+import { BasePlugin, capitalizeFirstChar, Import, PatternNamedExports, printImport, TemplateFile } from "../../utils";
 
 interface ParsedLinkOptionsAnchor {
   importLink?: Import;

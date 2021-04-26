@@ -1,5 +1,4 @@
-import { TemplateFile } from "../../utils";
-import BasePlugin from "../../utils/BasePlugin";
+import { BasePlugin, TemplateFile } from "../../utils";
 
 export interface TypescriptRootIndexPluginConfig {
   destinationDir: string;

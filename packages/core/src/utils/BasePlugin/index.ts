@@ -1,1 +1,1 @@
-export { default } from "./BasePlugin";
+export * from "./BasePlugin";

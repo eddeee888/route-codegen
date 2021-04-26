@@ -1,5 +1,14 @@
-import { capitalizeFirstChar, Import, keyHelpers, PatternNamedExports, printImport, TemplateFile, KeyType, throwError } from "../../utils";
-import BasePlugin from "../../utils/BasePlugin";
+import {
+  BasePlugin,
+  capitalizeFirstChar,
+  Import,
+  keyHelpers,
+  PatternNamedExports,
+  printImport,
+  TemplateFile,
+  KeyType,
+  throwError,
+} from "../../utils";
 
 interface ParsedLinkOptionsNextJS {
   importLink: Import;

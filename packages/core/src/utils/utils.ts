@@ -10,3 +10,5 @@ export * from "./throwError";
 
 export * from "./handleCommandFlags";
 export * from "./templateFileHelpers";
+
+export * from "./BasePlugin";

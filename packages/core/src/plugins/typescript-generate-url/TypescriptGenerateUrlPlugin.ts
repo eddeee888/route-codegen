@@ -1,5 +1,4 @@
-import { capitalizeFirstChar, Import, PatternNamedExports, printImport, TemplateFile } from "../../utils";
-import BasePlugin from "../../utils/BasePlugin";
+import { capitalizeFirstChar, Import, PatternNamedExports, printImport, TemplateFile, BasePlugin } from "../../utils";
 
 export interface TypescriptGenerateUrlPluginConfig {
   importGenerateUrl: Import;

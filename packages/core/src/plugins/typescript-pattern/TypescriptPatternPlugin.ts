@@ -1,6 +1,14 @@
 import { Key } from "path-to-regexp";
-import { PatternNamedExports, TemplateFile, keyHelpers, capitalizeFirstChar, KeyType, throwError, RoutingType } from "../../utils";
-import BasePlugin from "../../utils/BasePlugin";
+import {
+  BasePlugin,
+  PatternNamedExports,
+  TemplateFile,
+  keyHelpers,
+  capitalizeFirstChar,
+  KeyType,
+  throwError,
+  RoutingType,
+} from "../../utils";
 
 export interface TypescriptPatternPluginConfig {
   origin: string;

@@ -1,5 +1,4 @@
-import { capitalizeFirstChar, Import, PatternNamedExports, printImport, TemplateFile, throwError } from "../../utils";
-import BasePlugin from "../../utils/BasePlugin";
+import { BasePlugin, capitalizeFirstChar, Import, PatternNamedExports, printImport, TemplateFile, throwError } from "../../utils";
 
 interface ParsedLinkOptionsReactRouter5 {
   importLink: Import;

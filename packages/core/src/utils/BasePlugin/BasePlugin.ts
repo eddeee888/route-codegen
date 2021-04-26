@@ -1,6 +1,6 @@
 import { throwError } from "../throwError";
 
-class BasePlugin<C, R> {
+export class BasePlugin<C, R> {
   config: C;
 
   constructor(config: C) {
@@ -11,5 +11,3 @@ class BasePlugin<C, R> {
     return throwError([], "Implement generate function");
   }
 }
-
-export default BasePlugin;
