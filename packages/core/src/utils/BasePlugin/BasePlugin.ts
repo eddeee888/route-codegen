@@ -1,7 +1,6 @@
 import { throwError } from "../throwError";
-import { TemplateFile } from "../types";
 
-class BasePlugin<C, R = TemplateFile> {
+class BasePlugin<C, R> {
   config: C;
 
   constructor(config: C) {

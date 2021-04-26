@@ -1,11 +1,10 @@
 import { RoutingType, RouteLinkOptions } from "../config";
 import { TemplateFile, Import } from "../types";
-import { PatternNamedExports } from "./types";
-import { generatorNextJS } from "./generatorNextJS";
 import TypescriptPatternPlugin from "../../plugins/typescript-pattern";
 import TypescriptGenerateUrlPlugin from "../../plugins/typescript-generate-url";
 import TypescriptAnchorPlugin from "../../plugins/typescript-anchor";
 import TypescriptReactRouter5Plugin from "../../plugins/typescript-react-router-5";
+import TypescriptNextJSPlugin from "../../plugins/typescript-next-js";
 
 export interface GenerateTemplateFilesParams {
   origin: string;
@@ -66,50 +65,17 @@ const generateTemplateFiles = (params: GenerateTemplateFilesParams): TemplateFil
       break;
     }
     case RoutingType.NextJS: {
-      if (routeLinkOptions.NextJS.generateLinkComponent) {
-        const linkFile = generatorNextJS.generateLinkFile({
-          routeName,
-          destinationDir,
-          routeLinkOption: routeLinkOptions.NextJS,
-          patternNamedExports,
-          importGenerateUrl,
-        });
-        files.push(linkFile);
-      }
+      const nextJSFiles = new TypescriptNextJSPlugin({
+        routeName,
+        destinationDir,
+        routeLinkOptions: routeLinkOptions.NextJS,
+        patternNamedExports,
+        importGenerateUrl,
+        routePattern,
+      }).generate();
 
-      const checkPathParamsInterfaceName = (
-        patternNamedExports: PatternNamedExports
-      ): { type: "none" } | { type: "normal"; pathParamsInterfaceName: string } | { type: "nextJS"; pathParamsInterfaceName: string } => {
-        if (patternNamedExports.pathParamsInterfaceNameNextJS) {
-          return { type: "nextJS", pathParamsInterfaceName: patternNamedExports.pathParamsInterfaceNameNextJS };
-        }
-        if (patternNamedExports.pathParamsInterfaceName) {
-          return { type: "normal", pathParamsInterfaceName: patternNamedExports.pathParamsInterfaceName };
-        }
-        return { type: "none" };
-      };
+      files.push(...nextJSFiles);
 
-      const pathParamsData = checkPathParamsInterfaceName(patternNamedExports);
-      if (routeLinkOptions.NextJS.generateUseParams && pathParamsData.type !== "none") {
-        const useParamsFileNextJS = generatorNextJS.generateUseParamsFile({
-          routeName,
-          routePattern,
-          destinationDir,
-          pathParamsFilename: patternNamedExports.filename,
-          pathParamsInterfaceName: pathParamsData.pathParamsInterfaceName,
-          mode: routeLinkOptions.NextJS.mode,
-        });
-        files.push(useParamsFileNextJS);
-      }
-      if (routeLinkOptions.NextJS.generateUseRedirect) {
-        const useRedirectFileNextJS = generatorNextJS.generateUseRedirectFile({
-          routeName,
-          destinationDir,
-          importGenerateUrl,
-          patternNamedExports,
-        });
-        files.push(useRedirectFileNextJS);
-      }
       break;
     }
     case RoutingType.Default: {

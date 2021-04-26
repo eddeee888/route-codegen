@@ -8,7 +8,7 @@ export interface TypescriptGenerateUrlPluginConfig {
   destinationDir: string;
 }
 
-class TypescriptGenerateUrlPlugin extends BasePlugin<TypescriptGenerateUrlPluginConfig> {
+class TypescriptGenerateUrlPlugin extends BasePlugin<TypescriptGenerateUrlPluginConfig, TemplateFile> {
   generate(): TemplateFile {
     const {
       importGenerateUrl,
