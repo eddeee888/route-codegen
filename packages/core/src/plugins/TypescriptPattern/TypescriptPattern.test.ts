@@ -38,19 +38,19 @@ describe("generatePatternFile", () => {
       expect(templateFile.filename).toBe("patternUserInfo");
       expect(templateFile.extension).toBe(".ts");
       expect(templateFile.destinationDir).toBe("path/to/routes");
-      expect(templateFile.template).toContain(
-        `export const patternUserInfo = '/app/users/:id/:subview(profile|pictures)'
-  export const originUserInfo = ''
-  
-  export type PathParamsUserInfo = {id: string;subview:'profile'|'pictures';}
-  
-  export const possilePathParamsUserInfo = ['id','subview',]
-  export interface UrlParamsUserInfo {
-    path: PathParamsUserInfo;
-    query?: Record<string, string | undefined>;
-    origin?: string;
-  }`
-      );
+      expect(templateFile.template).toMatchInlineSnapshot(`
+        "export const patternUserInfo = '/app/users/:id/:subview(profile|pictures)'
+            export const originUserInfo = ''
+            
+            export type PathParamsUserInfo = {id: string;subview:'profile'|'pictures';}
+            
+            export const possilePathParamsUserInfo = ['id','subview',]
+            export interface UrlParamsUserInfo {
+              path: PathParamsUserInfo;
+              query?: Record<string, string | undefined>;
+              origin?: string;
+            }"
+      `);
       expect(interfaceResult).toEqual({
         originName: "originUserInfo",
         patternName: "patternUserInfo",
@@ -204,19 +204,19 @@ describe("generatePatternFile", () => {
       expect(templateFile.filename).toBe("patternUserInfo");
       expect(templateFile.extension).toBe(".ts");
       expect(templateFile.destinationDir).toBe("path/to/routes");
-      expect(templateFile.template).toContain(
-        `export const patternUserInfo = '/app/users/:id/:subview(profile|pictures)'
-  export const originUserInfo = 'https://sample.domain.com'
-  
-  export type PathParamsUserInfo = {id: string;subview:'profile'|'pictures';}
-  
-  export const possilePathParamsUserInfo = ['id','subview',]
-  export interface UrlParamsUserInfo {
-    path: PathParamsUserInfo;
-    query?: Record<string, string | undefined>;
-    origin?: string;
-  }`
-      );
+      expect(templateFile.template).toMatchInlineSnapshot(`
+        "export const patternUserInfo = '/app/users/:id/:subview(profile|pictures)'
+            export const originUserInfo = 'https://sample.domain.com'
+            
+            export type PathParamsUserInfo = {id: string;subview:'profile'|'pictures';}
+            
+            export const possilePathParamsUserInfo = ['id','subview',]
+            export interface UrlParamsUserInfo {
+              path: PathParamsUserInfo;
+              query?: Record<string, string | undefined>;
+              origin?: string;
+            }"
+      `);
       expect(interfaceResult).toEqual({
         originName: "originUserInfo",
         patternName: "patternUserInfo",

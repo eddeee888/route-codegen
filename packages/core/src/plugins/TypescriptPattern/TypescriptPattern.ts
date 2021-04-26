@@ -1,5 +1,6 @@
 import { Key } from "path-to-regexp";
 import { PatternNamedExports, TemplateFile, keyHelpers, capitalizeFirstChar, KeyType, throwError, RoutingType } from "../../utils";
+import BasePlugin from "../../utils/BasePlugin";
 
 interface TypescriptPatternConfig {
   origin: string;
@@ -20,13 +21,7 @@ interface PossibleParamsResult {
   variableName: string;
 }
 
-class TypescriptPattern {
-  config: TypescriptPatternConfig;
-
-  constructor(config: TypescriptPatternConfig) {
-    this.config = config;
-  }
-
+class TypescriptPattern extends BasePlugin<TypescriptPatternConfig, [TemplateFile, PatternNamedExports]> {
   generate(): [TemplateFile, PatternNamedExports] {
     const { routePattern, routeName: originalRouteName, destinationDir, routingType, origin, linkOptionModeNextJS } = this.config;
 
