@@ -3,9 +3,9 @@ import { TemplateFile, Import } from "../types";
 import { PatternNamedExports } from "./types";
 import { generatorReactRouterV5 } from "./generatorReactRouterV5";
 import { generatorNextJS } from "./generatorNextJS";
-import TypescriptPatternPlugin from "../../plugins/TypescriptPattern";
-import TypescriptGenerateUrl from "../../plugins/TypescriptGenerateUrl";
-import TypescriptAnchor from "../../plugins/TypescriptAnchor";
+import TypescriptPatternPlugin from "../../plugins/typescript-pattern";
+import TypescriptGenerateUrlPlugin from "../../plugins/typescript-generate-url";
+import TypescriptAnchorPlugin from "../../plugins/typescript-anchor";
 
 export interface GenerateTemplateFilesParams {
   origin: string;
@@ -41,7 +41,7 @@ const generateTemplateFiles = (params: GenerateTemplateFilesParams): TemplateFil
     linkOptionModeNextJS: routeLinkOptions.NextJS.mode,
   }).generate();
 
-  const genUrlFile = new TypescriptGenerateUrl({
+  const genUrlFile = new TypescriptGenerateUrlPlugin({
     importGenerateUrl,
     destinationDir,
     routeName,
@@ -143,7 +143,7 @@ const generateTemplateFiles = (params: GenerateTemplateFilesParams): TemplateFil
       break;
     }
     case RoutingType.Default: {
-      const anchorFiles = new TypescriptAnchor({
+      const anchorFiles = new TypescriptAnchorPlugin({
         routeName,
         destinationDir,
         routeLinkOption: routeLinkOptions.Default,

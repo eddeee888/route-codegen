@@ -32,7 +32,7 @@ interface GenerateLinkInterfaceResult {
   linkPropsInterfaceName: string;
 }
 
-export interface TypescriptAnchorConfig {
+export interface TypescriptAnchorPluginConfig {
   routeName: string;
   patternNamedExports: PatternNamedExports;
   destinationDir: string;
@@ -41,7 +41,7 @@ export interface TypescriptAnchorConfig {
   importRedirectServerSide: Import;
 }
 
-class TypescriptAnchor extends BasePlugin<TypescriptAnchorConfig, TemplateFile[]> {
+class TypescriptAnchorPlugin extends BasePlugin<TypescriptAnchorPluginConfig, TemplateFile[]> {
   generate(): TemplateFile[] {
     const result: TemplateFile[] = [];
 
@@ -49,12 +49,12 @@ class TypescriptAnchor extends BasePlugin<TypescriptAnchorConfig, TemplateFile[]
       result.push(this._generateLinkFile());
     }
 
-    if (this.config.routeLinkOption.generateRedirectComponent) {
-      result.push(this._generateRedirectFile());
-    }
-
     if (this.config.routeLinkOption.generateUseRedirect) {
       result.push(this._generateUseRedirectFile());
+    }
+
+    if (this.config.routeLinkOption.generateRedirectComponent) {
+      result.push(this._generateRedirectFile());
     }
 
     return result;
@@ -224,4 +224,4 @@ class TypescriptAnchor extends BasePlugin<TypescriptAnchorConfig, TemplateFile[]
   }
 }
 
-export default TypescriptAnchor;
+export default TypescriptAnchorPlugin;

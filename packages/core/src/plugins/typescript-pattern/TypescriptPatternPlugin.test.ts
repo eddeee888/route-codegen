@@ -1,10 +1,10 @@
-import TypescriptPattern from "./TypescriptPattern";
+import TypescriptPatternPlugin from "./TypescriptPatternPlugin";
 import { RoutingType } from "../../utils";
 
-describe("generatePatternFile", () => {
+describe("TypescriptPatternPlugin", () => {
   describe("Default and ReactRouterV5", () => {
     it("should generate correctly if no dynamic path", () => {
-      const [templateFile, interfaceResult] = new TypescriptPattern({
+      const [templateFile, interfaceResult] = new TypescriptPatternPlugin({
         origin: "",
         routePattern: "/app/login",
         destinationDir: "path/to/routes",
@@ -26,7 +26,7 @@ describe("generatePatternFile", () => {
     });
 
     it("should generate correctly for routes with dynamic path", () => {
-      const [templateFile, interfaceResult] = new TypescriptPattern({
+      const [templateFile, interfaceResult] = new TypescriptPatternPlugin({
         origin: "",
         routePattern: "/app/users/:id/:subview(profile|pictures)",
         destinationDir: "path/to/routes",
@@ -64,7 +64,7 @@ describe("generatePatternFile", () => {
 
   describe("NextJS", () => {
     it("should generate template correctly with loose NextJS pattern", () => {
-      const [templateFile, interfaceResult] = new TypescriptPattern({
+      const [templateFile, interfaceResult] = new TypescriptPatternPlugin({
         origin: "",
         routePattern: "/app/users/:id/:subview(profile|pictures)/:singleEnum(only)/:optional?/:optionalEnum(enum1|enum2)?",
         destinationDir: "path/to/routes",
@@ -106,7 +106,7 @@ describe("generatePatternFile", () => {
     });
 
     it("should generate template correctly with strict NextJS pattern", () => {
-      const [templateFile, interfaceResult] = new TypescriptPattern({
+      const [templateFile, interfaceResult] = new TypescriptPatternPlugin({
         origin: "",
         routePattern: "/app/users/:id/:subview(profile|pictures)/:singleEnum(only)/:optional?/:optionalEnum(enum1|enum2)?",
         destinationDir: "path/to/routes",
@@ -148,7 +148,7 @@ describe("generatePatternFile", () => {
     });
 
     it("should generate template correctly for home page", () => {
-      const [templateFile, interfaceResult] = new TypescriptPattern({
+      const [templateFile, interfaceResult] = new TypescriptPatternPlugin({
         origin: "",
         routePattern: "/",
         destinationDir: "path/to/routes",
@@ -192,7 +192,7 @@ describe("generatePatternFile", () => {
 
   describe("Custom origin", () => {
     it("should handle normal origin correctly", () => {
-      const [templateFile, interfaceResult] = new TypescriptPattern({
+      const [templateFile, interfaceResult] = new TypescriptPatternPlugin({
         origin: "https://sample.domain.com",
         routePattern: "/app/users/:id/:subview(profile|pictures)",
         destinationDir: "path/to/routes",

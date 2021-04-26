@@ -1,8 +1,8 @@
-import TypescriptGenerateUrl from "./TypescriptGenerateUrl";
+import TypescriptGenerateUrlPlugin from "./TypescriptGenerateUrlPlugin";
 
-describe("generateUseParamsFile", () => {
+describe("TypescriptGenerateUrlPlugin - generateUrl file", () => {
   it("should generate correctly if no path params", () => {
-    const templateFile = new TypescriptGenerateUrl({
+    const templateFile = new TypescriptGenerateUrlPlugin({
       importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
       patternNamedExports: {
         filename: "patternUser",
@@ -25,7 +25,7 @@ describe("generateUseParamsFile", () => {
   });
 
   it("should generate correctly if has path params", () => {
-    const templateFile = new TypescriptGenerateUrl({
+    const templateFile = new TypescriptGenerateUrlPlugin({
       importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
       patternNamedExports: {
         filename: "patternUser",

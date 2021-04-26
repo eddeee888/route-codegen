@@ -1,7 +1,7 @@
-import TypescriptAnchor, { TypescriptAnchorConfig } from "./TypescriptAnchor";
+import TypescriptAnchorPlugin, { TypescriptAnchorPluginConfig } from "./TypescriptAnchorPlugin";
 
-describe("TypescriptAnchor - LinkFile", () => {
-  const defaultConfig: TypescriptAnchorConfig = {
+describe("TypescriptAnchorPlugin - LinkFile", () => {
+  const defaultConfig: TypescriptAnchorPluginConfig = {
     importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
     routeLinkOption: {
       hrefProp: "href",
@@ -27,7 +27,7 @@ describe("TypescriptAnchor - LinkFile", () => {
   };
 
   it("should generate correctly with custom interface and no path params", () => {
-    const [templateFile] = new TypescriptAnchor({
+    const [templateFile] = new TypescriptAnchorPlugin({
       ...defaultConfig,
       routeLinkOption: {
         importLink: {
@@ -61,7 +61,7 @@ describe("TypescriptAnchor - LinkFile", () => {
   });
 
   it("should generate correctly with inline interface and no path params", () => {
-    const [templateFile] = new TypescriptAnchor({ ...defaultConfig }).generate();
+    const [templateFile] = new TypescriptAnchorPlugin({ ...defaultConfig }).generate();
 
     expect(templateFile.filename).toBe("LinkLogin");
     expect(templateFile.extension).toBe(".tsx");
@@ -80,7 +80,7 @@ describe("TypescriptAnchor - LinkFile", () => {
   });
 
   it("should generate correctly with inline interface and path params", () => {
-    const [templateFile] = new TypescriptAnchor({
+    const [templateFile] = new TypescriptAnchorPlugin({
       ...defaultConfig,
       patternNamedExports: {
         ...defaultConfig.patternNamedExports,
@@ -105,7 +105,7 @@ describe("TypescriptAnchor - LinkFile", () => {
   });
 
   it("should generate correctly with named component import", () => {
-    const [templateFile] = new TypescriptAnchor({
+    const [templateFile] = new TypescriptAnchorPlugin({
       ...defaultConfig,
       routeLinkOption: {
         importLink: {
@@ -138,8 +138,8 @@ describe("TypescriptAnchor - LinkFile", () => {
   });
 });
 
-describe("TypescriptAnchor - RedirectFile", () => {
-  const defaultConfig: TypescriptAnchorConfig = {
+describe("TypescriptAnchorPlugin - RedirectFile", () => {
+  const defaultConfig: TypescriptAnchorPluginConfig = {
     importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
     importRedirectServerSide: { defaultImport: "RedirectServerSide", from: "route-codegen/RedirectServerSide" },
     routeName: "Login",
@@ -165,7 +165,7 @@ describe("TypescriptAnchor - RedirectFile", () => {
   };
 
   it("should generate correctly if no path params", () => {
-    const [templateFile] = new TypescriptAnchor({ ...defaultConfig }).generate();
+    const [templateFile] = new TypescriptAnchorPlugin({ ...defaultConfig }).generate();
 
     expect(templateFile.filename).toBe("RedirectLogin");
     expect(templateFile.extension).toBe(".tsx");
@@ -183,7 +183,7 @@ describe("TypescriptAnchor - RedirectFile", () => {
   });
 
   it("should generate correctly with path params", () => {
-    const [templateFile] = new TypescriptAnchor({
+    const [templateFile] = new TypescriptAnchorPlugin({
       ...defaultConfig,
       patternNamedExports: {
         ...defaultConfig.patternNamedExports,
@@ -207,9 +207,9 @@ describe("TypescriptAnchor - RedirectFile", () => {
   });
 });
 
-describe("TypescriptAnchor - UseRedirect", () => {
+describe("TypescriptAnchorPlugin - UseRedirect", () => {
   it("should generate when there is no pathParams", () => {
-    const [templateFile] = new TypescriptAnchor({
+    const [templateFile] = new TypescriptAnchorPlugin({
       routeName: "Login",
       patternNamedExports: {
         originName: "originLogin",
@@ -257,7 +257,7 @@ describe("TypescriptAnchor - UseRedirect", () => {
   });
 
   it("should generate when there is pathParams", () => {
-    const [templateFile] = new TypescriptAnchor({
+    const [templateFile] = new TypescriptAnchorPlugin({
       routeName: "UserInfo",
       patternNamedExports: {
         originName: "originLogin",
