@@ -20,6 +20,9 @@ export const generateRedirectFileDefault = (params: GenerateRedirectFileDefaultP
   const generateUrlFnName = "generateUrl"; // TODO: find a better way to reference this
   const redirectCompName = "RedirectServerSide"; // TODO: find a better way to reference this
 
+  const urlParamsModifier = hasPathParams ? "" : "?";
+  const urlParamsTemplate = `urlParams${urlParamsModifier}: ${patternNamedExports.urlParamsInterfaceName}`;
+
   const template = `${printImport({ defaultImport: "React", from: "react" })}
   ${printImport(importRedirectServerSide)}
   ${printImport(importGenerateUrl)}
@@ -31,12 +34,10 @@ export const generateRedirectFileDefault = (params: GenerateRedirectFileDefaultP
     ],
     from: `./${patternNamedExports.filename}`,
   })}
-  export const ${functionName}: React.FunctionComponent<${
-    patternNamedExports.urlParamsInterfaceName
-  } & { fallback?: React.ReactNode }> = props => {
+  export const ${functionName}: React.FunctionComponent<{ fallback?: React.ReactNode, ${urlParamsTemplate} }> = ({ urlParams , ...props }) => {
     const to = ${generateUrlFnName}(${patternNamedExports.patternName}, { path: ${
-    hasPathParams ? "props.path" : "{}"
-  }, query: props.query, origin: props.origin ?? ${patternNamedExports.originName} });
+    hasPathParams ? "urlParams.path" : "{}"
+  }, query: urlParams.query, origin: urlParams.origin ?? ${patternNamedExports.originName} });
     return <${redirectCompName} href={to} fallback={props.fallback} />;
   };`;
 

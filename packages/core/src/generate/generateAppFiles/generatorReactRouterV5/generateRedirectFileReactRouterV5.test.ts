@@ -25,8 +25,8 @@ describe("generateRedirectFileReactRouterV5", () => {
         import {generateUrl,} from 'route-codegen'
         import {Redirect,} from 'react-router'
         import {UrlParamsLogin,patternLogin,} from './patternLogin'
-        export const RedirectLogin: React.FunctionComponent<UrlParamsLogin & { fallback?: React.ReactNode }> = props => {
-          const to = generateUrl(patternLogin, { path: {}, query: props.query, origin: props.origin });
+        export const RedirectLogin: React.FunctionComponent<{ fallback?: React.ReactNode, urlParams?: UrlParamsLogin }> = ({ urlParams, ...props }) => {
+          const to = generateUrl(patternLogin, { path: {}, query: urlParams.query, origin: urlParams.origin });
           return (
             <>
               <Redirect to={to} />
@@ -54,8 +54,8 @@ describe("generateRedirectFileReactRouterV5", () => {
         import {generateUrl,} from 'route-codegen'
         import {Redirect,} from 'react-router'
         import {UrlParamsLogin,patternLogin,} from './patternLogin'
-        export const RedirectLogin: React.FunctionComponent<UrlParamsLogin & { fallback?: React.ReactNode }> = props => {
-          const to = generateUrl(patternLogin, { path: props.path, query: props.query, origin: props.origin });
+        export const RedirectLogin: React.FunctionComponent<{ fallback?: React.ReactNode, urlParams: UrlParamsLogin }> = ({ urlParams, ...props }) => {
+          const to = generateUrl(patternLogin, { path: urlParams.path, query: urlParams.query, origin: urlParams.origin });
           return (
             <>
               <Redirect to={to} />
