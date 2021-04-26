@@ -5,6 +5,7 @@ import { generatorCore } from "./generatorCore";
 import { generatorDefault } from "./generatorDefault";
 import { generatorReactRouterV5 } from "./generatorReactRouterV5";
 import { generatorNextJS } from "./generatorNextJS";
+import TypescriptPatternPlugin from "../../plugins/TypescriptPattern";
 
 export interface GenerateTemplateFilesParams {
   origin: string;
@@ -31,7 +32,7 @@ const generateTemplateFiles = (params: GenerateTemplateFilesParams): TemplateFil
 
   const destinationDir = `${originalDestinationDir}/${routeName}`;
 
-  const [patternFile, patternNamedExports] = generatorCore.generatePatternFile({
+  const PatternPlugin = new TypescriptPatternPlugin({
     origin,
     routeName,
     routePattern,
@@ -39,6 +40,7 @@ const generateTemplateFiles = (params: GenerateTemplateFilesParams): TemplateFil
     routingType,
     linkOptionModeNextJS: routeLinkOptions.NextJS.mode,
   });
+  const [patternFile, patternNamedExports] = PatternPlugin.generate();
 
   const genUrlFile = generatorCore.generateUrlFile({
     importGenerateUrl,
