@@ -1,11 +1,11 @@
 import { RoutingType, RouteLinkOptions } from "../config";
 import { TemplateFile, Import } from "../types";
 import { PatternNamedExports } from "./types";
-import { generatorReactRouterV5 } from "./generatorReactRouterV5";
 import { generatorNextJS } from "./generatorNextJS";
 import TypescriptPatternPlugin from "../../plugins/typescript-pattern";
 import TypescriptGenerateUrlPlugin from "../../plugins/typescript-generate-url";
 import TypescriptAnchorPlugin from "../../plugins/typescript-anchor";
+import TypescriptReactRouter5Plugin from "../../plugins/typescript-react-router-5";
 
 export interface GenerateTemplateFilesParams {
   origin: string;
@@ -53,45 +53,15 @@ const generateTemplateFiles = (params: GenerateTemplateFilesParams): TemplateFil
   // Handle file generation for each routing type
   switch (routingType) {
     case RoutingType.ReactRouterV5: {
-      if (routeLinkOptions.ReactRouterV5.generateLinkComponent) {
-        const linkFile = generatorReactRouterV5.generateLinkFile({
-          routeName,
-          destinationDir,
-          routeLinkOption: routeLinkOptions.ReactRouterV5,
-          patternNamedExports,
-          importGenerateUrl,
-        });
-        files.push(linkFile);
-      }
-      if (routeLinkOptions.ReactRouterV5.generateUseParams && !!patternNamedExports.pathParamsInterfaceName) {
-        const useParamsFile = generatorReactRouterV5.generateUseParamsFile({
-          routeName,
-          destinationDir,
-          patternName: patternNamedExports.patternName,
-          pathParamsFilename: patternNamedExports.filename,
-          pathParamsInterfaceName: patternNamedExports.pathParamsInterfaceName,
-          mode: routeLinkOptions.ReactRouterV5.mode,
-        });
-        files.push(useParamsFile);
-      }
-      if (routeLinkOptions.ReactRouterV5.generateUseRedirect) {
-        const useRedirectFile = generatorReactRouterV5.generateUseRedirectFile({
-          routeName,
-          destinationDir,
-          patternNamedExports,
-          importGenerateUrl,
-        });
-        files.push(useRedirectFile);
-      }
-      if (routeLinkOptions.ReactRouterV5.generateRedirectComponent) {
-        const redirectFile = generatorReactRouterV5.generateRedirectFile({
-          patternNamedExports,
-          destinationDir,
-          importGenerateUrl,
-          routeName,
-        });
-        files.push(redirectFile);
-      }
+      const rr5Files = new TypescriptReactRouter5Plugin({
+        routeName,
+        destinationDir,
+        routeLinkOption: routeLinkOptions.ReactRouterV5,
+        patternNamedExports,
+        importGenerateUrl,
+      }).generate();
+
+      files.push(...rr5Files);
 
       break;
     }
@@ -153,6 +123,7 @@ const generateTemplateFiles = (params: GenerateTemplateFilesParams): TemplateFil
       }).generate();
 
       files.push(...anchorFiles);
+
       break;
     }
   }
