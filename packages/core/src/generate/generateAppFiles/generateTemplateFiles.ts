@@ -5,10 +5,12 @@ import {
   throwError,
   RawPluginConfig,
   pluginConfigHelpers,
-  BasePatternPlugin,
   BasePlugin,
   TopLevelGenerateOptions,
   ParsedPluginConfig,
+  CodegenPlugin,
+  BasePatternPluginConfig,
+  BasePatternPluginResult,
 } from "../../utils";
 
 export interface GenerateTemplateFilesParams {
@@ -54,17 +56,28 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
     return throwError([routeName], "No pattern plugin found.");
   }
 
+  // TODO: handle this better
+  const resolvePluginPath = (pluginName: string): string => {
+    return `../../plugins/${pluginName}`;
+  };
+
   const files: TemplateFile[] = [];
 
-  const PatternPlugin = (await import(patternPlugin.name)) as typeof BasePatternPlugin;
-  const [patternFile, patternNamedExports] = new PatternPlugin({
+  const PatternPlugin = (await import(resolvePluginPath(patternPlugin.name))) as CodegenPlugin<
+    BasePatternPluginConfig,
+    BasePatternPluginResult
+  >;
+
+  const [patternFile, patternNamedExports] = PatternPlugin.generate({
     origin,
     routeName,
     routePattern,
     destinationDir,
     routingType,
+
+    linkOptionModeNextJS: "loose",
     // linkOptionModeNextJS: routeLinkOptions.NextJS.mode, TODO: handle this?
-  }).generate();
+  });
   files.push(patternFile);
 
   const routePlugins = await Promise.all(
@@ -72,7 +85,7 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
       .filterByType(parsedPlugins, "route")
       .map<Promise<{ RoutePlugin: typeof BasePlugin; config: ParsedPluginConfig["config"] }>>(async (plugin) => {
         return {
-          RoutePlugin: await import(plugin.name),
+          RoutePlugin: await import(resolvePluginPath(plugin.name)),
           config: plugin.config,
         };
       })

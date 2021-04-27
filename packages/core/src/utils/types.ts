@@ -68,3 +68,7 @@ export interface PrepareLinkOptionsParams {
   routeLinkOptions: LinkOptions;
   topLevelGenerateOptions: TopLevelGenerateOptions;
 }
+
+export interface CodegenPlugin<C, R> {
+  generate: (config: C) => R;
+}

@@ -10,7 +10,9 @@ export interface BasePatternPluginConfig {
   linkOptionModeNextJS: "strict" | "loose";
 }
 
-export class BasePatternPlugin<C = BasePatternPluginConfig, R = [TemplateFile, PatternNamedExports]> {
+export type BasePatternPluginResult = [TemplateFile, PatternNamedExports];
+
+export class BasePatternPlugin<C = BasePatternPluginConfig, R = BasePatternPluginResult> {
   config: C;
 
   constructor(config: C) {

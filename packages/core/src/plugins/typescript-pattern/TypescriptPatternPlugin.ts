@@ -8,6 +8,7 @@ import {
   throwError,
   RoutingType,
   BasePatternPlugin,
+  BasePatternPluginConfig,
 } from "../../utils";
 
 interface PathParamsInterfaceResult {
@@ -213,4 +214,6 @@ class TypescriptPatternPlugin extends BasePatternPlugin {
   }
 }
 
-export default TypescriptPatternPlugin;
+export const generate = (config: BasePatternPluginConfig): [TemplateFile, PatternNamedExports] => {
+  return new TypescriptPatternPlugin(config).generate();
+};
