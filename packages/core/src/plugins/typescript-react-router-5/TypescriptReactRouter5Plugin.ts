@@ -1,4 +1,14 @@
-import { BasePlugin, capitalizeFirstChar, Import, PatternNamedExports, printImport, TemplateFile, throwError } from "../../utils";
+import {
+  BasePlugin,
+  capitalizeFirstChar,
+  getOverriddenValue,
+  Import,
+  info,
+  printImport,
+  TemplateFile,
+  throwError,
+  handleImportCustomLink,
+} from "../../utils";
 
 interface ParsedLinkOptionsReactRouter5 {
   importLink: Import;
@@ -28,31 +38,25 @@ interface GenerateLinkInterfaceResult {
   linkPropsInterfaceName: string;
 }
 
-export interface TypescriptReactRouter5PluginConfig {
-  routeName: string;
-  destinationDir: string;
-  routeLinkOption: ParsedLinkOptionsReactRouter5;
-  patternNamedExports: PatternNamedExports;
-  importGenerateUrl: Import;
-}
-
-class TypescriptReactRouter5Plugin extends BasePlugin<TypescriptReactRouter5PluginConfig, TemplateFile[]> {
+class TypescriptReactRouter5Plugin extends BasePlugin<ParsedLinkOptionsReactRouter5> {
   generate(): TemplateFile[] {
     const result: TemplateFile[] = [];
 
-    if (this.config.routeLinkOption.generateLinkComponent) {
+    const linkOptions = this._getLinkOptions();
+
+    if (linkOptions.generateLinkComponent) {
       result.push(this._generateLinkFile());
     }
 
-    if (this.config.routeLinkOption.generateUseParams && this.config.patternNamedExports.pathParamsInterfaceName) {
+    if (linkOptions.generateUseParams && this.config.patternNamedExports.pathParamsInterfaceName) {
       result.push(this._generateUseParamsFile());
     }
 
-    if (this.config.routeLinkOption.generateUseRedirect) {
+    if (linkOptions.generateUseRedirect) {
       result.push(this._generateUseRedirectFile());
     }
 
-    if (this.config.routeLinkOption.generateRedirectComponent) {
+    if (linkOptions.generateRedirectComponent) {
       result.push(this._generateRedirectFile());
     }
 
@@ -62,7 +66,6 @@ class TypescriptReactRouter5Plugin extends BasePlugin<TypescriptReactRouter5Plug
   private _generateLinkFile(): TemplateFile {
     const {
       routeName: originalRouteName,
-      routeLinkOption,
       destinationDir,
       patternNamedExports: { patternName, pathParamsInterfaceName, filename: routePatternFilename, urlParamsInterfaceName },
       importGenerateUrl,
@@ -78,7 +81,7 @@ class TypescriptReactRouter5Plugin extends BasePlugin<TypescriptReactRouter5Plug
     const { hrefProp, importLink, linkComponent, linkPropsTemplate, linkPropsInterfaceName } = this._generateLinkInterface({
       defaultLinkPropsInterfaceName,
       urlParamsInterfaceName,
-      routeLinkOption,
+      routeLinkOption: this._getLinkOptions(),
       hasPathParams,
     });
 
@@ -175,9 +178,10 @@ class TypescriptReactRouter5Plugin extends BasePlugin<TypescriptReactRouter5Plug
     const {
       routeName: originalRouteName,
       destinationDir,
-      routeLinkOption: { mode },
       patternNamedExports: { patternName, pathParamsInterfaceName, filename: pathParamsFilename },
     } = this.config;
+
+    const { mode } = this._getLinkOptions();
 
     if (!pathParamsInterfaceName) {
       return throwError([], "Cannot generate useParams file for a pattern without dynamic path params");
@@ -264,6 +268,74 @@ class TypescriptReactRouter5Plugin extends BasePlugin<TypescriptReactRouter5Plug
     };
 
     return templateFile;
+  }
+
+  protected _parseLinkOptions(): void {
+    const { appName, routeLinkOptions, topLevelGenerateOptions } = this.config;
+
+    const defaultOptions: ParsedLinkOptionsReactRouter5 = {
+      importLink: {
+        from: "react-router-dom",
+        namedImports: [{ name: "LinkProps" }, { name: "Link" }],
+      },
+      linkComponent: "Link",
+      linkProps: "LinkProps",
+      hrefProp: "to",
+      generateLinkComponent: topLevelGenerateOptions.generateLinkComponent,
+      generateRedirectComponent: topLevelGenerateOptions.generateRedirectComponent,
+      generateUseRedirect: topLevelGenerateOptions.generateUseRedirect,
+      generateUseParams: topLevelGenerateOptions.generateUseParams,
+      mode: "loose",
+    };
+
+    if (!routeLinkOptions) {
+      info([appName, "reactRouterVLinkOptions"], "custom options not found... Using default");
+      this.linkOptions = { ...defaultOptions };
+      return;
+    }
+
+    const result: ParsedLinkOptionsReactRouter5 = {
+      ...defaultOptions,
+      generateLinkComponent: getOverriddenValue(defaultOptions.generateLinkComponent, routeLinkOptions.generate?.linkComponent),
+      generateRedirectComponent: getOverriddenValue(defaultOptions.generateRedirectComponent, routeLinkOptions.generate?.redirectComponent),
+      generateUseParams: getOverriddenValue(defaultOptions.generateUseParams, routeLinkOptions.generate?.useParams),
+      generateUseRedirect: getOverriddenValue(defaultOptions.generateUseRedirect, routeLinkOptions.generate?.useRedirect),
+      mode: (() => {
+        const mode: ParsedLinkOptionsReactRouter5["mode"] =
+          routeLinkOptions.mode === "strict" || routeLinkOptions.mode === "loose" ? routeLinkOptions.mode : defaultOptions.mode;
+        return getOverriddenValue(defaultOptions.mode, mode);
+      })(),
+    };
+
+    if (!routeLinkOptions.importCustomLink) {
+      info([appName, "reactRouterV5LinkOptions", "importCustomLink"], "custom options not found... Using default");
+      this.linkOptions = { ...defaultOptions };
+      return;
+    }
+
+    info([appName, "reactRouterV5LinkOptions"], "using custom link options");
+    const { importLink, hrefProp, linkComponent, linkProps } = handleImportCustomLink({
+      appName,
+      linkOptionName: "reactRouterV5LinkOptions",
+      importCustomLink: routeLinkOptions.importCustomLink,
+    });
+
+    const finalResult: ParsedLinkOptionsReactRouter5 = {
+      ...result,
+      importLink,
+      linkComponent,
+      hrefProp,
+      linkProps,
+    };
+
+    this.linkOptions = finalResult;
+  }
+
+  protected _getLinkOptions(): ParsedLinkOptionsReactRouter5 {
+    if (!this.linkOptions) {
+      return throwError([this.config.appName, this.config.routeName], "LinkOptions uninitialised in TypescriptReactRouter5Plugin");
+    }
+    return this.linkOptions;
   }
 }
 

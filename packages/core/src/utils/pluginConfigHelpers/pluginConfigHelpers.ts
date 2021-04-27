@@ -29,4 +29,8 @@ const findFirstOfType = (plugins: ParsedPluginConfig[], type: PluginConfigType):
   return plugins.find((plugin) => plugin.type === type);
 };
 
-export const pluginConfigHelpers = { findFirstOfType, parse };
+const filterByType = (plugins: ParsedPluginConfig[], type: PluginConfigType): ParsedPluginConfig[] => {
+  return plugins.filter((plugin) => plugin.type === type);
+};
+
+export const pluginConfigHelpers = { findFirstOfType, parse, filterByType };
