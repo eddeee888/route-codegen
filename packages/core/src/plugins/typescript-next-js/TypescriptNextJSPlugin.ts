@@ -3,11 +3,13 @@ import {
   capitalizeFirstChar,
   Import,
   keyHelpers,
-  PatternNamedExports,
   printImport,
   TemplateFile,
   KeyType,
   throwError,
+  info,
+  getOverriddenValue,
+  handleImportCustomLink,
 } from "../../utils";
 
 interface ParsedLinkOptionsNextJS {
@@ -37,29 +39,22 @@ interface GenerateLinkInterfaceResult {
   linkPropsInterfaceName: string;
 }
 
-export interface TypescriptNextJSPluginConfig {
-  routeName: string;
-  routePattern: string;
-  destinationDir: string;
-  routeLinkOptions: ParsedLinkOptionsNextJS;
-  patternNamedExports: PatternNamedExports;
-  importGenerateUrl: Import;
-}
-
-class TypescriptNextJSPlugin extends BasePlugin<TypescriptNextJSPluginConfig, TemplateFile[]> {
+class TypescriptNextJSPlugin extends BasePlugin<ParsedLinkOptionsNextJS> {
   generate(): TemplateFile[] {
     const result: TemplateFile[] = [];
 
-    if (this.config.routeLinkOptions.generateLinkComponent) {
+    const linkOptions = this._getLinkOptions();
+
+    if (linkOptions.generateLinkComponent) {
       result.push(this._generateLinkFile());
     }
 
     const pathParamsData = this._checkPathParamsInterfaceName();
-    if (this.config.routeLinkOptions.generateUseParams && pathParamsData.type !== "none") {
+    if (linkOptions.generateUseParams && pathParamsData.type !== "none") {
       result.push(this._generateUseParamsFile());
     }
 
-    if (this.config.routeLinkOptions.generateUseRedirect) {
+    if (linkOptions.generateUseRedirect) {
       result.push(this._generateUseRedirectFile());
     }
 
@@ -69,7 +64,6 @@ class TypescriptNextJSPlugin extends BasePlugin<TypescriptNextJSPluginConfig, Te
   private _generateLinkFile = (): TemplateFile => {
     const {
       routeName: originalRouteName,
-      routeLinkOptions,
       destinationDir,
       patternNamedExports: {
         filename: routePatternFilename,
@@ -89,7 +83,7 @@ class TypescriptNextJSPlugin extends BasePlugin<TypescriptNextJSPluginConfig, Te
     const { hrefProp, importLink, linkComponent, linkPropsTemplate, linkPropsInterfaceName } = this._generateLinkInterface({
       defaultLinkPropsInterfaceName,
       urlParamsInterfaceName,
-      routeLinkOptions,
+      routeLinkOptions: this._getLinkOptions(),
       hasPathParams,
     });
 
@@ -159,9 +153,10 @@ class TypescriptNextJSPlugin extends BasePlugin<TypescriptNextJSPluginConfig, Te
       routeName: originalRouteName,
       destinationDir,
       patternNamedExports: { filename: pathParamsFilename },
-      routeLinkOptions: { mode },
       routePattern,
     } = this.config;
+
+    const { mode } = this._getLinkOptions();
 
     const pathParamsData = this._checkPathParamsInterfaceName();
     if (pathParamsData.type === "none") {
@@ -316,6 +311,63 @@ class TypescriptNextJSPlugin extends BasePlugin<TypescriptNextJSPluginConfig, Te
 
     return templateFile;
   }
+
+  protected _parseLinkOptions = (): void => {
+    const { appName, routeLinkOptions, topLevelGenerateOptions } = this.config;
+
+    const defaultOptions: ParsedLinkOptionsNextJS = {
+      importLink: {
+        from: "next/link",
+        defaultImport: "Link",
+        namedImports: [{ name: "LinkProps" }],
+      },
+      linkComponent: "Link",
+      linkProps: "LinkProps",
+      hrefProp: "href",
+      generateLinkComponent: topLevelGenerateOptions.generateLinkComponent,
+      generateUseParams: topLevelGenerateOptions.generateUseParams,
+      generateUseRedirect: topLevelGenerateOptions.generateUseRedirect,
+      mode: "loose",
+    };
+    if (!routeLinkOptions) {
+      info([appName, "nextJSLinkOptions"], "custom options not found... Using default");
+      this.linkOptions = { ...defaultOptions };
+      return;
+    }
+
+    const result: ParsedLinkOptionsNextJS = {
+      ...defaultOptions,
+      generateLinkComponent: getOverriddenValue(defaultOptions.generateLinkComponent, routeLinkOptions.generate?.linkComponent),
+      generateUseParams: getOverriddenValue(defaultOptions.generateUseParams, routeLinkOptions.generate?.useParams),
+      generateUseRedirect: getOverriddenValue(defaultOptions.generateUseRedirect, routeLinkOptions.generate?.useRedirect),
+      mode: (() => {
+        const mode: ParsedLinkOptionsNextJS["mode"] =
+          routeLinkOptions.mode === "strict" || routeLinkOptions.mode === "loose" ? routeLinkOptions.mode : defaultOptions.mode;
+        return getOverriddenValue(defaultOptions.mode, mode);
+      })(),
+    };
+
+    if (!routeLinkOptions.importCustomLink) {
+      info([appName, "nextJSLinkOptions", "importCustomLink"], "custom options not found... Using default");
+      this.linkOptions = { ...result };
+      return;
+    }
+
+    info([appName, "nextJSLinkOptions"], "using custom link options");
+    const { importLink, hrefProp, linkComponent, linkProps } = handleImportCustomLink({
+      appName,
+      linkOptionName: "nextJSLinkOptions",
+      importCustomLink: routeLinkOptions.importCustomLink,
+    });
+
+    this.linkOptions = {
+      ...result,
+      importLink,
+      hrefProp,
+      linkComponent,
+      linkProps,
+    };
+  };
 }
 
 export default TypescriptNextJSPlugin;
