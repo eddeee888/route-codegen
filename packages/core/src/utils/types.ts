@@ -49,6 +49,7 @@ export interface TopLevelGenerateOptions {
   generateRedirectComponent: boolean;
   generateUseParams: boolean;
   generateUseRedirect: boolean;
+  generateRootIndex: boolean;
 }
 
 export interface LinkOptions {
