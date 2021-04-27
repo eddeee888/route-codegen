@@ -3,7 +3,7 @@ import generateTemplateFiles from "./generateTemplateFiles";
 import { info, TemplateFile } from "../../utils";
 import TypescriptRootIndexPlugin from "../../plugins/typescript-root-index";
 
-const generateAppFiles = (appName: string, app: AppConfig): TemplateFile[] => {
+const generateAppFiles = (appName: string, appConfig: AppConfig): TemplateFile[] => {
   const {
     routes,
     routingType,
@@ -12,7 +12,7 @@ const generateAppFiles = (appName: string, app: AppConfig): TemplateFile[] => {
     importGenerateUrl,
     importRedirectServerSide,
     generateRootIndex,
-  } = parseAppConfig(appName, app);
+  } = parseAppConfig(appName, appConfig);
 
   if (destinationDir) {
     const files: TemplateFile[][] = Object.entries(routes).map(([routeName, routePattern]) =>
