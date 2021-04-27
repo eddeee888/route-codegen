@@ -3,29 +3,33 @@ import generateTemplateFiles from "./generateTemplateFiles";
 import { info, TemplateFile } from "../../utils";
 import TypescriptRootIndexPlugin from "../../plugins/typescript-root-index";
 
-const generateAppFiles = (appName: string, appConfig: AppConfig): TemplateFile[] => {
+const generateAppFiles = async (appName: string, appConfig: AppConfig): Promise<TemplateFile[]> => {
   const {
     routes,
     routingType,
     destinationDir,
-    routeLinkOptions,
+    plugins,
     importGenerateUrl,
     importRedirectServerSide,
-    generateRootIndex,
+    topLevelGenerateOptions,
   } = parseAppConfig(appName, appConfig);
 
   if (destinationDir) {
-    const files: TemplateFile[][] = Object.entries(routes).map(([routeName, routePattern]) =>
-      generateTemplateFiles({
-        origin: routePattern.origin,
-        routePattern: routePattern.path,
-        routeName,
-        routeLinkOptions,
-        destinationDir,
-        routingType,
-        importGenerateUrl,
-        importRedirectServerSide,
-      })
+    const files = await Promise.all(
+      Object.entries(routes).map(([routeName, routePattern]) =>
+        generateTemplateFiles({
+          appName,
+          topLevelGenerateOptions,
+          origin: routePattern.origin,
+          routePattern: routePattern.path,
+          plugins,
+          routeName,
+          destinationDir,
+          routingType,
+          importGenerateUrl,
+          importRedirectServerSide,
+        })
+      )
     );
     const filesToGenerate = files.flat();
 
@@ -38,7 +42,7 @@ const generateAppFiles = (appName: string, appConfig: AppConfig): TemplateFile[]
       info([appName], `*** No files to generate ***\n`);
     }
 
-    if (generateRootIndex) {
+    if (topLevelGenerateOptions.generateRootIndex) {
       const rootIndexFile = new TypescriptRootIndexPlugin({ destinationDir, files: filesToGenerate }).generate();
       if (rootIndexFile) {
         return [...filesToGenerate, rootIndexFile];
