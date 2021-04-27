@@ -7,8 +7,8 @@ export interface TypescriptGenerateUrlPluginConfig {
   destinationDir: string;
 }
 
-class TypescriptGenerateUrlPlugin extends BasePlugin<TypescriptGenerateUrlPluginConfig, TemplateFile> {
-  generate(): TemplateFile {
+class TypescriptGenerateUrlPlugin extends BasePlugin<TypescriptGenerateUrlPluginConfig> {
+  generate(): TemplateFile[] {
     const {
       importGenerateUrl,
       patternNamedExports: { patternName, urlParamsInterfaceName, filename, pathParamsInterfaceName, originName },
@@ -39,7 +39,7 @@ class TypescriptGenerateUrlPlugin extends BasePlugin<TypescriptGenerateUrlPlugin
       hasNamedExports: true,
     };
 
-    return templateFile;
+    return [templateFile];
   }
 }
 
