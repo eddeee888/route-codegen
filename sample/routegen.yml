@@ -15,13 +15,14 @@ apps:
     routes:
       login: /login
       signup: /signup
-    routingType: ReactRouterV5
     generate:
       linkComponent: true
       useParams: true
       useRedirect: true
       redirectComponent: true
       rootIndex: true
+    destinationDir: outputs/default/auth/routes
+    routingType: ReactRouterV5
     reactRouterV5LinkOptions:
       importCustomLink:
         componentDefaultImport: true
@@ -38,7 +39,6 @@ apps:
         propsNamedImport: AnchorProps
         hrefProp: href
         from: common/ui/Anchor
-    destinationDir: outputs/default/auth/routes
 
   seo:
     routes:
