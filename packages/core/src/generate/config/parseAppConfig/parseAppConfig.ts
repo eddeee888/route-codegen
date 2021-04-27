@@ -1,5 +1,5 @@
 import { RoutingType, AppConfig, AppRoute } from "../types";
-import { throwError, Import } from "../../../utils";
+import { throwError, Import, RawPluginConfig } from "../../../utils";
 import { TopLevelGenerateOptions, RouteLinkOptions } from "./types";
 import { prepareLinkOptionsReactRouterV5 } from "./prepareLinkOptionsReactRouterV5";
 import { prepareLinkOptionsNextJS } from "./prepareLinkOptionsNextJS";
@@ -9,10 +9,13 @@ export interface ParsedAppConfig {
   routes: Record<string, AppRoute>;
   routingType: RoutingType;
   destinationDir?: string;
-  routeLinkOptions: RouteLinkOptions;
   importGenerateUrl: Import;
   importRedirectServerSide: Import;
   generateRootIndex: boolean;
+  plugins: RawPluginConfig[];
+
+  // TODO: deprecate
+  routeLinkOptions: RouteLinkOptions;
 }
 
 // Note: these imports are constants at the moment but we could open it up so people can pass their own functions in
@@ -44,8 +47,6 @@ export const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedApp
     nextJSLinkOptions,
     defaultLinkOptions,
   } = appConfig;
-
-  console.log({ plugins });
 
   if (routingType !== RoutingType.NextJS && routingType !== RoutingType.ReactRouterV5 && routingType !== RoutingType.Default) {
     return throwError(
@@ -81,6 +82,7 @@ export const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedApp
       NextJS: prepareLinkOptionsNextJS({ appName, routeLinkOptions: nextJSLinkOptions, topLevelGenerateOptions }),
       Default: prepareLinkOptionsDefault({ appName, routeLinkOptions: defaultLinkOptions, topLevelGenerateOptions }),
     },
+    plugins: plugins || [],
     importGenerateUrl: IMPORT_GENERATE_URL,
     importRedirectServerSide: IMPORT_REDIRECT_SERVER_SIDE_COMPONENT,
     generateRootIndex: generate?.rootIndex ?? false,

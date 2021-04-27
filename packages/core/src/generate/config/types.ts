@@ -1,3 +1,5 @@
+import { RawPluginConfig } from "../../utils";
+
 export enum RoutingType {
   "NextJS" = "NextJS",
   "ReactRouterV5" = "ReactRouterV5",
@@ -40,7 +42,7 @@ export interface AppConfig {
     useRedirect?: boolean;
     rootIndex?: boolean;
   };
-  plugins?: any;
+  plugins?: RawPluginConfig[];
 
   // TODO: deprecate and replace with plugins field
   routingType?: string;

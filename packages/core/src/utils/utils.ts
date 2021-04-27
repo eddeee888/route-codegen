@@ -4,6 +4,7 @@ export * from "./writeFile";
 export * from "./capitalizeFirstChar";
 
 export * from "./keyHelpers";
+export * from "./pluginConfigHelpers";
 
 export * from "./info";
 export * from "./throwError";
@@ -12,3 +13,4 @@ export * from "./handleCommandFlags";
 export * from "./templateFileHelpers";
 
 export * from "./BasePlugin";
+export * from "./BasePatternPlugin";
