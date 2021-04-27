@@ -50,6 +50,7 @@ export interface TopLevelGenerateOptions {
   generateRedirectComponent: boolean;
   generateUseParams: boolean;
   generateUseRedirect: boolean;
+  generateRootIndex: boolean;
 }
 
 interface PrepareLinkOptionsParams<P> {
