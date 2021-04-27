@@ -309,7 +309,7 @@ class TypescriptReactRouter5Plugin extends BasePlugin<ParsedLinkOptionsReactRout
 
     if (!routeLinkOptions.importCustomLink) {
       info([appName, "reactRouterV5LinkOptions", "importCustomLink"], "custom options not found... Using default");
-      this.linkOptions = { ...defaultOptions };
+      this.linkOptions = { ...result };
       return;
     }
 

@@ -13,7 +13,7 @@ export interface BasePluginConfig {
   importRedirectServerSide: Import;
 }
 
-export class BasePlugin<L = any, C = BasePluginConfig, R = TemplateFile[]> {
+export class BasePlugin<L = Record<string, unknown>, C = BasePluginConfig, R = TemplateFile[]> {
   config: C;
   linkOptions: L | null = null;
 
@@ -27,10 +27,13 @@ export class BasePlugin<L = any, C = BasePluginConfig, R = TemplateFile[]> {
   }
 
   protected _parseLinkOptions(): void {
-    return throwError([], "Implement _parseLinkOptions function");
+    this.linkOptions = {} as L;
   }
 
   protected _getLinkOptions(): L {
-    return throwError([], "Implement _getLinkOptions function");
+    if (!this.linkOptions) {
+      return throwError([], "LinkOptions uninitialised");
+    }
+    return this.linkOptions;
   }
 }
