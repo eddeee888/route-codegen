@@ -1,6 +1,5 @@
-import { Import } from "../../types";
 import { RoutingType, AppConfig, AppRoute } from "../types";
-import { throwError } from "../../utils";
+import { throwError, Import } from "../../../utils";
 import { TopLevelGenerateOptions, RouteLinkOptions } from "./types";
 import { prepareLinkOptionsReactRouterV5 } from "./prepareLinkOptionsReactRouterV5";
 import { prepareLinkOptionsNextJS } from "./prepareLinkOptionsNextJS";

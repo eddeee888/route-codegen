@@ -1,5 +1,5 @@
 import { PrepareLinkOptionsParamsReactRouterV5, ParsedLinkOptionsReactRouterV5 } from "./types";
-import { getOverriddenValue, info } from "../../utils";
+import { getOverriddenValue, info } from "../../../utils";
 import { handleImportCustomLink } from "./handleImportCustomLink";
 
 export const prepareLinkOptionsReactRouterV5 = (params: PrepareLinkOptionsParamsReactRouterV5): ParsedLinkOptionsReactRouterV5 => {
