@@ -32,15 +32,20 @@ const IMPORT_REDIRECT_SERVER_SIDE_COMPONENT: Import = {
  */
 export const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedAppConfig => {
   const {
-    routingType = RoutingType.Default,
     origin = "",
     routes = {},
     destinationDir,
+    generate,
+    plugins,
+
+    // TODO: deprecate and replace with plugins field
+    routingType = RoutingType.Default,
     reactRouterV5LinkOptions,
     nextJSLinkOptions,
     defaultLinkOptions,
-    generate,
   } = appConfig;
+
+  console.log({ plugins });
 
   if (routingType !== RoutingType.NextJS && routingType !== RoutingType.ReactRouterV5 && routingType !== RoutingType.Default) {
     return throwError(

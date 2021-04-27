@@ -32,11 +32,7 @@ export interface AppRoute {
 export interface AppConfig {
   origin?: string;
   routes?: Record<string, string | AppRoute>;
-  routingType?: string;
   destinationDir?: string;
-  reactRouterV5LinkOptions?: LinkOptions;
-  nextJSLinkOptions?: LinkOptions;
-  defaultLinkOptions?: LinkOptions;
   generate?: {
     linkComponent?: boolean;
     redirectComponent?: boolean;
@@ -44,6 +40,13 @@ export interface AppConfig {
     useRedirect?: boolean;
     rootIndex?: boolean;
   };
+  plugins?: any;
+
+  // TODO: deprecate and replace with plugins field
+  routingType?: string;
+  reactRouterV5LinkOptions?: LinkOptions;
+  nextJSLinkOptions?: LinkOptions;
+  defaultLinkOptions?: LinkOptions;
 }
 
 export interface Config {
