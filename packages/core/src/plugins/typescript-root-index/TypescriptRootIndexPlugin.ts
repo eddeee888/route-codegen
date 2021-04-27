@@ -5,7 +5,7 @@ export interface TypescriptRootIndexPluginConfig {
   files: TemplateFile[];
 }
 
-class TypescriptRootIndexPlugin extends BasePlugin<TypescriptRootIndexPluginConfig, TemplateFile | null> {
+class TypescriptRootIndexPlugin extends BasePlugin<Record<string, never>, TypescriptRootIndexPluginConfig, TemplateFile | null> {
   generate(): TemplateFile | null {
     const { destinationDir, files } = this.config;
 
