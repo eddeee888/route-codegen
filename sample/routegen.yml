@@ -3,13 +3,17 @@ apps:
     routes:
       user: /app/users/:id/:subview(pictures)?
       account: /app/account
-    routingType: ReactRouterV5
     generate:
       linkComponent: true
       useParams: true
       useRedirect: true
       redirectComponent: true
     destinationDir: outputs/default/app/routes
+    plugins:
+      - name: "typescript-pattern"
+      - name: "typescript-generate-url"
+      - name: "typescript-react-router-5"
+      - name: "typescript-anchor"
 
   auth:
     routes:
@@ -22,72 +26,88 @@ apps:
       redirectComponent: true
       rootIndex: true
     destinationDir: outputs/default/auth/routes
-    routingType: ReactRouterV5
-    reactRouterV5LinkOptions:
-      importCustomLink:
-        componentDefaultImport: true
-        propsNamedImport: LinkProps
-        hrefProp: to
-        from: common/components/Link
-      generate:
-        useParams: false
-        useRedirect: false
-      mode: strict
-    defaultLinkOptions:
-      importCustomLink:
-        componentNamedImport: CustomAnchor
-        propsNamedImport: AnchorProps
-        hrefProp: href
-        from: common/ui/Anchor
+    plugins:
+      - name: "typescript-pattern"
+      - name: "typescript-generate-url"
+      - name: "typescript-react-router-5"
+        config:
+          importCustomLink:
+            componentDefaultImport: true
+            propsNamedImport: LinkProps
+            hrefProp: to
+            from: common/components/Link
+          generate:
+            useParams: false
+            useRedirect: false
+          mode: strict
+      - name: "typescript-anchor"
+        config:
+          importCustomLink:
+            componentNamedImport: CustomAnchor
+            propsNamedImport: AnchorProps
+            hrefProp: href
+            from: common/ui/Anchor
 
   seo:
     routes:
       home: /
       about: /about/:target(us|you)/:topic/:region(en)/:optional?/:optionalEnum(enumOne|enumTwo)?
-    routingType: NextJS
     generate:
       linkComponent: true
       useParams: true
       useRedirect: true
       redirectComponent: true
     destinationDir: outputs/default/seo/routes
+    plugins:
+      - name: "typescript-pattern"
+      - name: "typescript-generate-url"
+      - name: "typescript-next-js"
+      - name: "typescript-anchor"
 
   seo-strict:
     routes:
       contact: /contact/:target(us|you)/:topic/:region(en)/:optional?/:optionalEnum(enumOne|enumTwo)?
-    routingType: NextJS
     generate:
       linkComponent: true
       useParams: true
       useRedirect: true
       redirectComponent: true
-    nextJSLinkOptions:
-      mode: strict
     destinationDir: outputs/default/seo-strict/routes
+    plugins:
+      - name: "typescript-pattern"
+      - name: "typescript-generate-url"
+      - name: "typescript-next-js"
+        config:
+          mode: strict
+      - name: "typescript-anchor"
 
   toc:
     routes:
       toc: /terms-and-conditions
-    routingType: NextJS
     generate:
       linkComponent: true
       useParams: true
       useRedirect: true
       redirectComponent: true
       rootIndex: true
-    nextJSLinkOptions:
-      importCustomLink:
-        componentDefaultImport: true
-        propsNamedImport: LinkProps
-        hrefProp: href
-        from: src/common/components/Link
-    defaultLinkOptions:
-      importCustomLink:
-        componentDefaultImport: true
-        propsNamedImport: AnchorProps
-        hrefProp: href
-        from: src/common/ui/Anchor
     destinationDir: outputs/default/toc/routes
+    plugins:
+      - name: "typescript-pattern"
+      - name: "typescript-generate-url"
+      - name: "typescript-next-js"
+        config:
+          importCustomLink:
+            componentDefaultImport: true
+            propsNamedImport: LinkProps
+            hrefProp: href
+            from: src/common/components/Link
+      - name: "typescript-anchor"
+        config:
+          importCustomLink:
+            componentDefaultImport: true
+            propsNamedImport: AnchorProps
+            hrefProp: href
+            from: src/common/ui/Anchor
 
   legacy:
     routes:
@@ -95,3 +115,6 @@ apps:
 
   server:
     destinationDir: outputs/default/server/routes
+    plugins:
+      - name: "typescript-pattern"
+      - name: "typescript-generate-url"

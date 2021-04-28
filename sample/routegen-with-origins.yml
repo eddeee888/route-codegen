@@ -3,29 +3,37 @@ apps:
     origin: https://app.${PRIMARY_DOMAIN}
     routes:
       user: /users/:id/:subview(pictures)?
-    routingType: ReactRouterV5
     generate:
       linkComponent: true
       useParams: true
       useRedirect: true
       redirectComponent: true
       rootIndex: false
-    reactRouterV5LinkOptions:
-      mode: strict
     destinationDir: outputs/with-origins/app/routes
+    plugins:
+      - name: "typescript-pattern"
+      - name: "typescript-generate-url"
+      - name: "typescript-react-router-5"
+        config:
+          mode: strict
+      - name: "typescript-anchor"
 
   seo:
     origin: https://${PRIMARY_DOMAIN}
     routes:
       home: /
       terms: /terms
-    routingType: NextJS
     generate:
       linkComponent: true
       useParams: true
       useRedirect: true
       redirectComponent: true
     destinationDir: outputs/with-origins/seo/routes
+    plugins:
+      - name: "typescript-pattern"
+      - name: "typescript-generate-url"
+      - name: "typescript-next-js"
+      - name: "typescript-anchor"
 
   legacy:
     origin: https://legacy.domain.com
@@ -37,8 +45,7 @@ apps:
     routes:
       graphql: /graphql
       activateAccount: /activate-account/:code
-    generate:
-      linkComponent: false
-      useRedirect: true
-      redirectComponent: true
     destinationDir: outputs/with-origins/server/routes
+    plugins:
+      - name: "typescript-pattern"
+      - name: "typescript-generate-url"
