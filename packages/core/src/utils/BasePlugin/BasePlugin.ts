@@ -13,7 +13,9 @@ export interface BasePluginConfig {
   importRedirectServerSide: Import;
 }
 
-export class BasePlugin<L = Record<string, never>, C = BasePluginConfig, R = TemplateFile[]> {
+export type BasePluginResult = TemplateFile[];
+
+export class BasePlugin<L = Record<string, never>, C = BasePluginConfig, R = BasePluginResult> {
   config: C;
   linkOptions: L | null = null;
 

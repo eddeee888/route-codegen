@@ -4,13 +4,13 @@ import {
   Import,
   throwError,
   RawPluginConfig,
-  pluginConfigHelpers,
-  BasePlugin,
+  pluginHelpers,
   TopLevelGenerateOptions,
-  ParsedPluginConfig,
   CodegenPlugin,
+  PluginModule,
   BasePatternPluginConfig,
   BasePatternPluginResult,
+  BasePluginResult,
 } from "../../utils";
 
 export interface GenerateTemplateFilesParams {
@@ -49,26 +49,32 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
     return [];
   }
 
-  const parsedPlugins = pluginConfigHelpers.parse(plugins);
-
-  const patternPlugin = pluginConfigHelpers.findFirstOfType(parsedPlugins, "pattern");
-  if (!patternPlugin) {
-    return throwError([routeName], "No pattern plugin found.");
-  }
-
-  // TODO: handle this better
+  // TODO: handle this better e.g. import from node_modules?
   const resolvePluginPath = (pluginName: string): string => {
     return `../../plugins/${pluginName}`;
   };
 
-  const files: TemplateFile[] = [];
+  const pluginModules = await Promise.all<{ plugin: CodegenPlugin<unknown, unknown>; config: RawPluginConfig["config"] }>(
+    plugins.map(async (plugin) => {
+      return {
+        plugin: await import(resolvePluginPath(plugin.name)),
+        config: plugin.config,
+      };
+    })
+  );
 
-  const PatternPlugin = (await import(resolvePluginPath(patternPlugin.name))) as CodegenPlugin<
+  // TODO: type this better to scale
+  const patternPlugin = pluginHelpers.findFirstOfType(pluginModules, "pattern") as PluginModule<
     BasePatternPluginConfig,
     BasePatternPluginResult
   >;
+  if (!patternPlugin) {
+    return throwError([appName, routeName], "No pattern plugin found.");
+  }
 
-  const [patternFile, patternNamedExports] = PatternPlugin.generate({
+  const files: TemplateFile[] = [];
+
+  const [patternFile, patternNamedExports] = patternPlugin.plugin.generate({
     origin,
     routeName,
     routePattern,
@@ -80,18 +86,10 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
   });
   files.push(patternFile);
 
-  const routePlugins = await Promise.all(
-    pluginConfigHelpers
-      .filterByType(parsedPlugins, "route")
-      .map<Promise<{ RoutePlugin: typeof BasePlugin; config: ParsedPluginConfig["config"] }>>(async (plugin) => {
-        return {
-          RoutePlugin: await import(resolvePluginPath(plugin.name)),
-          config: plugin.config,
-        };
-      })
-  );
-  routePlugins.forEach(({ RoutePlugin, config }) => {
-    const templateFiles = new RoutePlugin({
+  const routePlugins = pluginHelpers.filterByType(pluginModules, "route");
+
+  routePlugins.forEach(({ plugin, config }) => {
+    const templateFiles = plugin.generate({
       appName,
       origin,
       routeName,
@@ -102,7 +100,7 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
       patternNamedExports,
       importGenerateUrl,
       importRedirectServerSide,
-    }).generate();
+    }) as BasePluginResult; // TODO: type this better to scale
     files.push(...templateFiles);
   });
 

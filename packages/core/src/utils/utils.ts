@@ -4,7 +4,7 @@ export * from "./writeFile";
 export * from "./capitalizeFirstChar";
 
 export * from "./keyHelpers";
-export * from "./pluginConfigHelpers";
+export * from "./pluginHelpers";
 export * from "./templateFileHelpers";
 export * from "./handleImportCustomLink";
 
