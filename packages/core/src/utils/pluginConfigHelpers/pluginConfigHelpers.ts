@@ -1,3 +1,5 @@
+import { PluginConfigType } from "../types";
+
 /**
  * Raw plugin config from reading yml
  */
@@ -12,8 +14,6 @@ export interface ParsedPluginConfig {
   type: PluginConfigType;
   config?: Record<string, unknown>;
 }
-
-type PluginConfigType = "pattern" | "route";
 
 const parse = (plugins: RawPluginConfig[]): ParsedPluginConfig[] => {
   return plugins.map((plugin) => {

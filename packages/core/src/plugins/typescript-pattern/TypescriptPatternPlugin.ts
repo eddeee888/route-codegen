@@ -9,6 +9,7 @@ import {
   RoutingType,
   BasePatternPlugin,
   BasePatternPluginConfig,
+  CodegenPlugin,
 } from "../../utils";
 
 interface PathParamsInterfaceResult {
@@ -214,6 +215,9 @@ class TypescriptPatternPlugin extends BasePatternPlugin {
   }
 }
 
-export const generate = (config: BasePatternPluginConfig): [TemplateFile, PatternNamedExports] => {
-  return new TypescriptPatternPlugin(config).generate();
+export const plugin: CodegenPlugin<BasePatternPluginConfig, [TemplateFile, PatternNamedExports]> = {
+  type: "pattern",
+  generate: (config) => {
+    return new TypescriptPatternPlugin(config).generate();
+  },
 };
