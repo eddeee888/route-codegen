@@ -57,7 +57,7 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
   const pluginModules = await Promise.all<{ plugin: CodegenPlugin<unknown, unknown>; config: RawPluginConfig["config"] }>(
     plugins.map(async (plugin) => {
       return {
-        plugin: await import(resolvePluginPath(plugin.name)),
+        plugin: (await import(resolvePluginPath(plugin.name))).plugin,
         config: plugin.config,
       };
     })
