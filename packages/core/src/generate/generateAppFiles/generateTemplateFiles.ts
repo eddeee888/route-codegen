@@ -62,16 +62,15 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
 
   // TODO: this is a hack to inject NextJS pattern into pattern file and should be removed
   let linkOptionModeNextJS: "strict" | "loose" | undefined = undefined;
-  const routeInternal = pluginHelpers.findFirstOfType(pluginModules, "route-internal") as PluginModule;
-  if (routingType === RoutingType["route-internal"] && routeInternal.plugin.isNextJS) {
+  const routeInternal = pluginHelpers.findFirstOfType(pluginModules, "route-internal") as PluginModule | undefined;
+  if (routingType === RoutingType["route-internal"] && routeInternal?.plugin.isNextJS) {
     linkOptionModeNextJS = (routeInternal.config?.mode || "loose") as "strict" | "loose"; // TODO: handle this!
   }
 
   // TODO: type this better to scale
-  const patternPlugin = pluginHelpers.findFirstOfType(pluginModules, "pattern") as PluginModule<
-    BasePatternPluginConfig,
-    BasePatternPluginResult
-  >;
+  const patternPlugin = pluginHelpers.findFirstOfType(pluginModules, "pattern") as
+    | PluginModule<BasePatternPluginConfig, BasePatternPluginResult>
+    | undefined;
   if (!patternPlugin) {
     return throwError([appName, routeName], "No pattern plugin found.");
   }
