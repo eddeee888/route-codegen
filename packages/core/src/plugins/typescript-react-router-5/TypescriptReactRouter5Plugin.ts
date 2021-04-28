@@ -8,6 +8,8 @@ import {
   TemplateFile,
   throwError,
   handleImportCustomLink,
+  CodegenPlugin,
+  BasePluginConfig,
 } from "../../utils";
 
 interface ParsedLinkOptionsReactRouter5 {
@@ -339,4 +341,9 @@ class TypescriptReactRouter5Plugin extends BasePlugin<ParsedLinkOptionsReactRout
   }
 }
 
-export default TypescriptReactRouter5Plugin;
+export const plugin: CodegenPlugin<BasePluginConfig, TemplateFile[]> = {
+  type: "route",
+  generate: (config) => {
+    return new TypescriptReactRouter5Plugin(config).generate();
+  },
+};

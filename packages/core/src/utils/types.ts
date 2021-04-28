@@ -69,7 +69,7 @@ export interface PrepareLinkOptionsParams {
   topLevelGenerateOptions: TopLevelGenerateOptions;
 }
 
-export type PluginConfigType = "pattern" | "route";
+export type PluginConfigType = "pattern" | "route" | "files-processing";
 export interface CodegenPlugin<C, R> {
   type: PluginConfigType;
   generate: (config: C) => R;

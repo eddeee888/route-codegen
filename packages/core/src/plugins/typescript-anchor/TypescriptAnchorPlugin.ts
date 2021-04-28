@@ -1,6 +1,8 @@
 import {
   BasePlugin,
+  BasePluginConfig,
   capitalizeFirstChar,
+  CodegenPlugin,
   getOverriddenValue,
   handleImportCustomLink,
   Import,
@@ -275,4 +277,9 @@ class TypescriptAnchorPlugin extends BasePlugin<ParsedLinkOptionsAnchor> {
   }
 }
 
-export default TypescriptAnchorPlugin;
+export const plugin: CodegenPlugin<BasePluginConfig, TemplateFile[]> = {
+  type: "route",
+  generate: (config) => {
+    return new TypescriptAnchorPlugin(config).generate();
+  },
+};

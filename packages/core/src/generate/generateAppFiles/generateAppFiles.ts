@@ -1,7 +1,7 @@
 import { AppConfig, parseAppConfig } from "./../config";
 import generateTemplateFiles from "./generateTemplateFiles";
 import { info, TemplateFile } from "../../utils";
-import TypescriptRootIndexPlugin from "../../plugins/typescript-root-index";
+import { plugin } from "../../plugins/typescript-root-index"; // TODO: do this dynamically
 
 const generateAppFiles = async (appName: string, appConfig: AppConfig): Promise<TemplateFile[]> => {
   const {
@@ -43,11 +43,8 @@ const generateAppFiles = async (appName: string, appConfig: AppConfig): Promise<
     }
 
     if (topLevelGenerateOptions.generateRootIndex) {
-      const rootIndexFile = new TypescriptRootIndexPlugin({ destinationDir, files: filesToGenerate }).generate();
-      if (rootIndexFile) {
-        return [...filesToGenerate, rootIndexFile];
-      }
-      return [...filesToGenerate];
+      const rootIndexFiles = plugin.generate({ destinationDir, files: filesToGenerate });
+      return [...filesToGenerate, ...rootIndexFiles];
     }
 
     return filesToGenerate;

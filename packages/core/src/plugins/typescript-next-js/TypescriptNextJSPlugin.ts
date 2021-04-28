@@ -10,6 +10,8 @@ import {
   info,
   getOverriddenValue,
   handleImportCustomLink,
+  CodegenPlugin,
+  BasePluginConfig,
 } from "../../utils";
 
 interface ParsedLinkOptionsNextJS {
@@ -370,4 +372,9 @@ class TypescriptNextJSPlugin extends BasePlugin<ParsedLinkOptionsNextJS> {
   };
 }
 
-export default TypescriptNextJSPlugin;
+export const plugin: CodegenPlugin<BasePluginConfig, TemplateFile[]> = {
+  type: "route",
+  generate: (config) => {
+    return new TypescriptNextJSPlugin(config).generate();
+  },
+};

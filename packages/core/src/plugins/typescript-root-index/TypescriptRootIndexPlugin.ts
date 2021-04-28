@@ -1,16 +1,16 @@
-import { BasePlugin, TemplateFile } from "../../utils";
+import { BasePlugin, CodegenPlugin, TemplateFile } from "../../utils";
 
 export interface TypescriptRootIndexPluginConfig {
   destinationDir: string;
   files: TemplateFile[];
 }
 
-class TypescriptRootIndexPlugin extends BasePlugin<Record<string, never>, TypescriptRootIndexPluginConfig, TemplateFile | null> {
-  generate(): TemplateFile | null {
+class TypescriptRootIndexPlugin extends BasePlugin<Record<string, never>, TypescriptRootIndexPluginConfig> {
+  generate(): TemplateFile[] {
     const { destinationDir, files } = this.config;
 
     if (files.length === 0) {
-      return null;
+      return [];
     }
 
     const template = files.reduce((prevTemplate, file) => {
@@ -34,8 +34,13 @@ class TypescriptRootIndexPlugin extends BasePlugin<Record<string, never>, Typesc
       routeName: "",
     };
 
-    return rootIndexFile;
+    return [rootIndexFile];
   }
 }
 
-export default TypescriptRootIndexPlugin;
+export const plugin: CodegenPlugin<TypescriptRootIndexPluginConfig, TemplateFile[]> = {
+  type: "files-processing",
+  generate: (config) => {
+    return new TypescriptRootIndexPlugin(config).generate();
+  },
+};

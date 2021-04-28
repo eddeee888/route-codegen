@@ -1,4 +1,13 @@
-import { capitalizeFirstChar, Import, PatternNamedExports, printImport, TemplateFile, BasePlugin } from "../../utils";
+import {
+  capitalizeFirstChar,
+  Import,
+  PatternNamedExports,
+  printImport,
+  TemplateFile,
+  BasePlugin,
+  BasePluginConfig,
+  CodegenPlugin,
+} from "../../utils";
 
 export interface TypescriptGenerateUrlPluginConfig {
   importGenerateUrl: Import;
@@ -43,4 +52,9 @@ class TypescriptGenerateUrlPlugin extends BasePlugin<TypescriptGenerateUrlPlugin
   }
 }
 
-export default TypescriptGenerateUrlPlugin;
+export const plugin: CodegenPlugin<BasePluginConfig, TemplateFile[]> = {
+  type: "route",
+  generate: (config) => {
+    return new TypescriptGenerateUrlPlugin(config).generate();
+  },
+};

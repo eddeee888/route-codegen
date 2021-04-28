@@ -1,1 +1,1 @@
-export { default } from "./TypescriptRootIndexPlugin";
+export * from "./TypescriptRootIndexPlugin";
