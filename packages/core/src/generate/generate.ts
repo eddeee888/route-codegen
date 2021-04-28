@@ -6,7 +6,6 @@ import { handleCommandFlags, CommandFlags, writeFile, templateFileHelpers, Templ
 export const generate = async (config: Config, commandFlags: CommandFlags): Promise<void> => {
   handleCommandFlags(commandFlags);
 
-  // TODO: make this async maybe
   const { apps } = config;
   const filesToWrite = await generateFilesToWrite(apps);
   filesToWrite.forEach(writeFile);

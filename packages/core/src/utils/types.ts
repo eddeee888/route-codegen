@@ -1,9 +1,3 @@
-export enum RoutingType {
-  "NextJS" = "NextJS",
-  "ReactRouterV5" = "ReactRouterV5",
-  "Default" = "Default",
-}
-
 export interface TemplateFile {
   template: string;
   filename: string;
