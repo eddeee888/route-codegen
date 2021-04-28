@@ -1,9 +1,12 @@
 import { RawPluginConfig } from "../../utils";
 
+// RoutingType is used to only target "route-internal" and "route-external" plugins
+// Normally codegen are run 2 times:
+// - The first time runs "pattern", "route-internal" plugins
+// - The second time run "route-external" plugins
 export enum RoutingType {
-  "NextJS" = "NextJS",
-  "ReactRouterV5" = "ReactRouterV5",
-  "Default" = "Default",
+  "route-internal" = "route-internal",
+  "route-external" = "route-external",
 }
 
 export interface ImportCustomLink {
@@ -12,17 +15,6 @@ export interface ImportCustomLink {
   hrefProp?: string;
   propsNamedImport?: string;
   from?: string;
-}
-
-interface LinkOptions {
-  importCustomLink?: ImportCustomLink;
-  generate?: {
-    linkComponent?: boolean;
-    redirectComponent?: boolean;
-    useRedirect?: boolean;
-    useParams?: boolean;
-  };
-  mode?: string;
 }
 
 // TODO: The Object version is only being used internally when generating external routes. Test if it's safe for users to use
@@ -44,11 +36,8 @@ export interface AppConfig {
   };
   plugins?: RawPluginConfig[];
 
-  // TODO: deprecate and replace with plugins field
-  routingType?: string;
-  reactRouterV5LinkOptions?: LinkOptions;
-  nextJSLinkOptions?: LinkOptions;
-  defaultLinkOptions?: LinkOptions;
+  // Note: This is only for internal use
+  _routingType?: string;
 }
 
 export interface Config {

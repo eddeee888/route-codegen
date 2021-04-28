@@ -1,13 +1,13 @@
 import { throwError } from "../throwError";
-import { PatternNamedExports, RoutingType, TemplateFile } from "../types";
+import { PatternNamedExports, TemplateFile } from "../types";
 
 export interface BasePatternPluginConfig {
   origin: string;
   routeName: string;
   routePattern: string;
   destinationDir: string;
-  routingType: RoutingType;
-  linkOptionModeNextJS: "strict" | "loose";
+
+  linkOptionModeNextJS: "strict" | "loose" | undefined; // TODO: this is a hack and should be removed
 }
 
 export type BasePatternPluginResult = [TemplateFile, PatternNamedExports];

@@ -342,7 +342,7 @@ class TypescriptReactRouter5Plugin extends BasePlugin<ParsedLinkOptionsReactRout
 }
 
 export const plugin: CodegenPlugin<BasePluginConfig, TemplateFile[]> = {
-  type: "route",
+  type: "route-internal",
   generate: (config) => {
     return new TypescriptReactRouter5Plugin(config).generate();
   },

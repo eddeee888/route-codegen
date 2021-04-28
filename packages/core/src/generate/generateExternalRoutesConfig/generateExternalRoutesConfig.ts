@@ -32,7 +32,7 @@ const generateExternalRoutesConfig = (apps: Record<string, AppConfig>): Record<s
       ...defaultAppConfig,
       origin: undefined, // Have to set this to undefined to force use route-level origin
       routes: appRoutes,
-      routingType: RoutingType.Default,
+      _routingType: RoutingType["route-external"],
     };
   });
 

@@ -373,7 +373,7 @@ class TypescriptNextJSPlugin extends BasePlugin<ParsedLinkOptionsNextJS> {
 }
 
 export const plugin: CodegenPlugin<BasePluginConfig, TemplateFile[]> = {
-  type: "route",
+  type: "route-internal",
   generate: (config) => {
     return new TypescriptNextJSPlugin(config).generate();
   },

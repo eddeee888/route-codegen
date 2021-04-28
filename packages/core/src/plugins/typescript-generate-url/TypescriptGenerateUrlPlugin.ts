@@ -53,7 +53,7 @@ class TypescriptGenerateUrlPlugin extends BasePlugin<TypescriptGenerateUrlPlugin
 }
 
 export const plugin: CodegenPlugin<BasePluginConfig, TemplateFile[]> = {
-  type: "route",
+  type: "general",
   generate: (config) => {
     return new TypescriptGenerateUrlPlugin(config).generate();
   },

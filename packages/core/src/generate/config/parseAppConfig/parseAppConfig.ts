@@ -3,14 +3,12 @@ import { throwError, Import, RawPluginConfig, TopLevelGenerateOptions } from "..
 
 export interface ParsedAppConfig {
   routes: Record<string, AppRoute>;
+  routingType: RoutingType;
   destinationDir?: string;
   plugins: RawPluginConfig[];
   topLevelGenerateOptions: TopLevelGenerateOptions;
   importGenerateUrl: Import;
   importRedirectServerSide: Import;
-
-  // TODO: deprecate
-  routingType: RoutingType;
 }
 
 // Note: these imports are constants at the moment but we could open it up so people can pass their own functions in
@@ -29,21 +27,12 @@ const IMPORT_REDIRECT_SERVER_SIDE_COMPONENT: Import = {
  * @param appConfig The config that we get from .yml file. This will be parsed into approriate options
  */
 export const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedAppConfig => {
-  const {
-    origin = "",
-    routes = {},
-    destinationDir,
-    generate,
-    plugins,
+  const { origin = "", routes = {}, destinationDir, generate, plugins, _routingType = RoutingType["route-internal"] } = appConfig;
 
-    // TODO: deprecate and replace with plugins field
-    routingType = RoutingType.Default,
-  } = appConfig;
-
-  if (routingType !== RoutingType.NextJS && routingType !== RoutingType.ReactRouterV5 && routingType !== RoutingType.Default) {
+  if (_routingType !== RoutingType["route-internal"] && _routingType !== RoutingType["route-external"]) {
     return throwError(
-      [appName, "routingType"],
-      `Routing type of an app must be either "${RoutingType.NextJS}" or "${RoutingType.ReactRouterV5}" or "${RoutingType.Default}"`
+      [appName, "_routingType"],
+      `Routing type of an app must be either "${RoutingType["route-internal"]}" or "${RoutingType["route-external"]}"`
     );
   }
 
@@ -69,7 +58,7 @@ export const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedApp
   const parsedConfig: ParsedAppConfig = {
     routes: routesWithOrigin,
     destinationDir,
-    routingType,
+    routingType: _routingType,
     plugins: plugins || [],
     topLevelGenerateOptions,
     importGenerateUrl: IMPORT_GENERATE_URL,

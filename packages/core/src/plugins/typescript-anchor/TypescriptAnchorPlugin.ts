@@ -278,7 +278,7 @@ class TypescriptAnchorPlugin extends BasePlugin<ParsedLinkOptionsAnchor> {
 }
 
 export const plugin: CodegenPlugin<BasePluginConfig, TemplateFile[]> = {
-  type: "route",
+  type: "route-external",
   generate: (config) => {
     return new TypescriptAnchorPlugin(config).generate();
   },

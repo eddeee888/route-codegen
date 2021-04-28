@@ -23,8 +23,7 @@ export interface GenerateTemplateFilesParams {
   destinationDir: string;
   importGenerateUrl: Import;
   importRedirectServerSide: Import;
-
-  routingType: RoutingType; // TODO: handle this
+  routingType: RoutingType;
 }
 
 const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promise<TemplateFile[]> => {
@@ -38,8 +37,6 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
     destinationDir: originalDestinationDir,
     importGenerateUrl,
     importRedirectServerSide,
-
-    // TODO: handle this
     routingType,
   } = params;
 
@@ -63,6 +60,13 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
     })
   );
 
+  // TODO: this is a hack to inject NextJS pattern into pattern file and should be removed
+  let linkOptionModeNextJS: "strict" | "loose" | undefined = undefined;
+  const routeInternal = pluginHelpers.findFirstOfType(pluginModules, "route-internal") as PluginModule;
+  if (routingType === RoutingType["route-internal"] && routeInternal.plugin.isNextJS) {
+    linkOptionModeNextJS = routeInternal.config?.mode as "strict" | "loose" | undefined; // TODO: handle this!
+  }
+
   // TODO: type this better to scale
   const patternPlugin = pluginHelpers.findFirstOfType(pluginModules, "pattern") as PluginModule<
     BasePatternPluginConfig,
@@ -79,14 +83,11 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
     routeName,
     routePattern,
     destinationDir,
-    routingType,
-
-    linkOptionModeNextJS: "loose",
-    // linkOptionModeNextJS: routeLinkOptions.NextJS.mode, TODO: handle this?
+    linkOptionModeNextJS, // TODO: this is the NextJS pattern hack and should be removed
   });
   files.push(patternFile);
 
-  const routePlugins = pluginHelpers.filterByType(pluginModules, "route");
+  const routePlugins = pluginHelpers.filterByTypes(pluginModules, ["general", routingType]);
 
   routePlugins.forEach(({ plugin, config }) => {
     const templateFiles = plugin.generate({
