@@ -63,7 +63,7 @@ class TypescriptNextJSPlugin extends BasePlugin<ParsedLinkOptionsNextJS> {
     return result;
   }
 
-  private _generateLinkFile = (): TemplateFile => {
+  private _generateLinkFile(): TemplateFile {
     const {
       routeName: originalRouteName,
       destinationDir,
@@ -129,9 +129,9 @@ class TypescriptNextJSPlugin extends BasePlugin<ParsedLinkOptionsNextJS> {
     };
 
     return templateFile;
-  };
+  }
 
-  private _generateLinkInterface = (params: GenerateLinkInterfaceParams): GenerateLinkInterfaceResult => {
+  private _generateLinkInterface(params: GenerateLinkInterfaceParams): GenerateLinkInterfaceResult {
     const { routeLinkOptions, defaultLinkPropsInterfaceName, urlParamsInterfaceName, hasPathParams } = params;
     const { hrefProp, linkProps, importLink, linkComponent } = routeLinkOptions;
 
@@ -148,9 +148,9 @@ class TypescriptNextJSPlugin extends BasePlugin<ParsedLinkOptionsNextJS> {
       hrefProp,
       linkPropsInterfaceName,
     };
-  };
+  }
 
-  private _generateUseParamsFile = (): TemplateFile => {
+  private _generateUseParamsFile(): TemplateFile {
     const {
       routeName: originalRouteName,
       destinationDir,
@@ -233,7 +233,7 @@ class TypescriptNextJSPlugin extends BasePlugin<ParsedLinkOptionsNextJS> {
       hasDefaultExport: false,
       hasNamedExports: true,
     };
-  };
+  }
 
   private _checkPathParamsInterfaceName():
     | { type: "none" }
@@ -314,7 +314,7 @@ class TypescriptNextJSPlugin extends BasePlugin<ParsedLinkOptionsNextJS> {
     return templateFile;
   }
 
-  protected _parseLinkOptions = (): void => {
+  protected _parseLinkOptions(): void {
     const { appName, routeLinkOptions, topLevelGenerateOptions } = this.config;
 
     const defaultOptions: ParsedLinkOptionsNextJS = {
@@ -369,11 +369,12 @@ class TypescriptNextJSPlugin extends BasePlugin<ParsedLinkOptionsNextJS> {
       linkComponent,
       linkProps,
     };
-  };
+  }
 }
 
 export const plugin: CodegenPlugin<BasePluginConfig, TemplateFile[]> = {
   type: "route-internal",
+  isNextJS: true,
   generate: (config) => {
     return new TypescriptNextJSPlugin(config).generate();
   },

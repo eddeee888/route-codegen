@@ -64,7 +64,7 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
   let linkOptionModeNextJS: "strict" | "loose" | undefined = undefined;
   const routeInternal = pluginHelpers.findFirstOfType(pluginModules, "route-internal") as PluginModule;
   if (routingType === RoutingType["route-internal"] && routeInternal.plugin.isNextJS) {
-    linkOptionModeNextJS = routeInternal.config?.mode as "strict" | "loose" | undefined; // TODO: handle this!
+    linkOptionModeNextJS = (routeInternal.config?.mode || "loose") as "strict" | "loose"; // TODO: handle this!
   }
 
   // TODO: type this better to scale

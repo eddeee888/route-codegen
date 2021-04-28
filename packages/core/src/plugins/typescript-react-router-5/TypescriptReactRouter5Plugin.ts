@@ -332,13 +332,6 @@ class TypescriptReactRouter5Plugin extends BasePlugin<ParsedLinkOptionsReactRout
 
     this.linkOptions = finalResult;
   }
-
-  protected _getLinkOptions(): ParsedLinkOptionsReactRouter5 {
-    if (!this.linkOptions) {
-      return throwError([this.config.appName, this.config.routeName], "LinkOptions uninitialised in TypescriptReactRouter5Plugin");
-    }
-    return this.linkOptions;
-  }
 }
 
 export const plugin: CodegenPlugin<BasePluginConfig, TemplateFile[]> = {

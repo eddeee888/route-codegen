@@ -72,7 +72,7 @@ class TypescriptPatternPlugin extends BasePatternPlugin {
 
     return result;
   }
-  _generatePathParamsInterface(keys: Key[], routeName: string): PathParamsInterfaceResult | undefined {
+  private _generatePathParamsInterface(keys: Key[], routeName: string): PathParamsInterfaceResult | undefined {
     if (keys.length === 0) {
       return;
     }
