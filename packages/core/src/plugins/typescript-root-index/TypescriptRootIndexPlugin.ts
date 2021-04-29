@@ -39,7 +39,7 @@ class TypescriptRootIndexPlugin extends BasePlugin<Record<string, never>, Typesc
 }
 
 export const plugin: CodegenPlugin<TypescriptRootIndexPluginConfig, TemplateFile[]> = {
-  type: "files-processing",
+  type: "generated-files-processor",
   generate: (config) => {
     return new TypescriptRootIndexPlugin(config).generate();
   },

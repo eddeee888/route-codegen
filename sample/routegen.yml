@@ -24,11 +24,11 @@ apps:
       useParams: true
       useRedirect: true
       redirectComponent: true
-      rootIndex: true
     destinationDir: outputs/default/auth/routes
     plugins:
       - name: "typescript-pattern"
       - name: "typescript-generate-url"
+      - name: "typescript-root-index"
       - name: "typescript-react-router-5"
         config:
           importCustomLink:
@@ -89,11 +89,11 @@ apps:
       useParams: true
       useRedirect: true
       redirectComponent: true
-      rootIndex: true
     destinationDir: outputs/default/toc/routes
     plugins:
       - name: "typescript-pattern"
       - name: "typescript-generate-url"
+      - name: "typescript-root-index"
       - name: "typescript-next-js"
         config:
           importCustomLink:

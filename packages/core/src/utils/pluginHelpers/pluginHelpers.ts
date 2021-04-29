@@ -7,7 +7,7 @@ export interface RawPlugin {
   config?: Record<string, unknown>;
 }
 
-export type PluginConfigType = "pattern" | "general" | "route-internal" | "route-external" | "files-processing";
+export type PluginConfigType = "pattern" | "general" | "route-internal" | "route-external" | "generated-files-processor";
 
 export interface CodegenPlugin<C, R> {
   type: PluginConfigType;

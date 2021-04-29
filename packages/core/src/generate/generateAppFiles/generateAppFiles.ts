@@ -1,7 +1,6 @@
 import { AppConfig, parseAppConfig } from "./../config";
 import generateTemplateFiles from "./generateTemplateFiles";
-import { info, pluginHelpers, TemplateFile } from "../../utils";
-import { plugin } from "../../plugins/typescript-root-index"; // TODO: do this dynamically
+import { info, pluginHelpers, TemplateFile, PluginModule } from "../../utils";
 
 const generateAppFiles = async (appName: string, appConfig: AppConfig): Promise<TemplateFile[]> => {
   const {
@@ -44,12 +43,17 @@ const generateAppFiles = async (appName: string, appConfig: AppConfig): Promise<
       info([appName], `*** No files to generate ***\n`);
     }
 
-    if (topLevelGenerateOptions.generateRootIndex) {
-      const rootIndexFiles = plugin.generate({ destinationDir, files: filesToGenerate });
-      return [...filesToGenerate, ...rootIndexFiles];
-    }
+    // TODO: handle this 'as' type better
+    const generatedFileProcessors = pluginHelpers.filterByTypes(pluginModules, ["generated-files-processor"]) as PluginModule<
+      any,
+      TemplateFile[]
+    >[];
+    const extraFiles = generatedFileProcessors.reduce<TemplateFile[]>((prevFiles, { plugin }) => {
+      const newFiles = plugin.generate({ destinationDir, files: filesToGenerate });
+      return [...prevFiles, ...newFiles];
+    }, []);
 
-    return filesToGenerate;
+    return [...filesToGenerate, ...extraFiles];
   }
 
   info([appName], `*** No destinationDir. Not generating files ***\n`);
