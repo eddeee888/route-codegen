@@ -41,7 +41,6 @@ export const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedApp
     generateRedirectComponent: generate?.redirectComponent || false,
     generateUseParams: generate?.useParams || false,
     generateUseRedirect: generate?.useRedirect || false,
-    generateRootIndex: generate?.rootIndex || false,
   };
 
   // Turn ALL routes into AppRoute i.e. with origin built in because it is needed when generating templates for external routes.

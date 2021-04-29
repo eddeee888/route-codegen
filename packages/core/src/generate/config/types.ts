@@ -9,14 +9,6 @@ export enum RoutingType {
   "route-external" = "route-external",
 }
 
-export interface ImportCustomLink {
-  componentDefaultImport?: boolean;
-  componentNamedImport?: string;
-  hrefProp?: string;
-  propsNamedImport?: string;
-  from?: string;
-}
-
 // TODO: The Object version is only being used internally when generating external routes. Test if it's safe for users to use
 export interface AppRoute {
   path: string;
@@ -32,7 +24,6 @@ export interface AppConfig {
     redirectComponent?: boolean;
     useParams?: boolean;
     useRedirect?: boolean;
-    rootIndex?: boolean;
   };
   plugins?: RawPlugin[];
 
