@@ -1,9 +1,9 @@
-import { Config, AppConfig } from "./config";
+import { CodegenConfig, AppConfig } from "./config";
 import generateExternalRoutesConfig from "./generateExternalRoutesConfig";
 import generateAppFiles from "./generateAppFiles";
 import { handleCommandFlags, CommandFlags, writeFile, templateFileHelpers, TemplateFile } from "../utils";
 
-export const generate = async (config: Config, commandFlags: CommandFlags): Promise<void> => {
+export const generate = async (config: CodegenConfig, commandFlags: CommandFlags): Promise<void> => {
   handleCommandFlags(commandFlags);
 
   const { apps } = config;

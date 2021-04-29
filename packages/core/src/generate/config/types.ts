@@ -1,6 +1,7 @@
 import { RawPlugin, RoutingType } from "../../utils";
 
-// TODO: The Object version is only being used internally when generating external routes. Test if it's safe for users to use
+// TODO: The Object version is only being used internally when generating external routes.
+// Test if it's safe for users to use
 export interface AppRoute {
   path: string;
   origin: string;
@@ -20,6 +21,6 @@ export interface AppConfig {
   plugins?: RawPlugin[];
 }
 
-export interface Config {
+export interface CodegenConfig {
   apps: Record<string, AppConfig>;
 }
