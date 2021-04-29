@@ -1,11 +1,11 @@
 import { RoutingType, AppConfig, AppRoute } from "../types";
-import { throwError, Import, RawPluginConfig, TopLevelGenerateOptions } from "../../../utils";
+import { throwError, Import, RawPlugin, TopLevelGenerateOptions } from "../../../utils";
 
 export interface ParsedAppConfig {
   routes: Record<string, AppRoute>;
   routingType: RoutingType;
   destinationDir?: string;
-  plugins: RawPluginConfig[];
+  plugins: RawPlugin[];
   topLevelGenerateOptions: TopLevelGenerateOptions;
   importGenerateUrl: Import;
   importRedirectServerSide: Import;

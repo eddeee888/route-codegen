@@ -1,6 +1,6 @@
 import { AppConfig, parseAppConfig } from "./../config";
 import generateTemplateFiles from "./generateTemplateFiles";
-import { info, TemplateFile } from "../../utils";
+import { info, pluginHelpers, TemplateFile } from "../../utils";
 import { plugin } from "../../plugins/typescript-root-index"; // TODO: do this dynamically
 
 const generateAppFiles = async (appName: string, appConfig: AppConfig): Promise<TemplateFile[]> => {
@@ -15,6 +15,8 @@ const generateAppFiles = async (appName: string, appConfig: AppConfig): Promise<
   } = parseAppConfig(appName, appConfig);
 
   if (destinationDir) {
+    const pluginModules = await pluginHelpers.loadPluginModules(plugins);
+
     const files = await Promise.all(
       Object.entries(routes).map(([routeName, routePattern]) =>
         generateTemplateFiles({
@@ -22,7 +24,7 @@ const generateAppFiles = async (appName: string, appConfig: AppConfig): Promise<
           topLevelGenerateOptions,
           origin: routePattern.origin,
           routePattern: routePattern.path,
-          plugins,
+          pluginModules,
           routeName,
           destinationDir,
           routingType,

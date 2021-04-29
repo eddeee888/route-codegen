@@ -3,10 +3,8 @@ import {
   TemplateFile,
   Import,
   throwError,
-  RawPluginConfig,
   pluginHelpers,
   TopLevelGenerateOptions,
-  CodegenPlugin,
   PluginModule,
   BasePatternPluginConfig,
   BasePatternPluginResult,
@@ -19,7 +17,7 @@ export interface GenerateTemplateFilesParams {
   routeName: string;
   routePattern: string;
   topLevelGenerateOptions: TopLevelGenerateOptions;
-  plugins: RawPluginConfig[];
+  pluginModules: PluginModule[];
   destinationDir: string;
   importGenerateUrl: Import;
   importRedirectServerSide: Import;
@@ -33,7 +31,7 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
     routeName,
     routePattern,
     topLevelGenerateOptions,
-    plugins,
+    pluginModules,
     destinationDir: originalDestinationDir,
     importGenerateUrl,
     importRedirectServerSide,
@@ -42,23 +40,9 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
 
   const destinationDir = `${originalDestinationDir}/${routeName}`;
 
-  if (plugins.length === 0) {
+  if (pluginModules.length === 0) {
     return [];
   }
-
-  // TODO: handle this better e.g. import from node_modules?
-  const resolvePluginPath = (pluginName: string): string => {
-    return `../../plugins/${pluginName}`;
-  };
-
-  const pluginModules = await Promise.all<{ plugin: CodegenPlugin<unknown, unknown>; config: RawPluginConfig["config"] }>(
-    plugins.map(async (plugin) => {
-      return {
-        plugin: (await import(resolvePluginPath(plugin.name))).plugin,
-        config: plugin.config,
-      };
-    })
-  );
 
   // TODO: this is a hack to inject NextJS pattern into pattern file and should be removed
   let linkOptionModeNextJS: "strict" | "loose" | undefined = undefined;

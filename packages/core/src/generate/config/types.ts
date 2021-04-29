@@ -1,4 +1,4 @@
-import { RawPluginConfig } from "../../utils";
+import { RawPlugin } from "../../utils";
 
 // RoutingType is used to only target "route-internal" and "route-external" plugins
 // Normally codegen are run 2 times:
@@ -34,7 +34,7 @@ export interface AppConfig {
     useRedirect?: boolean;
     rootIndex?: boolean;
   };
-  plugins?: RawPluginConfig[];
+  plugins?: RawPlugin[];
 
   // Note: This is only for internal use
   _routingType?: string;
