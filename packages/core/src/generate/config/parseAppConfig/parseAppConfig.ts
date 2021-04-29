@@ -1,9 +1,8 @@
-import { RoutingType, AppConfig, AppRoute } from "../types";
-import { throwError, Import, RawPlugin, TopLevelGenerateOptions } from "../../../utils";
+import { AppConfig, AppRoute } from "../types";
+import { Import, RawPlugin, TopLevelGenerateOptions } from "../../../utils";
 
 export interface ParsedAppConfig {
   routes: Record<string, AppRoute>;
-  routingType: RoutingType;
   destinationDir?: string;
   plugins: RawPlugin[];
   topLevelGenerateOptions: TopLevelGenerateOptions;
@@ -23,18 +22,10 @@ const IMPORT_REDIRECT_SERVER_SIDE_COMPONENT: Import = {
 
 /**
  * parseAppConfig is the function to turn config from the .yml file into typed config that the generators can use
- * @param appName The name of an app we want to generate the route modules for
  * @param appConfig The config that we get from .yml file. This will be parsed into approriate options
  */
-export const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedAppConfig => {
-  const { origin = "", routes = {}, destinationDir, generate, plugins, _routingType = RoutingType["route-internal"] } = appConfig;
-
-  if (_routingType !== RoutingType["route-internal"] && _routingType !== RoutingType["route-external"]) {
-    return throwError(
-      [appName, "_routingType"],
-      `Routing type of an app must be either "${RoutingType["route-internal"]}" or "${RoutingType["route-external"]}"`
-    );
-  }
+export const parseAppConfig = (appConfig: AppConfig): ParsedAppConfig => {
+  const { origin = "", routes = {}, destinationDir, generate, plugins } = appConfig;
 
   const topLevelGenerateOptions: TopLevelGenerateOptions = {
     generateLinkComponent: generate?.linkComponent || false,
@@ -47,9 +38,9 @@ export const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedApp
   // This is because when we are generating external routes for an app, each route belongs to a different app with different origin.
   const routesWithOrigin = Object.entries(routes).reduce<Record<string, AppRoute>>((prevRoutes, [appName, appRoute]) => {
     if (typeof appRoute === "string") {
-      prevRoutes[appName] = { path: appRoute, origin };
+      prevRoutes[appName] = { path: appRoute, origin, routingType: "route-internal" };
     } else if (typeof appRoute === "object") {
-      prevRoutes[appName] = { path: appRoute.path, origin: appRoute.origin || origin };
+      prevRoutes[appName] = { path: appRoute.path, origin: appRoute.origin || origin, routingType: appRoute.routingType };
     }
     return prevRoutes;
   }, {});
@@ -57,7 +48,6 @@ export const parseAppConfig = (appName: string, appConfig: AppConfig): ParsedApp
   const parsedConfig: ParsedAppConfig = {
     routes: routesWithOrigin,
     destinationDir,
-    routingType: _routingType,
     plugins: plugins || [],
     topLevelGenerateOptions,
     importGenerateUrl: IMPORT_GENERATE_URL,

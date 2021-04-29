@@ -1,4 +1,3 @@
-import { RoutingType } from "../config";
 import {
   TemplateFile,
   Import,
@@ -9,6 +8,7 @@ import {
   BasePatternPluginConfig,
   BasePatternPluginResult,
   BasePluginResult,
+  RoutingType,
 } from "../../utils";
 
 export interface GenerateTemplateFilesParams {
@@ -16,12 +16,12 @@ export interface GenerateTemplateFilesParams {
   origin: string;
   routeName: string;
   routePattern: string;
+  routingType: RoutingType;
   topLevelGenerateOptions: TopLevelGenerateOptions;
   pluginModules: PluginModule[];
   destinationDir: string;
   importGenerateUrl: Import;
   importRedirectServerSide: Import;
-  routingType: RoutingType;
 }
 
 const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promise<TemplateFile[]> => {
@@ -47,7 +47,7 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
   // TODO: this is a hack to inject NextJS pattern into pattern file and should be removed
   let linkOptionModeNextJS: "strict" | "loose" | undefined = undefined;
   const routeInternal = pluginHelpers.findFirstOfType(pluginModules, "route-internal") as PluginModule | undefined;
-  if (routingType === RoutingType["route-internal"] && routeInternal?.plugin.isNextJS) {
+  if (routingType === "route-internal" && routeInternal?.plugin.isNextJS) {
     linkOptionModeNextJS = (routeInternal.config?.mode || "loose") as "strict" | "loose"; // TODO: handle this!
   }
 

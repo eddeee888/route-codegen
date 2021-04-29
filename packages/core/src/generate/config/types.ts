@@ -1,18 +1,10 @@
-import { RawPlugin } from "../../utils";
-
-// RoutingType is used to only target "route-internal" and "route-external" plugins
-// Normally codegen are run 2 times:
-// - The first time runs "pattern", "route-internal" plugins
-// - The second time run "route-external" plugins
-export enum RoutingType {
-  "route-internal" = "route-internal",
-  "route-external" = "route-external",
-}
+import { RawPlugin, RoutingType } from "../../utils";
 
 // TODO: The Object version is only being used internally when generating external routes. Test if it's safe for users to use
 export interface AppRoute {
   path: string;
   origin: string;
+  routingType?: RoutingType;
 }
 
 export interface AppConfig {
@@ -26,9 +18,6 @@ export interface AppConfig {
     useRedirect?: boolean;
   };
   plugins?: RawPlugin[];
-
-  // Note: This is only for internal use
-  _routingType?: string;
 }
 
 export interface Config {

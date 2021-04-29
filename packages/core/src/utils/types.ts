@@ -1,3 +1,5 @@
+export type RoutingType = "route-internal" | "route-external";
+
 export interface TemplateFile {
   template: string;
   filename: string;
