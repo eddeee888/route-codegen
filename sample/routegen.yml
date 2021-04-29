@@ -3,27 +3,22 @@ apps:
     routes:
       user: /app/users/:id/:subview(pictures)?
       account: /app/account
-    generate:
-      linkComponent: true
-      useParams: true
-      useRedirect: true
-      redirectComponent: true
     destinationDir: outputs/default/app/routes
     plugins:
       - name: "typescript-pattern"
       - name: "typescript-generate-url"
       - name: "typescript-react-router-5"
       - name: "typescript-anchor"
-
-  auth:
-    routes:
-      login: /login
-      signup: /signup
     generate:
       linkComponent: true
       useParams: true
       useRedirect: true
       redirectComponent: true
+
+  auth:
+    routes:
+      login: /login
+      signup: /signup
     destinationDir: outputs/default/auth/routes
     plugins:
       - name: "typescript-pattern"
@@ -47,31 +42,31 @@ apps:
             propsNamedImport: AnchorProps
             hrefProp: href
             from: common/ui/Anchor
-
-  seo:
-    routes:
-      home: /
-      about: /about/:target(us|you)/:topic/:region(en)/:optional?/:optionalEnum(enumOne|enumTwo)?
     generate:
       linkComponent: true
       useParams: true
       useRedirect: true
       redirectComponent: true
+
+  seo:
+    routes:
+      home: /
+      about: /about/:target(us|you)/:topic/:region(en)/:optional?/:optionalEnum(enumOne|enumTwo)?
     destinationDir: outputs/default/seo/routes
     plugins:
       - name: "typescript-pattern"
       - name: "typescript-generate-url"
       - name: "typescript-next-js"
       - name: "typescript-anchor"
-
-  seo-strict:
-    routes:
-      contact: /contact/:target(us|you)/:topic/:region(en)/:optional?/:optionalEnum(enumOne|enumTwo)?
     generate:
       linkComponent: true
       useParams: true
       useRedirect: true
       redirectComponent: true
+
+  seo-strict:
+    routes:
+      contact: /contact/:target(us|you)/:topic/:region(en)/:optional?/:optionalEnum(enumOne|enumTwo)?
     destinationDir: outputs/default/seo-strict/routes
     plugins:
       - name: "typescript-pattern"
@@ -80,15 +75,15 @@ apps:
         config:
           mode: strict
       - name: "typescript-anchor"
-
-  toc:
-    routes:
-      toc: /terms-and-conditions
     generate:
       linkComponent: true
       useParams: true
       useRedirect: true
       redirectComponent: true
+
+  toc:
+    routes:
+      toc: /terms-and-conditions
     destinationDir: outputs/default/toc/routes
     plugins:
       - name: "typescript-pattern"
@@ -108,6 +103,11 @@ apps:
             propsNamedImport: AnchorProps
             hrefProp: href
             from: src/common/ui/Anchor
+    generate:
+      linkComponent: true
+      useParams: true
+      useRedirect: true
+      redirectComponent: true
 
   legacy:
     routes:

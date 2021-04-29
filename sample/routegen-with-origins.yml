@@ -3,12 +3,6 @@ apps:
     origin: https://app.${PRIMARY_DOMAIN}
     routes:
       user: /users/:id/:subview(pictures)?
-    generate:
-      linkComponent: true
-      useParams: true
-      useRedirect: true
-      redirectComponent: true
-      rootIndex: false
     destinationDir: outputs/with-origins/app/routes
     plugins:
       - name: "typescript-pattern"
@@ -17,23 +11,28 @@ apps:
         config:
           mode: strict
       - name: "typescript-anchor"
+    generate:
+      linkComponent: true
+      useParams: true
+      useRedirect: true
+      redirectComponent: true
 
   seo:
     origin: https://${PRIMARY_DOMAIN}
     routes:
       home: /
       terms: /terms
-    generate:
-      linkComponent: true
-      useParams: true
-      useRedirect: true
-      redirectComponent: true
     destinationDir: outputs/with-origins/seo/routes
     plugins:
       - name: "typescript-pattern"
       - name: "typescript-generate-url"
       - name: "typescript-next-js"
       - name: "typescript-anchor"
+    generate:
+      linkComponent: true
+      useParams: true
+      useRedirect: true
+      redirectComponent: true
 
   legacy:
     origin: https://legacy.domain.com
