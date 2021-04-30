@@ -42,6 +42,8 @@ interface GenerateLinkInterfaceResult {
   linkPropsInterfaceName: string;
 }
 
+export type TypescriptAnchorPluginConfig = BasePluginConfig;
+
 class TypescriptAnchorPlugin extends BasePlugin<ParsedLinkOptionsAnchor> {
   generate(): TemplateFile[] {
     const result: TemplateFile[] = [];
@@ -277,7 +279,7 @@ class TypescriptAnchorPlugin extends BasePlugin<ParsedLinkOptionsAnchor> {
   }
 }
 
-export const plugin: CodegenPlugin<BasePluginConfig, TemplateFile[]> = {
+export const plugin: CodegenPlugin<TypescriptAnchorPluginConfig, TemplateFile[]> = {
   type: "route-external",
   generate: (config) => {
     return new TypescriptAnchorPlugin(config).generate();

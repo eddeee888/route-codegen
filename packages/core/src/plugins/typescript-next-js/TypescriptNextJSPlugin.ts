@@ -41,7 +41,9 @@ interface GenerateLinkInterfaceResult {
   linkPropsInterfaceName: string;
 }
 
-class TypescriptNextJSPlugin extends BasePlugin<ParsedLinkOptionsNextJS> {
+export type TypescriptNextJSPluginConfig = BasePluginConfig;
+
+class TypescriptNextJSPlugin extends BasePlugin<ParsedLinkOptionsNextJS, TypescriptNextJSPluginConfig> {
   generate(): TemplateFile[] {
     const result: TemplateFile[] = [];
 
@@ -372,7 +374,7 @@ class TypescriptNextJSPlugin extends BasePlugin<ParsedLinkOptionsNextJS> {
   }
 }
 
-export const plugin: CodegenPlugin<BasePluginConfig, TemplateFile[]> = {
+export const plugin: CodegenPlugin<TypescriptNextJSPluginConfig, TemplateFile[]> = {
   type: "route-internal",
   isNextJS: true,
   generate: (config) => {

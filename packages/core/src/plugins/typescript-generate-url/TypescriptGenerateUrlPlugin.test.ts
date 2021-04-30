@@ -1,8 +1,8 @@
-import TypescriptGenerateUrlPlugin from "./TypescriptGenerateUrlPlugin";
+import { plugin } from "./TypescriptGenerateUrlPlugin";
 
 describe("TypescriptGenerateUrlPlugin - generateUrl file", () => {
   it("should generate correctly if no path params", () => {
-    const templateFile = new TypescriptGenerateUrlPlugin({
+    const files = plugin.generate({
       importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
       patternNamedExports: {
         filename: "patternUser",
@@ -12,7 +12,11 @@ describe("TypescriptGenerateUrlPlugin - generateUrl file", () => {
       },
       destinationDir: "path/to/routes",
       routeName: "User",
-    }).generate();
+    });
+
+    expect(files).toHaveLength(1);
+
+    const [templateFile] = files;
 
     expect(templateFile.filename).toBe("generateUrlUser");
     expect(templateFile.extension).toBe(".ts");
@@ -25,7 +29,7 @@ describe("TypescriptGenerateUrlPlugin - generateUrl file", () => {
   });
 
   it("should generate correctly if has path params", () => {
-    const templateFile = new TypescriptGenerateUrlPlugin({
+    const files = plugin.generate({
       importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
       patternNamedExports: {
         filename: "patternUser",
@@ -36,7 +40,11 @@ describe("TypescriptGenerateUrlPlugin - generateUrl file", () => {
       },
       destinationDir: "path/to/routes",
       routeName: "User",
-    }).generate();
+    });
+
+    expect(files).toHaveLength(1);
+
+    const [templateFile] = files;
 
     expect(templateFile.filename).toBe("generateUrlUser");
     expect(templateFile.extension).toBe(".ts");

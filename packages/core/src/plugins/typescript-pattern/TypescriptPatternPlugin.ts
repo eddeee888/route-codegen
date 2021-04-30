@@ -21,7 +21,9 @@ interface PossibleParamsResult {
   variableName: string;
 }
 
-class TypescriptPatternPlugin extends BasePatternPlugin {
+export type TypescriptPatternPluginConfig = BasePatternPluginConfig;
+
+class TypescriptPatternPlugin extends BasePatternPlugin<TypescriptPatternPluginConfig> {
   generate(): [TemplateFile, PatternNamedExports] {
     const { routePattern, routeName: originalRouteName, destinationDir, origin, linkOptionModeNextJS } = this.config;
 
@@ -214,7 +216,7 @@ class TypescriptPatternPlugin extends BasePatternPlugin {
   }
 }
 
-export const plugin: CodegenPlugin<BasePatternPluginConfig, [TemplateFile, PatternNamedExports]> = {
+export const plugin: CodegenPlugin<TypescriptPatternPluginConfig, [TemplateFile, PatternNamedExports]> = {
   type: "pattern",
   generate: (config) => {
     return new TypescriptPatternPlugin(config).generate();

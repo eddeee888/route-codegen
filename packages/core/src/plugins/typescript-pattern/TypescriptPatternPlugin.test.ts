@@ -1,17 +1,15 @@
-import TypescriptPatternPlugin from "./TypescriptPatternPlugin";
-import { RoutingType } from "../../utils";
+import { plugin } from "./TypescriptPatternPlugin";
 
 describe("TypescriptPatternPlugin", () => {
   describe("Default and ReactRouterV5", () => {
     it("should generate correctly if no dynamic path", () => {
-      const [templateFile, interfaceResult] = new TypescriptPatternPlugin({
+      const [templateFile, interfaceResult] = plugin.generate({
         origin: "",
         routePattern: "/app/login",
         destinationDir: "path/to/routes",
         routeName: "Login",
-        routingType: RoutingType.Default,
-        linkOptionModeNextJS: "loose",
-      }).generate();
+        linkOptionModeNextJS: undefined,
+      });
 
       expect(templateFile.filename).toBe("patternLogin");
       expect(templateFile.extension).toBe(".ts");
@@ -26,14 +24,13 @@ describe("TypescriptPatternPlugin", () => {
     });
 
     it("should generate correctly for routes with dynamic path", () => {
-      const [templateFile, interfaceResult] = new TypescriptPatternPlugin({
+      const [templateFile, interfaceResult] = plugin.generate({
         origin: "",
         routePattern: "/app/users/:id/:subview(profile|pictures)",
         destinationDir: "path/to/routes",
         routeName: "UserInfo",
-        routingType: RoutingType.Default,
-        linkOptionModeNextJS: "loose",
-      }).generate();
+        linkOptionModeNextJS: undefined,
+      });
 
       expect(templateFile.filename).toBe("patternUserInfo");
       expect(templateFile.extension).toBe(".ts");
@@ -64,14 +61,13 @@ describe("TypescriptPatternPlugin", () => {
 
   describe("NextJS", () => {
     it("should generate template correctly with loose NextJS pattern", () => {
-      const [templateFile, interfaceResult] = new TypescriptPatternPlugin({
+      const [templateFile, interfaceResult] = plugin.generate({
         origin: "",
         routePattern: "/app/users/:id/:subview(profile|pictures)/:singleEnum(only)/:optional?/:optionalEnum(enum1|enum2)?",
         destinationDir: "path/to/routes",
         routeName: "UserInfo",
-        routingType: RoutingType.NextJS,
         linkOptionModeNextJS: "loose",
-      }).generate();
+      });
 
       expect(templateFile.filename).toBe("patternUserInfo");
       expect(templateFile.extension).toBe(".ts");
@@ -106,14 +102,13 @@ describe("TypescriptPatternPlugin", () => {
     });
 
     it("should generate template correctly with strict NextJS pattern", () => {
-      const [templateFile, interfaceResult] = new TypescriptPatternPlugin({
+      const [templateFile, interfaceResult] = plugin.generate({
         origin: "",
         routePattern: "/app/users/:id/:subview(profile|pictures)/:singleEnum(only)/:optional?/:optionalEnum(enum1|enum2)?",
         destinationDir: "path/to/routes",
         routeName: "UserInfo",
-        routingType: RoutingType.NextJS,
         linkOptionModeNextJS: "strict",
-      }).generate();
+      });
 
       expect(templateFile.filename).toBe("patternUserInfo");
       expect(templateFile.extension).toBe(".ts");
@@ -148,14 +143,13 @@ describe("TypescriptPatternPlugin", () => {
     });
 
     it("should generate template correctly for home page", () => {
-      const [templateFile, interfaceResult] = new TypescriptPatternPlugin({
+      const [templateFile, interfaceResult] = plugin.generate({
         origin: "",
         routePattern: "/",
         destinationDir: "path/to/routes",
         routeName: "UserInfo",
-        routingType: RoutingType.NextJS,
         linkOptionModeNextJS: "strict",
-      }).generate();
+      });
 
       expect(templateFile.filename).toBe("patternUserInfo");
       expect(templateFile.extension).toBe(".ts");
@@ -192,14 +186,13 @@ describe("TypescriptPatternPlugin", () => {
 
   describe("Custom origin", () => {
     it("should handle normal origin correctly", () => {
-      const [templateFile, interfaceResult] = new TypescriptPatternPlugin({
+      const [templateFile, interfaceResult] = plugin.generate({
         origin: "https://sample.domain.com",
         routePattern: "/app/users/:id/:subview(profile|pictures)",
         destinationDir: "path/to/routes",
         routeName: "UserInfo",
-        routingType: RoutingType.Default,
-        linkOptionModeNextJS: "loose",
-      }).generate();
+        linkOptionModeNextJS: undefined,
+      });
 
       expect(templateFile.filename).toBe("patternUserInfo");
       expect(templateFile.extension).toBe(".ts");

@@ -40,7 +40,9 @@ interface GenerateLinkInterfaceResult {
   linkPropsInterfaceName: string;
 }
 
-class TypescriptReactRouter5Plugin extends BasePlugin<ParsedLinkOptionsReactRouter5> {
+export type TypescriptReactRouter5PluginConfig = BasePluginConfig;
+
+class TypescriptReactRouter5Plugin extends BasePlugin<ParsedLinkOptionsReactRouter5, TypescriptReactRouter5PluginConfig> {
   generate(): TemplateFile[] {
     const result: TemplateFile[] = [];
 
@@ -334,7 +336,7 @@ class TypescriptReactRouter5Plugin extends BasePlugin<ParsedLinkOptionsReactRout
   }
 }
 
-export const plugin: CodegenPlugin<BasePluginConfig, TemplateFile[]> = {
+export const plugin: CodegenPlugin<TypescriptReactRouter5PluginConfig, TemplateFile[]> = {
   type: "route-internal",
   generate: (config) => {
     return new TypescriptReactRouter5Plugin(config).generate();
