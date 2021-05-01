@@ -214,7 +214,7 @@ class TypescriptNextJSPlugin extends BasePlugin<ParsedLinkOptionsNextJS, Typescr
           if (keyHelpers.isOptional(key)) {
             return `${prev}${key.name}: query.${key.name} ? query.${key.name} : undefined,`;
           }
-          return `${prev}${key.name}: query.${key.name} ?? '',`;
+          return `${prev}${key.name}: query.${key.name},`;
         }, "")}`;
       },
     };
