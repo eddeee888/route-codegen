@@ -1,12 +1,10 @@
 # Link options
 
+Note: This doc is a work in progress. Ideally, each plugin should have its own doc.
+
 ## Overview
 
 Apart from the default `pattern` and `generateUrl` files, each route module could contain extra components or hooks. Depending on what you need, you can use the following options to declare what you need for each routing type:
-
-- React router v5: `reactRouterV5LinkOptions`
-- NextJS: `nextJSLinkOptions`
-- Normal anchor: `defaultLinkOptions`
 
 Note that you can have more than one option for one app. For example, `reactRouterV5LinkOptions` and `defaultLinkOptions` could be used together for one app. Depending on whether client side or server side routing is needed, the right option will be used.
 If `generate.linkComponent`, `generate.usePararms` or `generate.useRedirect` are declared in link options, they would override the top-level settings with the same name.
@@ -38,34 +36,36 @@ apps:
     routes:
       user: /app/users/:id/:subview(profile|pictures)?
       account: /app/account
-    routingType: ReactRouterV5
     destinationDir: mainApp/routes
-    reactRouterV5LinkOptions:
-      importCustomLink:
-        componentDefaultImport: true
-        propsNamedImport: LinkProps
-        hrefProp: to
-        from: common/components/Link
-      generate:
-        useParams: true
-        useRedirect: true
+    plugins:
+      - name: typescript-react-router-5
+        config:
+          importCustomLink:
+            componentDefaultImport: true
+            propsNamedImport: LinkProps
+            hrefProp: to
+            from: common/components/Link
+          generate:
+            useParams: true
+            useRedirect: true
 
   auth:
     routes:
       user: /login
       account: /signup
-    routingType: ReactRouterV5
     destinationDir: auth/routes
-    reactRouterV5LinkOptions:
-      importCustomLink:
-        componentNamedImport: CustomLinkComponent
-        propsNamedImport: LinkProps
-        hrefProp: customTo
-        from: common/components/Link
-      generate:
-        useParams: false
-        useRedirect: false
-      mode: "strict"
+    plugins:
+      - name: typescript-react-router-5
+        config:
+          importCustomLink:
+            componentNamedImport: CustomLinkComponent
+            propsNamedImport: LinkProps
+            hrefProp: customTo
+            from: common/components/Link
+          generate:
+            useParams: false
+            useRedirect: false
+          mode: "strict"
 ```
 
 ## nextJSLinkOptions
@@ -94,16 +94,17 @@ apps:
     routes:
       user: /app/users/:id/:subview(profile|pictures)?
       account: /app/account
-    routingType: NextJS
     destinationDir: mainApp/routes
-    nextJSLinkOptions:
-      importCustomLink:
-        componentDefaultImport: true
-        propsNamedImport: LinkProps
-        hrefProp: href
-        from: common/components/Link
-      generate:
-        useParams: false
+    plugins:
+      - name: typescript-next-js
+        config:
+          importCustomLink:
+            componentDefaultImport: true
+            propsNamedImport: LinkProps
+            hrefProp: href
+            from: common/components/Link
+          generate:
+            useParams: false
 
   auth:
     routes:
@@ -111,13 +112,15 @@ apps:
       account: /signup
     routingType: NextJS
     destinationDir: auth/routes
-    nextJSLinkOptions:
-      importCustomLink:
-        componentNamedImport: CustomLinkComponent
-        propsNamedImport: LinkProps
-        hrefProp: customHref
-        from: common/components/Link
-      mode: "loose"
+    plugins:
+      - name: typescript-next-js
+        config:
+          importCustomLink:
+            componentNamedImport: CustomLinkComponent
+            propsNamedImport: LinkProps
+            hrefProp: customHref
+            from: common/components/Link
+          mode: "loose"
 ```
 
 ## defaultLinkOptions
@@ -145,14 +148,15 @@ apps:
     routes:
       user: /app/users/:id/:subview(profile|pictures)?
       account: /app/account
-    routingType: Default
     destinationDir: mainApp/routes
-    defaultLinkOptions:
-      importCustomLink:
-        componentDefaultImport: true
-        propsNamedImport: LinkProps
-        hrefProp: href
-        from: common/components/Link
+    plugins:
+      - name: typescript-anchor
+        config:
+          importCustomLink:
+            componentDefaultImport: true
+            propsNamedImport: LinkProps
+            hrefProp: href
+            from: common/components/Link
 
   auth:
     routes:
@@ -160,14 +164,17 @@ apps:
       account: /signup
     routingType: Default
     destinationDir: auth/routes
-    generateLinkComponent: true # This would be overridden
-    defaultLinkOptions:
-      importCustomLink:
-        componentNamedImport: CustomLinkComponent
-        propsNamedImport: LinkProps
-        hrefProp: customHref
-        from: common/components/Link
-      generate:
-        linkComponent: false
-        useParams: false
+    generate:
+      linkComponent: true # This would be overridden
+    plugins:
+      - name: typescript-anchor
+        config:
+          importCustomLink:
+            componentNamedImport: CustomLinkComponent
+            propsNamedImport: LinkProps
+            hrefProp: customHref
+            from: common/components/Link
+          generate:
+            linkComponent: false
+            useParams: false
 ```
