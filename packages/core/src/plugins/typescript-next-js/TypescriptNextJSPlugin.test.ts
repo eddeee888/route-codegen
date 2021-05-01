@@ -1,20 +1,26 @@
-import TypescriptNextJSPlugin, { TypescriptNextJSPluginConfig } from "./TypescriptNextJSPlugin";
+import { plugin, TypescriptNextJSPluginConfig } from "./TypescriptNextJSPlugin";
 
 describe("TypescriptNextJSPlugin - Link file", () => {
   const defaultParams: TypescriptNextJSPluginConfig = {
-    importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
-    routeLinkOptions: {
-      importLink: {
-        from: "src/NextJS/Link",
-        defaultImport: "Link",
-        namedImports: [{ name: "NextJSLinkProps" }],
-      },
-      hrefProp: "customHref",
-      linkComponent: "Link",
-      linkProps: "NextJSLinkProps",
-      generateLinkComponent: true,
-      generateUseParams: false,
+    appName: "nextjs-app",
+    topLevelGenerateOptions: {
       generateUseRedirect: false,
+      generateUseParams: false,
+      generateRedirectComponent: false,
+      generateLinkComponent: false,
+    },
+    routeLinkOptions: {
+      importCustomLink: {
+        from: "src/NextJS/Link",
+        componentDefaultImport: true,
+        propsNamedImport: "NextJSLinkProps",
+        hrefProp: "customHref",
+      },
+      generate: {
+        linkComponent: true,
+        useParams: false,
+        useRedirect: false,
+      },
       mode: "loose",
     },
     routeName: "Login",
@@ -27,10 +33,12 @@ describe("TypescriptNextJSPlugin - Link file", () => {
       patternNameNextJS: "patternNextJSLogin",
     },
     destinationDir: "path/to/routes",
+    importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
+    importRedirectServerSide: { namedImports: [{ name: "RedirectServerSide" }], from: "@route-codegen/react" },
   };
 
   it("should generate correctly if no path params", () => {
-    const [templateFile] = new TypescriptNextJSPlugin({ ...defaultParams }).generate();
+    const [templateFile] = plugin.generate({ ...defaultParams });
 
     expect(templateFile.filename).toBe("LinkLogin");
     expect(templateFile.extension).toBe(".tsx");
@@ -57,14 +65,14 @@ describe("TypescriptNextJSPlugin - Link file", () => {
   });
 
   it("should generate correctly with path params", () => {
-    const [templateFile] = new TypescriptNextJSPlugin({
+    const [templateFile] = plugin.generate({
       ...defaultParams,
       patternNamedExports: {
         ...defaultParams.patternNamedExports,
         pathParamsInterfaceName: "PathParamsLogin",
         possiblePathParamsVariableName: "possiblePathParamsLogin",
       },
-    }).generate();
+    });
 
     expect(templateFile.filename).toBe("LinkLogin");
     expect(templateFile.extension).toBe(".tsx");
@@ -91,22 +99,23 @@ describe("TypescriptNextJSPlugin - Link file", () => {
   });
 
   it("should generate correctly with named component import", () => {
-    const [templateFile] = new TypescriptNextJSPlugin({
+    const [templateFile] = plugin.generate({
       ...defaultParams,
       routeLinkOptions: {
-        importLink: {
+        importCustomLink: {
           from: "src/common/Link",
-          namedImports: [{ name: "CustomLinkProps" }, { name: "CustomLink", importAs: "Link" }],
+          componentNamedImport: "CustomLink",
+          propsNamedImport: "CustomLinkProps",
+          hrefProp: "to",
         },
-        linkComponent: "Link",
-        linkProps: "CustomLinkProps",
-        hrefProp: "to",
-        generateLinkComponent: true,
-        generateUseParams: false,
-        generateUseRedirect: false,
+        generate: {
+          linkComponent: true,
+          useParams: false,
+          useRedirect: false,
+        },
         mode: "loose",
       },
-    }).generate();
+    });
 
     expect(templateFile.filename).toBe("LinkLogin");
     expect(templateFile.extension).toBe(".tsx");
@@ -134,34 +143,41 @@ describe("TypescriptNextJSPlugin - Link file", () => {
 
   it("should throw error if no patternNameNextJS", () => {
     expect(() =>
-      new TypescriptNextJSPlugin({
+      plugin.generate({
         ...defaultParams,
         routeLinkOptions: {
-          importLink: {
+          importCustomLink: {
             from: "src/common/Link",
-            namedImports: [{ name: "CustomLinkProps" }, { name: "CustomLink", importAs: "Link" }],
+            componentNamedImport: "CustomLink",
+            propsNamedImport: "CustomLinkProps",
+            hrefProp: "to",
           },
-          linkComponent: "Link",
-          linkProps: "CustomLinkProps",
-          hrefProp: "to",
-          generateLinkComponent: true,
-          generateUseParams: true,
-          generateUseRedirect: true,
+          generate: {
+            linkComponent: true,
+            useParams: true,
+            useRedirect: true,
+          },
           mode: "loose",
         },
         patternNamedExports: {
           ...defaultParams.patternNamedExports,
           patternNameNextJS: undefined,
         },
-      }).generate()
+      })
     ).toThrowError('[ERROR] Missing "patternNameNextJS". This is most likely a problem with route-codegen.');
   });
 });
 
 describe("TypescriptNextJSPlugin - UseParams file", () => {
   it("should generate correctly for loose mode", () => {
-    const [templateFile] = new TypescriptNextJSPlugin({
-      importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
+    const [templateFile] = plugin.generate({
+      appName: "nextjs-app",
+      topLevelGenerateOptions: {
+        generateLinkComponent: false,
+        generateRedirectComponent: false,
+        generateUseParams: false,
+        generateUseRedirect: false,
+      },
       patternNamedExports: {
         originName: "originUser",
         filename: "patternUser",
@@ -174,19 +190,22 @@ describe("TypescriptNextJSPlugin - UseParams file", () => {
       routeName: "User",
       routePattern: "/users/:id/:subview(profile|pictures)/:singleEnum(only)/:optional?/:optionalEnum(enum1|enum2)?",
       routeLinkOptions: {
-        importLink: {
+        importCustomLink: {
           from: "src/common/Link",
-          namedImports: [{ name: "CustomLinkProps" }, { name: "CustomLink", importAs: "Link" }],
+          componentNamedImport: "CustomLink",
+          propsNamedImport: "CustomLinkProps",
+          hrefProp: "to",
         },
-        linkComponent: "Link",
-        linkProps: "CustomLinkProps",
-        hrefProp: "to",
-        generateLinkComponent: false,
-        generateUseParams: true,
-        generateUseRedirect: false,
+        generate: {
+          linkComponent: false,
+          useParams: true,
+          useRedirect: false,
+        },
         mode: "loose",
       },
-    }).generate();
+      importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
+      importRedirectServerSide: { namedImports: [{ name: "RedirectServerSide" }], from: "@route-codegen/react" },
+    });
 
     expect(templateFile.filename).toBe("useParamsUser");
     expect(templateFile.extension).toBe(".ts");
@@ -202,8 +221,14 @@ describe("TypescriptNextJSPlugin - UseParams file", () => {
   });
 
   it("should generate correctly for strict mode", () => {
-    const [templateFile] = new TypescriptNextJSPlugin({
-      importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
+    const [templateFile] = plugin.generate({
+      appName: "nextjs-app",
+      topLevelGenerateOptions: {
+        generateUseRedirect: false,
+        generateUseParams: false,
+        generateRedirectComponent: false,
+        generateLinkComponent: false,
+      },
       patternNamedExports: {
         originName: "originUser",
         filename: "patternUser",
@@ -216,19 +241,22 @@ describe("TypescriptNextJSPlugin - UseParams file", () => {
       routeName: "User",
       routePattern: "/users/:id/:subview(profile|pictures)/:singleEnum(only)/:optional?/:optionalEnum(enum1|enum2)?",
       routeLinkOptions: {
-        importLink: {
+        importCustomLink: {
           from: "src/common/Link",
-          namedImports: [{ name: "CustomLinkProps" }, { name: "CustomLink", importAs: "Link" }],
+          componentNamedImport: "CustomLink",
+          propsNamedImport: "CustomLinkProps",
+          hrefProp: "to",
         },
-        linkComponent: "Link",
-        linkProps: "CustomLinkProps",
-        hrefProp: "to",
-        generateLinkComponent: false,
-        generateUseParams: true,
-        generateUseRedirect: false,
+        generate: {
+          linkComponent: false,
+          useParams: true,
+          useRedirect: false,
+        },
         mode: "strict",
       },
-    }).generate();
+      importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
+      importRedirectServerSide: { namedImports: [{ name: "RedirectServerSide" }], from: "@route-codegen/react" },
+    });
 
     expect(templateFile.filename).toBe("useParamsUser");
     expect(templateFile.extension).toBe(".ts");
@@ -263,20 +291,27 @@ describe("TypescriptNextJSPlugin - UseParams file", () => {
 describe("TypescriptNextJSPlugin - UseRedirect file", () => {
   it("should generate when there is no pathParams", () => {
     const params: TypescriptNextJSPluginConfig = {
+      appName: "nextjs-app",
+      topLevelGenerateOptions: {
+        generateLinkComponent: false,
+        generateRedirectComponent: false,
+        generateUseParams: false,
+        generateUseRedirect: false,
+      },
       routeName: "Login",
       routePattern: "/login",
       routeLinkOptions: {
-        importLink: {
+        importCustomLink: {
           from: "src/NextJS/Link",
-          defaultImport: "Link",
-          namedImports: [{ name: "NextJSLinkProps" }],
+          componentDefaultImport: true,
+          propsNamedImport: "NextJSLinkProps",
+          hrefProp: "customHref",
         },
-        hrefProp: "customHref",
-        linkComponent: "Link",
-        linkProps: "NextJSLinkProps",
-        generateLinkComponent: false,
-        generateUseParams: false,
-        generateUseRedirect: true,
+        generate: {
+          linkComponent: false,
+          useParams: false,
+          useRedirect: true,
+        },
         mode: "strict",
       },
       patternNamedExports: {
@@ -287,12 +322,10 @@ describe("TypescriptNextJSPlugin - UseRedirect file", () => {
         patternNameNextJS: "patternNextJSLogin",
       },
       destinationDir: "path/to/routes",
-      importGenerateUrl: {
-        from: "route-codegen",
-        namedImports: [{ name: "generateUrl" }],
-      },
+      importGenerateUrl: { from: "route-codegen", namedImports: [{ name: "generateUrl" }] },
+      importRedirectServerSide: { namedImports: [{ name: "RedirectServerSide" }], from: "@route-codegen/react" },
     };
-    const [templateFile] = new TypescriptNextJSPlugin({ ...params }).generate();
+    const [templateFile] = plugin.generate({ ...params });
     expect(templateFile.filename).toBe("useRedirectLogin");
     expect(templateFile.extension).toBe(".ts");
     expect(templateFile.destinationDir).toBe("path/to/routes");
@@ -321,20 +354,27 @@ describe("TypescriptNextJSPlugin - UseRedirect file", () => {
 
   it("should generate when there is pathParams", () => {
     const params: TypescriptNextJSPluginConfig = {
+      appName: "next-js-app",
+      topLevelGenerateOptions: {
+        generateLinkComponent: false,
+        generateRedirectComponent: false,
+        generateUseParams: false,
+        generateUseRedirect: false,
+      },
       routeName: "UserInfo",
       routePattern: "/user/:id",
       routeLinkOptions: {
-        importLink: {
+        importCustomLink: {
           from: "src/NextJS/Link",
-          defaultImport: "Link",
-          namedImports: [{ name: "NextJSLinkProps" }],
+          componentDefaultImport: true,
+          propsNamedImport: "NextJSLinkProps",
+          hrefProp: "customHref",
         },
-        hrefProp: "customHref",
-        linkComponent: "Link",
-        linkProps: "NextJSLinkProps",
-        generateLinkComponent: false,
-        generateUseParams: false,
-        generateUseRedirect: true,
+        generate: {
+          linkComponent: false,
+          useParams: false,
+          useRedirect: true,
+        },
         mode: "strict",
       },
       patternNamedExports: {
@@ -347,12 +387,10 @@ describe("TypescriptNextJSPlugin - UseRedirect file", () => {
         possiblePathParamsVariableName: "possiblePathParamsUserInfo",
       },
       destinationDir: "path/to/routes",
-      importGenerateUrl: {
-        from: "route-codegen",
-        namedImports: [{ name: "generateUrl" }],
-      },
+      importGenerateUrl: { from: "route-codegen", namedImports: [{ name: "generateUrl" }] },
+      importRedirectServerSide: { namedImports: [{ name: "RedirectServerSide" }], from: "@route-codegen/react" },
     };
-    const [templateFile] = new TypescriptNextJSPlugin(params).generate();
+    const [templateFile] = plugin.generate(params);
 
     expect(templateFile.filename).toBe("useRedirectUserInfo");
     expect(templateFile.extension).toBe(".ts");

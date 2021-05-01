@@ -1,23 +1,15 @@
 import { Key } from "path-to-regexp";
 import {
-  BasePlugin,
   PatternNamedExports,
   TemplateFile,
   keyHelpers,
   capitalizeFirstChar,
   KeyType,
   throwError,
-  RoutingType,
+  BasePatternPlugin,
+  BasePatternPluginConfig,
+  CodegenPlugin,
 } from "../../utils";
-
-export interface TypescriptPatternPluginConfig {
-  origin: string;
-  routeName: string;
-  routePattern: string;
-  destinationDir: string;
-  routingType: RoutingType;
-  linkOptionModeNextJS: "strict" | "loose";
-}
 
 interface PathParamsInterfaceResult {
   template: string;
@@ -29,9 +21,11 @@ interface PossibleParamsResult {
   variableName: string;
 }
 
-class TypescriptPatternPlugin extends BasePlugin<TypescriptPatternPluginConfig, [TemplateFile, PatternNamedExports]> {
+export type TypescriptPatternPluginConfig = BasePatternPluginConfig;
+
+class TypescriptPatternPlugin extends BasePatternPlugin<TypescriptPatternPluginConfig> {
   generate(): [TemplateFile, PatternNamedExports] {
-    const { routePattern, routeName: originalRouteName, destinationDir, routingType, origin, linkOptionModeNextJS } = this.config;
+    const { routePattern, routeName: originalRouteName, destinationDir, origin, linkOptionModeNextJS } = this.config;
 
     const keys = keyHelpers.getKeysFromRoutePattern(routePattern);
 
@@ -44,9 +38,9 @@ class TypescriptPatternPlugin extends BasePlugin<TypescriptPatternPluginConfig, 
     const possiblePathParams = this._generatePossiblePathParams(keys, routeName);
     const urlParams = this._generateUrlParamsInterface(routeName, pathParams);
 
-    const patternNextJS = routingType === RoutingType.NextJS ? this._generateNextJSPattern({ keys, routeName, routePattern }) : null;
-    const pathParamsNextJS =
-      routingType === RoutingType.NextJS && linkOptionModeNextJS === "loose" ? this._generateNextJSPathParams(keys, routeName) : null;
+    // TODO: handle next js pattern
+    const patternNextJS = linkOptionModeNextJS !== undefined ? this._generateNextJSPattern({ keys, routeName, routePattern }) : null;
+    const pathParamsNextJS = linkOptionModeNextJS === "loose" ? this._generateNextJSPathParams(keys, routeName) : null;
 
     const template = `export const ${patternName} = '${routePattern}'
     export const ${originName} = '${origin}'
@@ -80,7 +74,7 @@ class TypescriptPatternPlugin extends BasePlugin<TypescriptPatternPluginConfig, 
 
     return result;
   }
-  _generatePathParamsInterface(keys: Key[], routeName: string): PathParamsInterfaceResult | undefined {
+  private _generatePathParamsInterface(keys: Key[], routeName: string): PathParamsInterfaceResult | undefined {
     if (keys.length === 0) {
       return;
     }
@@ -222,4 +216,9 @@ class TypescriptPatternPlugin extends BasePlugin<TypescriptPatternPluginConfig, 
   }
 }
 
-export default TypescriptPatternPlugin;
+export const plugin: CodegenPlugin<TypescriptPatternPluginConfig, [TemplateFile, PatternNamedExports]> = {
+  type: "pattern",
+  generate: (config) => {
+    return new TypescriptPatternPlugin(config).generate();
+  },
+};

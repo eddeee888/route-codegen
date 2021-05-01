@@ -1,1 +1,1 @@
-export { default } from "./TypescriptNextJSPlugin";
+export * from "./TypescriptNextJSPlugin";

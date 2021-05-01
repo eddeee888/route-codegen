@@ -1,24 +1,32 @@
-import TypescriptReactRouter5Plugin, { TypescriptReactRouter5PluginConfig } from "./TypescriptReactRouter5Plugin";
+import { plugin, TypescriptReactRouter5PluginConfig } from "./TypescriptReactRouter5Plugin";
 
 describe("TypescriptReactRouter5Plugin - Link file", () => {
   const defaultParams: TypescriptReactRouter5PluginConfig = {
-    importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
-    routeLinkOption: {
-      importLink: {
-        from: "src/common/Link",
-        defaultImport: "Link",
-        namedImports: [{ name: "CustomLinkProps" }],
-      },
-      linkComponent: "Link",
-      linkProps: "CustomLinkProps",
-      hrefProp: "to",
-      generateLinkComponent: true,
+    appName: "rr5-app",
+    routePattern: "/login",
+    routeName: "Login",
+    topLevelGenerateOptions: {
+      generateLinkComponent: false,
       generateRedirectComponent: false,
       generateUseRedirect: false,
       generateUseParams: false,
+    },
+    destinationDir: "path/to/routes",
+    routeLinkOptions: {
+      importCustomLink: {
+        from: "src/common/Link",
+        componentDefaultImport: true,
+        propsNamedImport: "CustomLinkProps",
+        hrefProp: "to",
+      },
+      generate: {
+        linkComponent: true,
+        redirectComponent: false,
+        useRedirect: false,
+        useParams: false,
+      },
       mode: "strict",
     },
-    routeName: "Login",
     patternNamedExports: {
       originName: "originLogin",
       filename: "patternLogin",
@@ -26,11 +34,15 @@ describe("TypescriptReactRouter5Plugin - Link file", () => {
       urlParamsInterfaceName: "UrlParamsLogin",
       patternNameNextJS: "patternNextJSLogin",
     },
-    destinationDir: "path/to/routes",
+    importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
+    importRedirectServerSide: {
+      namedImports: [{ name: "RedirectServerSide" }],
+      from: "@route-codegen/react",
+    },
   };
 
   it("should generate correctly if no path params", () => {
-    const [templateFile] = new TypescriptReactRouter5Plugin({ ...defaultParams }).generate();
+    const [templateFile] = plugin.generate({ ...defaultParams });
 
     expect(templateFile.filename).toBe("LinkLogin");
     expect(templateFile.extension).toBe(".tsx");
@@ -49,13 +61,13 @@ describe("TypescriptReactRouter5Plugin - Link file", () => {
   });
 
   it("should generate correctly with path params", () => {
-    const [templateFile] = new TypescriptReactRouter5Plugin({
+    const [templateFile] = plugin.generate({
       ...defaultParams,
       patternNamedExports: {
         ...defaultParams.patternNamedExports,
         pathParamsInterfaceName: "PathParamsLogin",
       },
-    }).generate();
+    });
 
     expect(templateFile.filename).toBe("LinkLogin");
     expect(templateFile.extension).toBe(".tsx");
@@ -74,23 +86,24 @@ describe("TypescriptReactRouter5Plugin - Link file", () => {
   });
 
   it("should generate correctly with named component import", () => {
-    const [templateFile] = new TypescriptReactRouter5Plugin({
+    const [templateFile] = plugin.generate({
       ...defaultParams,
-      routeLinkOption: {
-        importLink: {
+      routeLinkOptions: {
+        importCustomLink: {
           from: "src/common/Link",
-          namedImports: [{ name: "CustomLinkProps" }, { name: "CustomLink", importAs: "Link" }],
+          componentNamedImport: "CustomLink",
+          propsNamedImport: "CustomLinkProps",
+          hrefProp: "to",
         },
-        linkComponent: "Link",
-        linkProps: "CustomLinkProps",
-        hrefProp: "to",
-        generateLinkComponent: true,
-        generateRedirectComponent: true,
-        generateUseRedirect: true,
-        generateUseParams: true,
+        generate: {
+          linkComponent: true,
+          redirectComponent: true,
+          useRedirect: true,
+          useParams: true,
+        },
         mode: "strict",
       },
-    }).generate();
+    });
 
     expect(templateFile.filename).toBe("LinkLogin");
     expect(templateFile.extension).toBe(".tsx");
@@ -111,8 +124,9 @@ describe("TypescriptReactRouter5Plugin - Link file", () => {
 
 describe("TypescriptReactRouter5Plugin - Redirect file", () => {
   const defaultParams: TypescriptReactRouter5PluginConfig = {
-    importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
+    appName: "rr5-app",
     routeName: "Login",
+    routePattern: "/login",
     patternNamedExports: {
       originName: "originLogin",
       filename: "patternLogin",
@@ -121,25 +135,33 @@ describe("TypescriptReactRouter5Plugin - Redirect file", () => {
       patternNameNextJS: "patternNextJSLogin",
     },
     destinationDir: "path/to/routes",
-    routeLinkOption: {
-      importLink: {
-        from: "src/common/Link",
-        defaultImport: "Link",
-        namedImports: [{ name: "CustomLinkProps" }],
-      },
-      linkComponent: "Link",
-      linkProps: "CustomLinkProps",
-      hrefProp: "to",
+    topLevelGenerateOptions: {
       generateLinkComponent: false,
-      generateRedirectComponent: true,
+      generateRedirectComponent: false,
       generateUseRedirect: false,
       generateUseParams: false,
+    },
+    routeLinkOptions: {
+      importCustomLink: {
+        from: "src/common/Link",
+        componentDefaultImport: true,
+        propsNamedImport: "CustomLinkProps",
+        hrefProp: "to",
+      },
+      generate: {
+        linkComponent: false,
+        redirectComponent: true,
+        useRedirect: false,
+        useParams: false,
+      },
       mode: "strict",
     },
+    importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
+    importRedirectServerSide: { namedImports: [{ name: "RedirectServerSide" }], from: "@route-codegen/react" },
   };
 
   it("should generate correctly if no path params", () => {
-    const [templateFile] = new TypescriptReactRouter5Plugin({ ...defaultParams }).generate();
+    const [templateFile] = plugin.generate({ ...defaultParams });
 
     expect(templateFile.filename).toBe("RedirectLogin");
     expect(templateFile.extension).toBe(".tsx");
@@ -162,13 +184,13 @@ describe("TypescriptReactRouter5Plugin - Redirect file", () => {
   });
 
   it("should generate correctly with path params", () => {
-    const [templateFile] = new TypescriptReactRouter5Plugin({
+    const [templateFile] = plugin.generate({
       ...defaultParams,
       patternNamedExports: {
         ...defaultParams.patternNamedExports,
         pathParamsInterfaceName: "PathParamsLogin",
       },
-    }).generate();
+    });
 
     expect(templateFile.filename).toBe("RedirectLogin");
     expect(templateFile.extension).toBe(".tsx");
@@ -193,7 +215,16 @@ describe("TypescriptReactRouter5Plugin - Redirect file", () => {
 
 describe("TypescriptReactRouter5Plugin - UseParams", () => {
   it("should generate strict mode correctly", () => {
-    const [templateFile] = new TypescriptReactRouter5Plugin({
+    const [templateFile] = plugin.generate({
+      appName: "rr5-app",
+      routePattern: "/user",
+      routeName: "User",
+      topLevelGenerateOptions: {
+        generateLinkComponent: false,
+        generateRedirectComponent: false,
+        generateUseRedirect: false,
+        generateUseParams: false,
+      },
       patternNamedExports: {
         originName: "originUser",
         urlParamsInterfaceName: "UrlParamsUser",
@@ -202,24 +233,24 @@ describe("TypescriptReactRouter5Plugin - UseParams", () => {
         patternName: "patternUser",
       },
       destinationDir: "path/to/routes",
-      routeName: "User",
-      importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
-      routeLinkOption: {
-        importLink: {
+      routeLinkOptions: {
+        importCustomLink: {
           from: "src/common/Link",
-          defaultImport: "Link",
-          namedImports: [{ name: "CustomLinkProps" }],
+          componentDefaultImport: true,
+          propsNamedImport: "CustomLinkProps",
+          hrefProp: "to",
         },
-        linkComponent: "Link",
-        linkProps: "CustomLinkProps",
-        hrefProp: "to",
-        generateLinkComponent: false,
-        generateRedirectComponent: false,
-        generateUseRedirect: false,
-        generateUseParams: true,
+        generate: {
+          linkComponent: false,
+          redirectComponent: false,
+          useRedirect: false,
+          useParams: true,
+        },
         mode: "strict",
       },
-    }).generate();
+      importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
+      importRedirectServerSide: { namedImports: [{ name: "RedirectServerSide" }], from: "@route-codegen/react" },
+    });
 
     expect(templateFile.filename).toBe("useParamsUser");
     expect(templateFile.extension).toBe(".ts");
@@ -239,7 +270,16 @@ describe("TypescriptReactRouter5Plugin - UseParams", () => {
   });
 
   it("should generate loose mode correctly", () => {
-    const [templateFile] = new TypescriptReactRouter5Plugin({
+    const [templateFile] = plugin.generate({
+      appName: "rr5-app",
+      routePattern: "/user",
+      routeName: "User",
+      topLevelGenerateOptions: {
+        generateLinkComponent: false,
+        generateRedirectComponent: false,
+        generateUseRedirect: false,
+        generateUseParams: false,
+      },
       patternNamedExports: {
         originName: "originUser",
         urlParamsInterfaceName: "UrlParamsUser",
@@ -248,24 +288,24 @@ describe("TypescriptReactRouter5Plugin - UseParams", () => {
         patternName: "patternUser",
       },
       destinationDir: "path/to/routes",
-      routeName: "User",
-      importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
-      routeLinkOption: {
-        importLink: {
+      routeLinkOptions: {
+        importCustomLink: {
           from: "src/common/Link",
-          defaultImport: "Link",
-          namedImports: [{ name: "CustomLinkProps" }],
+          componentDefaultImport: true,
+          propsNamedImport: "CustomLinkProps",
+          hrefProp: "to",
         },
-        linkComponent: "Link",
-        linkProps: "CustomLinkProps",
-        hrefProp: "to",
-        generateLinkComponent: false,
-        generateRedirectComponent: false,
-        generateUseRedirect: false,
-        generateUseParams: true,
+        generate: {
+          linkComponent: false,
+          redirectComponent: false,
+          useRedirect: false,
+          useParams: true,
+        },
         mode: "loose",
       },
-    }).generate();
+      importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
+      importRedirectServerSide: { namedImports: [{ name: "RedirectServerSide" }], from: "@route-codegen/react" },
+    });
 
     expect(templateFile.filename).toBe("useParamsUser");
     expect(templateFile.extension).toBe(".ts");
@@ -282,8 +322,16 @@ describe("TypescriptReactRouter5Plugin - UseParams", () => {
 
 describe("TypescriptReactRouter5Plugin - UseRedirect file", () => {
   it("should generate when there is no pathParams", () => {
-    const [templateFile] = new TypescriptReactRouter5Plugin({
+    const [templateFile] = plugin.generate({
+      appName: "rr5-app",
+      routePattern: "/login",
       routeName: "Login",
+      topLevelGenerateOptions: {
+        generateLinkComponent: false,
+        generateRedirectComponent: false,
+        generateUseRedirect: false,
+        generateUseParams: false,
+      },
       patternNamedExports: {
         originName: "originLogin",
         filename: "patternLogin",
@@ -291,26 +339,24 @@ describe("TypescriptReactRouter5Plugin - UseRedirect file", () => {
         urlParamsInterfaceName: "UrlParamsLogin",
       },
       destinationDir: "path/to/routes",
-      importGenerateUrl: {
-        from: "route-codegen",
-        namedImports: [{ name: "generateUrl" }],
-      },
-      routeLinkOption: {
-        importLink: {
+      routeLinkOptions: {
+        importCustomLink: {
           from: "src/common/Link",
-          defaultImport: "Link",
-          namedImports: [{ name: "CustomLinkProps" }],
+          componentDefaultImport: true,
+          propsNamedImport: "CustomLinkProps",
+          hrefProp: "to",
         },
-        linkComponent: "Link",
-        linkProps: "CustomLinkProps",
-        hrefProp: "to",
-        generateLinkComponent: false,
-        generateRedirectComponent: false,
-        generateUseRedirect: true,
-        generateUseParams: false,
+        generate: {
+          linkComponent: false,
+          redirectComponent: false,
+          useRedirect: true,
+          useParams: false,
+        },
         mode: "loose",
       },
-    }).generate();
+      importGenerateUrl: { from: "route-codegen", namedImports: [{ name: "generateUrl" }] },
+      importRedirectServerSide: { namedImports: [{ name: "RedirectServerSide" }], from: "@route-codegen/react" },
+    });
 
     expect(templateFile.filename).toBe("useRedirectLogin");
     expect(templateFile.extension).toBe(".ts");
@@ -332,7 +378,9 @@ describe("TypescriptReactRouter5Plugin - UseRedirect file", () => {
   });
 
   it("should generate when there is pathParams", () => {
-    const [templateFile] = new TypescriptReactRouter5Plugin({
+    const [templateFile] = plugin.generate({
+      appName: "rr5-app",
+      routePattern: "/user/:id",
       routeName: "UserInfo",
       patternNamedExports: {
         originName: "originLogin",
@@ -341,27 +389,31 @@ describe("TypescriptReactRouter5Plugin - UseRedirect file", () => {
         urlParamsInterfaceName: "UrlParamsUserInfo",
         pathParamsInterfaceName: "PathParamsUserInfo",
       },
-      destinationDir: "path/to/routes",
-      importGenerateUrl: {
-        from: "route-codegen",
-        namedImports: [{ name: "generateUrl" }],
-      },
-      routeLinkOption: {
-        importLink: {
-          from: "src/common/Link",
-          defaultImport: "Link",
-          namedImports: [{ name: "CustomLinkProps" }],
-        },
-        linkComponent: "Link",
-        linkProps: "CustomLinkProps",
-        hrefProp: "to",
+      topLevelGenerateOptions: {
         generateLinkComponent: false,
         generateRedirectComponent: false,
-        generateUseRedirect: true,
+        generateUseRedirect: false,
         generateUseParams: false,
+      },
+      destinationDir: "path/to/routes",
+      routeLinkOptions: {
+        importCustomLink: {
+          from: "src/common/Link",
+          componentDefaultImport: true,
+          propsNamedImport: "CustomLinkProps",
+          hrefProp: "to",
+        },
+        generate: {
+          linkComponent: false,
+          redirectComponent: false,
+          useRedirect: true,
+          useParams: false,
+        },
         mode: "loose",
       },
-    }).generate();
+      importGenerateUrl: { from: "route-codegen", namedImports: [{ name: "generateUrl" }] },
+      importRedirectServerSide: { namedImports: [{ name: "RedirectServerSide" }], from: "@route-codegen/react" },
+    });
 
     expect(templateFile.filename).toBe("useRedirectUserInfo");
     expect(templateFile.extension).toBe(".ts");

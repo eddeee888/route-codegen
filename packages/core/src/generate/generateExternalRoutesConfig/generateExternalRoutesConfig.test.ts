@@ -1,5 +1,5 @@
 import generateExternalRoutesConfig from "./generateExternalRoutesConfig";
-import { AppConfig, RoutingType } from "../config";
+import { AppConfig } from "../config";
 
 describe("generateExternalRoutesConfig", () => {
   it("should generate external app route objects correctly", () => {
@@ -11,7 +11,6 @@ describe("generateExternalRoutesConfig", () => {
           signup: "/app/signup",
         },
         destinationDir: "main/src/routes",
-        routingType: RoutingType.ReactRouterV5,
       },
       seo: {
         routes: {
@@ -20,7 +19,6 @@ describe("generateExternalRoutesConfig", () => {
           users: "/:id/:subview(profile|pictures)",
         },
         destinationDir: "seo/src/routes",
-        routingType: RoutingType.NextJS,
       },
       server: {
         routes: {
@@ -44,26 +42,30 @@ describe("generateExternalRoutesConfig", () => {
           home: {
             origin: "",
             path: "/",
+            routingType: "route-external",
           },
           about: {
             origin: "",
             path: "/about",
+            routingType: "route-external",
           },
           users: {
             origin: "",
             path: "/:id/:subview(profile|pictures)",
+            routingType: "route-external",
           },
           payments: {
             origin: "",
             path: "/payments",
+            routingType: "route-external",
           },
           legacyBooks: {
             origin: "https://legacy.domain.com",
             path: "/legacy/books",
+            routingType: "route-external",
           },
         },
         destinationDir: "main/src/routes",
-        routingType: RoutingType.Default,
       },
       seo: {
         origin: undefined,
@@ -71,22 +73,25 @@ describe("generateExternalRoutesConfig", () => {
           login: {
             origin: "https://app.domain.com",
             path: "/app/login",
+            routingType: "route-external",
           },
           signup: {
             origin: "https://app.domain.com",
             path: "/app/signup",
+            routingType: "route-external",
           },
           payments: {
             origin: "",
             path: "/payments",
+            routingType: "route-external",
           },
           legacyBooks: {
             origin: "https://legacy.domain.com",
             path: "/legacy/books",
+            routingType: "route-external",
           },
         },
         destinationDir: "seo/src/routes",
-        routingType: RoutingType.Default,
       },
       server: {
         origin: undefined,
@@ -94,30 +99,35 @@ describe("generateExternalRoutesConfig", () => {
           login: {
             origin: "https://app.domain.com",
             path: "/app/login",
+            routingType: "route-external",
           },
           signup: {
             origin: "https://app.domain.com",
             path: "/app/signup",
+            routingType: "route-external",
           },
           home: {
             origin: "",
             path: "/",
+            routingType: "route-external",
           },
           about: {
             origin: "",
             path: "/about",
+            routingType: "route-external",
           },
           users: {
             origin: "",
             path: "/:id/:subview(profile|pictures)",
+            routingType: "route-external",
           },
           legacyBooks: {
             origin: "https://legacy.domain.com",
             path: "/legacy/books",
+            routingType: "route-external",
           },
         },
         destinationDir: "server/src/routes",
-        routingType: RoutingType.Default,
       },
       legacy: {
         origin: undefined,
@@ -125,29 +135,34 @@ describe("generateExternalRoutesConfig", () => {
           login: {
             origin: "https://app.domain.com",
             path: "/app/login",
+            routingType: "route-external",
           },
           signup: {
             origin: "https://app.domain.com",
             path: "/app/signup",
+            routingType: "route-external",
           },
           home: {
             origin: "",
             path: "/",
+            routingType: "route-external",
           },
           about: {
             origin: "",
             path: "/about",
+            routingType: "route-external",
           },
           users: {
             origin: "",
             path: "/:id/:subview(profile|pictures)",
+            routingType: "route-external",
           },
           payments: {
             origin: "",
             path: "/payments",
+            routingType: "route-external",
           },
         },
-        routingType: RoutingType.Default,
       },
     });
   });

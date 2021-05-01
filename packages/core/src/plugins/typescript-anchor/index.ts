@@ -1,1 +1,1 @@
-export { default } from "./TypescriptAnchorPlugin";
+export * from "./TypescriptAnchorPlugin";

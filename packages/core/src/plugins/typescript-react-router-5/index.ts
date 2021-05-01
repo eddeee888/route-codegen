@@ -1,1 +1,1 @@
-export { default } from "./TypescriptReactRouter5Plugin";
+export * from "./TypescriptReactRouter5Plugin";

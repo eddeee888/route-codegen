@@ -1,1 +1,1 @@
-export { default } from "./TypescriptPatternPlugin";
+export * from "./TypescriptPatternPlugin";

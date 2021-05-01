@@ -1,16 +1,16 @@
-import TypescriptRootIndexPlugin from "./TypescriptRootIndexPlugin";
+import { plugin } from "./TypescriptRootIndexPlugin";
 
 describe("TypescriptRootIndexPlugin", () => {
   it("returns null if no files", () => {
-    const result = new TypescriptRootIndexPlugin({
+    const results = plugin.generate({
       destinationDir: "apps/",
       files: [],
-    }).generate();
-    expect(result).toBeNull();
+    });
+    expect(results).toHaveLength(0);
   });
 
   it("returns index template correctly", () => {
-    const result = new TypescriptRootIndexPlugin({
+    const resultArray = plugin.generate({
       destinationDir: "apps/",
       files: [
         {
@@ -41,7 +41,11 @@ describe("TypescriptRootIndexPlugin", () => {
           routeName: "user",
         },
       ],
-    }).generate();
+    });
+
+    expect(resultArray).toHaveLength(1);
+
+    const [result] = resultArray;
 
     if (!result) {
       throw new Error("Null result");

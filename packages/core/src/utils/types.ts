@@ -1,8 +1,4 @@
-export enum RoutingType {
-  "NextJS" = "NextJS",
-  "ReactRouterV5" = "ReactRouterV5",
-  "Default" = "Default",
-}
+export type RoutingType = "route-internal" | "route-external";
 
 export interface TemplateFile {
   template: string;
@@ -34,4 +30,30 @@ export interface PatternNamedExports {
   possiblePathParamsVariableName?: string;
   urlParamsInterfaceName: string;
   filename: string;
+}
+
+export interface ImportCustomLink {
+  componentDefaultImport?: boolean;
+  componentNamedImport?: string;
+  hrefProp?: string;
+  propsNamedImport?: string;
+  from?: string;
+}
+
+export interface TopLevelGenerateOptions {
+  generateLinkComponent: boolean;
+  generateRedirectComponent: boolean;
+  generateUseParams: boolean;
+  generateUseRedirect: boolean;
+}
+
+export interface LinkOptions {
+  importCustomLink?: ImportCustomLink;
+  generate?: {
+    linkComponent?: boolean;
+    redirectComponent?: boolean;
+    useRedirect?: boolean;
+    useParams?: boolean;
+  };
+  mode?: string;
 }

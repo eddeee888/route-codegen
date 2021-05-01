@@ -34,6 +34,7 @@ try {
     throw new Error("route-codegen config is invalid");
   }
 
+  // TODO: wait for this generate?
   generate(configContent as any, { verbose });
   console.log("route-codegen END!");
 } catch (e) {

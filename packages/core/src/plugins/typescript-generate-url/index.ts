@@ -1,1 +1,1 @@
-export { default } from "./TypescriptGenerateUrlPlugin";
+export * from "./TypescriptGenerateUrlPlugin";

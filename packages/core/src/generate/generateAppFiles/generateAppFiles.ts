@@ -1,31 +1,30 @@
 import { AppConfig, parseAppConfig } from "./../config";
 import generateTemplateFiles from "./generateTemplateFiles";
-import { info, TemplateFile } from "../../utils";
-import TypescriptRootIndexPlugin from "../../plugins/typescript-root-index";
+import { info, pluginHelpers, TemplateFile, PluginModule } from "../../utils";
 
-const generateAppFiles = (appName: string, app: AppConfig): TemplateFile[] => {
-  const {
-    routes,
-    routingType,
-    destinationDir,
-    routeLinkOptions,
-    importGenerateUrl,
-    importRedirectServerSide,
-    generateRootIndex,
-  } = parseAppConfig(appName, app);
+const generateAppFiles = async (appName: string, appConfig: AppConfig): Promise<TemplateFile[]> => {
+  const { routes, destinationDir, plugins, importGenerateUrl, importRedirectServerSide, topLevelGenerateOptions } = parseAppConfig(
+    appConfig
+  );
 
   if (destinationDir) {
-    const files: TemplateFile[][] = Object.entries(routes).map(([routeName, routePattern]) =>
-      generateTemplateFiles({
-        origin: routePattern.origin,
-        routePattern: routePattern.path,
-        routeName,
-        routeLinkOptions,
-        destinationDir,
-        routingType,
-        importGenerateUrl,
-        importRedirectServerSide,
-      })
+    const pluginModules = await pluginHelpers.loadPluginModules(plugins);
+
+    const files = await Promise.all(
+      Object.entries(routes).map(([routeName, routePattern]) =>
+        generateTemplateFiles({
+          appName,
+          topLevelGenerateOptions,
+          origin: routePattern.origin,
+          routePattern: routePattern.path,
+          routingType: routePattern.routingType || "route-internal",
+          pluginModules,
+          routeName,
+          destinationDir,
+          importGenerateUrl,
+          importRedirectServerSide,
+        })
+      )
     );
     const filesToGenerate = files.flat();
 
@@ -38,15 +37,17 @@ const generateAppFiles = (appName: string, app: AppConfig): TemplateFile[] => {
       info([appName], `*** No files to generate ***\n`);
     }
 
-    if (generateRootIndex) {
-      const rootIndexFile = new TypescriptRootIndexPlugin({ destinationDir, files: filesToGenerate }).generate();
-      if (rootIndexFile) {
-        return [...filesToGenerate, rootIndexFile];
-      }
-      return [...filesToGenerate];
-    }
+    // TODO: handle this 'as' type better
+    const generatedFileProcessors = pluginHelpers.filterByTypes(pluginModules, ["generated-files-processor"]) as PluginModule<
+      any,
+      TemplateFile[]
+    >[];
+    const extraFiles = generatedFileProcessors.reduce<TemplateFile[]>((prevFiles, { plugin }) => {
+      const newFiles = plugin.generate({ destinationDir, files: filesToGenerate });
+      return [...prevFiles, ...newFiles];
+    }, []);
 
-    return filesToGenerate;
+    return [...filesToGenerate, ...extraFiles];
   }
 
   info([appName], `*** No destinationDir. Not generating files ***\n`);

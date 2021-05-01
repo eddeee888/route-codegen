@@ -1,4 +1,15 @@
-import { BasePlugin, capitalizeFirstChar, Import, PatternNamedExports, printImport, TemplateFile } from "../../utils";
+import {
+  BasePlugin,
+  BasePluginConfig,
+  capitalizeFirstChar,
+  CodegenPlugin,
+  getOverriddenValue,
+  handleImportCustomLink,
+  Import,
+  info,
+  printImport,
+  TemplateFile,
+} from "../../utils";
 
 interface ParsedLinkOptionsAnchor {
   importLink?: Import;
@@ -31,28 +42,23 @@ interface GenerateLinkInterfaceResult {
   linkPropsInterfaceName: string;
 }
 
-export interface TypescriptAnchorPluginConfig {
-  routeName: string;
-  patternNamedExports: PatternNamedExports;
-  destinationDir: string;
-  routeLinkOption: ParsedLinkOptionsAnchor;
-  importGenerateUrl: Import;
-  importRedirectServerSide: Import;
-}
+export type TypescriptAnchorPluginConfig = BasePluginConfig;
 
-class TypescriptAnchorPlugin extends BasePlugin<TypescriptAnchorPluginConfig, TemplateFile[]> {
+class TypescriptAnchorPlugin extends BasePlugin<ParsedLinkOptionsAnchor> {
   generate(): TemplateFile[] {
     const result: TemplateFile[] = [];
 
-    if (this.config.routeLinkOption.generateLinkComponent) {
+    const linkOptions = this._getLinkOptions();
+
+    if (linkOptions.generateLinkComponent) {
       result.push(this._generateLinkFile());
     }
 
-    if (this.config.routeLinkOption.generateUseRedirect) {
+    if (linkOptions.generateUseRedirect) {
       result.push(this._generateUseRedirectFile());
     }
 
-    if (this.config.routeLinkOption.generateRedirectComponent) {
+    if (linkOptions.generateRedirectComponent) {
       result.push(this._generateRedirectFile());
     }
 
@@ -62,7 +68,6 @@ class TypescriptAnchorPlugin extends BasePlugin<TypescriptAnchorPluginConfig, Te
   private _generateLinkFile(): TemplateFile {
     const {
       routeName: originalRouteName,
-      routeLinkOption,
       destinationDir,
       patternNamedExports: { patternName, pathParamsInterfaceName, filename: routePatternFilename, urlParamsInterfaceName, originName },
       importGenerateUrl,
@@ -77,7 +82,7 @@ class TypescriptAnchorPlugin extends BasePlugin<TypescriptAnchorPluginConfig, Te
     const { hrefProp, importLink, linkComponent, linkPropsTemplate, linkPropsInterfaceName } = this._generateLinkInterface({
       defaultLinkPropsInterfaceName,
       urlParamsInterfaceName,
-      routeLinkOption,
+      routeLinkOption: this._getLinkOptions(),
       hasPathParams,
     });
 
@@ -221,6 +226,62 @@ class TypescriptAnchorPlugin extends BasePlugin<TypescriptAnchorPluginConfig, Te
 
     return templateFile;
   }
+
+  protected _parseLinkOptions(): void {
+    const { appName, routeLinkOptions, topLevelGenerateOptions } = this.config;
+
+    const defaultOptions: ParsedLinkOptionsAnchor = {
+      hrefProp: "href",
+      linkComponent: "a",
+      inlineLinkProps: {
+        template: `type LinkProps = Omit<React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>, 'href'>`,
+        linkProps: "LinkProps",
+      },
+      generateLinkComponent: topLevelGenerateOptions.generateLinkComponent,
+      generateUseRedirect: topLevelGenerateOptions.generateUseRedirect,
+      generateRedirectComponent: topLevelGenerateOptions.generateRedirectComponent,
+    };
+
+    if (!routeLinkOptions) {
+      info([appName, "defaultLinkOptions"], "custom options not found... Using default");
+      this.linkOptions = { ...defaultOptions };
+      return;
+    }
+
+    const result: ParsedLinkOptionsAnchor = {
+      ...defaultOptions,
+      generateLinkComponent: getOverriddenValue(defaultOptions.generateLinkComponent, routeLinkOptions.generate?.linkComponent),
+      generateRedirectComponent: getOverriddenValue(defaultOptions.generateRedirectComponent, routeLinkOptions.generate?.redirectComponent),
+      generateUseRedirect: getOverriddenValue(defaultOptions.generateUseRedirect, routeLinkOptions.generate?.useRedirect),
+    };
+
+    if (!routeLinkOptions.importCustomLink) {
+      info([appName, "defaultLinkOptions", "importCustomLink"], "custom options not found... Using default");
+      this.linkOptions = { ...result };
+      return;
+    }
+
+    info([appName, "defaultLinkOptions"], "using custom link options");
+    const { importLink, hrefProp, linkComponent, linkProps } = handleImportCustomLink({
+      appName,
+      linkOptionName: "defaultLinkOptions",
+      importCustomLink: routeLinkOptions.importCustomLink,
+    });
+
+    this.linkOptions = {
+      ...result,
+      inlineLinkProps: undefined, // If we import custom link props, do not use the default inline prop
+      importLink,
+      hrefProp,
+      linkComponent,
+      linkProps,
+    };
+  }
 }
 
-export default TypescriptAnchorPlugin;
+export const plugin: CodegenPlugin<TypescriptAnchorPluginConfig, TemplateFile[]> = {
+  type: "route-external",
+  generate: (config) => {
+    return new TypescriptAnchorPlugin(config).generate();
+  },
+};

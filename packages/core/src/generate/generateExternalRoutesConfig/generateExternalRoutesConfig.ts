@@ -1,4 +1,4 @@
-import { AppConfig, RoutingType, AppRoute } from "./../config";
+import { AppConfig, AppRoute } from "./../config";
 
 const generateExternalRoutesConfig = (apps: Record<string, AppConfig>): Record<string, AppConfig> => {
   const externalRoutesConfig: Record<string, AppConfig> = {};
@@ -18,9 +18,9 @@ const generateExternalRoutesConfig = (apps: Record<string, AppConfig>): Record<s
 
       const currentAppRoutes = Object.entries(routes).reduce<Record<string, AppRoute>>((prevAppRoute, [routeName, route]) => {
         if (typeof route === "string") {
-          prevAppRoute[routeName] = { path: route, origin };
+          prevAppRoute[routeName] = { path: route, origin, routingType: "route-external" };
         } else if (typeof route === "object") {
-          prevAppRoute[routeName] = { path: route.path, origin: route.origin };
+          prevAppRoute[routeName] = { path: route.path, origin: route.origin, routingType: route.routingType };
         }
         return prevAppRoute;
       }, {});
@@ -32,7 +32,6 @@ const generateExternalRoutesConfig = (apps: Record<string, AppConfig>): Record<s
       ...defaultAppConfig,
       origin: undefined, // Have to set this to undefined to force use route-level origin
       routes: appRoutes,
-      routingType: RoutingType.Default,
     };
   });
 

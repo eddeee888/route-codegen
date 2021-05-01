@@ -1,98 +1,92 @@
-import { RoutingType, RouteLinkOptions } from "../config";
-import { TemplateFile, Import } from "../../utils";
-import TypescriptPatternPlugin from "../../plugins/typescript-pattern";
-import TypescriptGenerateUrlPlugin from "../../plugins/typescript-generate-url";
-import TypescriptAnchorPlugin from "../../plugins/typescript-anchor";
-import TypescriptReactRouter5Plugin from "../../plugins/typescript-react-router-5";
-import TypescriptNextJSPlugin from "../../plugins/typescript-next-js";
+import {
+  TemplateFile,
+  Import,
+  throwError,
+  pluginHelpers,
+  TopLevelGenerateOptions,
+  PluginModule,
+  BasePatternPluginConfig,
+  BasePatternPluginResult,
+  BasePluginResult,
+  RoutingType,
+} from "../../utils";
 
 export interface GenerateTemplateFilesParams {
+  appName: string;
   origin: string;
   routeName: string;
   routePattern: string;
-  destinationDir: string;
   routingType: RoutingType;
-  routeLinkOptions: RouteLinkOptions;
+  topLevelGenerateOptions: TopLevelGenerateOptions;
+  pluginModules: PluginModule[];
+  destinationDir: string;
   importGenerateUrl: Import;
   importRedirectServerSide: Import;
 }
 
-const generateTemplateFiles = (params: GenerateTemplateFilesParams): TemplateFile[] => {
+const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promise<TemplateFile[]> => {
   const {
+    appName,
     origin,
     routeName,
     routePattern,
+    topLevelGenerateOptions,
+    pluginModules,
     destinationDir: originalDestinationDir,
-    routingType,
-    routeLinkOptions,
     importGenerateUrl,
     importRedirectServerSide,
+    routingType,
   } = params;
 
   const destinationDir = `${originalDestinationDir}/${routeName}`;
 
-  const [patternFile, patternNamedExports] = new TypescriptPatternPlugin({
+  if (pluginModules.length === 0) {
+    return [];
+  }
+
+  // TODO: this is a hack to inject NextJS pattern into pattern file and should be removed
+  let linkOptionModeNextJS: "strict" | "loose" | undefined = undefined;
+  const routeInternal = pluginHelpers.findFirstOfType(pluginModules, "route-internal") as PluginModule | undefined;
+  if (routingType === "route-internal" && routeInternal?.plugin.isNextJS) {
+    linkOptionModeNextJS = (routeInternal.config?.mode || "loose") as "strict" | "loose"; // TODO: handle this!
+  }
+
+  // TODO: type this better to scale
+  const patternPlugin = pluginHelpers.findFirstOfType(pluginModules, "pattern") as
+    | PluginModule<BasePatternPluginConfig, BasePatternPluginResult>
+    | undefined;
+  if (!patternPlugin) {
+    return throwError([appName, routeName], "No pattern plugin found.");
+  }
+
+  const files: TemplateFile[] = [];
+
+  const [patternFile, patternNamedExports] = patternPlugin.plugin.generate({
     origin,
     routeName,
     routePattern,
     destinationDir,
-    routingType,
-    linkOptionModeNextJS: routeLinkOptions.NextJS.mode,
-  }).generate();
+    linkOptionModeNextJS, // TODO: this is the NextJS pattern hack and should be removed
+  });
+  files.push(patternFile);
 
-  const genUrlFile = new TypescriptGenerateUrlPlugin({
-    importGenerateUrl,
-    destinationDir,
-    routeName,
-    patternNamedExports,
-  }).generate();
+  const routePlugins = pluginHelpers.filterByTypes(pluginModules, ["general", routingType]);
 
-  const files = [patternFile, genUrlFile];
-
-  // Handle file generation for each routing type
-  switch (routingType) {
-    case RoutingType.ReactRouterV5: {
-      const rr5Files = new TypescriptReactRouter5Plugin({
-        routeName,
-        destinationDir,
-        routeLinkOption: routeLinkOptions.ReactRouterV5,
-        patternNamedExports,
-        importGenerateUrl,
-      }).generate();
-
-      files.push(...rr5Files);
-
-      break;
-    }
-    case RoutingType.NextJS: {
-      const nextJSFiles = new TypescriptNextJSPlugin({
-        routeName,
-        destinationDir,
-        routeLinkOptions: routeLinkOptions.NextJS,
-        patternNamedExports,
-        importGenerateUrl,
-        routePattern,
-      }).generate();
-
-      files.push(...nextJSFiles);
-
-      break;
-    }
-    case RoutingType.Default: {
-      const anchorFiles = new TypescriptAnchorPlugin({
-        routeName,
-        destinationDir,
-        routeLinkOption: routeLinkOptions.Default,
-        patternNamedExports,
-        importGenerateUrl,
-        importRedirectServerSide,
-      }).generate();
-
-      files.push(...anchorFiles);
-
-      break;
-    }
-  }
+  routePlugins.forEach(({ plugin, config }) => {
+    const templateFiles = plugin.generate({
+      appName,
+      origin,
+      routeName,
+      routePattern,
+      routeLinkOptions: config,
+      topLevelGenerateOptions,
+      destinationDir,
+      patternNamedExports,
+      importGenerateUrl,
+      importRedirectServerSide,
+    }) as BasePluginResult; // TODO: type this better to scale
+    files.push(...templateFiles);
+  });
 
   return files;
 };
