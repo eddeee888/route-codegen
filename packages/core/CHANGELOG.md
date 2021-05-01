@@ -1,5 +1,17 @@
 # @route-codegen/core
 
+## 0.5.0
+
+### Minor Changes
+
+- 79d42ef: [Breaking change] Split plugins into own modules and update yml usage
+- 403ecb2: [Breaking change] Generated Redirect components now take urlParams
+- 7f5d7ce: [Breaking change] Update Link component props to handle urlParams as the main routing props
+
+### Patch Changes
+
+- 0eafc15: Convert all generators into classes that expose a generate function
+
 ## 0.4.0
 
 ### Minor Changes
