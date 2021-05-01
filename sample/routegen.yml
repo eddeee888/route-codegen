@@ -29,7 +29,7 @@ apps:
           importCustomLink:
             componentDefaultImport: true
             propsNamedImport: LinkProps
-            hrefProp: to
+            hrefProp: href
             from: ~/common/components/Link
           generate:
             useParams: false

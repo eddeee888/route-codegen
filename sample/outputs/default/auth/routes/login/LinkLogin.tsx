@@ -3,8 +3,8 @@ import React from "react";
 import { generateUrl } from "@route-codegen/utils";
 import Link, { LinkProps } from "~/common/components/Link";
 import { patternLogin, UrlParamsLogin } from "./patternLogin";
-type LinkLoginProps = Omit<LinkProps, "to"> & { urlParams?: UrlParamsLogin };
+type LinkLoginProps = Omit<LinkProps, "href"> & { urlParams?: UrlParamsLogin };
 export const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({ urlParams, ...props }) => {
   const to = generateUrl(patternLogin, { path: {}, query: urlParams?.query, origin: urlParams?.origin });
-  return <Link {...props} to={to} />;
+  return <Link {...props} href={to} />;
 };
