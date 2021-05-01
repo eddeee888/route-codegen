@@ -172,7 +172,7 @@ describe("TypescriptReactRouter5Plugin - Redirect file", () => {
           import {Redirect,} from 'react-router'
           import {UrlParamsLogin,patternLogin,} from './patternLogin'
           export const RedirectLogin: React.FunctionComponent<{ fallback?: React.ReactNode, urlParams?: UrlParamsLogin }> = ({ urlParams, ...props }) => {
-            const to = generateUrl(patternLogin, { path: {}, query: urlParams.query, origin: urlParams.origin });
+            const to = generateUrl(patternLogin, { path: {}, query: urlParams?.query, origin: urlParams?.origin });
             return (
               <>
                 <Redirect to={to} />
@@ -201,7 +201,7 @@ describe("TypescriptReactRouter5Plugin - Redirect file", () => {
           import {Redirect,} from 'react-router'
           import {UrlParamsLogin,patternLogin,} from './patternLogin'
           export const RedirectLogin: React.FunctionComponent<{ fallback?: React.ReactNode, urlParams: UrlParamsLogin }> = ({ urlParams, ...props }) => {
-            const to = generateUrl(patternLogin, { path: urlParams.path, query: urlParams.query, origin: urlParams.origin });
+            const to = generateUrl(patternLogin, { path: urlParams.path, query: urlParams?.query, origin: urlParams?.origin });
             return (
               <>
                 <Redirect to={to} />
