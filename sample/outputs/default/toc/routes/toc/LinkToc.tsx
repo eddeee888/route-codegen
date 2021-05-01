@@ -4,7 +4,7 @@ import Link, { NextLinkProps } from "~/common/components/NextLink";
 import { UrlParamsToc, patternNextJSToc } from "./patternToc";
 type LinkTocProps = Omit<NextLinkProps, "href"> & { urlParams?: UrlParamsToc };
 export const LinkToc: React.FunctionComponent<LinkTocProps> = ({ urlParams, ...props }) => {
-  const { query = {} } = urlParams;
+  const query = urlParams?.query || {};
   const path = {};
   const pathname = patternNextJSToc;
   const nextHref = {

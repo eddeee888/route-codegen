@@ -107,7 +107,7 @@ class TypescriptNextJSPlugin extends BasePlugin<ParsedLinkOptionsNextJS, Typescr
     ${printImport({ namedImports: namedImportsFromPatternFile, from: `./${routePatternFilename}` })}
     ${linkPropsTemplate}
     export const ${functionName}: React.FunctionComponent<${linkPropsInterfaceName}> = ({ urlParams, ...props}) => {
-      const { query = {} } = urlParams;
+      const query = urlParams?.query || {};
       const path = ${hasPathParams ? "urlParams.path" : "{}"};
       ${pathnameTemplate}
       const nextHref = {
