@@ -215,7 +215,7 @@ describe("TypescriptNextJSPlugin - UseParams file", () => {
             import {useRouter,} from 'next/router'
             export const useParamsUser = (): PathParamsNextJSUser => {
               const query = useRouter().query;
-              return {id: query.id,subview: query.subview,singleEnum: query.singleEnum,optional: query.optional ? query.optional : undefined,optionalEnum: query.optionalEnum ? query.optionalEnum : undefined,};
+              return {id: query.id ?? '',subview: query.subview ?? '',singleEnum: query.singleEnum ?? '',optional: query.optional ? query.optional : undefined,optionalEnum: query.optionalEnum ? query.optionalEnum : undefined,};
             }"
     `);
   });
