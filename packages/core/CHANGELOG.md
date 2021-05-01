@@ -1,5 +1,11 @@
 # @route-codegen/core
 
+## 0.5.1
+
+### Patch Changes
+
+- 03e1f8d: Fix various generated templates that could cause type errors
+
 ## 0.5.0
 
 ### Minor Changes
