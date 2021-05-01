@@ -2,8 +2,12 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "rootDir": ".",
+    "baseUrl": ".",
     "outDir": "dist",
-    "jsx": "react"
+    "jsx": "react",
+    "paths": {
+      "~/common/*": ["common/*"]
+    }
   },
-  "include": ["outputs"]
+  "include": ["common", "outputs"]
 }
