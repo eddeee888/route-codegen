@@ -93,9 +93,9 @@ apps:
         config:
           importCustomLink:
             componentDefaultImport: true
-            propsNamedImport: LinkProps
+            propsNamedImport: NextLinkProps
             hrefProp: href
-            from: ~/common/components/Link
+            from: ~/common/components/NextLink
       - name: "typescript-anchor"
         config:
           importCustomLink:
