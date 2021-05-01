@@ -46,6 +46,9 @@ jobs:
       - name: Check that samples are generated
         run: ./scripts/ci/check-sample.sh
 
+      - name: Check types of samples
+        run: yarn typecheck:sample
+
   test-utils:
     name: "@route-codegen/utils tests"
     runs-on: ubuntu-18.04

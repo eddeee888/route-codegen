@@ -9,8 +9,8 @@ export const RedirectActivateAccount: React.FunctionComponent<{ fallback?: React
 }) => {
   const to = generateUrl(patternActivateAccount, {
     path: urlParams.path,
-    query: urlParams.query,
-    origin: urlParams.origin ?? originActivateAccount,
+    query: urlParams?.query,
+    origin: urlParams?.origin ?? originActivateAccount,
   });
   return <RedirectServerSide href={to} fallback={props.fallback} />;
 };

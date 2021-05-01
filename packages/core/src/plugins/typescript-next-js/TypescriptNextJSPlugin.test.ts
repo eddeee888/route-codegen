@@ -49,7 +49,7 @@ describe("TypescriptNextJSPlugin - Link file", () => {
           import {UrlParamsLogin,patternNextJSLogin,} from './patternLogin'
           type LinkLoginProps = Omit<NextJSLinkProps, 'customHref'> & { urlParams?: UrlParamsLogin }
           export const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({ urlParams, ...props}) => {
-            const { query = {} } = urlParams;
+            const query = urlParams?.query || {};
             const path = {};
             const pathname = patternNextJSLogin;
             const nextHref = {
@@ -83,7 +83,7 @@ describe("TypescriptNextJSPlugin - Link file", () => {
           import {UrlParamsLogin,patternNextJSLogin,possiblePathParamsLogin,} from './patternLogin'
           type LinkLoginProps = Omit<NextJSLinkProps, 'customHref'> & { urlParams: UrlParamsLogin }
           export const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({ urlParams, ...props}) => {
-            const { query = {} } = urlParams;
+            const query = urlParams?.query || {};
             const path = urlParams.path;
             const pathname = possiblePathParamsLogin.filter((key) => !(key in path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[\${suppliedParam}]\`, \\"\\"), patternNextJSLogin);
             const nextHref = {
@@ -126,7 +126,7 @@ describe("TypescriptNextJSPlugin - Link file", () => {
           import {UrlParamsLogin,patternNextJSLogin,} from './patternLogin'
           type LinkLoginProps = Omit<CustomLinkProps, 'to'> & { urlParams?: UrlParamsLogin }
           export const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({ urlParams, ...props}) => {
-            const { query = {} } = urlParams;
+            const query = urlParams?.query || {};
             const path = {};
             const pathname = patternNextJSLogin;
             const nextHref = {
@@ -215,7 +215,7 @@ describe("TypescriptNextJSPlugin - UseParams file", () => {
             import {useRouter,} from 'next/router'
             export const useParamsUser = (): PathParamsNextJSUser => {
               const query = useRouter().query;
-              return {id: query.id,subview: query.subview,singleEnum: query.singleEnum,optional: query.optional ? query.optional : undefined,optionalEnum: query.optionalEnum ? query.optionalEnum : undefined,};
+              return {id: query.id ?? '',subview: query.subview ?? '',singleEnum: query.singleEnum ?? '',optional: query.optional ? query.optional : undefined,optionalEnum: query.optionalEnum ? query.optionalEnum : undefined,};
             }"
     `);
   });

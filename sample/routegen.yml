@@ -29,8 +29,8 @@ apps:
           importCustomLink:
             componentDefaultImport: true
             propsNamedImport: LinkProps
-            hrefProp: to
-            from: common/components/Link
+            hrefProp: href
+            from: ~/common/components/Link
           generate:
             useParams: false
             useRedirect: false
@@ -41,7 +41,7 @@ apps:
             componentNamedImport: CustomAnchor
             propsNamedImport: AnchorProps
             hrefProp: href
-            from: common/ui/Anchor
+            from: ~/common/components/Anchor
     generate:
       linkComponent: true
       useParams: true
@@ -93,16 +93,16 @@ apps:
         config:
           importCustomLink:
             componentDefaultImport: true
-            propsNamedImport: LinkProps
+            propsNamedImport: NextLinkProps
             hrefProp: href
-            from: src/common/components/Link
+            from: ~/common/components/NextLink
       - name: "typescript-anchor"
         config:
           importCustomLink:
             componentDefaultImport: true
             propsNamedImport: AnchorProps
             hrefProp: href
-            from: src/common/ui/Anchor
+            from: ~/common/components/Anchor
     generate:
       linkComponent: true
       useParams: true

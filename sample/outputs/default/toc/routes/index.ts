@@ -2,7 +2,6 @@
 export * from "./toc/patternToc";
 export * from "./toc/generateUrlToc";
 export * from "./toc/LinkToc";
-export { default as useRedirectToc } from "./toc/useRedirectToc";
 export * from "./toc/useRedirectToc";
 export * from "./user/patternUser";
 export * from "./user/generateUrlUser";

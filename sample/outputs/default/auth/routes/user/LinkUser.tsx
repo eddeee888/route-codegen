@@ -1,7 +1,7 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 import React from "react";
 import { generateUrl } from "@route-codegen/utils";
-import { AnchorProps, CustomAnchor as Link } from "common/ui/Anchor";
+import { AnchorProps, CustomAnchor as Link } from "~/common/components/Anchor";
 import { patternUser, UrlParamsUser, originUser } from "./patternUser";
 type LinkUserProps = Omit<AnchorProps, "href"> & { urlParams: UrlParamsUser };
 export const LinkUser: React.FunctionComponent<LinkUserProps> = ({ urlParams, ...props }) => {

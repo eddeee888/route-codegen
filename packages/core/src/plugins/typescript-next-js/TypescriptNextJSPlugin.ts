@@ -107,7 +107,7 @@ class TypescriptNextJSPlugin extends BasePlugin<ParsedLinkOptionsNextJS, Typescr
     ${printImport({ namedImports: namedImportsFromPatternFile, from: `./${routePatternFilename}` })}
     ${linkPropsTemplate}
     export const ${functionName}: React.FunctionComponent<${linkPropsInterfaceName}> = ({ urlParams, ...props}) => {
-      const { query = {} } = urlParams;
+      const query = urlParams?.query || {};
       const path = ${hasPathParams ? "urlParams.path" : "{}"};
       ${pathnameTemplate}
       const nextHref = {
@@ -214,7 +214,7 @@ class TypescriptNextJSPlugin extends BasePlugin<ParsedLinkOptionsNextJS, Typescr
           if (keyHelpers.isOptional(key)) {
             return `${prev}${key.name}: query.${key.name} ? query.${key.name} : undefined,`;
           }
-          return `${prev}${key.name}: query.${key.name},`;
+          return `${prev}${key.name}: query.${key.name} ?? '',`;
         }, "")}`;
       },
     };
@@ -309,7 +309,7 @@ class TypescriptNextJSPlugin extends BasePlugin<ParsedLinkOptionsNextJS, Typescr
       extension: ".ts",
       destinationDir,
       routeName: originalRouteName,
-      hasDefaultExport: true,
+      hasDefaultExport: false,
       hasNamedExports: true,
     };
 

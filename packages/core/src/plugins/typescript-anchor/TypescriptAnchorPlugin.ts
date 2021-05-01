@@ -165,7 +165,7 @@ class TypescriptAnchorPlugin extends BasePlugin<ParsedLinkOptionsAnchor> {
   export const ${functionName}: React.FunctionComponent<{ fallback?: React.ReactNode, ${urlParamsTemplate} }> = ({ urlParams , ...props }) => {
     const to = ${generateUrlFnName}(${patternNamedExports.patternName}, { path: ${
       hasPathParams ? "urlParams.path" : "{}"
-    }, query: urlParams.query, origin: urlParams.origin ?? ${patternNamedExports.originName} });
+    }, query: urlParams?.query, origin: urlParams?.origin ?? ${patternNamedExports.originName} });
     return <${redirectCompName} href={to} fallback={props.fallback} />;
   };`;
 

@@ -7,7 +7,7 @@ export const RedirectUser: React.FunctionComponent<{ fallback?: React.ReactNode;
   urlParams,
   ...props
 }) => {
-  const to = generateUrl(patternUser, { path: urlParams.path, query: urlParams.query, origin: urlParams.origin });
+  const to = generateUrl(patternUser, { path: urlParams.path, query: urlParams?.query, origin: urlParams?.origin });
   return (
     <>
       <Redirect to={to} />

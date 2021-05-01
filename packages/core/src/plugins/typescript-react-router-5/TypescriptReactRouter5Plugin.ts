@@ -158,7 +158,7 @@ class TypescriptReactRouter5Plugin extends BasePlugin<ParsedLinkOptionsReactRout
     export const ${functionName}: React.FunctionComponent<{ fallback?: React.ReactNode, ${urlParamsTemplate} }> = ({ urlParams, ...props }) => {
       const to = ${generateUrlFnName}(${patternNamedExports.patternName}, { path: ${
       hasPathParams ? "urlParams.path" : "{}"
-    }, query: urlParams.query, origin: urlParams.origin });
+    }, query: urlParams?.query, origin: urlParams?.origin });
       return (
         <>
           <Redirect to={to} />

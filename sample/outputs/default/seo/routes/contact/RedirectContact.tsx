@@ -7,6 +7,6 @@ export const RedirectContact: React.FunctionComponent<{ fallback?: React.ReactNo
   urlParams,
   ...props
 }) => {
-  const to = generateUrl(patternContact, { path: urlParams.path, query: urlParams.query, origin: urlParams.origin ?? originContact });
+  const to = generateUrl(patternContact, { path: urlParams.path, query: urlParams?.query, origin: urlParams?.origin ?? originContact });
   return <RedirectServerSide href={to} fallback={props.fallback} />;
 };
