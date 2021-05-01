@@ -309,7 +309,7 @@ class TypescriptNextJSPlugin extends BasePlugin<ParsedLinkOptionsNextJS, Typescr
       extension: ".ts",
       destinationDir,
       routeName: originalRouteName,
-      hasDefaultExport: true,
+      hasDefaultExport: false,
       hasNamedExports: true,
     };
 
