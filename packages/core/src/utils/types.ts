@@ -57,9 +57,3 @@ export interface LinkOptions {
   };
   mode?: string;
 }
-
-export interface PrepareLinkOptionsParams {
-  appName: string;
-  routeLinkOptions: LinkOptions;
-  topLevelGenerateOptions: TopLevelGenerateOptions;
-}
