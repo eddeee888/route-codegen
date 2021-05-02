@@ -1,5 +1,6 @@
 import {
   GeneratedFilesProcessorCodegenPlugin,
+  GeneratedFilesProcessorPluginBaseConfig,
   Import,
   info,
   PatternTemplateFile,
@@ -7,6 +8,7 @@ import {
   TemplateFile,
   templateFileHelpers,
   throwError,
+  WithExtraConfig,
 } from "../../utils";
 
 const getComponentName = (importMeta: Import): string => {
@@ -25,14 +27,22 @@ const getComponentName = (importMeta: Import): string => {
   return throwError([], "Import must have namedImports or defaultImport");
 };
 
-export interface GeneratedFilesProcessorCodegenPluginExtraConfig {
+interface ExtraConfig {
   internalComponent?: Import;
   externalComponent?: Import;
 }
 
-export const plugin: GeneratedFilesProcessorCodegenPlugin<GeneratedFilesProcessorCodegenPluginExtraConfig> = {
+export type TypescriptRouteConfigPluginConfig = WithExtraConfig<GeneratedFilesProcessorPluginBaseConfig, ExtraConfig>;
+
+export const plugin: GeneratedFilesProcessorCodegenPlugin<ExtraConfig> = {
   type: "generated-files-processor",
-  generate: ({ destinationDir, files, internalComponent, externalComponent }) => {
+  generate: ({ destinationDir, files, extraConfig }) => {
+    if (!extraConfig) {
+      return throwError(["type-route-config"], "internalComponent and externalComponent are required");
+    }
+
+    const { internalComponent, externalComponent } = extraConfig;
+
     if (!internalComponent || !externalComponent) {
       return throwError(["type-route-config"], "internalComponent and externalComponent are required");
     }

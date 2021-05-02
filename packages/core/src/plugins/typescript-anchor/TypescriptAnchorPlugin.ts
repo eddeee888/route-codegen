@@ -1,14 +1,16 @@
 import {
-  BasePlugin,
-  BasePluginConfig,
+  BaseRouteGenerator,
   capitalizeFirstChar,
-  CodegenPlugin,
+  GeneralCodegenPlugin,
   getOverriddenValue,
   handleImportCustomLink,
   Import,
+  ImportCustomLink,
   info,
   printImport,
   TemplateFile,
+  GeneralPluginBaseConfig,
+  WithExtraConfig,
 } from "../../utils";
 
 interface ParsedLinkOptionsAnchor {
@@ -42,9 +44,19 @@ interface GenerateLinkInterfaceResult {
   linkPropsInterfaceName: string;
 }
 
-export type TypescriptAnchorPluginConfig = BasePluginConfig;
+interface ExtraConfig {
+  importCustomLink?: ImportCustomLink;
+  generate?: {
+    linkComponent?: boolean;
+    redirectComponent?: boolean;
+    useRedirect?: boolean;
+    useParams?: boolean;
+  };
+}
 
-class TypescriptAnchorPlugin extends BasePlugin<ParsedLinkOptionsAnchor> {
+export type TypescriptAnchorPluginConfig = WithExtraConfig<GeneralPluginBaseConfig, ExtraConfig>;
+
+class TypescriptAnchorGenerator extends BaseRouteGenerator<ParsedLinkOptionsAnchor, ExtraConfig> {
   generate(): TemplateFile[] {
     const result: TemplateFile[] = [];
 
@@ -228,7 +240,7 @@ class TypescriptAnchorPlugin extends BasePlugin<ParsedLinkOptionsAnchor> {
   }
 
   protected _parseLinkOptions(): void {
-    const { appName, routeLinkOptions, topLevelGenerateOptions } = this.config;
+    const { appName, topLevelGenerateOptions, extraConfig: routeLinkOptions } = this.config;
 
     const defaultOptions: ParsedLinkOptionsAnchor = {
       hrefProp: "href",
@@ -279,9 +291,9 @@ class TypescriptAnchorPlugin extends BasePlugin<ParsedLinkOptionsAnchor> {
   }
 }
 
-export const plugin: CodegenPlugin<TypescriptAnchorPluginConfig, TemplateFile[]> = {
+export const plugin: GeneralCodegenPlugin<ExtraConfig> = {
   type: "route-external",
   generate: (config) => {
-    return new TypescriptAnchorPlugin(config).generate();
+    return new TypescriptAnchorGenerator(config).generate();
   },
 };

@@ -1,18 +1,30 @@
+import { GeneralPluginBaseConfig } from "../../utils";
 import { plugin } from "./TypescriptGenerateUrlPlugin";
 
 describe("TypescriptGenerateUrlPlugin - generateUrl file", () => {
+  const defaultParams: GeneralPluginBaseConfig = {
+    appName: "nextjs-app",
+    patternNamedExports: {
+      filename: "patternUser",
+      patternName: "patternUser",
+      urlParamsInterfaceName: "UrlParamsUser",
+      originName: "originUser",
+    },
+    destinationDir: "path/to/routes",
+    routeName: "User",
+    routePattern: "/user",
+    topLevelGenerateOptions: {
+      generateUseRedirect: false,
+      generateUseParams: false,
+      generateRedirectComponent: false,
+      generateLinkComponent: false,
+    },
+    importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
+    importRedirectServerSide: { namedImports: [{ name: "RedirectServerSide" }], from: "@route-codegen/react" },
+  };
+
   it("should generate correctly if no path params", () => {
-    const files = plugin.generate({
-      importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
-      patternNamedExports: {
-        filename: "patternUser",
-        patternName: "patternUser",
-        urlParamsInterfaceName: "UrlParamsUser",
-        originName: "originUser",
-      },
-      destinationDir: "path/to/routes",
-      routeName: "User",
-    });
+    const files = plugin.generate({ ...defaultParams });
 
     expect(files).toHaveLength(1);
 
@@ -30,16 +42,8 @@ describe("TypescriptGenerateUrlPlugin - generateUrl file", () => {
 
   it("should generate correctly if has path params", () => {
     const files = plugin.generate({
-      importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
-      patternNamedExports: {
-        filename: "patternUser",
-        patternName: "patternUser",
-        urlParamsInterfaceName: "UrlParamsUser",
-        pathParamsInterfaceName: "PathParamsUser",
-        originName: "originUser",
-      },
-      destinationDir: "path/to/routes",
-      routeName: "User",
+      ...defaultParams,
+      patternNamedExports: { ...defaultParams.patternNamedExports, pathParamsInterfaceName: "PathParamsUser" },
     });
 
     expect(files).toHaveLength(1);

@@ -1,1 +1,1 @@
-export * from "./TypescriptRouteConfig";
+export * from "./TypescriptRouteConfigPlugin";

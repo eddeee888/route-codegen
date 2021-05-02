@@ -1,5 +1,4 @@
 import {
-  BasePlugin,
   capitalizeFirstChar,
   Import,
   keyHelpers,
@@ -10,8 +9,11 @@ import {
   info,
   getOverriddenValue,
   handleImportCustomLink,
-  CodegenPlugin,
-  BasePluginConfig,
+  GeneralCodegenPlugin,
+  BaseRouteGenerator,
+  GeneralPluginBaseConfig,
+  ImportCustomLink,
+  WithExtraConfig,
 } from "../../utils";
 
 interface ParsedLinkOptionsNextJS {
@@ -41,9 +43,20 @@ interface GenerateLinkInterfaceResult {
   linkPropsInterfaceName: string;
 }
 
-export type TypescriptNextJSPluginConfig = BasePluginConfig;
+interface ExtraConfig {
+  importCustomLink?: ImportCustomLink;
+  generate?: {
+    linkComponent?: boolean;
+    redirectComponent?: boolean;
+    useRedirect?: boolean;
+    useParams?: boolean;
+  };
+  mode?: string;
+}
 
-class TypescriptNextJSPlugin extends BasePlugin<ParsedLinkOptionsNextJS, TypescriptNextJSPluginConfig> {
+export type TypescriptNextJSPluginConfig = WithExtraConfig<GeneralPluginBaseConfig, ExtraConfig>;
+
+class TypescriptNextJSGenerator extends BaseRouteGenerator<ParsedLinkOptionsNextJS, ExtraConfig> {
   generate(): TemplateFile[] {
     const result: TemplateFile[] = [];
 
@@ -317,7 +330,7 @@ class TypescriptNextJSPlugin extends BasePlugin<ParsedLinkOptionsNextJS, Typescr
   }
 
   protected _parseLinkOptions(): void {
-    const { appName, routeLinkOptions, topLevelGenerateOptions } = this.config;
+    const { appName, topLevelGenerateOptions, extraConfig: routeLinkOptions } = this.config;
 
     const defaultOptions: ParsedLinkOptionsNextJS = {
       importLink: {
@@ -333,6 +346,7 @@ class TypescriptNextJSPlugin extends BasePlugin<ParsedLinkOptionsNextJS, Typescr
       generateUseRedirect: topLevelGenerateOptions.generateUseRedirect,
       mode: "loose",
     };
+
     if (!routeLinkOptions) {
       info([appName, "nextJSLinkOptions"], "custom options not found... Using default");
       this.linkOptions = { ...defaultOptions };
@@ -374,10 +388,10 @@ class TypescriptNextJSPlugin extends BasePlugin<ParsedLinkOptionsNextJS, Typescr
   }
 }
 
-export const plugin: CodegenPlugin<TypescriptNextJSPluginConfig, TemplateFile[]> = {
+export const plugin: GeneralCodegenPlugin<ExtraConfig> = {
   type: "route-internal",
   isNextJS: true,
   generate: (config) => {
-    return new TypescriptNextJSPlugin(config).generate();
+    return new TypescriptNextJSGenerator(config).generate();
   },
 };

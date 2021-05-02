@@ -9,7 +9,7 @@ describe("TypescriptNextJSPlugin - Link file", () => {
       generateRedirectComponent: false,
       generateLinkComponent: false,
     },
-    routeLinkOptions: {
+    extraConfig: {
       importCustomLink: {
         from: "src/NextJS/Link",
         componentDefaultImport: true,
@@ -101,7 +101,7 @@ describe("TypescriptNextJSPlugin - Link file", () => {
   it("should generate correctly with named component import", () => {
     const [templateFile] = plugin.generate({
       ...defaultParams,
-      routeLinkOptions: {
+      extraConfig: {
         importCustomLink: {
           from: "src/common/Link",
           componentNamedImport: "CustomLink",
@@ -145,7 +145,7 @@ describe("TypescriptNextJSPlugin - Link file", () => {
     expect(() =>
       plugin.generate({
         ...defaultParams,
-        routeLinkOptions: {
+        extraConfig: {
           importCustomLink: {
             from: "src/common/Link",
             componentNamedImport: "CustomLink",
@@ -189,7 +189,7 @@ describe("TypescriptNextJSPlugin - UseParams file", () => {
       destinationDir: "path/to/routes",
       routeName: "User",
       routePattern: "/users/:id/:subview(profile|pictures)/:singleEnum(only)/:optional?/:optionalEnum(enum1|enum2)?",
-      routeLinkOptions: {
+      extraConfig: {
         importCustomLink: {
           from: "src/common/Link",
           componentNamedImport: "CustomLink",
@@ -240,7 +240,7 @@ describe("TypescriptNextJSPlugin - UseParams file", () => {
       destinationDir: "path/to/routes",
       routeName: "User",
       routePattern: "/users/:id/:subview(profile|pictures)/:singleEnum(only)/:optional?/:optionalEnum(enum1|enum2)?",
-      routeLinkOptions: {
+      extraConfig: {
         importCustomLink: {
           from: "src/common/Link",
           componentNamedImport: "CustomLink",
@@ -300,7 +300,7 @@ describe("TypescriptNextJSPlugin - UseRedirect file", () => {
       },
       routeName: "Login",
       routePattern: "/login",
-      routeLinkOptions: {
+      extraConfig: {
         importCustomLink: {
           from: "src/NextJS/Link",
           componentDefaultImport: true,
@@ -363,7 +363,7 @@ describe("TypescriptNextJSPlugin - UseRedirect file", () => {
       },
       routeName: "UserInfo",
       routePattern: "/user/:id",
-      routeLinkOptions: {
+      extraConfig: {
         importCustomLink: {
           from: "src/NextJS/Link",
           componentDefaultImport: true,
@@ -390,7 +390,7 @@ describe("TypescriptNextJSPlugin - UseRedirect file", () => {
       importGenerateUrl: { from: "route-codegen", namedImports: [{ name: "generateUrl" }] },
       importRedirectServerSide: { namedImports: [{ name: "RedirectServerSide" }], from: "@route-codegen/react" },
     };
-    const [templateFile] = plugin.generate(params);
+    const [templateFile] = plugin.generate({ ...params });
 
     expect(templateFile.filename).toBe("useRedirectUserInfo");
     expect(templateFile.extension).toBe(".ts");

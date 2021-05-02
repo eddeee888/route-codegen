@@ -1,10 +1,10 @@
 import { throwError } from "../throwError";
-import { PatternPluginBaseConfig, PatternTemplateFile } from "../types";
+import { PatternPluginBaseConfig, PatternTemplateFile, WithExtraConfig } from "../types";
 
 export class BasePatternGenerator<C = Record<string, unknown>> {
-  config: PatternPluginBaseConfig & C;
+  config: WithExtraConfig<PatternPluginBaseConfig, C>;
 
-  constructor(config: PatternPluginBaseConfig & C) {
+  constructor(config: WithExtraConfig<PatternPluginBaseConfig, C>) {
     this.config = config;
   }
 
