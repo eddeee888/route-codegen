@@ -3,19 +3,25 @@ import { plugin } from "./TypescriptPatternPlugin";
 describe("TypescriptPatternPlugin", () => {
   describe("Default and ReactRouterV5", () => {
     it("should generate correctly if no dynamic path", () => {
-      const [templateFile, interfaceResult] = plugin.generate({
+      const templateFile = plugin.generate({
         origin: "",
+        routingType: "route-internal",
         routePattern: "/app/login",
         destinationDir: "path/to/routes",
         routeName: "Login",
         linkOptionModeNextJS: undefined,
       });
 
+      expect(templateFile.type).toBe("pattern");
+      expect(templateFile.hasDefaultExport).toBe(false);
+      expect(templateFile.hasNamedExports).toBe(true);
+      expect(templateFile.routeName).toBe("Login");
+      expect(templateFile.routingType).toBe("route-internal");
       expect(templateFile.filename).toBe("patternLogin");
       expect(templateFile.extension).toBe(".ts");
       expect(templateFile.destinationDir).toBe("path/to/routes");
       expect(templateFile.template).toContain("export const patternLogin = '/app/login'");
-      expect(interfaceResult).toEqual({
+      expect(templateFile.namedExports).toEqual({
         originName: "originLogin",
         patternName: "patternLogin",
         urlParamsInterfaceName: "UrlParamsLogin",
@@ -24,7 +30,8 @@ describe("TypescriptPatternPlugin", () => {
     });
 
     it("should generate correctly for routes with dynamic path", () => {
-      const [templateFile, interfaceResult] = plugin.generate({
+      const templateFile = plugin.generate({
+        routingType: "route-internal",
         origin: "",
         routePattern: "/app/users/:id/:subview(profile|pictures)",
         destinationDir: "path/to/routes",
@@ -32,6 +39,11 @@ describe("TypescriptPatternPlugin", () => {
         linkOptionModeNextJS: undefined,
       });
 
+      expect(templateFile.type).toBe("pattern");
+      expect(templateFile.hasDefaultExport).toBe(false);
+      expect(templateFile.hasNamedExports).toBe(true);
+      expect(templateFile.routeName).toBe("UserInfo");
+      expect(templateFile.routingType).toBe("route-internal");
       expect(templateFile.filename).toBe("patternUserInfo");
       expect(templateFile.extension).toBe(".ts");
       expect(templateFile.destinationDir).toBe("path/to/routes");
@@ -48,7 +60,7 @@ describe("TypescriptPatternPlugin", () => {
               origin?: string;
             }"
       `);
-      expect(interfaceResult).toEqual({
+      expect(templateFile.namedExports).toEqual({
         originName: "originUserInfo",
         patternName: "patternUserInfo",
         pathParamsInterfaceName: "PathParamsUserInfo",
@@ -61,7 +73,8 @@ describe("TypescriptPatternPlugin", () => {
 
   describe("NextJS", () => {
     it("should generate template correctly with loose NextJS pattern", () => {
-      const [templateFile, interfaceResult] = plugin.generate({
+      const templateFile = plugin.generate({
+        routingType: "route-internal",
         origin: "",
         routePattern: "/app/users/:id/:subview(profile|pictures)/:singleEnum(only)/:optional?/:optionalEnum(enum1|enum2)?",
         destinationDir: "path/to/routes",
@@ -69,6 +82,11 @@ describe("TypescriptPatternPlugin", () => {
         linkOptionModeNextJS: "loose",
       });
 
+      expect(templateFile.type).toBe("pattern");
+      expect(templateFile.hasDefaultExport).toBe(false);
+      expect(templateFile.hasNamedExports).toBe(true);
+      expect(templateFile.routeName).toBe("UserInfo");
+      expect(templateFile.routingType).toBe("route-internal");
       expect(templateFile.filename).toBe("patternUserInfo");
       expect(templateFile.extension).toBe(".ts");
       expect(templateFile.destinationDir).toBe("path/to/routes");
@@ -89,7 +107,7 @@ describe("TypescriptPatternPlugin", () => {
               origin?: string;
             }"
       `);
-      expect(interfaceResult).toEqual({
+      expect(templateFile.namedExports).toEqual({
         originName: "originUserInfo",
         patternName: "patternUserInfo",
         patternNameNextJS: "patternNextJSUserInfo",
@@ -102,7 +120,8 @@ describe("TypescriptPatternPlugin", () => {
     });
 
     it("should generate template correctly with strict NextJS pattern", () => {
-      const [templateFile, interfaceResult] = plugin.generate({
+      const templateFile = plugin.generate({
+        routingType: "route-internal",
         origin: "",
         routePattern: "/app/users/:id/:subview(profile|pictures)/:singleEnum(only)/:optional?/:optionalEnum(enum1|enum2)?",
         destinationDir: "path/to/routes",
@@ -110,6 +129,11 @@ describe("TypescriptPatternPlugin", () => {
         linkOptionModeNextJS: "strict",
       });
 
+      expect(templateFile.type).toBe("pattern");
+      expect(templateFile.hasDefaultExport).toBe(false);
+      expect(templateFile.hasNamedExports).toBe(true);
+      expect(templateFile.routeName).toBe("UserInfo");
+      expect(templateFile.routingType).toBe("route-internal");
       expect(templateFile.filename).toBe("patternUserInfo");
       expect(templateFile.extension).toBe(".ts");
       expect(templateFile.destinationDir).toBe("path/to/routes");
@@ -130,7 +154,7 @@ describe("TypescriptPatternPlugin", () => {
               origin?: string;
             }"
       `);
-      expect(interfaceResult).toEqual({
+      expect(templateFile.namedExports).toEqual({
         originName: "originUserInfo",
         patternName: "patternUserInfo",
         patternNameNextJS: "patternNextJSUserInfo",
@@ -143,7 +167,8 @@ describe("TypescriptPatternPlugin", () => {
     });
 
     it("should generate template correctly for home page", () => {
-      const [templateFile, interfaceResult] = plugin.generate({
+      const templateFile = plugin.generate({
+        routingType: "route-internal",
         origin: "",
         routePattern: "/",
         destinationDir: "path/to/routes",
@@ -151,6 +176,11 @@ describe("TypescriptPatternPlugin", () => {
         linkOptionModeNextJS: "strict",
       });
 
+      expect(templateFile.type).toBe("pattern");
+      expect(templateFile.hasDefaultExport).toBe(false);
+      expect(templateFile.hasNamedExports).toBe(true);
+      expect(templateFile.routeName).toBe("UserInfo");
+      expect(templateFile.routingType).toBe("route-internal");
       expect(templateFile.filename).toBe("patternUserInfo");
       expect(templateFile.extension).toBe(".ts");
       expect(templateFile.destinationDir).toBe("path/to/routes");
@@ -171,7 +201,7 @@ describe("TypescriptPatternPlugin", () => {
               origin?: string;
             }"
       `);
-      expect(interfaceResult).toEqual({
+      expect(templateFile.namedExports).toEqual({
         originName: "originUserInfo",
         patternName: "patternUserInfo",
         patternNameNextJS: "patternNextJSUserInfo",
@@ -186,7 +216,8 @@ describe("TypescriptPatternPlugin", () => {
 
   describe("Custom origin", () => {
     it("should handle normal origin correctly", () => {
-      const [templateFile, interfaceResult] = plugin.generate({
+      const templateFile = plugin.generate({
+        routingType: "route-external",
         origin: "https://sample.domain.com",
         routePattern: "/app/users/:id/:subview(profile|pictures)",
         destinationDir: "path/to/routes",
@@ -194,6 +225,11 @@ describe("TypescriptPatternPlugin", () => {
         linkOptionModeNextJS: undefined,
       });
 
+      expect(templateFile.type).toBe("pattern");
+      expect(templateFile.hasDefaultExport).toBe(false);
+      expect(templateFile.hasNamedExports).toBe(true);
+      expect(templateFile.routeName).toBe("UserInfo");
+      expect(templateFile.routingType).toBe("route-external");
       expect(templateFile.filename).toBe("patternUserInfo");
       expect(templateFile.extension).toBe(".ts");
       expect(templateFile.destinationDir).toBe("path/to/routes");
@@ -210,7 +246,7 @@ describe("TypescriptPatternPlugin", () => {
               origin?: string;
             }"
       `);
-      expect(interfaceResult).toEqual({
+      expect(templateFile.namedExports).toEqual({
         originName: "originUserInfo",
         patternName: "patternUserInfo",
         pathParamsInterfaceName: "PathParamsUserInfo",
