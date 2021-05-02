@@ -78,7 +78,7 @@ export interface GeneratedFilesProcessorPluginBaseConfig {
   destinationDir: string;
   files: TemplateFile[];
 }
-export interface GeneratedFilesProcessorCodegenPlugin<C = Record<string, never>>
+export interface GeneratedFilesProcessorCodegenPlugin<C = Record<string, unknown>>
   extends CodegenPlugin<GeneratedFilesProcessorPluginBaseConfig & C, TemplateFile[]> {
   type: "generated-files-processor";
 }
@@ -92,6 +92,6 @@ export interface PatternPluginBaseConfig {
 
   linkOptionModeNextJS: "strict" | "loose" | undefined; // TODO: this is a hack and should be removed
 }
-export interface PatternCodegenPlugin<C = Record<string, never>> extends CodegenPlugin<PatternPluginBaseConfig & C, PatternTemplateFile> {
+export interface PatternCodegenPlugin<C = Record<string, unknown>> extends CodegenPlugin<PatternPluginBaseConfig & C, PatternTemplateFile> {
   type: "pattern";
 }

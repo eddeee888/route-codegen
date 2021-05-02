@@ -1,7 +1,7 @@
 import { throwError } from "../throwError";
 import { PatternPluginBaseConfig, PatternTemplateFile } from "../types";
 
-export class BasePatternGenerator<C = Record<string, never>> {
+export class BasePatternGenerator<C = Record<string, unknown>> {
   config: PatternPluginBaseConfig & C;
 
   constructor(config: PatternPluginBaseConfig & C) {
