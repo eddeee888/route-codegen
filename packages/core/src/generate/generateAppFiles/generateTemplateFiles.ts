@@ -5,7 +5,6 @@ import {
   pluginHelpers,
   TopLevelGenerateOptions,
   PluginModule,
-  BasePluginResult,
   RoutingType,
   PatternTemplateFile,
   PatternPluginBaseConfig,
@@ -85,7 +84,7 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
       patternNamedExports: patternFile.namedExports,
       importGenerateUrl,
       importRedirectServerSide,
-    }) as BasePluginResult; // TODO: type this better to scale
+    }) as TemplateFile[]; // TODO: type this better to scale
     files.push(...templateFiles);
   });
 

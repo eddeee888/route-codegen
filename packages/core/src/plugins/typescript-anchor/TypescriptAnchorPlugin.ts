@@ -1,8 +1,7 @@
 import {
-  BasePlugin,
-  BasePluginConfig,
+  BaseGeneralGenerator,
   capitalizeFirstChar,
-  CodegenPlugin,
+  GeneralCodegenPlugin,
   getOverriddenValue,
   handleImportCustomLink,
   Import,
@@ -42,9 +41,7 @@ interface GenerateLinkInterfaceResult {
   linkPropsInterfaceName: string;
 }
 
-export type TypescriptAnchorPluginConfig = BasePluginConfig;
-
-class TypescriptAnchorPlugin extends BasePlugin<ParsedLinkOptionsAnchor> {
+class TypescriptAnchorPlugin extends BaseGeneralGenerator<Record<string, unknown>, ParsedLinkOptionsAnchor> {
   generate(): TemplateFile[] {
     const result: TemplateFile[] = [];
 
@@ -279,7 +276,7 @@ class TypescriptAnchorPlugin extends BasePlugin<ParsedLinkOptionsAnchor> {
   }
 }
 
-export const plugin: CodegenPlugin<TypescriptAnchorPluginConfig, TemplateFile[]> = {
+export const plugin: GeneralCodegenPlugin = {
   type: "route-external",
   generate: (config) => {
     return new TypescriptAnchorPlugin(config).generate();
