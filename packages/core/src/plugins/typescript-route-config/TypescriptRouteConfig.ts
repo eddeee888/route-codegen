@@ -1,6 +1,6 @@
-import { CodegenPluginGeneratedFilesProcessor, TemplateFile } from "../../utils";
+import { GeneratedFilesProcessorCodegenPlugin, TemplateFile } from "../../utils";
 
-export const plugin: CodegenPluginGeneratedFilesProcessor = {
+export const plugin: GeneratedFilesProcessorCodegenPlugin = {
   type: "generated-files-processor",
   generate: ({ destinationDir, files }) => {
     files.reduce<string[]>((templateChunks, file) => {

@@ -1,6 +1,7 @@
 export type RoutingType = "route-internal" | "route-external";
 
 export interface TemplateFile {
+  type?: "pattern" | "general";
   template: string;
   filename: string;
   extension: string;
@@ -8,6 +9,13 @@ export interface TemplateFile {
   hasDefaultExport: boolean;
   hasNamedExports: boolean;
   routeName: string;
+}
+
+export interface PatternTemplateFile extends TemplateFile {
+  type: "pattern";
+  routingType: RoutingType;
+  namedExports: PatternNamedExports;
+  hasNamedExports: true;
 }
 
 export interface Import {
@@ -56,4 +64,34 @@ export interface LinkOptions {
     useParams?: boolean;
   };
   mode?: string;
+}
+
+export type PluginConfigType = "pattern" | "general" | "route-internal" | "route-external" | "generated-files-processor";
+
+export interface CodegenPlugin<C, R> {
+  type: PluginConfigType;
+  isNextJS?: boolean; // TODO: this is a hack and should be removed
+  generate: (config: C) => R;
+}
+
+export interface GeneratedFilesProcessorPluginBaseConfig {
+  destinationDir: string;
+  files: TemplateFile[];
+}
+export interface GeneratedFilesProcessorCodegenPlugin<C = Record<string, never>>
+  extends CodegenPlugin<GeneratedFilesProcessorPluginBaseConfig & C, TemplateFile[]> {
+  type: "generated-files-processor";
+}
+
+export interface PatternPluginBaseConfig {
+  origin: string;
+  routeName: string;
+  routingType: RoutingType;
+  routePattern: string;
+  destinationDir: string;
+
+  linkOptionModeNextJS: "strict" | "loose" | undefined; // TODO: this is a hack and should be removed
+}
+export interface PatternCodegenPlugin<C = Record<string, never>> extends CodegenPlugin<PatternPluginBaseConfig & C, PatternTemplateFile> {
+  type: "pattern";
 }

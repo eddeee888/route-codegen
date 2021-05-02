@@ -1,14 +1,12 @@
 import { Key } from "path-to-regexp";
 import {
-  PatternNamedExports,
-  TemplateFile,
   keyHelpers,
   capitalizeFirstChar,
   KeyType,
   throwError,
   BasePatternPlugin,
-  BasePatternPluginConfig,
-  CodegenPlugin,
+  PatternTemplateFile,
+  PatternCodegenPlugin,
 } from "../../utils";
 
 interface PathParamsInterfaceResult {
@@ -21,11 +19,9 @@ interface PossibleParamsResult {
   variableName: string;
 }
 
-export type TypescriptPatternPluginConfig = BasePatternPluginConfig;
-
-class TypescriptPatternPlugin extends BasePatternPlugin<TypescriptPatternPluginConfig> {
-  generate(): [TemplateFile, PatternNamedExports] {
-    const { routePattern, routeName: originalRouteName, destinationDir, origin, linkOptionModeNextJS } = this.config;
+class TypescriptPatternPlugin extends BasePatternPlugin {
+  generate(): PatternTemplateFile {
+    const { routePattern, routeName: originalRouteName, routingType, destinationDir, origin, linkOptionModeNextJS } = this.config;
 
     const keys = keyHelpers.getKeysFromRoutePattern(routePattern);
 
@@ -50,17 +46,10 @@ class TypescriptPatternPlugin extends BasePatternPlugin<TypescriptPatternPluginC
     ${possiblePathParams ? possiblePathParams.template : ""}
     ${urlParams.template}`;
 
-    const result: [TemplateFile, PatternNamedExports] = [
-      {
-        template,
-        filename,
-        extension: ".ts",
-        destinationDir,
-        routeName: originalRouteName,
-        hasDefaultExport: false,
-        hasNamedExports: true,
-      },
-      {
+    const result: PatternTemplateFile = {
+      type: "pattern",
+      routingType,
+      namedExports: {
         originName,
         patternName,
         patternNameNextJS: patternNextJS ? patternNextJS.variableName : undefined,
@@ -70,7 +59,14 @@ class TypescriptPatternPlugin extends BasePatternPlugin<TypescriptPatternPluginC
         urlParamsInterfaceName: urlParams.interfaceName,
         filename,
       },
-    ];
+      template,
+      filename,
+      extension: ".ts",
+      destinationDir,
+      routeName: originalRouteName,
+      hasDefaultExport: false,
+      hasNamedExports: true,
+    };
 
     return result;
   }
@@ -216,7 +212,7 @@ class TypescriptPatternPlugin extends BasePatternPlugin<TypescriptPatternPluginC
   }
 }
 
-export const plugin: CodegenPlugin<TypescriptPatternPluginConfig, [TemplateFile, PatternNamedExports]> = {
+export const plugin: PatternCodegenPlugin = {
   type: "pattern",
   generate: (config) => {
     return new TypescriptPatternPlugin(config).generate();

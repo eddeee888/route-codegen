@@ -1,25 +1,14 @@
 import { throwError } from "../throwError";
-import { PatternNamedExports, TemplateFile } from "../types";
+import { PatternPluginBaseConfig, PatternTemplateFile } from "../types";
 
-export interface BasePatternPluginConfig {
-  origin: string;
-  routeName: string;
-  routePattern: string;
-  destinationDir: string;
+export class BasePatternPlugin<C = Record<string, never>> {
+  config: PatternPluginBaseConfig & C;
 
-  linkOptionModeNextJS: "strict" | "loose" | undefined; // TODO: this is a hack and should be removed
-}
-
-export type BasePatternPluginResult = [TemplateFile, PatternNamedExports];
-
-export class BasePatternPlugin<C = BasePatternPluginConfig, R = BasePatternPluginResult> {
-  config: C;
-
-  constructor(config: C) {
+  constructor(config: PatternPluginBaseConfig & C) {
     this.config = config;
   }
 
-  generate(): R {
+  generate(): PatternTemplateFile {
     return throwError([], "Implement generate function");
   }
 }
