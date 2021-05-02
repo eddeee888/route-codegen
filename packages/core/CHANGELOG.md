@@ -1,5 +1,12 @@
 # @route-codegen/core
 
+## 0.5.2
+
+### Patch Changes
+
+- af89d8f: [New plugin] Add typescript-route-config plugin. This is used to generate a map from route to route component and convenient drop-in props
+- 7a66bca: Update internals to handle plugin and generator types better. Extra config are passed in via dedicated param to avoid collision
+
 ## 0.5.1
 
 ### Patch Changes
