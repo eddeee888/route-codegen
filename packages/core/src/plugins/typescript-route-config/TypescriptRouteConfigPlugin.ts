@@ -1,5 +1,6 @@
 import {
   GeneratedFilesProcessorCodegenPlugin,
+  GeneratedFilesProcessorPluginBaseConfig,
   Import,
   info,
   PatternTemplateFile,
@@ -25,12 +26,14 @@ const getComponentName = (importMeta: Import): string => {
   return throwError([], "Import must have namedImports or defaultImport");
 };
 
-export interface GeneratedFilesProcessorCodegenPluginExtraConfig {
+interface ExtraConfig {
   internalComponent?: Import;
   externalComponent?: Import;
 }
 
-export const plugin: GeneratedFilesProcessorCodegenPlugin<GeneratedFilesProcessorCodegenPluginExtraConfig> = {
+export type TypescriptRouteConfigPluginConfig = ExtraConfig & GeneratedFilesProcessorPluginBaseConfig;
+
+export const plugin: GeneratedFilesProcessorCodegenPlugin<ExtraConfig> = {
   type: "generated-files-processor",
   generate: ({ destinationDir, files, internalComponent, externalComponent }) => {
     if (!internalComponent || !externalComponent) {

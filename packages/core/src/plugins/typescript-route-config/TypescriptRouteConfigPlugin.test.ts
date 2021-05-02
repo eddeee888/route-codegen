@@ -1,5 +1,5 @@
 import { GeneratedFilesProcessorPluginBaseConfig, PatternTemplateFile, TemplateFile } from "../../utils";
-import { plugin, GeneratedFilesProcessorCodegenPluginExtraConfig } from "./TypescriptRouteConfig";
+import { plugin, TypescriptRouteConfigPluginConfig } from "./TypescriptRouteConfigPlugin";
 
 describe("TypescriptRouteConfig", () => {
   const generalTemplateFile: TemplateFile = {
@@ -86,7 +86,7 @@ describe("TypescriptRouteConfig", () => {
     },
   };
 
-  const defaultConfig: GeneratedFilesProcessorPluginBaseConfig & GeneratedFilesProcessorCodegenPluginExtraConfig = {
+  const defaultConfig: GeneratedFilesProcessorPluginBaseConfig & TypescriptRouteConfigPluginConfig = {
     destinationDir: "apps/",
     files: [],
     internalComponent: {
