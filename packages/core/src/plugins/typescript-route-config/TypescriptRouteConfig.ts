@@ -2,6 +2,7 @@ import {
   GeneratedFilesProcessorCodegenPlugin,
   Import,
   info,
+  PatternTemplateFile,
   printImport,
   TemplateFile,
   templateFileHelpers,
@@ -24,22 +25,34 @@ const getComponentName = (importMeta: Import): string => {
   return throwError([], "Import must have namedImports or defaultImport");
 };
 
-export const plugin: GeneratedFilesProcessorCodegenPlugin<{ internalComponent?: Import; externalComponent?: Import }> = {
+export interface GeneratedFilesProcessorCodegenPluginExtraConfig {
+  internalComponent?: Import;
+  externalComponent?: Import;
+}
+
+export const plugin: GeneratedFilesProcessorCodegenPlugin<GeneratedFilesProcessorCodegenPluginExtraConfig> = {
   type: "generated-files-processor",
   generate: ({ destinationDir, files, internalComponent, externalComponent }) => {
     if (!internalComponent || !externalComponent) {
       return throwError(["type-route-config"], "internalComponent and externalComponent are required");
     }
 
+    const patternFiles = files.reduce<PatternTemplateFile[]>((result, file) => {
+      if (templateFileHelpers.isPatternTemplateFile(file)) {
+        return [...result, file];
+      }
+      return result;
+    }, []);
+
+    if (patternFiles.length < 1) {
+      return [];
+    }
+
     const internalComponentName = getComponentName(internalComponent);
     const externalComponentName = getComponentName(externalComponent);
 
-    const templates = files.reduce<{ fields: string[]; interfaces: string[]; imports: Import[] }>(
+    const templates = patternFiles.reduce<{ fields: string[]; interfaces: string[]; imports: Import[] }>(
       (templateMap, file) => {
-        if (!templateFileHelpers.isPatternTemplateFile(file)) {
-          return templateMap;
-        }
-
         const fieldTemplate = `${file.routeName}: {
           pattern: ${file.namedExports.patternName},
           component: ${file.routingType === "route-external" ? externalComponentName : internalComponentName}
