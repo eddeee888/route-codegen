@@ -1,5 +1,4 @@
 import {
-  BasePlugin,
   capitalizeFirstChar,
   getOverriddenValue,
   Import,
@@ -8,8 +7,8 @@ import {
   TemplateFile,
   throwError,
   handleImportCustomLink,
-  CodegenPlugin,
-  BasePluginConfig,
+  GeneralCodegenPlugin,
+  BaseGeneralGenerator,
 } from "../../utils";
 
 interface ParsedLinkOptionsReactRouter5 {
@@ -40,9 +39,7 @@ interface GenerateLinkInterfaceResult {
   linkPropsInterfaceName: string;
 }
 
-export type TypescriptReactRouter5PluginConfig = BasePluginConfig;
-
-class TypescriptReactRouter5Plugin extends BasePlugin<ParsedLinkOptionsReactRouter5, TypescriptReactRouter5PluginConfig> {
+class TypescriptReactRouter5Plugin extends BaseGeneralGenerator<Record<string, unknown>, ParsedLinkOptionsReactRouter5> {
   generate(): TemplateFile[] {
     const result: TemplateFile[] = [];
 
@@ -336,7 +333,7 @@ class TypescriptReactRouter5Plugin extends BasePlugin<ParsedLinkOptionsReactRout
   }
 }
 
-export const plugin: CodegenPlugin<TypescriptReactRouter5PluginConfig, TemplateFile[]> = {
+export const plugin: GeneralCodegenPlugin = {
   type: "route-internal",
   generate: (config) => {
     return new TypescriptReactRouter5Plugin(config).generate();

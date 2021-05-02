@@ -95,3 +95,18 @@ export interface PatternPluginBaseConfig {
 export interface PatternCodegenPlugin<C = Record<string, unknown>> extends CodegenPlugin<PatternPluginBaseConfig & C, PatternTemplateFile> {
   type: "pattern";
 }
+
+export interface GeneralPluginBaseConfig {
+  appName: string;
+  routeName: string;
+  routePattern: string;
+  routeLinkOptions: LinkOptions;
+  topLevelGenerateOptions: TopLevelGenerateOptions;
+  destinationDir: string;
+  patternNamedExports: PatternNamedExports;
+  importGenerateUrl: Import;
+  importRedirectServerSide: Import;
+}
+export interface GeneralCodegenPlugin<C = Record<string, unknown>> extends CodegenPlugin<GeneralPluginBaseConfig & C, TemplateFile[]> {
+  type: "general" | "route-internal" | "route-external";
+}

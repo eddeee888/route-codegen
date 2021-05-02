@@ -1,7 +1,8 @@
-import { plugin, TypescriptReactRouter5PluginConfig } from "./TypescriptReactRouter5Plugin";
+import { GeneralPluginBaseConfig } from "../../utils";
+import { plugin } from "./TypescriptReactRouter5Plugin";
 
 describe("TypescriptReactRouter5Plugin - Link file", () => {
-  const defaultParams: TypescriptReactRouter5PluginConfig = {
+  const defaultParams: GeneralPluginBaseConfig = {
     appName: "rr5-app",
     routePattern: "/login",
     routeName: "Login",
@@ -123,7 +124,7 @@ describe("TypescriptReactRouter5Plugin - Link file", () => {
 });
 
 describe("TypescriptReactRouter5Plugin - Redirect file", () => {
-  const defaultParams: TypescriptReactRouter5PluginConfig = {
+  const defaultParams: GeneralPluginBaseConfig = {
     appName: "rr5-app",
     routeName: "Login",
     routePattern: "/login",

@@ -12,5 +12,5 @@ export * from "./throwError";
 
 export * from "./handleCommandFlags";
 
-export * from "./BasePlugin";
+export * from "./BaseGeneralGenerator";
 export * from "./BasePatternGenerator";
