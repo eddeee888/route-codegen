@@ -2,4 +2,4 @@
 "@route-codegen/core": patch
 ---
 
-Update type declarations to make it easier to type future plugins
+Update internals to handle plugin and generator types better. Extra config are passed in via dedicated param to avoid collision
