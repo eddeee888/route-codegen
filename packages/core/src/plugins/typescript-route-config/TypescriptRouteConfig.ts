@@ -85,8 +85,8 @@ export const plugin: GeneratedFilesProcessorCodegenPlugin<GeneratedFilesProcesso
       ...templates.fields,
       "}",
 
-      "export type RouteConfigParams = ",
-      templates.interfaces.join("&"),
+      "export type RouteConfigProps = ",
+      templates.interfaces.join("|"),
     ].join("\n");
 
     const file: TemplateFile = {

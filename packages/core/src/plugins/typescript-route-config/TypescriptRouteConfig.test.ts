@@ -181,8 +181,8 @@ describe("TypescriptRouteConfig", () => {
                 component: Link
               },
       }
-      export type RouteConfigParams = 
-      { to: 'about', urlParams?: urlParamsAbout }&{ to: 'user', urlParams: urlParamsUser }&{ to: 'terms', urlParams?: urlParamsTerms }&{ to: 'terms', urlParams: urlParamsProject }"
+      export type RouteConfigProps = 
+      { to: 'about', urlParams?: urlParamsAbout }|{ to: 'user', urlParams: urlParamsUser }|{ to: 'terms', urlParams?: urlParamsTerms }|{ to: 'terms', urlParams: urlParamsProject }"
     `);
   });
 });
