@@ -1,5 +1,4 @@
 import {
-  BasePlugin,
   capitalizeFirstChar,
   Import,
   keyHelpers,
@@ -10,8 +9,8 @@ import {
   info,
   getOverriddenValue,
   handleImportCustomLink,
-  CodegenPlugin,
-  BasePluginConfig,
+  GeneralCodegenPlugin,
+  BaseGeneralGenerator,
 } from "../../utils";
 
 interface ParsedLinkOptionsNextJS {
@@ -41,9 +40,7 @@ interface GenerateLinkInterfaceResult {
   linkPropsInterfaceName: string;
 }
 
-export type TypescriptNextJSPluginConfig = BasePluginConfig;
-
-class TypescriptNextJSPlugin extends BasePlugin<ParsedLinkOptionsNextJS, TypescriptNextJSPluginConfig> {
+class TypescriptNextJSPlugin extends BaseGeneralGenerator<Record<string, unknown>, ParsedLinkOptionsNextJS> {
   generate(): TemplateFile[] {
     const result: TemplateFile[] = [];
 
@@ -374,7 +371,7 @@ class TypescriptNextJSPlugin extends BasePlugin<ParsedLinkOptionsNextJS, Typescr
   }
 }
 
-export const plugin: CodegenPlugin<TypescriptNextJSPluginConfig, TemplateFile[]> = {
+export const plugin: GeneralCodegenPlugin = {
   type: "route-internal",
   isNextJS: true,
   generate: (config) => {
