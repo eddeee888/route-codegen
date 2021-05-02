@@ -109,14 +109,14 @@ describe("TypescriptRouteConfig", () => {
     expect(() =>
       plugin.generate({
         ...defaultConfig,
-        extraConfig: { internalComponent: defaultConfig.extraConfig.internalComponent, externalComponent: undefined },
+        extraConfig: { internalComponent: defaultConfig.extraConfig?.internalComponent, externalComponent: undefined },
       })
     ).toThrow("internalComponent and externalComponent are required");
 
     expect(() =>
       plugin.generate({
         ...defaultConfig,
-        extraConfig: { externalComponent: defaultConfig.extraConfig.externalComponent, internalComponent: undefined },
+        extraConfig: { externalComponent: defaultConfig.extraConfig?.externalComponent, internalComponent: undefined },
       })
     ).toThrow("internalComponent and externalComponent are required");
 
