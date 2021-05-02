@@ -5,10 +5,10 @@ import {
   pluginHelpers,
   TopLevelGenerateOptions,
   PluginModule,
-  BasePatternPluginConfig,
-  BasePatternPluginResult,
   BasePluginResult,
   RoutingType,
+  PatternTemplateFile,
+  PatternPluginBaseConfig,
 } from "../../utils";
 
 export interface GenerateTemplateFilesParams {
@@ -53,7 +53,7 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
 
   // TODO: type this better to scale
   const patternPlugin = pluginHelpers.findFirstOfType(pluginModules, "pattern") as
-    | PluginModule<BasePatternPluginConfig, BasePatternPluginResult>
+    | PluginModule<PatternPluginBaseConfig, PatternTemplateFile>
     | undefined;
   if (!patternPlugin) {
     return throwError([appName, routeName], "No pattern plugin found.");
@@ -61,8 +61,9 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
 
   const files: TemplateFile[] = [];
 
-  const [patternFile, patternNamedExports] = patternPlugin.plugin.generate({
+  const patternFile = patternPlugin.plugin.generate({
     origin,
+    routingType,
     routeName,
     routePattern,
     destinationDir,
@@ -81,7 +82,7 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
       routeLinkOptions: config,
       topLevelGenerateOptions,
       destinationDir,
-      patternNamedExports,
+      patternNamedExports: patternFile.namedExports,
       importGenerateUrl,
       importRedirectServerSide,
     }) as BasePluginResult; // TODO: type this better to scale

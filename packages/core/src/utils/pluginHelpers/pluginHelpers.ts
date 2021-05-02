@@ -1,3 +1,5 @@
+import { CodegenPlugin, PluginConfigType } from "../types";
+
 /**
  * Raw plugin config from reading yml
  */
@@ -5,14 +7,6 @@ export interface RawPlugin {
   name: string;
   type?: string;
   config?: Record<string, unknown>;
-}
-
-export type PluginConfigType = "pattern" | "general" | "route-internal" | "route-external" | "generated-files-processor";
-
-export interface CodegenPlugin<C, R> {
-  type: PluginConfigType;
-  isNextJS?: boolean; // TODO: this is a hack and should be removed
-  generate: (config: C) => R;
 }
 
 export interface PluginModule<C = unknown, R = unknown> {

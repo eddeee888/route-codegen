@@ -9,6 +9,15 @@ apps:
       - name: "typescript-generate-url"
       - name: "typescript-react-router-5"
       - name: "typescript-anchor"
+      - name: "typescript-route-config"
+        config:
+          internalComponent:
+            from: "~/common/components/Link"
+            defaultImport: "Link"
+          externalComponent:
+            from: "~/common/components/Anchor"
+            namedImports:
+              - name: "CustomAnchor"
     generate:
       linkComponent: true
       useParams: true
@@ -58,6 +67,16 @@ apps:
       - name: "typescript-generate-url"
       - name: "typescript-next-js"
       - name: "typescript-anchor"
+      - name: "typescript-route-config"
+        config:
+          internalComponent:
+            from: "~/common/components/NextLink"
+            defaultImport: "Link"
+          externalComponent:
+            from: "~/common/components/Anchor"
+            namedImports:
+              - name: "CustomAnchor"
+                importAs: "Anchor"
     generate:
       linkComponent: true
       useParams: true

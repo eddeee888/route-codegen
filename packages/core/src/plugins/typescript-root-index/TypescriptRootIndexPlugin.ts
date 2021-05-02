@@ -1,14 +1,8 @@
-import { BasePlugin, CodegenPlugin, TemplateFile } from "../../utils";
+import { GeneratedFilesProcessorCodegenPlugin, TemplateFile } from "../../utils";
 
-export interface TypescriptRootIndexPluginConfig {
-  destinationDir: string;
-  files: TemplateFile[];
-}
-
-class TypescriptRootIndexPlugin extends BasePlugin<Record<string, never>, TypescriptRootIndexPluginConfig> {
-  generate(): TemplateFile[] {
-    const { destinationDir, files } = this.config;
-
+export const plugin: GeneratedFilesProcessorCodegenPlugin = {
+  type: "generated-files-processor",
+  generate: ({ destinationDir, files }) => {
     if (files.length === 0) {
       return [];
     }
@@ -35,12 +29,5 @@ class TypescriptRootIndexPlugin extends BasePlugin<Record<string, never>, Typesc
     };
 
     return [rootIndexFile];
-  }
-}
-
-export const plugin: CodegenPlugin<TypescriptRootIndexPluginConfig, TemplateFile[]> = {
-  type: "generated-files-processor",
-  generate: (config) => {
-    return new TypescriptRootIndexPlugin(config).generate();
   },
 };
