@@ -42,8 +42,8 @@ const generateAppFiles = async (appName: string, appConfig: AppConfig): Promise<
       any,
       TemplateFile[]
     >[];
-    const extraFiles = generatedFileProcessors.reduce<TemplateFile[]>((prevFiles, { plugin }) => {
-      const newFiles = plugin.generate({ destinationDir, files: filesToGenerate });
+    const extraFiles = generatedFileProcessors.reduce<TemplateFile[]>((prevFiles, { plugin, config }) => {
+      const newFiles = plugin.generate({ ...config, destinationDir, files: filesToGenerate });
       return [...prevFiles, ...newFiles];
     }, []);
 
