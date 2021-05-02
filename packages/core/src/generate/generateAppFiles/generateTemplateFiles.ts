@@ -8,6 +8,7 @@ import {
   RoutingType,
   PatternTemplateFile,
   PatternPluginBaseConfig,
+  WithExtraConfig,
 } from "../../utils";
 
 export interface GenerateTemplateFilesParams {
@@ -52,7 +53,7 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
 
   // TODO: type this better to scale
   const patternPlugin = pluginHelpers.findFirstOfType(pluginModules, "pattern") as
-    | PluginModule<PatternPluginBaseConfig, PatternTemplateFile>
+    | PluginModule<WithExtraConfig<PatternPluginBaseConfig, Record<string, unknown>>, PatternTemplateFile>
     | undefined;
   if (!patternPlugin) {
     return throwError([appName, routeName], "No pattern plugin found.");
@@ -66,6 +67,7 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
     routeName,
     routePattern,
     destinationDir,
+    extraConfig: patternPlugin.config,
     linkOptionModeNextJS, // TODO: this is the NextJS pattern hack and should be removed
   });
   files.push(patternFile);
@@ -78,12 +80,12 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
       origin,
       routeName,
       routePattern,
-      routeLinkOptions: config,
-      topLevelGenerateOptions,
       destinationDir,
       patternNamedExports: patternFile.namedExports,
+      topLevelGenerateOptions,
       importGenerateUrl,
       importRedirectServerSide,
+      extraConfig: config,
     }) as TemplateFile[]; // TODO: type this better to scale
     files.push(...templateFiles);
   });

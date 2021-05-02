@@ -1,8 +1,7 @@
-import { GeneralPluginBaseConfig } from "../../utils";
-import { plugin } from "./TypescriptNextJSPlugin";
+import { plugin, TypescriptNextJSGeneratorConfig } from "./TypescriptNextJSPlugin";
 
 describe("TypescriptNextJSPlugin - Link file", () => {
-  const defaultParams: GeneralPluginBaseConfig = {
+  const defaultParams: TypescriptNextJSGeneratorConfig = {
     appName: "nextjs-app",
     topLevelGenerateOptions: {
       generateUseRedirect: false,
@@ -10,7 +9,7 @@ describe("TypescriptNextJSPlugin - Link file", () => {
       generateRedirectComponent: false,
       generateLinkComponent: false,
     },
-    routeLinkOptions: {
+    extraConfig: {
       importCustomLink: {
         from: "src/NextJS/Link",
         componentDefaultImport: true,
@@ -102,7 +101,7 @@ describe("TypescriptNextJSPlugin - Link file", () => {
   it("should generate correctly with named component import", () => {
     const [templateFile] = plugin.generate({
       ...defaultParams,
-      routeLinkOptions: {
+      extraConfig: {
         importCustomLink: {
           from: "src/common/Link",
           componentNamedImport: "CustomLink",
@@ -146,7 +145,7 @@ describe("TypescriptNextJSPlugin - Link file", () => {
     expect(() =>
       plugin.generate({
         ...defaultParams,
-        routeLinkOptions: {
+        extraConfig: {
           importCustomLink: {
             from: "src/common/Link",
             componentNamedImport: "CustomLink",
@@ -190,7 +189,7 @@ describe("TypescriptNextJSPlugin - UseParams file", () => {
       destinationDir: "path/to/routes",
       routeName: "User",
       routePattern: "/users/:id/:subview(profile|pictures)/:singleEnum(only)/:optional?/:optionalEnum(enum1|enum2)?",
-      routeLinkOptions: {
+      extraConfig: {
         importCustomLink: {
           from: "src/common/Link",
           componentNamedImport: "CustomLink",
@@ -241,7 +240,7 @@ describe("TypescriptNextJSPlugin - UseParams file", () => {
       destinationDir: "path/to/routes",
       routeName: "User",
       routePattern: "/users/:id/:subview(profile|pictures)/:singleEnum(only)/:optional?/:optionalEnum(enum1|enum2)?",
-      routeLinkOptions: {
+      extraConfig: {
         importCustomLink: {
           from: "src/common/Link",
           componentNamedImport: "CustomLink",
@@ -291,7 +290,7 @@ describe("TypescriptNextJSPlugin - UseParams file", () => {
 
 describe("TypescriptNextJSPlugin - UseRedirect file", () => {
   it("should generate when there is no pathParams", () => {
-    const params: GeneralPluginBaseConfig = {
+    const params: TypescriptNextJSGeneratorConfig = {
       appName: "nextjs-app",
       topLevelGenerateOptions: {
         generateLinkComponent: false,
@@ -301,7 +300,7 @@ describe("TypescriptNextJSPlugin - UseRedirect file", () => {
       },
       routeName: "Login",
       routePattern: "/login",
-      routeLinkOptions: {
+      extraConfig: {
         importCustomLink: {
           from: "src/NextJS/Link",
           componentDefaultImport: true,
@@ -354,7 +353,7 @@ describe("TypescriptNextJSPlugin - UseRedirect file", () => {
   });
 
   it("should generate when there is pathParams", () => {
-    const params: GeneralPluginBaseConfig = {
+    const params: TypescriptNextJSGeneratorConfig = {
       appName: "next-js-app",
       topLevelGenerateOptions: {
         generateLinkComponent: false,
@@ -364,7 +363,7 @@ describe("TypescriptNextJSPlugin - UseRedirect file", () => {
       },
       routeName: "UserInfo",
       routePattern: "/user/:id",
-      routeLinkOptions: {
+      extraConfig: {
         importCustomLink: {
           from: "src/NextJS/Link",
           componentDefaultImport: true,

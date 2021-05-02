@@ -9,6 +9,9 @@ import {
   handleImportCustomLink,
   GeneralCodegenPlugin,
   BaseRouteGenerator,
+  ImportCustomLink,
+  GeneralPluginBaseConfig,
+  WithExtraConfig,
 } from "../../utils";
 
 interface ParsedLinkOptionsReactRouter5 {
@@ -39,7 +42,20 @@ interface GenerateLinkInterfaceResult {
   linkPropsInterfaceName: string;
 }
 
-class TypescriptReactRouter5Plugin extends BaseRouteGenerator<ParsedLinkOptionsReactRouter5> {
+interface ExtraConfig {
+  importCustomLink?: ImportCustomLink;
+  generate?: {
+    linkComponent?: boolean;
+    redirectComponent?: boolean;
+    useRedirect?: boolean;
+    useParams?: boolean;
+  };
+  mode?: string;
+}
+
+export type TypescriptReactRouter5GeneratorConfig = WithExtraConfig<GeneralPluginBaseConfig, ExtraConfig>;
+
+class TypescriptReactRouter5Generator extends BaseRouteGenerator<ParsedLinkOptionsReactRouter5, ExtraConfig> {
   generate(): TemplateFile[] {
     const result: TemplateFile[] = [];
 
@@ -272,7 +288,7 @@ class TypescriptReactRouter5Plugin extends BaseRouteGenerator<ParsedLinkOptionsR
   }
 
   protected _parseLinkOptions(): void {
-    const { appName, routeLinkOptions, topLevelGenerateOptions } = this.config;
+    const { appName, topLevelGenerateOptions, extraConfig: routeLinkOptions } = this.config;
 
     const defaultOptions: ParsedLinkOptionsReactRouter5 = {
       importLink: {
@@ -333,9 +349,9 @@ class TypescriptReactRouter5Plugin extends BaseRouteGenerator<ParsedLinkOptionsR
   }
 }
 
-export const plugin: GeneralCodegenPlugin = {
+export const plugin: GeneralCodegenPlugin<ExtraConfig> = {
   type: "route-internal",
   generate: (config) => {
-    return new TypescriptReactRouter5Plugin(config).generate();
+    return new TypescriptReactRouter5Generator(config).generate();
   },
 };

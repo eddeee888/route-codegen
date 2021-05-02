@@ -55,17 +55,6 @@ export interface TopLevelGenerateOptions {
   generateUseRedirect: boolean;
 }
 
-export interface LinkOptions {
-  importCustomLink?: ImportCustomLink;
-  generate?: {
-    linkComponent?: boolean;
-    redirectComponent?: boolean;
-    useRedirect?: boolean;
-    useParams?: boolean;
-  };
-  mode?: string;
-}
-
 export type PluginConfigType = "pattern" | "general" | "route-internal" | "route-external" | "generated-files-processor";
 
 export interface CodegenPlugin<C, R> {
@@ -74,12 +63,14 @@ export interface CodegenPlugin<C, R> {
   generate: (config: C) => R;
 }
 
+export type WithExtraConfig<B, E> = B & { extraConfig?: E };
+
 export interface GeneratedFilesProcessorPluginBaseConfig {
   destinationDir: string;
   files: TemplateFile[];
 }
 export interface GeneratedFilesProcessorCodegenPlugin<C = Record<string, unknown>>
-  extends CodegenPlugin<GeneratedFilesProcessorPluginBaseConfig & C, TemplateFile[]> {
+  extends CodegenPlugin<WithExtraConfig<GeneratedFilesProcessorPluginBaseConfig, C>, TemplateFile[]> {
   type: "generated-files-processor";
 }
 
@@ -92,7 +83,8 @@ export interface PatternPluginBaseConfig {
 
   linkOptionModeNextJS: "strict" | "loose" | undefined; // TODO: this is a hack and should be removed
 }
-export interface PatternCodegenPlugin<C = Record<string, unknown>> extends CodegenPlugin<PatternPluginBaseConfig & C, PatternTemplateFile> {
+export interface PatternCodegenPlugin<C = Record<string, unknown>>
+  extends CodegenPlugin<WithExtraConfig<PatternPluginBaseConfig, C>, PatternTemplateFile> {
   type: "pattern";
 }
 
@@ -100,13 +92,13 @@ export interface GeneralPluginBaseConfig {
   appName: string;
   routeName: string;
   routePattern: string;
-  routeLinkOptions: LinkOptions;
   topLevelGenerateOptions: TopLevelGenerateOptions;
   destinationDir: string;
   patternNamedExports: PatternNamedExports;
   importGenerateUrl: Import;
   importRedirectServerSide: Import;
 }
-export interface GeneralCodegenPlugin<C = Record<string, unknown>> extends CodegenPlugin<GeneralPluginBaseConfig & C, TemplateFile[]> {
+export interface GeneralCodegenPlugin<C = Record<string, unknown>>
+  extends CodegenPlugin<WithExtraConfig<GeneralPluginBaseConfig, C>, TemplateFile[]> {
   type: "general" | "route-internal" | "route-external";
 }

@@ -1,8 +1,7 @@
-import { GeneralPluginBaseConfig } from "../../utils";
-import { plugin } from "./TypescriptAnchorPlugin";
+import { plugin, TypescriptAnchorGeneratorConfig } from "./TypescriptAnchorPlugin";
 
 describe("TypescriptAnchorPlugin - LinkFile", () => {
-  const defaultConfig: GeneralPluginBaseConfig = {
+  const defaultConfig: TypescriptAnchorGeneratorConfig = {
     appName: "tradish-app",
     routePattern: "/login",
     topLevelGenerateOptions: {
@@ -11,7 +10,7 @@ describe("TypescriptAnchorPlugin - LinkFile", () => {
       generateUseParams: false,
       generateUseRedirect: false,
     },
-    routeLinkOptions: {
+    extraConfig: {
       generate: {
         linkComponent: true,
         redirectComponent: false,
@@ -34,7 +33,7 @@ describe("TypescriptAnchorPlugin - LinkFile", () => {
   it("should generate correctly with custom interface and no path params", () => {
     const [templateFile] = plugin.generate({
       ...defaultConfig,
-      routeLinkOptions: {
+      extraConfig: {
         importCustomLink: {
           componentDefaultImport: true,
           from: "src/Default/Link",
@@ -112,7 +111,7 @@ describe("TypescriptAnchorPlugin - LinkFile", () => {
   it("should generate correctly with named component import", () => {
     const [templateFile] = plugin.generate({
       ...defaultConfig,
-      routeLinkOptions: {
+      extraConfig: {
         importCustomLink: {
           componentNamedImport: "CustomLink",
           propsNamedImport: "CustomLinkProps",
@@ -145,7 +144,7 @@ describe("TypescriptAnchorPlugin - LinkFile", () => {
 });
 
 describe("TypescriptAnchorPlugin - RedirectFile", () => {
-  const defaultConfig: GeneralPluginBaseConfig = {
+  const defaultConfig: TypescriptAnchorGeneratorConfig = {
     appName: "tradish-app",
     routePattern: "/login",
     topLevelGenerateOptions: {
@@ -163,7 +162,7 @@ describe("TypescriptAnchorPlugin - RedirectFile", () => {
       patternNameNextJS: "patternNextJSLogin",
     },
     destinationDir: "path/to/routes",
-    routeLinkOptions: {
+    extraConfig: {
       generate: {
         linkComponent: false,
         redirectComponent: true,
@@ -236,7 +235,7 @@ describe("TypescriptAnchorPlugin - UseRedirect", () => {
         urlParamsInterfaceName: "UrlParamsLogin",
       },
       destinationDir: "path/to/routes",
-      routeLinkOptions: {
+      extraConfig: {
         generate: {
           linkComponent: false,
           redirectComponent: false,
@@ -286,7 +285,7 @@ describe("TypescriptAnchorPlugin - UseRedirect", () => {
         pathParamsInterfaceName: "PathParamsUserInfo",
       },
       destinationDir: "path/to/routes",
-      routeLinkOptions: {
+      extraConfig: {
         generate: {
           linkComponent: false,
           redirectComponent: false,

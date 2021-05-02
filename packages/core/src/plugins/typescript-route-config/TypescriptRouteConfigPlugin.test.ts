@@ -1,4 +1,4 @@
-import { GeneratedFilesProcessorPluginBaseConfig, PatternTemplateFile, TemplateFile } from "../../utils";
+import { PatternTemplateFile, TemplateFile } from "../../utils";
 import { plugin, TypescriptRouteConfigPluginConfig } from "./TypescriptRouteConfigPlugin";
 
 describe("TypescriptRouteConfig", () => {
@@ -86,31 +86,39 @@ describe("TypescriptRouteConfig", () => {
     },
   };
 
-  const defaultConfig: GeneratedFilesProcessorPluginBaseConfig & TypescriptRouteConfigPluginConfig = {
+  const defaultConfig: TypescriptRouteConfigPluginConfig = {
     destinationDir: "apps/",
     files: [],
-    internalComponent: {
-      from: "~/common/Anchor",
-      defaultImport: "Anchor",
-    },
-    externalComponent: {
-      from: "~/common/Link",
-      defaultImport: "Link",
+    extraConfig: {
+      internalComponent: {
+        from: "~/common/Anchor",
+        defaultImport: "Anchor",
+      },
+      externalComponent: {
+        from: "~/common/Link",
+        defaultImport: "Link",
+      },
     },
   };
 
   it("throws error if internalComponent or externalComponent is not provided", () => {
-    expect(() => plugin.generate({ ...defaultConfig, internalComponent: undefined, externalComponent: undefined })).toThrow(
+    expect(() => plugin.generate({ ...defaultConfig, extraConfig: undefined })).toThrow(
       "internalComponent and externalComponent are required"
     );
 
-    expect(() => plugin.generate({ ...defaultConfig, externalComponent: undefined })).toThrow(
-      "internalComponent and externalComponent are required"
-    );
+    expect(() =>
+      plugin.generate({
+        ...defaultConfig,
+        extraConfig: { internalComponent: defaultConfig.extraConfig.internalComponent, externalComponent: undefined },
+      })
+    ).toThrow("internalComponent and externalComponent are required");
 
-    expect(() => plugin.generate({ ...defaultConfig, internalComponent: undefined })).toThrow(
-      "internalComponent and externalComponent are required"
-    );
+    expect(() =>
+      plugin.generate({
+        ...defaultConfig,
+        extraConfig: { externalComponent: defaultConfig.extraConfig.externalComponent, internalComponent: undefined },
+      })
+    ).toThrow("internalComponent and externalComponent are required");
 
     expect(() => plugin.generate({ ...defaultConfig })).not.toThrow("internalComponent and externalComponent are required");
   });
@@ -129,8 +137,11 @@ describe("TypescriptRouteConfig", () => {
     expect(() =>
       plugin.generate({
         ...defaultConfig,
-        externalComponent: {
-          from: "~/common/Link",
+        extraConfig: {
+          ...defaultConfig.extraConfig,
+          externalComponent: {
+            from: "~/common/Link",
+          },
         },
         files: [internalPatternTemplateFileWithPathParams],
       })

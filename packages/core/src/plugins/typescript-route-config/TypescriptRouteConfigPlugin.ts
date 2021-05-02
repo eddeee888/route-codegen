@@ -8,6 +8,7 @@ import {
   TemplateFile,
   templateFileHelpers,
   throwError,
+  WithExtraConfig,
 } from "../../utils";
 
 const getComponentName = (importMeta: Import): string => {
@@ -31,11 +32,17 @@ interface ExtraConfig {
   externalComponent?: Import;
 }
 
-export type TypescriptRouteConfigPluginConfig = ExtraConfig & GeneratedFilesProcessorPluginBaseConfig;
+export type TypescriptRouteConfigPluginConfig = WithExtraConfig<GeneratedFilesProcessorPluginBaseConfig, ExtraConfig>;
 
 export const plugin: GeneratedFilesProcessorCodegenPlugin<ExtraConfig> = {
   type: "generated-files-processor",
-  generate: ({ destinationDir, files, internalComponent, externalComponent }) => {
+  generate: ({ destinationDir, files, extraConfig }) => {
+    if (!extraConfig) {
+      return throwError(["type-route-config"], "internalComponent and externalComponent are required");
+    }
+
+    const { internalComponent, externalComponent } = extraConfig;
+
     if (!internalComponent || !externalComponent) {
       return throwError(["type-route-config"], "internalComponent and externalComponent are required");
     }

@@ -19,20 +19,6 @@ describe("TypescriptGenerateUrlPlugin - generateUrl file", () => {
       generateRedirectComponent: false,
       generateLinkComponent: false,
     },
-    routeLinkOptions: {
-      importCustomLink: {
-        from: "src/NextJS/Link",
-        componentDefaultImport: true,
-        propsNamedImport: "NextJSLinkProps",
-        hrefProp: "customHref",
-      },
-      generate: {
-        linkComponent: true,
-        useParams: false,
-        useRedirect: false,
-      },
-      mode: "loose",
-    },
     importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
     importRedirectServerSide: { namedImports: [{ name: "RedirectServerSide" }], from: "@route-codegen/react" },
   };

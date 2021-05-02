@@ -1,8 +1,7 @@
-import { GeneralPluginBaseConfig } from "../../utils";
-import { plugin } from "./TypescriptReactRouter5Plugin";
+import { plugin, TypescriptReactRouter5GeneratorConfig } from "./TypescriptReactRouter5Plugin";
 
 describe("TypescriptReactRouter5Plugin - Link file", () => {
-  const defaultParams: GeneralPluginBaseConfig = {
+  const defaultParams: TypescriptReactRouter5GeneratorConfig = {
     appName: "rr5-app",
     routePattern: "/login",
     routeName: "Login",
@@ -13,7 +12,7 @@ describe("TypescriptReactRouter5Plugin - Link file", () => {
       generateUseParams: false,
     },
     destinationDir: "path/to/routes",
-    routeLinkOptions: {
+    extraConfig: {
       importCustomLink: {
         from: "src/common/Link",
         componentDefaultImport: true,
@@ -89,7 +88,7 @@ describe("TypescriptReactRouter5Plugin - Link file", () => {
   it("should generate correctly with named component import", () => {
     const [templateFile] = plugin.generate({
       ...defaultParams,
-      routeLinkOptions: {
+      extraConfig: {
         importCustomLink: {
           from: "src/common/Link",
           componentNamedImport: "CustomLink",
@@ -124,7 +123,7 @@ describe("TypescriptReactRouter5Plugin - Link file", () => {
 });
 
 describe("TypescriptReactRouter5Plugin - Redirect file", () => {
-  const defaultParams: GeneralPluginBaseConfig = {
+  const defaultParams: TypescriptReactRouter5GeneratorConfig = {
     appName: "rr5-app",
     routeName: "Login",
     routePattern: "/login",
@@ -142,7 +141,7 @@ describe("TypescriptReactRouter5Plugin - Redirect file", () => {
       generateUseRedirect: false,
       generateUseParams: false,
     },
-    routeLinkOptions: {
+    extraConfig: {
       importCustomLink: {
         from: "src/common/Link",
         componentDefaultImport: true,
@@ -234,7 +233,7 @@ describe("TypescriptReactRouter5Plugin - UseParams", () => {
         patternName: "patternUser",
       },
       destinationDir: "path/to/routes",
-      routeLinkOptions: {
+      extraConfig: {
         importCustomLink: {
           from: "src/common/Link",
           componentDefaultImport: true,
@@ -289,7 +288,7 @@ describe("TypescriptReactRouter5Plugin - UseParams", () => {
         patternName: "patternUser",
       },
       destinationDir: "path/to/routes",
-      routeLinkOptions: {
+      extraConfig: {
         importCustomLink: {
           from: "src/common/Link",
           componentDefaultImport: true,
@@ -340,7 +339,7 @@ describe("TypescriptReactRouter5Plugin - UseRedirect file", () => {
         urlParamsInterfaceName: "UrlParamsLogin",
       },
       destinationDir: "path/to/routes",
-      routeLinkOptions: {
+      extraConfig: {
         importCustomLink: {
           from: "src/common/Link",
           componentDefaultImport: true,
@@ -397,7 +396,7 @@ describe("TypescriptReactRouter5Plugin - UseRedirect file", () => {
         generateUseParams: false,
       },
       destinationDir: "path/to/routes",
-      routeLinkOptions: {
+      extraConfig: {
         importCustomLink: {
           from: "src/common/Link",
           componentDefaultImport: true,

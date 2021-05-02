@@ -11,6 +11,9 @@ import {
   handleImportCustomLink,
   GeneralCodegenPlugin,
   BaseRouteGenerator,
+  GeneralPluginBaseConfig,
+  ImportCustomLink,
+  WithExtraConfig,
 } from "../../utils";
 
 interface ParsedLinkOptionsNextJS {
@@ -40,7 +43,20 @@ interface GenerateLinkInterfaceResult {
   linkPropsInterfaceName: string;
 }
 
-class TypescriptNextJSPlugin extends BaseRouteGenerator<ParsedLinkOptionsNextJS> {
+interface ExtraConfig {
+  importCustomLink?: ImportCustomLink;
+  generate?: {
+    linkComponent?: boolean;
+    redirectComponent?: boolean;
+    useRedirect?: boolean;
+    useParams?: boolean;
+  };
+  mode?: string;
+}
+
+export type TypescriptNextJSGeneratorConfig = WithExtraConfig<GeneralPluginBaseConfig, ExtraConfig>;
+
+class TypescriptNextJSGenerator extends BaseRouteGenerator<ParsedLinkOptionsNextJS, ExtraConfig> {
   generate(): TemplateFile[] {
     const result: TemplateFile[] = [];
 
@@ -314,7 +330,7 @@ class TypescriptNextJSPlugin extends BaseRouteGenerator<ParsedLinkOptionsNextJS>
   }
 
   protected _parseLinkOptions(): void {
-    const { appName, routeLinkOptions, topLevelGenerateOptions } = this.config;
+    const { appName, topLevelGenerateOptions, extraConfig: routeLinkOptions } = this.config;
 
     const defaultOptions: ParsedLinkOptionsNextJS = {
       importLink: {
@@ -330,6 +346,7 @@ class TypescriptNextJSPlugin extends BaseRouteGenerator<ParsedLinkOptionsNextJS>
       generateUseRedirect: topLevelGenerateOptions.generateUseRedirect,
       mode: "loose",
     };
+
     if (!routeLinkOptions) {
       info([appName, "nextJSLinkOptions"], "custom options not found... Using default");
       this.linkOptions = { ...defaultOptions };
@@ -371,10 +388,10 @@ class TypescriptNextJSPlugin extends BaseRouteGenerator<ParsedLinkOptionsNextJS>
   }
 }
 
-export const plugin: GeneralCodegenPlugin = {
+export const plugin: GeneralCodegenPlugin<ExtraConfig> = {
   type: "route-internal",
   isNextJS: true,
   generate: (config) => {
-    return new TypescriptNextJSPlugin(config).generate();
+    return new TypescriptNextJSGenerator(config).generate();
   },
 };
