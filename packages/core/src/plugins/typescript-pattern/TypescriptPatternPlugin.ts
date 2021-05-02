@@ -4,7 +4,7 @@ import {
   capitalizeFirstChar,
   KeyType,
   throwError,
-  BasePatternPlugin,
+  BasePatternGenerator,
   PatternTemplateFile,
   PatternCodegenPlugin,
 } from "../../utils";
@@ -19,7 +19,7 @@ interface PossibleParamsResult {
   variableName: string;
 }
 
-class TypescriptPatternPlugin extends BasePatternPlugin {
+class TypescriptPatternGenerator extends BasePatternGenerator {
   generate(): PatternTemplateFile {
     const { routePattern, routeName: originalRouteName, routingType, destinationDir, origin, linkOptionModeNextJS } = this.config;
 
@@ -215,6 +215,6 @@ class TypescriptPatternPlugin extends BasePatternPlugin {
 export const plugin: PatternCodegenPlugin = {
   type: "pattern",
   generate: (config) => {
-    return new TypescriptPatternPlugin(config).generate();
+    return new TypescriptPatternGenerator(config).generate();
   },
 };
