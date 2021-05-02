@@ -1,7 +1,7 @@
-import { plugin, TypescriptAnchorGeneratorConfig } from "./TypescriptAnchorPlugin";
+import { plugin, TypescriptAnchorPluginConfig } from "./TypescriptAnchorPlugin";
 
 describe("TypescriptAnchorPlugin - LinkFile", () => {
-  const defaultConfig: TypescriptAnchorGeneratorConfig = {
+  const defaultConfig: TypescriptAnchorPluginConfig = {
     appName: "tradish-app",
     routePattern: "/login",
     topLevelGenerateOptions: {
@@ -144,7 +144,7 @@ describe("TypescriptAnchorPlugin - LinkFile", () => {
 });
 
 describe("TypescriptAnchorPlugin - RedirectFile", () => {
-  const defaultConfig: TypescriptAnchorGeneratorConfig = {
+  const defaultConfig: TypescriptAnchorPluginConfig = {
     appName: "tradish-app",
     routePattern: "/login",
     topLevelGenerateOptions: {

@@ -54,7 +54,7 @@ interface ExtraConfig {
   };
 }
 
-export type TypescriptAnchorGeneratorConfig = WithExtraConfig<GeneralPluginBaseConfig, ExtraConfig>;
+export type TypescriptAnchorPluginConfig = WithExtraConfig<GeneralPluginBaseConfig, ExtraConfig>;
 
 class TypescriptAnchorGenerator extends BaseRouteGenerator<ParsedLinkOptionsAnchor, ExtraConfig> {
   generate(): TemplateFile[] {

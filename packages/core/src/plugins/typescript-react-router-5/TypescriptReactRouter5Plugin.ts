@@ -53,7 +53,7 @@ interface ExtraConfig {
   mode?: string;
 }
 
-export type TypescriptReactRouter5GeneratorConfig = WithExtraConfig<GeneralPluginBaseConfig, ExtraConfig>;
+export type TypescriptReactRouter5PluginConfig = WithExtraConfig<GeneralPluginBaseConfig, ExtraConfig>;
 
 class TypescriptReactRouter5Generator extends BaseRouteGenerator<ParsedLinkOptionsReactRouter5, ExtraConfig> {
   generate(): TemplateFile[] {

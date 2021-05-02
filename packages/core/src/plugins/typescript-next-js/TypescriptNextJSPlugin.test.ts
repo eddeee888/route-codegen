@@ -1,7 +1,7 @@
-import { plugin, TypescriptNextJSGeneratorConfig } from "./TypescriptNextJSPlugin";
+import { plugin, TypescriptNextJSPluginConfig } from "./TypescriptNextJSPlugin";
 
 describe("TypescriptNextJSPlugin - Link file", () => {
-  const defaultParams: TypescriptNextJSGeneratorConfig = {
+  const defaultParams: TypescriptNextJSPluginConfig = {
     appName: "nextjs-app",
     topLevelGenerateOptions: {
       generateUseRedirect: false,
@@ -290,7 +290,7 @@ describe("TypescriptNextJSPlugin - UseParams file", () => {
 
 describe("TypescriptNextJSPlugin - UseRedirect file", () => {
   it("should generate when there is no pathParams", () => {
-    const params: TypescriptNextJSGeneratorConfig = {
+    const params: TypescriptNextJSPluginConfig = {
       appName: "nextjs-app",
       topLevelGenerateOptions: {
         generateLinkComponent: false,
@@ -353,7 +353,7 @@ describe("TypescriptNextJSPlugin - UseRedirect file", () => {
   });
 
   it("should generate when there is pathParams", () => {
-    const params: TypescriptNextJSGeneratorConfig = {
+    const params: TypescriptNextJSPluginConfig = {
       appName: "next-js-app",
       topLevelGenerateOptions: {
         generateLinkComponent: false,

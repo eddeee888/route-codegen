@@ -54,7 +54,7 @@ interface ExtraConfig {
   mode?: string;
 }
 
-export type TypescriptNextJSGeneratorConfig = WithExtraConfig<GeneralPluginBaseConfig, ExtraConfig>;
+export type TypescriptNextJSPluginConfig = WithExtraConfig<GeneralPluginBaseConfig, ExtraConfig>;
 
 class TypescriptNextJSGenerator extends BaseRouteGenerator<ParsedLinkOptionsNextJS, ExtraConfig> {
   generate(): TemplateFile[] {
