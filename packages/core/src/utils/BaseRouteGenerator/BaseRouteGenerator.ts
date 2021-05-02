@@ -1,7 +1,7 @@
 import { throwError } from "../throwError";
 import { TemplateFile, GeneralPluginBaseConfig } from "../types";
 
-export class BaseGeneralGenerator<C = Record<string, unknown>, L = Record<string, unknown>> {
+export class BaseRouteGenerator<L = Record<string, unknown>, C = Record<string, unknown>> {
   config: GeneralPluginBaseConfig & C;
   linkOptions: L | null = null;
 

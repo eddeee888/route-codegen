@@ -1,5 +1,5 @@
 import {
-  BaseGeneralGenerator,
+  BaseRouteGenerator,
   capitalizeFirstChar,
   GeneralCodegenPlugin,
   getOverriddenValue,
@@ -41,7 +41,7 @@ interface GenerateLinkInterfaceResult {
   linkPropsInterfaceName: string;
 }
 
-class TypescriptAnchorPlugin extends BaseGeneralGenerator<Record<string, unknown>, ParsedLinkOptionsAnchor> {
+class TypescriptAnchorPlugin extends BaseRouteGenerator<ParsedLinkOptionsAnchor> {
   generate(): TemplateFile[] {
     const result: TemplateFile[] = [];
 

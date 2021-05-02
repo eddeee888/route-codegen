@@ -8,7 +8,7 @@ import {
   throwError,
   handleImportCustomLink,
   GeneralCodegenPlugin,
-  BaseGeneralGenerator,
+  BaseRouteGenerator,
 } from "../../utils";
 
 interface ParsedLinkOptionsReactRouter5 {
@@ -39,7 +39,7 @@ interface GenerateLinkInterfaceResult {
   linkPropsInterfaceName: string;
 }
 
-class TypescriptReactRouter5Plugin extends BaseGeneralGenerator<Record<string, unknown>, ParsedLinkOptionsReactRouter5> {
+class TypescriptReactRouter5Plugin extends BaseRouteGenerator<ParsedLinkOptionsReactRouter5> {
   generate(): TemplateFile[] {
     const result: TemplateFile[] = [];
 

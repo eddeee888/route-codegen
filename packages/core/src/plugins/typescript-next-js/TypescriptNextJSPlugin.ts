@@ -10,7 +10,7 @@ import {
   getOverriddenValue,
   handleImportCustomLink,
   GeneralCodegenPlugin,
-  BaseGeneralGenerator,
+  BaseRouteGenerator,
 } from "../../utils";
 
 interface ParsedLinkOptionsNextJS {
@@ -40,7 +40,7 @@ interface GenerateLinkInterfaceResult {
   linkPropsInterfaceName: string;
 }
 
-class TypescriptNextJSPlugin extends BaseGeneralGenerator<Record<string, unknown>, ParsedLinkOptionsNextJS> {
+class TypescriptNextJSPlugin extends BaseRouteGenerator<ParsedLinkOptionsNextJS> {
   generate(): TemplateFile[] {
     const result: TemplateFile[] = [];
 
