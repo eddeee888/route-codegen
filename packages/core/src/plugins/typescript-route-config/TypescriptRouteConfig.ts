@@ -34,22 +34,46 @@ export const plugin: GeneratedFilesProcessorCodegenPlugin<{ internalComponent?: 
     const internalComponentName = getComponentName(internalComponent);
     const externalComponentName = getComponentName(externalComponent);
 
-    const routeFieldTemplates = files.reduce<string[]>((templateChunks, file) => {
-      if (!templateFileHelpers.isPatternTemplateFile(file)) {
-        return templateChunks;
-      }
+    const templates = files.reduce<{ fields: string[]; interfaces: string[]; imports: Import[] }>(
+      (templateMap, file) => {
+        if (!templateFileHelpers.isPatternTemplateFile(file)) {
+          return templateMap;
+        }
 
-      const template = `${file.routeName}: ${file.routingType === "route-external" ? externalComponentName : internalComponentName},`;
+        const fieldTemplate = `${file.routeName}: {
+          pattern: ${file.namedExports.patternName},
+          component: ${file.routingType === "route-external" ? externalComponentName : internalComponentName}
+        },`;
 
-      return [...templateChunks, template];
-    }, []);
+        const urlParamsModifier = file.namedExports.pathParamsInterfaceName ? "" : "?";
+        const interfaceTemplate = `{ to: '${file.routeName}', urlParams${urlParamsModifier}: ${file.namedExports.urlParamsInterfaceName} }`;
+
+        const variableImports: Import = {
+          from: `./${file.routeName}/${file.filename}`,
+          namedImports: [{ name: file.namedExports.urlParamsInterfaceName }, { name: file.namedExports.patternName }],
+        };
+
+        return {
+          ...templateMap,
+          fields: [...templateMap.fields, fieldTemplate],
+          interfaces: [...templateMap.interfaces, interfaceTemplate],
+          imports: [...templateMap.imports, variableImports],
+        };
+      },
+      { fields: [], interfaces: [], imports: [] }
+    );
 
     const template = [
       printImport(internalComponent),
       printImport(externalComponent),
+      templates.imports.map(printImport).join(";"),
+
       "export const routeConfig = {",
-      ...routeFieldTemplates,
+      ...templates.fields,
       "}",
+
+      "export type RouteConfigParams = ",
+      templates.interfaces.join("&"),
     ].join("\n");
 
     const file: TemplateFile = {
