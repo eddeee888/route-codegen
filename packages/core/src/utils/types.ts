@@ -1,7 +1,7 @@
 export type RoutingType = "route-internal" | "route-external";
 
 export interface TemplateFile {
-  type?: "pattern" | "general";
+  type?: "pattern";
   template: string;
   filename: string;
   extension: string;
