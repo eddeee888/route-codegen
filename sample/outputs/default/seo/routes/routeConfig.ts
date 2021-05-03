@@ -12,40 +12,40 @@ import { UrlParamsToc, patternToc } from "./toc/patternToc";
 import { UrlParamsLegacy, patternLegacy } from "./legacy/patternLegacy";
 export const routeConfig = {
   home: {
-    pattern: patternHome,
-    component: Link,
+    pathPattern: patternHome,
+    Component: Link,
   },
   about: {
-    pattern: patternAbout,
-    component: Link,
+    pathPattern: patternAbout,
+    Component: Link,
   },
   user: {
-    pattern: patternUser,
-    component: Anchor,
+    pathPattern: patternUser,
+    Component: Anchor,
   },
   account: {
-    pattern: patternAccount,
-    component: Anchor,
+    pathPattern: patternAccount,
+    Component: Anchor,
   },
   login: {
-    pattern: patternLogin,
-    component: Anchor,
+    pathPattern: patternLogin,
+    Component: Anchor,
   },
   signup: {
-    pattern: patternSignup,
-    component: Anchor,
+    pathPattern: patternSignup,
+    Component: Anchor,
   },
   contact: {
-    pattern: patternContact,
-    component: Anchor,
+    pathPattern: patternContact,
+    Component: Anchor,
   },
   toc: {
-    pattern: patternToc,
-    component: Anchor,
+    pathPattern: patternToc,
+    Component: Anchor,
   },
   legacy: {
-    pattern: patternLegacy,
-    component: Anchor,
+    pathPattern: patternLegacy,
+    Component: Anchor,
   },
 };
 export type RouteConfigProps =
