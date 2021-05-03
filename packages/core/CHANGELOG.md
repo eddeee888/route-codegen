@@ -1,5 +1,12 @@
 # @route-codegen/core
 
+## 0.5.3
+
+### Patch Changes
+
+- ad330f7: Update route-config plugin to return better names for pathPattern and Component
+- ed402cc: Update TypescriptNextJSPlugin to handle new next LInk API
+
 ## 0.5.2
 
 ### Patch Changes
