@@ -64,8 +64,8 @@ export const plugin: GeneratedFilesProcessorCodegenPlugin<ExtraConfig> = {
     const templates = patternFiles.reduce<{ fields: string[]; interfaces: string[]; imports: Import[] }>(
       (templateMap, file) => {
         const fieldTemplate = `${file.routeName}: {
-          pattern: ${file.namedExports.patternName},
-          component: ${file.routingType === "route-external" ? externalComponentName : internalComponentName}
+          pathPattern: ${file.namedExports.patternName},
+          Component: ${file.routingType === "route-external" ? externalComponentName : internalComponentName}
         },`;
 
         const urlParamsModifier = file.namedExports.pathParamsInterfaceName ? "" : "?";

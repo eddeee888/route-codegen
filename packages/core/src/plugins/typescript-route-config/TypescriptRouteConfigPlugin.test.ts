@@ -176,20 +176,20 @@ describe("TypescriptRouteConfig", () => {
       import {urlParamsAbout,patternAbout,} from './about/patternAbout';import {urlParamsUser,patternUser,} from './user/patternUser';import {urlParamsTerms,patternTerms,} from './terms/patternTerms';import {urlParamsProject,patternProject,} from './terms/patternProject'
       export const routeConfig = {
       about: {
-                pattern: patternAbout,
-                component: Anchor
+                pathPattern: patternAbout,
+                Component: Anchor
               },
       user: {
-                pattern: patternUser,
-                component: Anchor
+                pathPattern: patternUser,
+                Component: Anchor
               },
       terms: {
-                pattern: patternTerms,
-                component: Link
+                pathPattern: patternTerms,
+                Component: Link
               },
       terms: {
-                pattern: patternProject,
-                component: Link
+                pathPattern: patternProject,
+                Component: Link
               },
       }
       export type RouteConfigProps = 
