@@ -46,20 +46,12 @@ describe("TypescriptNextJSPlugin - Link file", () => {
     expect(templateFile.template).toMatchInlineSnapshot(`
       "import React from 'react'
           import Link, {NextJSLinkProps,} from 'src/NextJS/Link'
-          import {UrlParamsLogin,patternNextJSLogin,} from './patternLogin'
+          import {generateUrl,} from 'route-codegen'
+          import {UrlParamsLogin,patternLogin,} from './patternLogin'
           type LinkLoginProps = Omit<NextJSLinkProps, 'customHref'> & { urlParams?: UrlParamsLogin }
           export const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({ urlParams, ...props}) => {
-            const query = urlParams?.query || {};
-            const path = {};
-            const pathname = patternNextJSLogin;
-            const nextHref = {
-              pathname: pathname,
-              query: {
-                ...path,
-                ...query,
-              },
-            }
-            return <Link {...props} customHref={nextHref} />;
+            const href = generateUrl(patternLogin, { path: {}, query: urlParams?.query, origin: urlParams?.origin });
+            return <Link {...props} customHref={href} />;
           }"
     `);
   });
@@ -80,20 +72,12 @@ describe("TypescriptNextJSPlugin - Link file", () => {
     expect(templateFile.template).toMatchInlineSnapshot(`
       "import React from 'react'
           import Link, {NextJSLinkProps,} from 'src/NextJS/Link'
-          import {UrlParamsLogin,patternNextJSLogin,possiblePathParamsLogin,} from './patternLogin'
+          import {generateUrl,} from 'route-codegen'
+          import {UrlParamsLogin,patternLogin,} from './patternLogin'
           type LinkLoginProps = Omit<NextJSLinkProps, 'customHref'> & { urlParams: UrlParamsLogin }
           export const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({ urlParams, ...props}) => {
-            const query = urlParams?.query || {};
-            const path = urlParams.path;
-            const pathname = possiblePathParamsLogin.filter((key) => !(key in path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[\${suppliedParam}]\`, \\"\\"), patternNextJSLogin);
-            const nextHref = {
-              pathname: pathname,
-              query: {
-                ...path,
-                ...query,
-              },
-            }
-            return <Link {...props} customHref={nextHref} />;
+            const href = generateUrl(patternLogin, { path: urlParams.path, query: urlParams?.query, origin: urlParams?.origin });
+            return <Link {...props} customHref={href} />;
           }"
     `);
   });
@@ -123,20 +107,12 @@ describe("TypescriptNextJSPlugin - Link file", () => {
     expect(templateFile.template).toMatchInlineSnapshot(`
       "import React from 'react'
           import {CustomLinkProps,CustomLink as Link,} from 'src/common/Link'
-          import {UrlParamsLogin,patternNextJSLogin,} from './patternLogin'
+          import {generateUrl,} from 'route-codegen'
+          import {UrlParamsLogin,patternLogin,} from './patternLogin'
           type LinkLoginProps = Omit<CustomLinkProps, 'to'> & { urlParams?: UrlParamsLogin }
           export const LinkLogin: React.FunctionComponent<LinkLoginProps> = ({ urlParams, ...props}) => {
-            const query = urlParams?.query || {};
-            const path = {};
-            const pathname = patternNextJSLogin;
-            const nextHref = {
-              pathname: pathname,
-              query: {
-                ...path,
-                ...query,
-              },
-            }
-            return <Link {...props} to={nextHref} />;
+            const href = generateUrl(patternLogin, { path: {}, query: urlParams?.query, origin: urlParams?.origin });
+            return <Link {...props} to={href} />;
           }"
     `);
   });
