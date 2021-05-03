@@ -83,12 +83,15 @@ class TypescriptNextJSGenerator extends BaseRouteGenerator<ParsedLinkOptionsNext
       routeName: originalRouteName,
       destinationDir,
       patternNamedExports: {
+        patternName,
         filename: routePatternFilename,
         pathParamsInterfaceName,
         urlParamsInterfaceName,
-        patternNameNextJS,
-        possiblePathParamsVariableName,
+        // TODO: handle these 2. Possible full deprecation
+        // patternNameNextJS,
+        // possiblePathParamsVariableName,
       },
+      importGenerateUrl,
     } = this.config;
 
     const routeName = capitalizeFirstChar(originalRouteName);
@@ -96,6 +99,7 @@ class TypescriptNextJSGenerator extends BaseRouteGenerator<ParsedLinkOptionsNext
     const functionName = `Link${routeName}`;
     const defaultLinkPropsInterfaceName = `Link${routeName}Props`;
     const hasPathParams = !!pathParamsInterfaceName;
+    const generateUrlFnName = "generateUrl"; // TODO: find a better way to reference this
 
     const { hrefProp, importLink, linkComponent, linkPropsTemplate, linkPropsInterfaceName } = this._generateLinkInterface({
       defaultLinkPropsInterfaceName,
@@ -104,33 +108,16 @@ class TypescriptNextJSGenerator extends BaseRouteGenerator<ParsedLinkOptionsNext
       hasPathParams,
     });
 
-    if (!patternNameNextJS) {
-      return throwError([], 'Missing "patternNameNextJS". This is most likely a problem with route-codegen.');
-    }
-
-    const namedImportsFromPatternFile = [{ name: urlParamsInterfaceName }, { name: patternNameNextJS }];
-    let pathnameTemplate = `const pathname = ${patternNameNextJS};`;
-    if (possiblePathParamsVariableName) {
-      namedImportsFromPatternFile.push({ name: possiblePathParamsVariableName });
-      pathnameTemplate = `const pathname = ${possiblePathParamsVariableName}.filter((key) => !(key in path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[${"${suppliedParam"}}]\`, ""), ${patternNameNextJS});`;
-    }
-
     const template = `${printImport({ defaultImport: "React", from: "react" })}
     ${importLink ? printImport(importLink) : ""}
-    ${printImport({ namedImports: namedImportsFromPatternFile, from: `./${routePatternFilename}` })}
+    ${printImport(importGenerateUrl)}
+    ${printImport({ namedImports: [{ name: urlParamsInterfaceName }, { name: patternName }], from: `./${routePatternFilename}` })}
     ${linkPropsTemplate}
     export const ${functionName}: React.FunctionComponent<${linkPropsInterfaceName}> = ({ urlParams, ...props}) => {
-      const query = urlParams?.query || {};
-      const path = ${hasPathParams ? "urlParams.path" : "{}"};
-      ${pathnameTemplate}
-      const nextHref = {
-        pathname: pathname,
-        query: {
-          ...path,
-          ...query,
-        },
-      }
-      return <${linkComponent} {...props} ${hrefProp}={nextHref} />;
+      const href = ${generateUrlFnName}(${patternName}, { path: ${
+      hasPathParams ? "urlParams.path" : "{}"
+    }, query: urlParams?.query, origin: urlParams?.origin });
+      return <${linkComponent} {...props} ${hrefProp}={href} />;
     }`;
 
     const templateFile: TemplateFile = {
