@@ -1,3 +1,4 @@
+import { Key } from "path-to-regexp";
 import {
   capitalizeFirstChar,
   Import,
@@ -159,15 +160,21 @@ class TypescriptNextJSGenerator extends BaseRouteGenerator<ParsedLinkOptionsNext
       return throwError([], "Cannot generate useParams file for a pattern without dynamic path params");
     }
 
-    const { pathParamsInterfaceName } = pathParamsData;
     const routeName = capitalizeFirstChar(originalRouteName);
     const functionName = `useParams${routeName}`;
     const keys = keyHelpers.getKeysFromRoutePattern(routePattern);
 
-    const printFieldType = (keyName: string | number): string => `${pathParamsInterfaceName}["${keyName}"]`;
-
-    const templateMap: Record<ParsedLinkOptionsNextJS["mode"], () => string> = {
-      strict: function createStrictTemplate() {
+    const templateMap: Record<
+      ParsedLinkOptionsNextJS["mode"],
+      () => {
+        pathParamsImport: Import | undefined;
+        localPathParamsTemplate: string;
+        pathParamsInterfaceName: string;
+        template: string;
+      }
+    > = {
+      strict: () => {
+        const printFieldType = (keyName: string | number): string => `${pathParamsData.pathParamsInterfaceName}["${keyName}"]`;
         const templates = keys.map((key) => {
           const templateMap: Record<KeyType, () => string> = {
             normal: () => {
@@ -199,23 +206,38 @@ class TypescriptNextJSGenerator extends BaseRouteGenerator<ParsedLinkOptionsNext
           };
           return templateMap[keyHelpers.getType(key)]();
         });
-        return templates.join("\n");
+        return {
+          pathParamsImport: { namedImports: [{ name: pathParamsData.pathParamsInterfaceName }], from: `./${pathParamsFilename}` },
+          localPathParamsTemplate: "",
+          pathParamsInterfaceName: pathParamsData.pathParamsInterfaceName,
+          template: templates.join("\n"),
+        };
       },
-      loose: function createLooseTemplate() {
-        return `${keys.reduce((prev, key) => {
-          if (keyHelpers.isOptional(key)) {
-            return `${prev}${key.name}: query.${key.name} ? query.${key.name} : undefined,`;
-          }
-          return `${prev}${key.name}: query.${key.name} ?? '',`;
-        }, "")}`;
+      loose: () => {
+        const nextJSPathParams = this._generateNextJSPathParams(keys, routeName);
+
+        return {
+          pathParamsImport: undefined,
+          localPathParamsTemplate: nextJSPathParams.template,
+          pathParamsInterfaceName: nextJSPathParams.interfaceName,
+          template: `${keys.reduce((prev, key) => {
+            if (keyHelpers.isOptional(key)) {
+              return `${prev}${key.name}: query.${key.name} ? query.${key.name} : undefined,`;
+            }
+            return `${prev}${key.name}: query.${key.name} ?? '',`;
+          }, "")}`,
+        };
       },
     };
 
-    const template = `${printImport({ namedImports: [{ name: pathParamsInterfaceName }], from: `./${pathParamsFilename}` })}
-      ${printImport({ namedImports: [{ name: "useRouter" }], from: "next/router" })}
-      export const ${functionName} = (): ${pathParamsInterfaceName} => {
+    const templateInfo = templateMap[mode]();
+
+    const template = `${printImport({ namedImports: [{ name: "useRouter" }], from: "next/router" })}
+      ${templateInfo.pathParamsImport ? printImport(templateInfo.pathParamsImport) : ""}
+      ${templateInfo.localPathParamsTemplate}
+      export const ${functionName} = (): ${templateInfo.pathParamsInterfaceName} => {
         const query = useRouter().query;
-        return {${templateMap[mode]()}};
+        return {${templateInfo.template}};
       }`;
 
     return {
@@ -226,6 +248,34 @@ class TypescriptNextJSGenerator extends BaseRouteGenerator<ParsedLinkOptionsNext
       routeName: originalRouteName,
       hasDefaultExport: false,
       hasNamedExports: true,
+    };
+  }
+  private _generateNextJSPathParams(
+    keys: Key[],
+    routeName: string
+  ): {
+    template: string;
+    interfaceName: string;
+  } {
+    if (keys.length === 0) {
+      return throwError(
+        [routeName, "_generateNextJSPathParams"],
+        "Cannot generate useParams file for a pattern without dynamic path params"
+      );
+    }
+
+    const pathParamsInterfaceName = `PathParamsNextJS${routeName}`;
+    let template = `export interface ${pathParamsInterfaceName} {`;
+    keys.forEach((key) => {
+      // TODO: check if NextJS support optional param?
+      const fieldName = `${key.name}${keyHelpers.isOptional(key) ? "?" : ""}`;
+      template += `${fieldName}: string | string[];`;
+    });
+    template += "}";
+
+    return {
+      template,
+      interfaceName: pathParamsInterfaceName,
     };
   }
 
