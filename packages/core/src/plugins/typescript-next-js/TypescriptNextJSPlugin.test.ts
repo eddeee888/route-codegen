@@ -30,7 +30,6 @@ describe("TypescriptNextJSPlugin - Link file", () => {
       filename: "patternLogin",
       patternName: "patternLogin",
       urlParamsInterfaceName: "UrlParamsLogin",
-      patternNameNextJS: "patternNextJSLogin",
     },
     destinationDir: "path/to/routes",
     importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
@@ -62,7 +61,6 @@ describe("TypescriptNextJSPlugin - Link file", () => {
       patternNamedExports: {
         ...defaultParams.patternNamedExports,
         pathParamsInterfaceName: "PathParamsLogin",
-        possiblePathParamsVariableName: "possiblePathParamsLogin",
       },
     });
 
@@ -116,32 +114,6 @@ describe("TypescriptNextJSPlugin - Link file", () => {
           }"
     `);
   });
-
-  it("should throw error if no patternNameNextJS", () => {
-    expect(() =>
-      plugin.generate({
-        ...defaultParams,
-        extraConfig: {
-          importCustomLink: {
-            from: "src/common/Link",
-            componentNamedImport: "CustomLink",
-            propsNamedImport: "CustomLinkProps",
-            hrefProp: "to",
-          },
-          generate: {
-            linkComponent: true,
-            useParams: true,
-            useRedirect: true,
-          },
-          mode: "loose",
-        },
-        patternNamedExports: {
-          ...defaultParams.patternNamedExports,
-          patternNameNextJS: undefined,
-        },
-      })
-    ).toThrowError('[ERROR] Missing "patternNameNextJS". This is most likely a problem with route-codegen.');
-  });
 });
 
 describe("TypescriptNextJSPlugin - UseParams file", () => {
@@ -159,8 +131,7 @@ describe("TypescriptNextJSPlugin - UseParams file", () => {
         filename: "patternUser",
         patternName: "patternUser",
         urlParamsInterfaceName: "UrlParamsUser",
-        patternNameNextJS: "patternNextJSUser",
-        pathParamsInterfaceNameNextJS: "PathParamsNextJSUser",
+        pathParamsInterfaceName: "PathParamsUser",
       },
       destinationDir: "path/to/routes",
       routeName: "User",
@@ -187,9 +158,9 @@ describe("TypescriptNextJSPlugin - UseParams file", () => {
     expect(templateFile.extension).toBe(".ts");
     expect(templateFile.destinationDir).toBe("path/to/routes");
     expect(templateFile.template).toMatchInlineSnapshot(`
-      "import {PathParamsNextJSUser,} from './patternUser'
+      "import {PathParamsUser,} from './patternUser'
             import {useRouter,} from 'next/router'
-            export const useParamsUser = (): PathParamsNextJSUser => {
+            export const useParamsUser = (): PathParamsUser => {
               const query = useRouter().query;
               return {id: query.id ?? '',subview: query.subview ?? '',singleEnum: query.singleEnum ?? '',optional: query.optional ? query.optional : undefined,optionalEnum: query.optionalEnum ? query.optionalEnum : undefined,};
             }"
@@ -210,8 +181,7 @@ describe("TypescriptNextJSPlugin - UseParams file", () => {
         filename: "patternUser",
         patternName: "patternUser",
         urlParamsInterfaceName: "UrlParamsUser",
-        patternNameNextJS: "patternNextJSUser",
-        pathParamsInterfaceNameNextJS: "PathParamsNextJSUser",
+        pathParamsInterfaceName: "PathParamsUser",
       },
       destinationDir: "path/to/routes",
       routeName: "User",
@@ -238,26 +208,26 @@ describe("TypescriptNextJSPlugin - UseParams file", () => {
     expect(templateFile.extension).toBe(".ts");
     expect(templateFile.destinationDir).toBe("path/to/routes");
     expect(templateFile.template).toMatchInlineSnapshot(`
-      "import {PathParamsNextJSUser,} from './patternUser'
+      "import {PathParamsUser,} from './patternUser'
             import {useRouter,} from 'next/router'
-            export const useParamsUser = (): PathParamsNextJSUser => {
+            export const useParamsUser = (): PathParamsUser => {
               const query = useRouter().query;
-              return {id: query.id as PathParamsNextJSUser[\\"id\\"],
+              return {id: query.id as PathParamsUser[\\"id\\"],
       subview: (() => {
                       const subviewPossibleValues = [\\"profile\\",\\"pictures\\",]
                       if(subviewPossibleValues.findIndex((v) => v === query.subview) === -1){ throw new Error(\\"Unable to match 'subview' with expected enums\\"); }
-                      return query.subview as PathParamsNextJSUser[\\"subview\\"]
+                      return query.subview as PathParamsUser[\\"subview\\"]
                     })(),
       singleEnum: (() => {
                       const singleEnumPossibleValues = [\\"only\\",]
                       if(singleEnumPossibleValues.findIndex((v) => v === query.singleEnum) === -1){ throw new Error(\\"Unable to match 'singleEnum' with expected enums\\"); }
-                      return query.singleEnum as PathParamsNextJSUser[\\"singleEnum\\"]
+                      return query.singleEnum as PathParamsUser[\\"singleEnum\\"]
                     })(),
-      optional: query.optional ? (query.optional as PathParamsNextJSUser[\\"optional\\"]) : undefined,
+      optional: query.optional ? (query.optional as PathParamsUser[\\"optional\\"]) : undefined,
       optionalEnum: (() => {
                       const optionalEnumPossibleValues = [\\"enum1\\",\\"enum2\\",undefined,]
                       if(optionalEnumPossibleValues.findIndex((v) => v === query.optionalEnum) === -1){ throw new Error(\\"Unable to match 'optionalEnum' with expected enums\\"); }
-                      return query.optionalEnum as PathParamsNextJSUser[\\"optionalEnum\\"]
+                      return query.optionalEnum as PathParamsUser[\\"optionalEnum\\"]
                     })(),};
             }"
     `);
@@ -295,7 +265,6 @@ describe("TypescriptNextJSPlugin - UseRedirect file", () => {
         filename: "patternLogin",
         patternName: "patternLogin",
         urlParamsInterfaceName: "UrlParamsLogin",
-        patternNameNextJS: "patternNextJSLogin",
       },
       destinationDir: "path/to/routes",
       importGenerateUrl: { from: "route-codegen", namedImports: [{ name: "generateUrl" }] },
@@ -307,21 +276,14 @@ describe("TypescriptNextJSPlugin - UseRedirect file", () => {
     expect(templateFile.destinationDir).toBe("path/to/routes");
     expect(templateFile.template).toMatchInlineSnapshot(`
       "import {useRouter,} from 'next/router'
-          import {UrlParamsLogin,patternNextJSLogin,} from './patternLogin'
+          import {generateUrl,} from 'route-codegen'
+          import {UrlParamsLogin,patternLogin,} from './patternLogin'
           export type RedirectFnLogin = (urlParams?: UrlParamsLogin) => void;
           export const useRedirectLogin = (): RedirectFnLogin => {
             const router = useRouter();
-            const redirect: RedirectFnLogin = urlParams => {
-              const query = urlParams?.query ?? {};
-              const path = {};
-              const pathname = patternNextJSLogin;
-              router.push({
-                pathname: pathname,
-                query: {
-                  ...path,
-                  ...query,
-                },
-              })
+            const redirect: RedirectFnLogin = (urlParams) => {
+              const href = generateUrl(patternLogin, { path: {}, query: urlParams?.query, origin: urlParams?.origin });
+              router.push(href);
             }
             return redirect;
           }"
@@ -359,8 +321,6 @@ describe("TypescriptNextJSPlugin - UseRedirect file", () => {
         patternName: "patternUserInfo",
         urlParamsInterfaceName: "UrlParamsUserInfo",
         pathParamsInterfaceName: "PathParamsUserInfo",
-        patternNameNextJS: "patternNextJSUserInfo",
-        possiblePathParamsVariableName: "possiblePathParamsUserInfo",
       },
       destinationDir: "path/to/routes",
       importGenerateUrl: { from: "route-codegen", namedImports: [{ name: "generateUrl" }] },
@@ -373,21 +333,14 @@ describe("TypescriptNextJSPlugin - UseRedirect file", () => {
     expect(templateFile.destinationDir).toBe("path/to/routes");
     expect(templateFile.template).toMatchInlineSnapshot(`
       "import {useRouter,} from 'next/router'
-          import {UrlParamsUserInfo,patternNextJSUserInfo,possiblePathParamsUserInfo,} from './patternUserInfo'
+          import {generateUrl,} from 'route-codegen'
+          import {UrlParamsUserInfo,patternUserInfo,} from './patternUserInfo'
           export type RedirectFnUserInfo = (urlParams: UrlParamsUserInfo) => void;
           export const useRedirectUserInfo = (): RedirectFnUserInfo => {
             const router = useRouter();
-            const redirect: RedirectFnUserInfo = urlParams => {
-              const query = urlParams?.query ?? {};
-              const path = urlParams.path;
-              const pathname = possiblePathParamsUserInfo.filter((key) => !(key in urlParams.path)).reduce((prevPattern, suppliedParam) => prevPattern.replace(\`/[\${suppliedParam}]\`, \\"\\"), patternNextJSUserInfo);
-              router.push({
-                pathname: pathname,
-                query: {
-                  ...path,
-                  ...query,
-                },
-              })
+            const redirect: RedirectFnUserInfo = (urlParams) => {
+              const href = generateUrl(patternUserInfo, { path: urlParams.path, query: urlParams?.query, origin: urlParams?.origin });
+              router.push(href);
             }
             return redirect;
           }"
