@@ -90,10 +90,7 @@ describe("TypescriptRouteConfig", () => {
     destinationDir: "apps/",
     files: [],
     extraConfig: {
-      internalComponent: {
-        from: "~/common/Anchor",
-        defaultImport: "Anchor",
-      },
+      internalComponent: "a",
       externalComponent: {
         from: "~/common/Link",
         defaultImport: "Link",
@@ -171,25 +168,31 @@ describe("TypescriptRouteConfig", () => {
     expect(file.hasNamedExports).toBe(true);
     expect(file.routeName).toBe("");
     expect(file.template).toMatchInlineSnapshot(`
-      "import Anchor from '~/common/Anchor'
+      "
       import Link from '~/common/Link'
       import {urlParamsAbout,patternAbout,} from './about/patternAbout';import {urlParamsUser,patternUser,} from './user/patternUser';import {urlParamsTerms,patternTerms,} from './terms/patternTerms';import {urlParamsProject,patternProject,} from './terms/patternProject'
-      export const routeConfig = {
+      export const routeConfig: Record<string, { pathPattern:  string } 
+            & ( { type: \\"external\\", component: typeof Link } 
+              | { type: \\"internal\\", component: \\"a\\" })> = {
       about: {
                 pathPattern: patternAbout,
-                Component: Anchor
+                component: \\"a\\",
+                type: \\"internal\\",
               },
       user: {
                 pathPattern: patternUser,
-                Component: Anchor
+                component: \\"a\\",
+                type: \\"internal\\",
               },
       terms: {
                 pathPattern: patternTerms,
-                Component: Link
+                component: Link,
+                type: \\"external\\",
               },
       terms: {
                 pathPattern: patternProject,
-                Component: Link
+                component: Link,
+                type: \\"external\\",
               },
       }
       export type RouteConfigProps = 

@@ -10,42 +10,54 @@ import { UrlParamsAbout, patternAbout } from "./about/patternAbout";
 import { UrlParamsContact, patternContact } from "./contact/patternContact";
 import { UrlParamsToc, patternToc } from "./toc/patternToc";
 import { UrlParamsLegacy, patternLegacy } from "./legacy/patternLegacy";
-export const routeConfig = {
+export const routeConfig: Record<
+  string,
+  { pathPattern: string } & ({ type: "external"; component: typeof CustomAnchor } | { type: "internal"; component: typeof Link })
+> = {
   user: {
     pathPattern: patternUser,
-    Component: Link,
+    component: Link,
+    type: "internal",
   },
   account: {
     pathPattern: patternAccount,
-    Component: Link,
+    component: Link,
+    type: "internal",
   },
   login: {
     pathPattern: patternLogin,
-    Component: CustomAnchor,
+    component: CustomAnchor,
+    type: "external",
   },
   signup: {
     pathPattern: patternSignup,
-    Component: CustomAnchor,
+    component: CustomAnchor,
+    type: "external",
   },
   home: {
     pathPattern: patternHome,
-    Component: CustomAnchor,
+    component: CustomAnchor,
+    type: "external",
   },
   about: {
     pathPattern: patternAbout,
-    Component: CustomAnchor,
+    component: CustomAnchor,
+    type: "external",
   },
   contact: {
     pathPattern: patternContact,
-    Component: CustomAnchor,
+    component: CustomAnchor,
+    type: "external",
   },
   toc: {
     pathPattern: patternToc,
-    Component: CustomAnchor,
+    component: CustomAnchor,
+    type: "external",
   },
   legacy: {
     pathPattern: patternLegacy,
-    Component: CustomAnchor,
+    component: CustomAnchor,
+    type: "external",
   },
 };
 export type RouteConfigProps =

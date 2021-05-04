@@ -29,10 +29,7 @@ const generateAppFiles = async (appName: string, appConfig: AppConfig): Promise<
     const filesToGenerate = files.flat();
 
     if (filesToGenerate.length > 0) {
-      info(
-        [appName],
-        `*** Generating files ***\n${filesToGenerate.map((file) => `${file.destinationDir}${file.filename}${file.extension}`).join("\n")}\n`
-      );
+      filesToGenerate.forEach((file) => info([appName], `Generated: ${file.destinationDir}${file.filename}${file.extension}`));
     } else {
       info([appName], `*** No files to generate ***\n`);
     }
