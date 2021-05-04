@@ -13,33 +13,35 @@ const argv = yargs.options({
 
 const { config, stacktrace, verbose } = argv;
 
-try {
-  let ymlContent = readFileSync(config, "utf8");
+(async () => {
+  try {
+    let ymlContent = readFileSync(config, "utf8");
 
-  // Allow passing variables by replacing ${...} with its correspondent value in process.env
-  if (typeof process !== "undefined" && "env" in process) {
-    ymlContent = ymlContent.replace(/\$\{(.*)\}/g, (str, variable) => {
-      console.log(`Replacing \${${variable}} with ${process.env[variable]}`);
-      return process.env[variable] ?? "";
-    });
-  }
+    // Allow passing variables by replacing ${...} with its correspondent value in process.env
+    if (typeof process !== "undefined" && "env" in process) {
+      ymlContent = ymlContent.replace(/\$\{(.*)\}/g, (str, variable) => {
+        console.log(`Replacing \${${variable}} with ${process.env[variable]}`);
+        return process.env[variable] ?? "";
+      });
+    }
 
-  const configContent = yaml.load(ymlContent);
-  if (!configContent) {
-    throw new Error("Unable to load route-codegen config");
-  }
+    const configContent = yaml.load(ymlContent);
+    if (!configContent) {
+      throw new Error("Unable to load route-codegen config");
+    }
 
-  if (typeof configContent === "string" || typeof configContent === "number") {
-    throw new Error("route-codegen config is invalid");
-  }
+    if (typeof configContent === "string" || typeof configContent === "number") {
+      throw new Error("route-codegen config is invalid");
+    }
 
-  // TODO: wait for this generate?
-  generate(configContent as any, { verbose });
-} catch (e) {
-  if (stacktrace) {
-    console.log(e);
-  } else {
-    console.log(e.message);
+    // TODO: wait for this generate?
+    await generate(configContent as any, { verbose });
+  } catch (e) {
+    if (stacktrace) {
+      console.log(e);
+    } else {
+      console.log(e.message);
+    }
+    process.exit(1);
   }
-  process.exit(1);
-}
+})();
