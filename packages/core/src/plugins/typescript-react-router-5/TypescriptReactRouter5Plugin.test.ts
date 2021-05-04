@@ -32,7 +32,6 @@ describe("TypescriptReactRouter5Plugin - Link file", () => {
       filename: "patternLogin",
       patternName: "patternLogin",
       urlParamsInterfaceName: "UrlParamsLogin",
-      patternNameNextJS: "patternNextJSLogin",
     },
     importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
     importRedirectServerSide: {
@@ -132,7 +131,6 @@ describe("TypescriptReactRouter5Plugin - Redirect file", () => {
       filename: "patternLogin",
       patternName: "patternLogin",
       urlParamsInterfaceName: "UrlParamsLogin",
-      patternNameNextJS: "patternNextJSLogin",
     },
     destinationDir: "path/to/routes",
     topLevelGenerateOptions: {

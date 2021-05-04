@@ -23,7 +23,6 @@ describe("TypescriptAnchorPlugin - LinkFile", () => {
       filename: "patternLogin",
       patternName: "patternLogin",
       urlParamsInterfaceName: "UrlParamsLogin",
-      patternNameNextJS: "patternNextJSLogin",
     },
     destinationDir: "path/to/routes",
     importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
@@ -159,7 +158,6 @@ describe("TypescriptAnchorPlugin - RedirectFile", () => {
       filename: "patternLogin",
       patternName: "patternLogin",
       urlParamsInterfaceName: "UrlParamsLogin",
-      patternNameNextJS: "patternNextJSLogin",
     },
     destinationDir: "path/to/routes",
     extraConfig: {
