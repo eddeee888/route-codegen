@@ -174,22 +174,28 @@ describe("TypescriptRouteConfig", () => {
       "import Anchor from '~/common/Anchor'
       import Link from '~/common/Link'
       import {urlParamsAbout,patternAbout,} from './about/patternAbout';import {urlParamsUser,patternUser,} from './user/patternUser';import {urlParamsTerms,patternTerms,} from './terms/patternTerms';import {urlParamsProject,patternProject,} from './terms/patternProject'
-      export const routeConfig = {
+      export const routeConfig: Record<string, { pathPattern:  string } 
+            & ( { type: \\"external\\", component: typeof Link } 
+              | { type: \\"internal\\", component: typeof Anchor })> = {
       about: {
                 pathPattern: patternAbout,
-                Component: Anchor
+                component: Anchor,
+                type: \\"internal\\",
               },
       user: {
                 pathPattern: patternUser,
-                Component: Anchor
+                component: Anchor,
+                type: \\"internal\\",
               },
       terms: {
                 pathPattern: patternTerms,
-                Component: Link
+                component: Link,
+                type: \\"external\\",
               },
       terms: {
                 pathPattern: patternProject,
-                Component: Link
+                component: Link,
+                type: \\"external\\",
               },
       }
       export type RouteConfigProps = 
