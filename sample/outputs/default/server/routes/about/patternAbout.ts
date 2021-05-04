@@ -1,7 +1,6 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 export const patternAbout = "/about/:target(us|you)/:topic/:region(en)/:optional?/:optionalEnum(enumOne|enumTwo)?";
 export const originAbout = "";
-
 export type PathParamsAbout = {
   target: "us" | "you";
   topic: string;
@@ -9,8 +8,6 @@ export type PathParamsAbout = {
   optional?: string;
   optionalEnum?: "enumOne" | "enumTwo";
 };
-
-export const possilePathParamsAbout = ["target", "topic", "region", "optional", "optionalEnum"];
 export interface UrlParamsAbout {
   path: PathParamsAbout;
   query?: Record<string, string | undefined>;

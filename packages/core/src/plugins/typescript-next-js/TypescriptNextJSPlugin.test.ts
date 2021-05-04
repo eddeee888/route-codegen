@@ -158,9 +158,10 @@ describe("TypescriptNextJSPlugin - UseParams file", () => {
     expect(templateFile.extension).toBe(".ts");
     expect(templateFile.destinationDir).toBe("path/to/routes");
     expect(templateFile.template).toMatchInlineSnapshot(`
-      "import {PathParamsUser,} from './patternUser'
-            import {useRouter,} from 'next/router'
-            export const useParamsUser = (): PathParamsUser => {
+      "import {useRouter,} from 'next/router'
+            
+            interface PathParamsNextJSUser {id: string | string[];subview: string | string[];singleEnum: string | string[];optional?: string | string[];optionalEnum?: string | string[];}
+            export const useParamsUser = (): PathParamsNextJSUser => {
               const query = useRouter().query;
               return {id: query.id ?? '',subview: query.subview ?? '',singleEnum: query.singleEnum ?? '',optional: query.optional ? query.optional : undefined,optionalEnum: query.optionalEnum ? query.optionalEnum : undefined,};
             }"
@@ -208,8 +209,9 @@ describe("TypescriptNextJSPlugin - UseParams file", () => {
     expect(templateFile.extension).toBe(".ts");
     expect(templateFile.destinationDir).toBe("path/to/routes");
     expect(templateFile.template).toMatchInlineSnapshot(`
-      "import {PathParamsUser,} from './patternUser'
-            import {useRouter,} from 'next/router'
+      "import {useRouter,} from 'next/router'
+            import {PathParamsUser,} from './patternUser'
+            
             export const useParamsUser = (): PathParamsUser => {
               const query = useRouter().query;
               return {id: query.id as PathParamsUser[\\"id\\"],

@@ -265,7 +265,7 @@ class TypescriptNextJSGenerator extends BaseRouteGenerator<ParsedLinkOptionsNext
     }
 
     const pathParamsInterfaceName = `PathParamsNextJS${routeName}`;
-    let template = `export interface ${pathParamsInterfaceName} {`;
+    let template = `interface ${pathParamsInterfaceName} {`;
     keys.forEach((key) => {
       // TODO: check if NextJS support optional param?
       const fieldName = `${key.name}${keyHelpers.isOptional(key) ? "?" : ""}`;
