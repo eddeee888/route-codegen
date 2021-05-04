@@ -1,5 +1,12 @@
 # @route-codegen/core
 
+## 0.5.4
+
+### Patch Changes
+
+- 4613b62: Deprecate handling of NextJS patterns in pattern plugin. Update NextJS template files
+- 0b3e6c5: Handle promises, logs and string component for typescript-route-config
+
 ## 0.5.3
 
 ### Patch Changes
