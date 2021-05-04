@@ -14,7 +14,6 @@ const argv = yargs.options({
 const { config, stacktrace, verbose } = argv;
 
 try {
-  console.log("route-codegen START!");
   let ymlContent = readFileSync(config, "utf8");
 
   // Allow passing variables by replacing ${...} with its correspondent value in process.env
@@ -36,7 +35,6 @@ try {
 
   // TODO: wait for this generate?
   generate(configContent as any, { verbose });
-  console.log("route-codegen END!");
 } catch (e) {
   if (stacktrace) {
     console.log(e);
