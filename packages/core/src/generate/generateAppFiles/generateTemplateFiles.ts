@@ -44,13 +44,6 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
     return [];
   }
 
-  // TODO: this is a hack to inject NextJS pattern into pattern file and should be removed
-  let linkOptionModeNextJS: "strict" | "loose" | undefined = undefined;
-  const routeInternal = pluginHelpers.findFirstOfType(pluginModules, "route-internal") as PluginModule | undefined;
-  if (routingType === "route-internal" && routeInternal?.plugin.isNextJS) {
-    linkOptionModeNextJS = (routeInternal.config?.mode || "loose") as "strict" | "loose"; // TODO: handle this!
-  }
-
   // TODO: type this better to scale
   const patternPlugin = pluginHelpers.findFirstOfType(pluginModules, "pattern") as
     | PluginModule<WithExtraConfig<PatternPluginBaseConfig, Record<string, unknown>>, PatternTemplateFile>
@@ -68,7 +61,6 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
     routePattern,
     destinationDir,
     extraConfig: patternPlugin.config,
-    linkOptionModeNextJS, // TODO: this is the NextJS pattern hack and should be removed
   });
   files.push(patternFile);
 
