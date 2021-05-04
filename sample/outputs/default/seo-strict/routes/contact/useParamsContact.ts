@@ -1,6 +1,7 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
-import { PathParamsContact } from "./patternContact";
 import { useRouter } from "next/router";
+import { PathParamsContact } from "./patternContact";
+
 export const useParamsContact = (): PathParamsContact => {
   const query = useRouter().query;
   return {

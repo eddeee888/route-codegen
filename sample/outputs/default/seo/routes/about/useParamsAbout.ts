@@ -1,6 +1,13 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
-import { PathParamsNextJSAbout } from "./patternAbout";
 import { useRouter } from "next/router";
+
+interface PathParamsNextJSAbout {
+  target: string | string[];
+  topic: string | string[];
+  region: string | string[];
+  optional?: string | string[];
+  optionalEnum?: string | string[];
+}
 export const useParamsAbout = (): PathParamsNextJSAbout => {
   const query = useRouter().query;
   return {

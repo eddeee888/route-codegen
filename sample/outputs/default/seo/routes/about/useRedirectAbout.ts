@@ -1,22 +1,13 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
 import { useRouter } from "next/router";
-import { UrlParamsAbout, patternNextJSAbout, possilePathParamsAbout } from "./patternAbout";
+import { generateUrl } from "@route-codegen/utils";
+import { UrlParamsAbout, patternAbout } from "./patternAbout";
 export type RedirectFnAbout = (urlParams: UrlParamsAbout) => void;
 export const useRedirectAbout = (): RedirectFnAbout => {
   const router = useRouter();
   const redirect: RedirectFnAbout = (urlParams) => {
-    const query = urlParams?.query ?? {};
-    const path = urlParams.path;
-    const pathname = possilePathParamsAbout
-      .filter((key) => !(key in urlParams.path))
-      .reduce((prevPattern, suppliedParam) => prevPattern.replace(`/[${suppliedParam}]`, ""), patternNextJSAbout);
-    router.push({
-      pathname: pathname,
-      query: {
-        ...path,
-        ...query,
-      },
-    });
+    const href = generateUrl(patternAbout, { path: urlParams.path, query: urlParams?.query, origin: urlParams?.origin });
+    router.push(href);
   };
   return redirect;
 };

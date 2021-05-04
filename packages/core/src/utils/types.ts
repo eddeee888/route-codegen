@@ -32,10 +32,7 @@ export interface NamedImport {
 export interface PatternNamedExports {
   originName: string;
   patternName: string;
-  patternNameNextJS?: string;
   pathParamsInterfaceName?: string;
-  pathParamsInterfaceNameNextJS?: string;
-  possiblePathParamsVariableName?: string;
   urlParamsInterfaceName: string;
   filename: string;
 }
@@ -59,7 +56,6 @@ export type PluginConfigType = "pattern" | "general" | "route-internal" | "route
 
 export interface CodegenPlugin<C, R> {
   type: PluginConfigType;
-  isNextJS?: boolean; // TODO: this is a hack and should be removed
   generate: (config: C) => R;
 }
 
@@ -80,8 +76,6 @@ export interface PatternPluginBaseConfig {
   routingType: RoutingType;
   routePattern: string;
   destinationDir: string;
-
-  linkOptionModeNextJS: "strict" | "loose" | undefined; // TODO: this is a hack and should be removed
 }
 export interface PatternCodegenPlugin<C = Record<string, unknown>>
   extends CodegenPlugin<WithExtraConfig<PatternPluginBaseConfig, C>, PatternTemplateFile> {
