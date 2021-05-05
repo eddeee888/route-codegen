@@ -34,7 +34,6 @@ const { config, stacktrace, verbose } = argv;
       throw new Error("route-codegen config is invalid");
     }
 
-    // TODO: wait for this generate?
     await generate(configContent as any, { verbose });
   } catch (e) {
     if (stacktrace) {
