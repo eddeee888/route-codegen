@@ -44,10 +44,11 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
     return [];
   }
 
-  // TODO: type this better to scale
-  const patternPlugin = pluginHelpers.findFirstOfType(pluginModules, "pattern") as
-    | PluginModule<WithExtraConfig<PatternPluginBaseConfig, Record<string, unknown>>, PatternTemplateFile>
-    | undefined;
+  const patternPlugin = pluginHelpers.findFirstOfType<WithExtraConfig<PatternPluginBaseConfig>, PatternTemplateFile>(
+    pluginModules,
+    "pattern"
+  );
+
   if (!patternPlugin) {
     return throwError([appName, routeName], "No pattern plugin found.");
   }

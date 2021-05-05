@@ -30,8 +30,8 @@ const loadPluginModules = async (plugins: RawPlugin[]): Promise<PluginModule[]> 
   );
 };
 
-const findFirstOfType = (pluginModules: PluginModule[], type: PluginConfigType): PluginModule | undefined => {
-  return pluginModules.find(({ plugin }) => plugin.type === type);
+const findFirstOfType = <C, R>(pluginModules: PluginModule[], type: PluginConfigType): PluginModule<C, R> | undefined => {
+  return pluginModules.find(({ plugin }) => plugin.type === type) as PluginModule<C, R> | undefined;
 };
 
 const filterByTypes = (pluginModules: PluginModule[], types: PluginConfigType[]): PluginModule[] => {
