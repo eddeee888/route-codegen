@@ -1,5 +1,5 @@
-import generateExternalRoutesConfig from "./generateExternalRoutesConfig";
-import { AppConfig } from "../config";
+import { generateExternalRoutesConfig } from "./generateExternalRoutesConfig";
+import { AppConfig } from "../parseAppConfig";
 
 describe("generateExternalRoutesConfig", () => {
   it("should generate external app route objects correctly", () => {

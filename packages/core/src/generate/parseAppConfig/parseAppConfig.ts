@@ -1,5 +1,5 @@
-import { AppConfig, AppRoute } from "../types";
-import { Import, RawPlugin, TopLevelGenerateOptions } from "../../../utils";
+import { AppConfig, AppRoute } from "./types";
+import { Import, RawPlugin, TopLevelGenerateOptions } from "../../utils";
 
 export interface ParsedAppConfig {
   routes: Record<string, AppRoute>;

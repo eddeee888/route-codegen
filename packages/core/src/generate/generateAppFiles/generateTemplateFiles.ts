@@ -25,7 +25,7 @@ export interface GenerateTemplateFilesParams {
   importRedirectServerSide: Import;
 }
 
-const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promise<TemplateFile[]> => {
+export const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promise<TemplateFile[]> => {
   const {
     appName,
     origin,
@@ -88,5 +88,3 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
 
   return files;
 };
-
-export default generateTemplateFiles;

@@ -1,6 +1,6 @@
-import { AppConfig, AppRoute } from "./../config";
+import { AppConfig, AppRoute } from "../parseAppConfig";
 
-const generateExternalRoutesConfig = (apps: Record<string, AppConfig>): Record<string, AppConfig> => {
+export const generateExternalRoutesConfig = (apps: Record<string, AppConfig>): Record<string, AppConfig> => {
   const externalRoutesConfig: Record<string, AppConfig> = {};
 
   Object.entries(apps).forEach(([appName, defaultAppConfig]) => {
@@ -37,5 +37,3 @@ const generateExternalRoutesConfig = (apps: Record<string, AppConfig>): Record<s
 
   return externalRoutesConfig;
 };
-
-export default generateExternalRoutesConfig;

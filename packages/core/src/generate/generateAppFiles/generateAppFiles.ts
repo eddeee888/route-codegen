@@ -1,8 +1,8 @@
-import { AppConfig, parseAppConfig } from "./../config";
-import generateTemplateFiles from "./generateTemplateFiles";
+import { AppConfig, parseAppConfig } from "../parseAppConfig";
+import { generateTemplateFiles } from "./generateTemplateFiles";
 import { info, pluginHelpers, TemplateFile, WithExtraConfig, GeneratedFilesProcessorPluginBaseConfig } from "../../utils";
 
-const generateAppFiles = async (appName: string, appConfig: AppConfig): Promise<TemplateFile[]> => {
+export const generateAppFiles = async (appName: string, appConfig: AppConfig): Promise<TemplateFile[]> => {
   const { routes, destinationDir, plugins, importGenerateUrl, importRedirectServerSide, topLevelGenerateOptions } = parseAppConfig(
     appConfig
   );
@@ -50,5 +50,3 @@ const generateAppFiles = async (appName: string, appConfig: AppConfig): Promise<
 
   return [];
 };
-
-export default generateAppFiles;
