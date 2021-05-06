@@ -85,7 +85,7 @@ class TypescriptReactRouter5Generator extends BaseRouteGenerator<ParsedLinkOptio
       routeName: originalRouteName,
       destinationDir,
       patternNamedExports: { patternName, pathParamsInterfaceName, filename: routePatternFilename, urlParamsInterfaceName },
-      importGenerateUrl,
+      context: { importGenerateUrl },
     } = this.config;
 
     const routeName = capitalizeFirstChar(originalRouteName);
@@ -93,7 +93,6 @@ class TypescriptReactRouter5Generator extends BaseRouteGenerator<ParsedLinkOptio
     const functionName = `Link${routeName}`;
     const defaultLinkPropsInterfaceName = `Link${routeName}Props`;
     const hasPathParams = !!pathParamsInterfaceName;
-    const generateUrlFnName = "generateUrl"; // TODO: find a better way to reference this
 
     const { hrefProp, importLink, linkComponent, linkPropsTemplate, linkPropsInterfaceName } = this._generateLinkInterface({
       defaultLinkPropsInterfaceName,
@@ -103,7 +102,7 @@ class TypescriptReactRouter5Generator extends BaseRouteGenerator<ParsedLinkOptio
     });
 
     const template = `${printImport({ defaultImport: "React", from: "react" })}
-    ${printImport(importGenerateUrl)}
+    ${printImport(importGenerateUrl.import)}
     ${importLink ? printImport(importLink) : ""}
     ${printImport({
       namedImports: [{ name: patternName }, { name: urlParamsInterfaceName }],
@@ -111,7 +110,7 @@ class TypescriptReactRouter5Generator extends BaseRouteGenerator<ParsedLinkOptio
     })}
     ${linkPropsTemplate}
     export const ${functionName}: React.FunctionComponent<${linkPropsInterfaceName}> = ({ urlParams, ...props }) => {
-      const to = ${generateUrlFnName}(${patternName}, { path: ${
+      const to = ${importGenerateUrl.importedName}(${patternName}, { path: ${
       hasPathParams ? "urlParams.path" : "{}"
     }, query: urlParams?.query, origin: urlParams?.origin });
       return <${linkComponent} {...props} ${hrefProp}={to} />;
@@ -150,26 +149,30 @@ class TypescriptReactRouter5Generator extends BaseRouteGenerator<ParsedLinkOptio
   };
 
   private _generateRedirectFile = (): TemplateFile => {
-    const { routeName: originalRouteName, destinationDir, importGenerateUrl, patternNamedExports } = this.config;
+    const {
+      routeName: originalRouteName,
+      destinationDir,
+      context: { importGenerateUrl },
+      patternNamedExports,
+    } = this.config;
 
     const routeName = capitalizeFirstChar(originalRouteName);
 
     const functionName = `Redirect${routeName}`;
     const hasPathParams = !!patternNamedExports.pathParamsInterfaceName;
-    const generateUrlFnName = "generateUrl"; // TODO: find a better way to reference this
 
     const urlParamsModifier = hasPathParams ? "" : "?";
     const urlParamsTemplate = `urlParams${urlParamsModifier}: ${patternNamedExports.urlParamsInterfaceName}`;
 
     const template = `${printImport({ defaultImport: "React", from: "react" })}
-    ${printImport(importGenerateUrl)}
+    ${printImport(importGenerateUrl.import)}
     ${printImport({ namedImports: [{ name: "Redirect" }], from: "react-router" })}
     ${printImport({
       namedImports: [{ name: patternNamedExports.urlParamsInterfaceName }, { name: patternNamedExports.patternName }],
       from: `./${patternNamedExports.filename}`,
     })}
     export const ${functionName}: React.FunctionComponent<{ fallback?: React.ReactNode, ${urlParamsTemplate} }> = ({ urlParams, ...props }) => {
-      const to = ${generateUrlFnName}(${patternNamedExports.patternName}, { path: ${
+      const to = ${importGenerateUrl.importedName}(${patternNamedExports.patternName}, { path: ${
       hasPathParams ? "urlParams.path" : "{}"
     }, query: urlParams?.query, origin: urlParams?.origin });
       return (
@@ -242,14 +245,18 @@ class TypescriptReactRouter5Generator extends BaseRouteGenerator<ParsedLinkOptio
   };
 
   private _generateUseRedirectFile(): TemplateFile {
-    const { routeName: originalRouteName, patternNamedExports, destinationDir, importGenerateUrl } = this.config;
+    const {
+      routeName: originalRouteName,
+      patternNamedExports,
+      destinationDir,
+      context: { importGenerateUrl },
+    } = this.config;
 
     const routeName = capitalizeFirstChar(originalRouteName);
 
     const functionName = `useRedirect${routeName}`;
     const pathVariable = patternNamedExports.pathParamsInterfaceName ? "urlParams.path" : "{}";
     const resultTypeInterface = `RedirectFn${routeName}`;
-    const generateUrlFnName = "generateUrl"; // TODO: find a better way to reference this
 
     const template = `${printImport({
       namedImports: [{ name: "useHistory" }],
@@ -259,14 +266,14 @@ class TypescriptReactRouter5Generator extends BaseRouteGenerator<ParsedLinkOptio
       namedImports: [{ name: patternNamedExports.urlParamsInterfaceName }, { name: patternNamedExports.patternName }],
       from: `./${patternNamedExports.filename}`,
     })}
-    ${printImport(importGenerateUrl)}
+    ${printImport(importGenerateUrl.import)}
     export type ${resultTypeInterface} = (urlParams${!patternNamedExports.pathParamsInterfaceName ? "?" : ""}: ${
       patternNamedExports.urlParamsInterfaceName
     }) => void;
     export const ${functionName} = (): ${resultTypeInterface} => {
       const history = useHistory();
       const redirect: ${resultTypeInterface} = urlParams => {
-        const to = ${generateUrlFnName}(${
+        const to = ${importGenerateUrl.importedName}(${
       patternNamedExports.patternName
     }, { path: ${pathVariable}, query: urlParams?.query, origin: urlParams?.origin });
         history.push(to);
@@ -288,7 +295,11 @@ class TypescriptReactRouter5Generator extends BaseRouteGenerator<ParsedLinkOptio
   }
 
   protected _parseLinkOptions(): void {
-    const { appName, topLevelGenerateOptions, extraConfig: routeLinkOptions } = this.config;
+    const {
+      appName,
+      context: { topLevelGenerateOptions },
+      extraConfig: routeLinkOptions,
+    } = this.config;
 
     const defaultOptions: ParsedLinkOptionsReactRouter5 = {
       importLink: {

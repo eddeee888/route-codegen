@@ -5,11 +5,18 @@ describe("TypescriptReactRouter5Plugin - Link file", () => {
     appName: "rr5-app",
     routePattern: "/login",
     routeName: "Login",
-    topLevelGenerateOptions: {
-      generateLinkComponent: false,
-      generateRedirectComponent: false,
-      generateUseRedirect: false,
-      generateUseParams: false,
+    context: {
+      topLevelGenerateOptions: {
+        generateLinkComponent: false,
+        generateRedirectComponent: false,
+        generateUseRedirect: false,
+        generateUseParams: false,
+      },
+      importGenerateUrl: { importedName: "generateUrl", import: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" } },
+      importRedirectServerSide: {
+        importedName: "RedirectServerSide",
+        import: { defaultImport: "RedirectServerSide", from: "route-codegen/RedirectServerSide" },
+      },
     },
     destinationDir: "path/to/routes",
     extraConfig: {
@@ -32,11 +39,6 @@ describe("TypescriptReactRouter5Plugin - Link file", () => {
       filename: "patternLogin",
       patternName: "patternLogin",
       urlParamsInterfaceName: "UrlParamsLogin",
-    },
-    importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
-    importRedirectServerSide: {
-      namedImports: [{ name: "RedirectServerSide" }],
-      from: "@route-codegen/react",
     },
   };
 
@@ -133,11 +135,18 @@ describe("TypescriptReactRouter5Plugin - Redirect file", () => {
       urlParamsInterfaceName: "UrlParamsLogin",
     },
     destinationDir: "path/to/routes",
-    topLevelGenerateOptions: {
-      generateLinkComponent: false,
-      generateRedirectComponent: false,
-      generateUseRedirect: false,
-      generateUseParams: false,
+    context: {
+      topLevelGenerateOptions: {
+        generateLinkComponent: false,
+        generateRedirectComponent: false,
+        generateUseRedirect: false,
+        generateUseParams: false,
+      },
+      importGenerateUrl: { importedName: "generateUrl", import: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" } },
+      importRedirectServerSide: {
+        importedName: "RedirectServerSide",
+        import: { defaultImport: "RedirectServerSide", from: "route-codegen/RedirectServerSide" },
+      },
     },
     extraConfig: {
       importCustomLink: {
@@ -154,8 +163,6 @@ describe("TypescriptReactRouter5Plugin - Redirect file", () => {
       },
       mode: "strict",
     },
-    importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
-    importRedirectServerSide: { namedImports: [{ name: "RedirectServerSide" }], from: "@route-codegen/react" },
   };
 
   it("should generate correctly if no path params", () => {
@@ -217,11 +224,18 @@ describe("TypescriptReactRouter5Plugin - UseParams", () => {
       appName: "rr5-app",
       routePattern: "/user",
       routeName: "User",
-      topLevelGenerateOptions: {
-        generateLinkComponent: false,
-        generateRedirectComponent: false,
-        generateUseRedirect: false,
-        generateUseParams: false,
+      context: {
+        topLevelGenerateOptions: {
+          generateLinkComponent: false,
+          generateRedirectComponent: false,
+          generateUseRedirect: false,
+          generateUseParams: false,
+        },
+        importGenerateUrl: { importedName: "generateUrl", import: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" } },
+        importRedirectServerSide: {
+          importedName: "RedirectServerSide",
+          import: { defaultImport: "RedirectServerSide", from: "route-codegen/RedirectServerSide" },
+        },
       },
       patternNamedExports: {
         originName: "originUser",
@@ -246,8 +260,6 @@ describe("TypescriptReactRouter5Plugin - UseParams", () => {
         },
         mode: "strict",
       },
-      importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
-      importRedirectServerSide: { namedImports: [{ name: "RedirectServerSide" }], from: "@route-codegen/react" },
     });
 
     expect(templateFile.filename).toBe("useParamsUser");
@@ -272,11 +284,18 @@ describe("TypescriptReactRouter5Plugin - UseParams", () => {
       appName: "rr5-app",
       routePattern: "/user",
       routeName: "User",
-      topLevelGenerateOptions: {
-        generateLinkComponent: false,
-        generateRedirectComponent: false,
-        generateUseRedirect: false,
-        generateUseParams: false,
+      context: {
+        topLevelGenerateOptions: {
+          generateLinkComponent: false,
+          generateRedirectComponent: false,
+          generateUseRedirect: false,
+          generateUseParams: false,
+        },
+        importGenerateUrl: { importedName: "generateUrl", import: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" } },
+        importRedirectServerSide: {
+          importedName: "RedirectServerSide",
+          import: { defaultImport: "RedirectServerSide", from: "route-codegen/RedirectServerSide" },
+        },
       },
       patternNamedExports: {
         originName: "originUser",
@@ -301,8 +320,6 @@ describe("TypescriptReactRouter5Plugin - UseParams", () => {
         },
         mode: "loose",
       },
-      importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
-      importRedirectServerSide: { namedImports: [{ name: "RedirectServerSide" }], from: "@route-codegen/react" },
     });
 
     expect(templateFile.filename).toBe("useParamsUser");
@@ -324,11 +341,18 @@ describe("TypescriptReactRouter5Plugin - UseRedirect file", () => {
       appName: "rr5-app",
       routePattern: "/login",
       routeName: "Login",
-      topLevelGenerateOptions: {
-        generateLinkComponent: false,
-        generateRedirectComponent: false,
-        generateUseRedirect: false,
-        generateUseParams: false,
+      context: {
+        topLevelGenerateOptions: {
+          generateLinkComponent: false,
+          generateRedirectComponent: false,
+          generateUseRedirect: false,
+          generateUseParams: false,
+        },
+        importGenerateUrl: { importedName: "generateUrl", import: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" } },
+        importRedirectServerSide: {
+          importedName: "RedirectServerSide",
+          import: { defaultImport: "RedirectServerSide", from: "route-codegen/RedirectServerSide" },
+        },
       },
       patternNamedExports: {
         originName: "originLogin",
@@ -352,8 +376,6 @@ describe("TypescriptReactRouter5Plugin - UseRedirect file", () => {
         },
         mode: "loose",
       },
-      importGenerateUrl: { from: "route-codegen", namedImports: [{ name: "generateUrl" }] },
-      importRedirectServerSide: { namedImports: [{ name: "RedirectServerSide" }], from: "@route-codegen/react" },
     });
 
     expect(templateFile.filename).toBe("useRedirectLogin");
@@ -387,11 +409,18 @@ describe("TypescriptReactRouter5Plugin - UseRedirect file", () => {
         urlParamsInterfaceName: "UrlParamsUserInfo",
         pathParamsInterfaceName: "PathParamsUserInfo",
       },
-      topLevelGenerateOptions: {
-        generateLinkComponent: false,
-        generateRedirectComponent: false,
-        generateUseRedirect: false,
-        generateUseParams: false,
+      context: {
+        topLevelGenerateOptions: {
+          generateLinkComponent: false,
+          generateRedirectComponent: false,
+          generateUseRedirect: false,
+          generateUseParams: false,
+        },
+        importGenerateUrl: { importedName: "generateUrl", import: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" } },
+        importRedirectServerSide: {
+          importedName: "RedirectServerSide",
+          import: { defaultImport: "RedirectServerSide", from: "route-codegen/RedirectServerSide" },
+        },
       },
       destinationDir: "path/to/routes",
       extraConfig: {
@@ -409,8 +438,6 @@ describe("TypescriptReactRouter5Plugin - UseRedirect file", () => {
         },
         mode: "loose",
       },
-      importGenerateUrl: { from: "route-codegen", namedImports: [{ name: "generateUrl" }] },
-      importRedirectServerSide: { namedImports: [{ name: "RedirectServerSide" }], from: "@route-codegen/react" },
     });
 
     expect(templateFile.filename).toBe("useRedirectUserInfo");

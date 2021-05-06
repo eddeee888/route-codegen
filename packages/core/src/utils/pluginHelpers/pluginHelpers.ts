@@ -1,13 +1,4 @@
-import { CodegenPlugin, PluginConfigType } from "../types";
-
-/**
- * Raw plugin config from reading yml
- */
-export interface RawPlugin {
-  name: string;
-  type?: string;
-  config?: Record<string, unknown>;
-}
+import { RawPlugin, CodegenPlugin, PluginConfigType } from "../types";
 
 export interface PluginModule<C = unknown, R = unknown> {
   plugin: CodegenPlugin<C, R>;

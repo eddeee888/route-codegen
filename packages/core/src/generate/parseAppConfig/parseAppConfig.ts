@@ -1,23 +1,20 @@
-import { AppConfig, AppRoute } from "../types";
-import { Import, RawPlugin, TopLevelGenerateOptions } from "../../../utils";
-
-export interface ParsedAppConfig {
-  routes: Record<string, AppRoute>;
-  destinationDir?: string;
-  plugins: RawPlugin[];
-  topLevelGenerateOptions: TopLevelGenerateOptions;
-  importGenerateUrl: Import;
-  importRedirectServerSide: Import;
-}
+import { AppConfig } from "./types";
+import { ContextImport, AppRoute, TopLevelGenerateOptions, ParsedAppConfig } from "../../utils";
 
 // Note: these imports are constants at the moment but we could open it up so people can pass their own functions in
-const IMPORT_GENERATE_URL: Import = {
-  namedImports: [{ name: "generateUrl" }],
-  from: "@route-codegen/utils",
+const IMPORT_GENERATE_URL: ContextImport = {
+  importedName: "generateUrl",
+  import: {
+    namedImports: [{ name: "generateUrl" }],
+    from: "@route-codegen/utils",
+  },
 };
-const IMPORT_REDIRECT_SERVER_SIDE_COMPONENT: Import = {
-  namedImports: [{ name: "RedirectServerSide" }],
-  from: "@route-codegen/react",
+const IMPORT_REDIRECT_SERVER_SIDE_COMPONENT: ContextImport = {
+  importedName: "RedirectServerSide",
+  import: {
+    namedImports: [{ name: "RedirectServerSide" }],
+    from: "@route-codegen/react",
+  },
 };
 
 /**
@@ -49,9 +46,11 @@ export const parseAppConfig = (appConfig: AppConfig): ParsedAppConfig => {
     routes: routesWithOrigin,
     destinationDir,
     plugins: plugins || [],
-    topLevelGenerateOptions,
-    importGenerateUrl: IMPORT_GENERATE_URL,
-    importRedirectServerSide: IMPORT_REDIRECT_SERVER_SIDE_COMPONENT,
+    context: {
+      topLevelGenerateOptions,
+      importGenerateUrl: IMPORT_GENERATE_URL,
+      importRedirectServerSide: IMPORT_REDIRECT_SERVER_SIDE_COMPONENT,
+    },
   };
 
   return parsedConfig;

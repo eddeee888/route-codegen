@@ -1,12 +1,4 @@
-import { RawPlugin, RoutingType } from "../../utils";
-
-// TODO: The Object version is only being used internally when generating external routes.
-// Test if it's safe for users to use
-export interface AppRoute {
-  path: string;
-  origin: string;
-  routingType?: RoutingType;
-}
+import { RawPlugin, AppRoute } from "../../utils";
 
 export interface AppConfig {
   origin?: string;

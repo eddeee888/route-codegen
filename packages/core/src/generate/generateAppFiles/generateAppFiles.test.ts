@@ -1,5 +1,5 @@
-import generateAppFiles from "./generateAppFiles";
-import { AppConfig } from "../config";
+import { generateAppFiles } from "./generateAppFiles";
+import { AppConfig } from "../parseAppConfig";
 
 // Only test `destinationDir`, `filename` and `extension here` i.e. values needed to generate files.
 // Templates should be unit tested in their own plugins

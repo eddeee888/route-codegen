@@ -82,7 +82,7 @@ class TypescriptAnchorGenerator extends BaseRouteGenerator<ParsedLinkOptionsAnch
       routeName: originalRouteName,
       destinationDir,
       patternNamedExports: { patternName, pathParamsInterfaceName, filename: routePatternFilename, urlParamsInterfaceName, originName },
-      importGenerateUrl,
+      context: { importGenerateUrl },
     } = this.config;
 
     const routeName = capitalizeFirstChar(originalRouteName);
@@ -99,7 +99,7 @@ class TypescriptAnchorGenerator extends BaseRouteGenerator<ParsedLinkOptionsAnch
     });
 
     const template = `${printImport({ defaultImport: "React", from: "react" })}
-    ${printImport(importGenerateUrl)}
+    ${printImport(importGenerateUrl.import)}
     ${importLink ? printImport(importLink) : ""}
     ${printImport({
       namedImports: [{ name: patternName }, { name: urlParamsInterfaceName }, { name: originName }],
@@ -107,7 +107,7 @@ class TypescriptAnchorGenerator extends BaseRouteGenerator<ParsedLinkOptionsAnch
     })}
     ${linkPropsTemplate}
     export const ${functionName}: React.FunctionComponent<${linkPropsInterfaceName}> = ({ urlParams, ...props }) => {
-      const to = generateUrl(${patternName}, { path: ${
+      const to = ${importGenerateUrl.importedName}(${patternName}, { path: ${
       hasPathParams ? "urlParams.path" : "{}"
     }, query: urlParams?.query, origin: urlParams?.origin ?? ${originName} });
       return <${linkComponent} {...props} ${hrefProp}={to} />;
@@ -151,21 +151,24 @@ class TypescriptAnchorGenerator extends BaseRouteGenerator<ParsedLinkOptionsAnch
   }
 
   private _generateRedirectFile(): TemplateFile {
-    const { routeName: originalRouteName, destinationDir, importGenerateUrl, patternNamedExports, importRedirectServerSide } = this.config;
+    const {
+      routeName: originalRouteName,
+      destinationDir,
+      patternNamedExports,
+      context: { importGenerateUrl, importRedirectServerSide },
+    } = this.config;
 
     const routeName = capitalizeFirstChar(originalRouteName);
 
     const functionName = `Redirect${routeName}`;
     const hasPathParams = !!patternNamedExports.pathParamsInterfaceName;
-    const generateUrlFnName = "generateUrl"; // TODO: find a better way to reference this
-    const redirectCompName = "RedirectServerSide"; // TODO: find a better way to reference this
 
     const urlParamsModifier = hasPathParams ? "" : "?";
     const urlParamsTemplate = `urlParams${urlParamsModifier}: ${patternNamedExports.urlParamsInterfaceName}`;
 
     const template = `${printImport({ defaultImport: "React", from: "react" })}
-  ${printImport(importRedirectServerSide)}
-  ${printImport(importGenerateUrl)}
+  ${printImport(importRedirectServerSide.import)}
+  ${printImport(importGenerateUrl.import)}
   ${printImport({
     namedImports: [
       { name: patternNamedExports.urlParamsInterfaceName },
@@ -175,10 +178,10 @@ class TypescriptAnchorGenerator extends BaseRouteGenerator<ParsedLinkOptionsAnch
     from: `./${patternNamedExports.filename}`,
   })}
   export const ${functionName}: React.FunctionComponent<{ fallback?: React.ReactNode, ${urlParamsTemplate} }> = ({ urlParams , ...props }) => {
-    const to = ${generateUrlFnName}(${patternNamedExports.patternName}, { path: ${
+    const to = ${importGenerateUrl.importedName}(${patternNamedExports.patternName}, { path: ${
       hasPathParams ? "urlParams.path" : "{}"
     }, query: urlParams?.query, origin: urlParams?.origin ?? ${patternNamedExports.originName} });
-    return <${redirectCompName} href={to} fallback={props.fallback} />;
+    return <${importRedirectServerSide.importedName} href={to} fallback={props.fallback} />;
   };`;
 
     return {
@@ -193,7 +196,12 @@ class TypescriptAnchorGenerator extends BaseRouteGenerator<ParsedLinkOptionsAnch
   }
 
   private _generateUseRedirectFile(): TemplateFile {
-    const { routeName: originalRouteName, patternNamedExports, destinationDir, importGenerateUrl } = this.config;
+    const {
+      routeName: originalRouteName,
+      patternNamedExports,
+      destinationDir,
+      context: { importGenerateUrl },
+    } = this.config;
 
     const routeName = capitalizeFirstChar(originalRouteName);
 
@@ -209,15 +217,15 @@ class TypescriptAnchorGenerator extends BaseRouteGenerator<ParsedLinkOptionsAnch
       ],
       from: `./${patternNamedExports.filename}`,
     })}
-  ${printImport(importGenerateUrl)}
+  ${printImport(importGenerateUrl.import)}
   export type ${resultTypeInterface} = (urlParams${!patternNamedExports.pathParamsInterfaceName ? "?" : ""}: ${
       patternNamedExports.urlParamsInterfaceName
     }) => void;
   export const ${functionName} = (): ${resultTypeInterface} => {
     const redirect: ${resultTypeInterface} = urlParams => {
-      const to = generateUrl(${
-        patternNamedExports.patternName
-      }, { path: ${pathVariable}, query: urlParams?.query, origin: urlParams?.origin ?? ${patternNamedExports.originName} });
+      const to = ${importGenerateUrl.importedName}(${
+      patternNamedExports.patternName
+    }, { path: ${pathVariable}, query: urlParams?.query, origin: urlParams?.origin ?? ${patternNamedExports.originName} });
       if (!!window && !!window.location) {
         window.location.href = to;
       }
@@ -240,7 +248,11 @@ class TypescriptAnchorGenerator extends BaseRouteGenerator<ParsedLinkOptionsAnch
   }
 
   protected _parseLinkOptions(): void {
-    const { appName, topLevelGenerateOptions, extraConfig: routeLinkOptions } = this.config;
+    const {
+      appName,
+      context: { topLevelGenerateOptions },
+      extraConfig: routeLinkOptions,
+    } = this.config;
 
     const defaultOptions: ParsedLinkOptionsAnchor = {
       hrefProp: "href",
