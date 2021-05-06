@@ -1,6 +1,6 @@
 import { AppConfig, parseAppConfig } from "./../config";
 import generateTemplateFiles from "./generateTemplateFiles";
-import { info, pluginHelpers, TemplateFile, PluginModule } from "../../utils";
+import { info, pluginHelpers, TemplateFile, WithExtraConfig, GeneratedFilesProcessorPluginBaseConfig } from "../../utils";
 
 const generateAppFiles = async (appName: string, appConfig: AppConfig): Promise<TemplateFile[]> => {
   const { routes, destinationDir, plugins, importGenerateUrl, importRedirectServerSide, topLevelGenerateOptions } = parseAppConfig(
@@ -34,11 +34,10 @@ const generateAppFiles = async (appName: string, appConfig: AppConfig): Promise<
       info([appName], `*** No files to generate ***\n`);
     }
 
-    // TODO: handle this 'as' type better
-    const generatedFileProcessors = pluginHelpers.filterByTypes(pluginModules, ["generated-files-processor"]) as PluginModule<
-      any,
-      TemplateFile[]
-    >[];
+    const generatedFileProcessors = pluginHelpers.filterByTypes<WithExtraConfig<GeneratedFilesProcessorPluginBaseConfig>, TemplateFile[]>(
+      pluginModules,
+      ["generated-files-processor"]
+    );
     const extraFiles = generatedFileProcessors.reduce<TemplateFile[]>((prevFiles, { plugin, config }) => {
       const newFiles = plugin.generate({ destinationDir, files: filesToGenerate, extraConfig: config });
       return [...prevFiles, ...newFiles];

@@ -9,6 +9,7 @@ import {
   PatternTemplateFile,
   PatternPluginBaseConfig,
   WithExtraConfig,
+  GeneralPluginBaseConfig,
 } from "../../utils";
 
 export interface GenerateTemplateFilesParams {
@@ -44,10 +45,11 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
     return [];
   }
 
-  // TODO: type this better to scale
-  const patternPlugin = pluginHelpers.findFirstOfType(pluginModules, "pattern") as
-    | PluginModule<WithExtraConfig<PatternPluginBaseConfig, Record<string, unknown>>, PatternTemplateFile>
-    | undefined;
+  const patternPlugin = pluginHelpers.findFirstOfType<WithExtraConfig<PatternPluginBaseConfig>, PatternTemplateFile>(
+    pluginModules,
+    "pattern"
+  );
+
   if (!patternPlugin) {
     return throwError([appName, routeName], "No pattern plugin found.");
   }
@@ -64,12 +66,14 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
   });
   files.push(patternFile);
 
-  const routePlugins = pluginHelpers.filterByTypes(pluginModules, ["general", routingType]);
+  const routePlugins = pluginHelpers.filterByTypes<WithExtraConfig<GeneralPluginBaseConfig>, TemplateFile[]>(pluginModules, [
+    "general",
+    routingType,
+  ]);
 
   routePlugins.forEach(({ plugin, config }) => {
     const templateFiles = plugin.generate({
       appName,
-      origin,
       routeName,
       routePattern,
       destinationDir,
@@ -78,7 +82,7 @@ const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promi
       importGenerateUrl,
       importRedirectServerSide,
       extraConfig: config,
-    }) as TemplateFile[]; // TODO: type this better to scale
+    });
     files.push(...templateFiles);
   });
 

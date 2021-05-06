@@ -59,7 +59,7 @@ export interface CodegenPlugin<C, R> {
   generate: (config: C) => R;
 }
 
-export type WithExtraConfig<B, E> = B & { extraConfig?: E };
+export type WithExtraConfig<B, E = Record<string, unknown>> = B & { extraConfig?: E };
 
 export interface GeneratedFilesProcessorPluginBaseConfig {
   destinationDir: string;
