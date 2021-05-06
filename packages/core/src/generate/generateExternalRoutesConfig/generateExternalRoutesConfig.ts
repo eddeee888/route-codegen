@@ -1,4 +1,5 @@
-import { AppConfig, AppRoute } from "../parseAppConfig";
+import { AppConfig } from "../parseAppConfig";
+import { AppRoute } from "../../utils";
 
 export const generateExternalRoutesConfig = (apps: Record<string, AppConfig>): Record<string, AppConfig> => {
   const externalRoutesConfig: Record<string, AppConfig> = {};

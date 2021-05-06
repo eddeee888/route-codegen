@@ -4,7 +4,7 @@ export const plugin: GeneralCodegenPlugin = {
   type: "general",
   generate: (config) => {
     const {
-      importGenerateUrl,
+      context: { importGenerateUrl },
       patternNamedExports: { patternName, urlParamsInterfaceName, filename, pathParamsInterfaceName, originName },
       routeName: originalRouteName,
       destinationDir,
@@ -12,11 +12,11 @@ export const plugin: GeneralCodegenPlugin = {
 
     const routeName = capitalizeFirstChar(originalRouteName);
 
-    const functionName = `generateUrl${routeName}`;
+    const functionName = `${importGenerateUrl.importedName}${routeName}`;
     const pathVariable = pathParamsInterfaceName ? "urlParams.path" : "{}";
     const urlPartOptionalModifier = pathParamsInterfaceName ? "" : "?";
 
-    const template = `${printImport(importGenerateUrl)}
+    const template = `${printImport(importGenerateUrl.import)}
   ${printImport({
     namedImports: [{ name: patternName }, { name: urlParamsInterfaceName }, { name: originName }],
     from: `./${filename}`,

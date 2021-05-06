@@ -3,9 +3,7 @@ import { generateTemplateFiles } from "./generateTemplateFiles";
 import { info, pluginHelpers, TemplateFile, WithExtraConfig, GeneratedFilesProcessorPluginBaseConfig } from "../../utils";
 
 export const generateAppFiles = async (appName: string, appConfig: AppConfig): Promise<TemplateFile[]> => {
-  const { routes, destinationDir, plugins, importGenerateUrl, importRedirectServerSide, topLevelGenerateOptions } = parseAppConfig(
-    appConfig
-  );
+  const { routes, destinationDir, plugins, context } = parseAppConfig(appConfig);
 
   if (destinationDir) {
     const pluginModules = await pluginHelpers.loadPluginModules(plugins);
@@ -13,16 +11,14 @@ export const generateAppFiles = async (appName: string, appConfig: AppConfig): P
     const files = await Promise.all(
       Object.entries(routes).map(([routeName, routePattern]) =>
         generateTemplateFiles({
+          context,
           appName,
-          topLevelGenerateOptions,
           origin: routePattern.origin,
           routePattern: routePattern.path,
           routingType: routePattern.routingType || "route-internal",
           pluginModules,
           routeName,
           destinationDir,
-          importGenerateUrl,
-          importRedirectServerSide,
         })
       )
     );

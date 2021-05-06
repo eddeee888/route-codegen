@@ -1,43 +1,29 @@
 import {
   TemplateFile,
-  Import,
   throwError,
   pluginHelpers,
-  TopLevelGenerateOptions,
   PluginModule,
   RoutingType,
   PatternTemplateFile,
   PatternPluginBaseConfig,
   WithExtraConfig,
   GeneralPluginBaseConfig,
+  ParsedAppConfig,
 } from "../../utils";
 
 export interface GenerateTemplateFilesParams {
+  context: ParsedAppConfig["context"];
   appName: string;
   origin: string;
   routeName: string;
   routePattern: string;
   routingType: RoutingType;
-  topLevelGenerateOptions: TopLevelGenerateOptions;
   pluginModules: PluginModule[];
   destinationDir: string;
-  importGenerateUrl: Import;
-  importRedirectServerSide: Import;
 }
 
 export const generateTemplateFiles = async (params: GenerateTemplateFilesParams): Promise<TemplateFile[]> => {
-  const {
-    appName,
-    origin,
-    routeName,
-    routePattern,
-    topLevelGenerateOptions,
-    pluginModules,
-    destinationDir: originalDestinationDir,
-    importGenerateUrl,
-    importRedirectServerSide,
-    routingType,
-  } = params;
+  const { appName, context, origin, routeName, routePattern, pluginModules, destinationDir: originalDestinationDir, routingType } = params;
 
   const destinationDir = `${originalDestinationDir}/${routeName}`;
 
@@ -73,14 +59,12 @@ export const generateTemplateFiles = async (params: GenerateTemplateFilesParams)
 
   routePlugins.forEach(({ plugin, config }) => {
     const templateFiles = plugin.generate({
+      context,
       appName,
       routeName,
       routePattern,
       destinationDir,
       patternNamedExports: patternFile.namedExports,
-      topLevelGenerateOptions,
-      importGenerateUrl,
-      importRedirectServerSide,
       extraConfig: config,
     });
     files.push(...templateFiles);

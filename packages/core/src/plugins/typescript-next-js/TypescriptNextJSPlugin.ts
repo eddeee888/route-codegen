@@ -84,7 +84,7 @@ class TypescriptNextJSGenerator extends BaseRouteGenerator<ParsedLinkOptionsNext
       routeName: originalRouteName,
       destinationDir,
       patternNamedExports: { patternName, filename: routePatternFilename, pathParamsInterfaceName, urlParamsInterfaceName },
-      importGenerateUrl,
+      context: { importGenerateUrl },
     } = this.config;
 
     const routeName = capitalizeFirstChar(originalRouteName);
@@ -92,7 +92,6 @@ class TypescriptNextJSGenerator extends BaseRouteGenerator<ParsedLinkOptionsNext
     const functionName = `Link${routeName}`;
     const defaultLinkPropsInterfaceName = `Link${routeName}Props`;
     const hasPathParams = !!pathParamsInterfaceName;
-    const generateUrlFnName = "generateUrl"; // TODO: find a better way to reference this
 
     const { hrefProp, importLink, linkComponent, linkPropsTemplate, linkPropsInterfaceName } = this._generateLinkInterface({
       defaultLinkPropsInterfaceName,
@@ -103,11 +102,11 @@ class TypescriptNextJSGenerator extends BaseRouteGenerator<ParsedLinkOptionsNext
 
     const template = `${printImport({ defaultImport: "React", from: "react" })}
     ${importLink ? printImport(importLink) : ""}
-    ${printImport(importGenerateUrl)}
+    ${printImport(importGenerateUrl.import)}
     ${printImport({ namedImports: [{ name: urlParamsInterfaceName }, { name: patternName }], from: `./${routePatternFilename}` })}
     ${linkPropsTemplate}
     export const ${functionName}: React.FunctionComponent<${linkPropsInterfaceName}> = ({ urlParams, ...props}) => {
-      const href = ${generateUrlFnName}(${patternName}, { path: ${
+      const href = ${importGenerateUrl.importedName}(${patternName}, { path: ${
       hasPathParams ? "urlParams.path" : "{}"
     }, query: urlParams?.query, origin: urlParams?.origin });
       return <${linkComponent} {...props} ${hrefProp}={href} />;
@@ -294,7 +293,7 @@ class TypescriptNextJSGenerator extends BaseRouteGenerator<ParsedLinkOptionsNext
       routeName: originalRouteName,
       patternNamedExports: { patternName, pathParamsInterfaceName, filename: routePatternFilename, urlParamsInterfaceName },
       destinationDir,
-      importGenerateUrl,
+      context: { importGenerateUrl },
     } = this.config;
 
     const routeName = capitalizeFirstChar(originalRouteName);
@@ -303,16 +302,15 @@ class TypescriptNextJSGenerator extends BaseRouteGenerator<ParsedLinkOptionsNext
     const urlParamsModifier = pathParamsInterfaceName ? "" : "?";
     const resultTypeInterface = `RedirectFn${routeName}`;
     const hasPathParams = !!pathParamsInterfaceName;
-    const generateUrlFnName = "generateUrl"; // TODO: find a better way to reference this
 
     const template = `${printImport({ namedImports: [{ name: "useRouter" }], from: "next/router" })}
-    ${printImport(importGenerateUrl)}
+    ${printImport(importGenerateUrl.import)}
     ${printImport({ namedImports: [{ name: urlParamsInterfaceName }, { name: patternName }], from: `./${routePatternFilename}` })}
     export type ${resultTypeInterface} = (urlParams${urlParamsModifier}: ${urlParamsInterfaceName}) => void;
     export const ${functionName} = (): ${resultTypeInterface} => {
       const router = useRouter();
       const redirect: ${resultTypeInterface} = (urlParams) => {
-        const href = ${generateUrlFnName}(${patternName}, { path: ${
+        const href = ${importGenerateUrl.importedName}(${patternName}, { path: ${
       hasPathParams ? "urlParams.path" : "{}"
     }, query: urlParams?.query, origin: urlParams?.origin });
         router.push(href);
@@ -334,7 +332,11 @@ class TypescriptNextJSGenerator extends BaseRouteGenerator<ParsedLinkOptionsNext
   }
 
   protected _parseLinkOptions(): void {
-    const { appName, topLevelGenerateOptions, extraConfig: routeLinkOptions } = this.config;
+    const {
+      appName,
+      context: { topLevelGenerateOptions },
+      extraConfig: routeLinkOptions,
+    } = this.config;
 
     const defaultOptions: ParsedLinkOptionsNextJS = {
       importLink: {

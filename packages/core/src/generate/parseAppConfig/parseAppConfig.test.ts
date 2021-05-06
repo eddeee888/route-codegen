@@ -1,5 +1,5 @@
 import { parseAppConfig } from "./parseAppConfig";
-import { AppConfig } from "../types";
+import { AppConfig } from "./types";
 
 describe("parseAppConfig", () => {
   const defaultAppConfig: AppConfig = {
@@ -26,20 +26,28 @@ describe("parseAppConfig", () => {
         },
       },
       destinationDir: "path/to/routes",
-      importGenerateUrl: {
-        from: "@route-codegen/utils",
-        namedImports: [{ name: "generateUrl" }],
-      },
-      importRedirectServerSide: {
-        from: "@route-codegen/react",
-        namedImports: [{ name: "RedirectServerSide" }],
-      },
       plugins: [],
-      topLevelGenerateOptions: {
-        generateLinkComponent: false,
-        generateRedirectComponent: false,
-        generateUseParams: false,
-        generateUseRedirect: false,
+      context: {
+        topLevelGenerateOptions: {
+          generateLinkComponent: false,
+          generateRedirectComponent: false,
+          generateUseParams: false,
+          generateUseRedirect: false,
+        },
+        importGenerateUrl: {
+          importedName: "generateUrl",
+          import: {
+            from: "@route-codegen/utils",
+            namedImports: [{ name: "generateUrl" }],
+          },
+        },
+        importRedirectServerSide: {
+          importedName: "RedirectServerSide",
+          import: {
+            from: "@route-codegen/react",
+            namedImports: [{ name: "RedirectServerSide" }],
+          },
+        },
       },
     });
   });
@@ -74,20 +82,28 @@ describe("parseAppConfig", () => {
         },
       },
       destinationDir: "path/to/routes",
-      importGenerateUrl: {
-        from: "@route-codegen/utils",
-        namedImports: [{ name: "generateUrl" }],
-      },
-      importRedirectServerSide: {
-        from: "@route-codegen/react",
-        namedImports: [{ name: "RedirectServerSide" }],
-      },
       plugins: [{ name: "typescript-pattern" }],
-      topLevelGenerateOptions: {
-        generateLinkComponent: true,
-        generateRedirectComponent: false,
-        generateUseParams: false,
-        generateUseRedirect: false,
+      context: {
+        topLevelGenerateOptions: {
+          generateLinkComponent: true,
+          generateRedirectComponent: false,
+          generateUseParams: false,
+          generateUseRedirect: false,
+        },
+        importGenerateUrl: {
+          importedName: "generateUrl",
+          import: {
+            from: "@route-codegen/utils",
+            namedImports: [{ name: "generateUrl" }],
+          },
+        },
+        importRedirectServerSide: {
+          importedName: "RedirectServerSide",
+          import: {
+            from: "@route-codegen/react",
+            namedImports: [{ name: "RedirectServerSide" }],
+          },
+        },
       },
     });
   });

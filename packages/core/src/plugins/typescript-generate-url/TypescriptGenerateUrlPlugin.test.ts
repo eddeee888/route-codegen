@@ -13,14 +13,19 @@ describe("TypescriptGenerateUrlPlugin - generateUrl file", () => {
     destinationDir: "path/to/routes",
     routeName: "User",
     routePattern: "/user",
-    topLevelGenerateOptions: {
-      generateUseRedirect: false,
-      generateUseParams: false,
-      generateRedirectComponent: false,
-      generateLinkComponent: false,
+    context: {
+      topLevelGenerateOptions: {
+        generateUseRedirect: false,
+        generateUseParams: false,
+        generateRedirectComponent: false,
+        generateLinkComponent: false,
+      },
+      importGenerateUrl: { importedName: "generateUrl", import: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" } },
+      importRedirectServerSide: {
+        importedName: "RedirectServerSide",
+        import: { defaultImport: "RedirectServerSide", from: "route-codegen/RedirectServerSide" },
+      },
     },
-    importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
-    importRedirectServerSide: { namedImports: [{ name: "RedirectServerSide" }], from: "@route-codegen/react" },
   };
 
   it("should generate correctly if no path params", () => {

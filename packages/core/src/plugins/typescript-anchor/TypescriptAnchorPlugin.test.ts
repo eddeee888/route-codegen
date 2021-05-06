@@ -4,11 +4,18 @@ describe("TypescriptAnchorPlugin - LinkFile", () => {
   const defaultConfig: TypescriptAnchorPluginConfig = {
     appName: "tradish-app",
     routePattern: "/login",
-    topLevelGenerateOptions: {
-      generateLinkComponent: false,
-      generateRedirectComponent: false,
-      generateUseParams: false,
-      generateUseRedirect: false,
+    context: {
+      topLevelGenerateOptions: {
+        generateLinkComponent: false,
+        generateRedirectComponent: false,
+        generateUseParams: false,
+        generateUseRedirect: false,
+      },
+      importGenerateUrl: { importedName: "generateUrl", import: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" } },
+      importRedirectServerSide: {
+        importedName: "RedirectServerSide",
+        import: { defaultImport: "RedirectServerSide", from: "route-codegen/RedirectServerSide" },
+      },
     },
     extraConfig: {
       generate: {
@@ -25,8 +32,6 @@ describe("TypescriptAnchorPlugin - LinkFile", () => {
       urlParamsInterfaceName: "UrlParamsLogin",
     },
     destinationDir: "path/to/routes",
-    importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
-    importRedirectServerSide: { defaultImport: "RedirectServerSide", from: "route-codegen/RedirectServerSide" },
   };
 
   it("should generate correctly with custom interface and no path params", () => {
@@ -146,11 +151,18 @@ describe("TypescriptAnchorPlugin - RedirectFile", () => {
   const defaultConfig: TypescriptAnchorPluginConfig = {
     appName: "tradish-app",
     routePattern: "/login",
-    topLevelGenerateOptions: {
-      generateUseRedirect: false,
-      generateUseParams: false,
-      generateRedirectComponent: false,
-      generateLinkComponent: false,
+    context: {
+      topLevelGenerateOptions: {
+        generateUseRedirect: false,
+        generateUseParams: false,
+        generateRedirectComponent: false,
+        generateLinkComponent: false,
+      },
+      importGenerateUrl: { importedName: "generateUrl", import: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" } },
+      importRedirectServerSide: {
+        importedName: "RedirectServerSide",
+        import: { defaultImport: "RedirectServerSide", from: "route-codegen/RedirectServerSide" },
+      },
     },
     routeName: "Login",
     patternNamedExports: {
@@ -167,8 +179,6 @@ describe("TypescriptAnchorPlugin - RedirectFile", () => {
         useRedirect: false,
       },
     },
-    importGenerateUrl: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" },
-    importRedirectServerSide: { defaultImport: "RedirectServerSide", from: "route-codegen/RedirectServerSide" },
   };
 
   it("should generate correctly if no path params", () => {
@@ -220,11 +230,18 @@ describe("TypescriptAnchorPlugin - UseRedirect", () => {
       appName: "tradish-app",
       routePattern: "/login",
       routeName: "Login",
-      topLevelGenerateOptions: {
-        generateLinkComponent: false,
-        generateRedirectComponent: false,
-        generateUseParams: false,
-        generateUseRedirect: false,
+      context: {
+        topLevelGenerateOptions: {
+          generateLinkComponent: false,
+          generateRedirectComponent: false,
+          generateUseParams: false,
+          generateUseRedirect: false,
+        },
+        importGenerateUrl: { importedName: "generateUrl", import: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" } },
+        importRedirectServerSide: {
+          importedName: "RedirectServerSide",
+          import: { defaultImport: "RedirectServerSide", from: "route-codegen/RedirectServerSide" },
+        },
       },
       patternNamedExports: {
         originName: "originLogin",
@@ -240,8 +257,6 @@ describe("TypescriptAnchorPlugin - UseRedirect", () => {
           useRedirect: true,
         },
       },
-      importGenerateUrl: { from: "route-codegen", namedImports: [{ name: "generateUrl" }] },
-      importRedirectServerSide: { defaultImport: "RedirectServerSide", from: "route-codegen/RedirectServerSide" },
     });
 
     expect(templateFile.filename).toBe("useRedirectLogin");
@@ -268,11 +283,18 @@ describe("TypescriptAnchorPlugin - UseRedirect", () => {
     const [templateFile] = plugin.generate({
       appName: "tradish-app",
       routePattern: "/user/:id",
-      topLevelGenerateOptions: {
-        generateLinkComponent: false,
-        generateRedirectComponent: false,
-        generateUseParams: false,
-        generateUseRedirect: false,
+      context: {
+        topLevelGenerateOptions: {
+          generateLinkComponent: false,
+          generateRedirectComponent: false,
+          generateUseParams: false,
+          generateUseRedirect: false,
+        },
+        importGenerateUrl: { importedName: "generateUrl", import: { namedImports: [{ name: "generateUrl" }], from: "route-codegen" } },
+        importRedirectServerSide: {
+          importedName: "RedirectServerSide",
+          import: { defaultImport: "RedirectServerSide", from: "route-codegen/RedirectServerSide" },
+        },
       },
       routeName: "UserInfo",
       patternNamedExports: {
@@ -290,8 +312,6 @@ describe("TypescriptAnchorPlugin - UseRedirect", () => {
           useRedirect: true,
         },
       },
-      importGenerateUrl: { from: "route-codegen", namedImports: [{ name: "generateUrl" }] },
-      importRedirectServerSide: { defaultImport: "RedirectServerSide", from: "route-codegen/RedirectServerSide" },
     });
 
     expect(templateFile.filename).toBe("useRedirectUserInfo");

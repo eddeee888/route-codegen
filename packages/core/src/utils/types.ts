@@ -1,3 +1,36 @@
+/**
+ * Raw plugin config from reading yml
+ */
+export interface RawPlugin {
+  name: string;
+  type?: string;
+  config?: Record<string, unknown>;
+}
+
+// TODO: The Object version is only being used internally when generating external routes.
+// Test if it's safe for users to use
+export interface AppRoute {
+  path: string;
+  origin: string;
+  routingType?: RoutingType;
+}
+
+export interface ContextImport {
+  importedName: string;
+  import: Import;
+}
+
+export interface ParsedAppConfig {
+  routes: Record<string, AppRoute>;
+  destinationDir?: string;
+  plugins: RawPlugin[];
+  context: {
+    topLevelGenerateOptions: TopLevelGenerateOptions;
+    importGenerateUrl: ContextImport;
+    importRedirectServerSide: ContextImport;
+  };
+}
+
 export type RoutingType = "route-internal" | "route-external";
 
 export interface TemplateFile {
@@ -83,14 +116,12 @@ export interface PatternCodegenPlugin<C = Record<string, unknown>>
 }
 
 export interface GeneralPluginBaseConfig {
+  context: ParsedAppConfig["context"];
   appName: string;
   routeName: string;
   routePattern: string;
-  topLevelGenerateOptions: TopLevelGenerateOptions;
   destinationDir: string;
   patternNamedExports: PatternNamedExports;
-  importGenerateUrl: Import;
-  importRedirectServerSide: Import;
 }
 export interface GeneralCodegenPlugin<C = Record<string, unknown>>
   extends CodegenPlugin<WithExtraConfig<GeneralPluginBaseConfig, C>, TemplateFile[]> {
