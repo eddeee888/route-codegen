@@ -17,7 +17,11 @@ interface ComponentMeta {
   typeTemplate: string;
 }
 
-const getComponentMeta = (componentConfig: string | Import): ComponentMeta => {
+const getComponentMeta = (componentConfig: string | Import | undefined): ComponentMeta | null => {
+  if (!componentConfig) {
+    return null;
+  }
+
   // If componentConfig is a string, it is the "key" used to recognise
   // which type of component the app needs.
   if (typeof componentConfig === "string") {
@@ -61,16 +65,10 @@ export type TypescriptRouteConfigPluginConfig = WithExtraConfig<GeneratedFilesPr
 
 export const plugin: GeneratedFilesProcessorCodegenPlugin<ExtraConfig> = {
   type: "generated-files-processor",
-  generate: ({ destinationDir, files, extraConfig }) => {
-    if (!extraConfig) {
-      return throwError(["type-route-config"], "internalComponent and externalComponent are required");
-    }
-
+  generate: ({ destinationDir, files, extraConfig = { internalComponent: undefined, externalComponent: undefined } }) => {
     const { internalComponent, externalComponent } = extraConfig;
-
-    if (!internalComponent || !externalComponent) {
-      return throwError(["type-route-config"], "internalComponent and externalComponent are required");
-    }
+    const internalComponentMeta = getComponentMeta(internalComponent);
+    const externalComponentMeta = getComponentMeta(externalComponent);
 
     const patternFiles = files.reduce<PatternTemplateFile[]>((result, file) => {
       if (templateFileHelpers.isPatternTemplateFile(file)) {
@@ -83,15 +81,19 @@ export const plugin: GeneratedFilesProcessorCodegenPlugin<ExtraConfig> = {
       return [];
     }
 
-    const internalComponentMeta = getComponentMeta(internalComponent);
-    const externalComponentMeta = getComponentMeta(externalComponent);
-
     const templates = patternFiles.reduce<{ fields: string[]; interfaces: string[]; imports: Import[] }>(
       (templateMap, file) => {
+        let compFieldTemplate = "";
+        if (externalComponentMeta && file.routingType === "route-external") {
+          compFieldTemplate = `component: ${externalComponentMeta.componentName},`;
+        } else if (internalComponentMeta && file.routingType === "route-internal") {
+          compFieldTemplate = `component: ${internalComponentMeta.componentName},`;
+        }
+
         const fieldTemplate = `${file.routeName}: {
           pathPattern: ${file.namedExports.patternName},
-          component: ${file.routingType === "route-external" ? externalComponentMeta.componentName : internalComponentMeta.componentName},
           type: ${file.routingType === "route-external" ? '"external"' : '"internal"'},
+          ${compFieldTemplate}
         },`;
 
         const urlParamsModifier = file.namedExports.pathParamsInterfaceName ? "" : "?";
@@ -113,12 +115,12 @@ export const plugin: GeneratedFilesProcessorCodegenPlugin<ExtraConfig> = {
     );
 
     const routeConfigInterfaceTemplate = `Record<string, { pathPattern:  string } 
-      & ( { type: "external", component: ${externalComponentMeta.typeTemplate} } 
-        | { type: "internal", component: ${internalComponentMeta.typeTemplate} })>`;
+      & ( { type: "external" ${externalComponentMeta ? `, component: ${externalComponentMeta.typeTemplate}` : ""} } 
+        | { type: "internal" ${internalComponentMeta ? `, component: ${internalComponentMeta.typeTemplate}` : ""} })>`;
 
     const template = [
-      internalComponentMeta.import ? printImport(internalComponentMeta.import) : "",
-      externalComponentMeta.import ? printImport(externalComponentMeta.import) : "",
+      internalComponentMeta?.import ? printImport(internalComponentMeta.import) : "",
+      externalComponentMeta?.import ? printImport(externalComponentMeta.import) : "",
       templates.imports.map(printImport).join(";"),
 
       `export const routeConfig: ${routeConfigInterfaceTemplate} = {`,

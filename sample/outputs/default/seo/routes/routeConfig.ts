@@ -16,48 +16,48 @@ export const routeConfig: Record<
 > = {
   home: {
     pathPattern: patternHome,
-    component: Link,
     type: "internal",
+    component: Link,
   },
   about: {
     pathPattern: patternAbout,
-    component: Link,
     type: "internal",
+    component: Link,
   },
   user: {
     pathPattern: patternUser,
-    component: "a",
     type: "external",
+    component: "a",
   },
   account: {
     pathPattern: patternAccount,
-    component: "a",
     type: "external",
+    component: "a",
   },
   login: {
     pathPattern: patternLogin,
-    component: "a",
     type: "external",
+    component: "a",
   },
   signup: {
     pathPattern: patternSignup,
-    component: "a",
     type: "external",
+    component: "a",
   },
   contact: {
     pathPattern: patternContact,
-    component: "a",
     type: "external",
+    component: "a",
   },
   toc: {
     pathPattern: patternToc,
-    component: "a",
     type: "external",
+    component: "a",
   },
   legacy: {
     pathPattern: patternLegacy,
-    component: "a",
     type: "external",
+    component: "a",
   },
 };
 export type RouteConfigProps =

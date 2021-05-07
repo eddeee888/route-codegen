@@ -1,6 +1,6 @@
 /* This file was automatically generated with route-codegen and should not be edited. */
-import Link from "~/common/components/Link";
-import { CustomAnchor } from "~/common/components/Anchor";
+
+import { UrlParamsToc, patternToc } from "./toc/patternToc";
 import { UrlParamsUser, patternUser } from "./user/patternUser";
 import { UrlParamsAccount, patternAccount } from "./account/patternAccount";
 import { UrlParamsLogin, patternLogin } from "./login/patternLogin";
@@ -8,59 +8,55 @@ import { UrlParamsSignup, patternSignup } from "./signup/patternSignup";
 import { UrlParamsHome, patternHome } from "./home/patternHome";
 import { UrlParamsAbout, patternAbout } from "./about/patternAbout";
 import { UrlParamsContact, patternContact } from "./contact/patternContact";
-import { UrlParamsToc, patternToc } from "./toc/patternToc";
 import { UrlParamsLegacy, patternLegacy } from "./legacy/patternLegacy";
-export const routeConfig: Record<
-  string,
-  { pathPattern: string } & ({ type: "external"; component: typeof CustomAnchor } | { type: "internal"; component: typeof Link })
-> = {
+export const routeConfig: Record<string, { pathPattern: string } & ({ type: "external"; component: "a" } | { type: "internal" })> = {
+  toc: {
+    pathPattern: patternToc,
+    type: "internal",
+  },
   user: {
     pathPattern: patternUser,
-    type: "internal",
-    component: Link,
+    type: "external",
+    component: "a",
   },
   account: {
     pathPattern: patternAccount,
-    type: "internal",
-    component: Link,
+    type: "external",
+    component: "a",
   },
   login: {
     pathPattern: patternLogin,
     type: "external",
-    component: CustomAnchor,
+    component: "a",
   },
   signup: {
     pathPattern: patternSignup,
     type: "external",
-    component: CustomAnchor,
+    component: "a",
   },
   home: {
     pathPattern: patternHome,
     type: "external",
-    component: CustomAnchor,
+    component: "a",
   },
   about: {
     pathPattern: patternAbout,
     type: "external",
-    component: CustomAnchor,
+    component: "a",
   },
   contact: {
     pathPattern: patternContact,
     type: "external",
-    component: CustomAnchor,
-  },
-  toc: {
-    pathPattern: patternToc,
-    type: "external",
-    component: CustomAnchor,
+    component: "a",
   },
   legacy: {
     pathPattern: patternLegacy,
     type: "external",
-    component: CustomAnchor,
+    component: "a",
   },
 };
 export type RouteConfigProps =
+  | { to: "toc"; urlParams?: UrlParamsToc }
   | { to: "user"; urlParams: UrlParamsUser }
   | { to: "account"; urlParams?: UrlParamsAccount }
   | { to: "login"; urlParams?: UrlParamsLogin }
@@ -68,5 +64,4 @@ export type RouteConfigProps =
   | { to: "home"; urlParams?: UrlParamsHome }
   | { to: "about"; urlParams: UrlParamsAbout }
   | { to: "contact"; urlParams: UrlParamsContact }
-  | { to: "toc"; urlParams?: UrlParamsToc }
   | { to: "legacy"; urlParams?: UrlParamsLegacy };
