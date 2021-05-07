@@ -90,6 +90,7 @@ apps:
         config:
           mode: strict
       - name: "typescript-anchor"
+      - name: "typescript-route-config"
     generate:
       linkComponent: true
       useParams: true
@@ -118,6 +119,9 @@ apps:
             propsNamedImport: AnchorProps
             hrefProp: href
             from: ~/common/components/Anchor
+      - name: "typescript-route-config"
+        config:
+          externalComponent: "a"
     generate:
       linkComponent: true
       useParams: true
