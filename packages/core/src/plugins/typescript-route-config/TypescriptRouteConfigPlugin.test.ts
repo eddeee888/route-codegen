@@ -98,26 +98,60 @@ describe("TypescriptRouteConfig", () => {
     },
   };
 
-  it("throws error if internalComponent or externalComponent is not provided", () => {
-    expect(() => plugin.generate({ ...defaultConfig, extraConfig: undefined })).toThrow(
-      "internalComponent and externalComponent are required"
-    );
+  it("creates TemplateFile without component config", () => {
+    const result = plugin.generate({
+      ...defaultConfig,
+      files: [
+        internalPatternTemplateFile,
+        internalPatternTemplateFileWithPathParams,
+        externalPatternTemplateFile,
+        externalPatternTemplateFileWithPathParams,
+      ],
+      extraConfig: undefined,
+    });
 
-    expect(() =>
-      plugin.generate({
-        ...defaultConfig,
-        extraConfig: { internalComponent: defaultConfig.extraConfig?.internalComponent, externalComponent: undefined },
-      })
-    ).toThrow("internalComponent and externalComponent are required");
+    expect(result).toHaveLength(1);
 
-    expect(() =>
-      plugin.generate({
-        ...defaultConfig,
-        extraConfig: { externalComponent: defaultConfig.extraConfig?.externalComponent, internalComponent: undefined },
-      })
-    ).toThrow("internalComponent and externalComponent are required");
+    const [file] = result;
 
-    expect(() => plugin.generate({ ...defaultConfig })).not.toThrow("internalComponent and externalComponent are required");
+    expect(file.type).toBe(undefined);
+    expect(file.destinationDir).toBe("apps/");
+    expect(file.extension).toBe(".ts");
+    expect(file.filename).toBe("routeConfig");
+    expect(file.hasDefaultExport).toBe(false);
+    expect(file.hasNamedExports).toBe(true);
+    expect(file.routeName).toBe("");
+    expect(file.template).toMatchInlineSnapshot(`
+      "
+
+      import {urlParamsAbout,patternAbout,} from './about/patternAbout';import {urlParamsUser,patternUser,} from './user/patternUser';import {urlParamsTerms,patternTerms,} from './terms/patternTerms';import {urlParamsProject,patternProject,} from './terms/patternProject'
+      export const routeConfig: Record<string, { pathPattern:  string } 
+            & ( { type: \\"external\\"  } 
+              | { type: \\"internal\\"  })> = {
+      about: {
+                pathPattern: patternAbout,
+                type: \\"internal\\",
+                
+              },
+      user: {
+                pathPattern: patternUser,
+                type: \\"internal\\",
+                
+              },
+      terms: {
+                pathPattern: patternTerms,
+                type: \\"external\\",
+                
+              },
+      terms: {
+                pathPattern: patternProject,
+                type: \\"external\\",
+                
+              },
+      }
+      export type RouteConfigProps = 
+      { to: 'about', urlParams?: urlParamsAbout }|{ to: 'user', urlParams: urlParamsUser }|{ to: 'terms', urlParams?: urlParamsTerms }|{ to: 'terms', urlParams: urlParamsProject }"
+    `);
   });
 
   it("returns no file if no file supplied", () => {
@@ -172,27 +206,27 @@ describe("TypescriptRouteConfig", () => {
       import Link from '~/common/Link'
       import {urlParamsAbout,patternAbout,} from './about/patternAbout';import {urlParamsUser,patternUser,} from './user/patternUser';import {urlParamsTerms,patternTerms,} from './terms/patternTerms';import {urlParamsProject,patternProject,} from './terms/patternProject'
       export const routeConfig: Record<string, { pathPattern:  string } 
-            & ( { type: \\"external\\", component: typeof Link } 
-              | { type: \\"internal\\", component: \\"a\\" })> = {
+            & ( { type: \\"external\\" , component: typeof Link } 
+              | { type: \\"internal\\" , component: \\"a\\" })> = {
       about: {
                 pathPattern: patternAbout,
-                component: \\"a\\",
                 type: \\"internal\\",
+                component: \\"a\\",
               },
       user: {
                 pathPattern: patternUser,
-                component: \\"a\\",
                 type: \\"internal\\",
+                component: \\"a\\",
               },
       terms: {
                 pathPattern: patternTerms,
-                component: Link,
                 type: \\"external\\",
+                component: Link,
               },
       terms: {
                 pathPattern: patternProject,
-                component: Link,
                 type: \\"external\\",
+                component: Link,
               },
       }
       export type RouteConfigProps = 
