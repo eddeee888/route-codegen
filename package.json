@@ -25,14 +25,21 @@
     "lint": "eslint \"packages/**/src/**/*.ts\"",
     "generate:sample": "yarn build && yarn workspace @route-codegen/sample generate",
     "typecheck:sample": "yarn workspace @route-codegen/sample typecheck",
+    "generate:docs": "yarn jsdoc -c jsdoc.json",
     "release": "yarn build && yarn changeset publish"
   },
   "devDependencies": {
+    "@babel/cli": "^7.13.16",
+    "@babel/core": "^7.14.0",
+    "@babel/preset-env": "^7.14.1",
+    "@babel/preset-typescript": "^7.13.0",
     "@changesets/cli": "2.16.0",
     "@typescript-eslint/eslint-plugin": "4.22.0",
     "@typescript-eslint/parser": "4.22.0",
     "eslint": "7.24.0",
     "eslint-config-prettier": "8.2.0",
+    "jsdoc-babel": "^0.5.0",
+    "jsdoc-to-markdown": "^7.0.1",
     "prettier": "2.2.1",
     "semver": "7.1.3"
   },
