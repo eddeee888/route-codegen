@@ -1,5 +1,14 @@
 import { GeneratedFilesProcessorCodegenPlugin, TemplateFile } from "../../utils";
 
+/**
+ * typescript-root-index is a generated-files-processor plugin.
+ * This is used to create a index file at the root to re-export
+ * all generated constants and functions as one module.
+ *
+ * @name    typescript-root-index plugin
+ * @kind    function
+ * @returns {TemplateFile[]} Array with one TemplateFile that is the index file
+ */
 export const plugin: GeneratedFilesProcessorCodegenPlugin = {
   type: "generated-files-processor",
   generate: ({ destinationDir, files }) => {

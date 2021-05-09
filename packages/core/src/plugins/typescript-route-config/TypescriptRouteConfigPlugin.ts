@@ -63,6 +63,26 @@ interface ExtraConfig {
 
 export type TypescriptRouteConfigPluginConfig = WithExtraConfig<GeneratedFilesProcessorPluginBaseConfig, ExtraConfig>;
 
+/**
+ * @typedef  TypescriptRouteConfigPluginConfig
+ * @type     {object}
+ * @property {object}         config
+ * @property {string|Import}  [config.internalComponent] - Optional arbitrary string that can be used to mark internal component OR an Import object to autowire to each route.
+ * @property {string|Import}  [config.externalComponent] - Optional arbitrary string that can be used to mark external component OR an Import object to autowire to each route.
+ */
+
+/**
+ * typescript-route-config is a generated-files-processor plugin.
+ * This is used to create a Typescript version of the routeconfig
+ * with internal and external relationships.
+ * Internal and external component config can be used to further
+ * hint callsites of route relationships.
+ *
+ * @name    typescript-route-config plugin
+ * @kind    function
+ * @param   {TypescriptRouteConfigPluginConfig}
+ * @returns {TemplateFile[]} Array of TemplateFile that can be generated
+ */
 export const plugin: GeneratedFilesProcessorCodegenPlugin<ExtraConfig> = {
   type: "generated-files-processor",
   generate: ({ destinationDir, files, extraConfig = { internalComponent: undefined, externalComponent: undefined } }) => {

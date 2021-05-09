@@ -100,6 +100,15 @@ class TypescriptPatternGenerator extends BasePatternGenerator {
   }
 }
 
+/**
+ * typescript-pattern is a pattern plugin for TypeScript
+ * This is used to generate patterns and interfaces that
+ * can be used by general plugins
+ *
+ * @name    typescript-pattern plugin
+ * @kind    function
+ * @returns {PatternTemplateFile} PatternTemplateFile to be used by other plugins
+ */
 export const plugin: PatternCodegenPlugin = {
   type: "pattern",
   generate: (config) => {

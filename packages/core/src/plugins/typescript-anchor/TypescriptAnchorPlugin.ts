@@ -303,6 +303,32 @@ class TypescriptAnchorGenerator extends BaseRouteGenerator<ParsedLinkOptionsAnch
   }
 }
 
+/**
+ * @typedef  TypescriptAnchorPluginConfig
+ * @type     {object}
+ * @property {object}   importCustomLink
+ * @property {string}   importCustomLink.from - Where the custom link can be imported from
+ * @property {boolean}  [importCustomLink.componentDefaultImport] - Whether the custom link is a default export. Default is `false`
+ * @property {boolean}  [importCustomLink.componentNamedImport] - Whether the custom link is a named export. Default is `false`
+ * @property {string}   importCustomLink.hrefProp - What the custom href prop of the link component is to map href value to ( e.g. href, to, etc. )
+ * @property {string}   importCustomLink.propsNamedImport - What the custom link prop import is. This is used to provide type safety
+ *
+ * @property {object}   generate
+ * @property {boolean}  [generate.linkComponent] - Whether a link component should be generated. Default is `false`
+ * @property {boolean}  [generate.redirectComponent] - Whether a redirect component should be generated. Requires @route-codegen/react. Default is `false`
+ * @property {boolean}  [generate.useRedirect] - Whether a useRedirect react hook should be generated. Default is `false`
+ * @property {boolean}  [generate.useParams] - Whether a useParams react hook should be generated. Default is `false`
+ */
+
+/**
+ * typescript-anchor is a plugin for external routes
+ * This will be used on routes marked as externals and the default behaviour is server-side routing
+ *
+ * @name    typescript-anchor plugin
+ * @kind    function
+ * @param   {TypescriptAnchorPluginConfig}
+ * @returns {TemplateFile[]} Array of generated TemplateFile. This can be manipulated by the `generate` config
+ */
 export const plugin: GeneralCodegenPlugin<ExtraConfig> = {
   type: "route-external",
   generate: (config) => {
