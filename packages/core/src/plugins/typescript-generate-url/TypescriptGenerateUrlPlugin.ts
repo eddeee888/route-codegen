@@ -1,5 +1,13 @@
 import { capitalizeFirstChar, printImport, TemplateFile, GeneralCodegenPlugin } from "../../utils";
 
+/**
+ * typescript-generate-url is a general plugin
+ * This is used to generate functions that are bound with route locations
+ *
+ * @name    typescript-generate-url plugin
+ * @kind    function
+ * @returns {TemplateFile[]} Array of with one generated TemplateFile.
+ */
 export const plugin: GeneralCodegenPlugin = {
   type: "general",
   generate: (config) => {

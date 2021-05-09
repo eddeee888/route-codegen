@@ -18,7 +18,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 12.x
+          node-version: 14.x
 
       - name: Install packages
         run: yarn --frozen-lockfile
@@ -38,8 +38,7 @@ jobs:
         uses: changesets/action@master
         with:
           publish: yarn release
-          commit: 'chore(release): update packages versions'
-          title: 'Upcoming Release Changes'
+          commit: "chore(release): update packages versions"
+          title: "Upcoming Release Changes"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-

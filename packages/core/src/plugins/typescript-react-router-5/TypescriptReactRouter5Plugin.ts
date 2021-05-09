@@ -360,6 +360,35 @@ class TypescriptReactRouter5Generator extends BaseRouteGenerator<ParsedLinkOptio
   }
 }
 
+/**
+ * @typedef  TypescriptReactRouter5PluginConfig
+ * @type     {object}
+ * @property {object}   importCustomLink
+ * @property {string}   importCustomLink.from - Where the custom link can be imported from
+ * @property {boolean}  [importCustomLink.componentDefaultImport] - Whether the custom link is a default export. Default is `false`
+ * @property {boolean}  [importCustomLink.componentNamedImport] - Whether the custom link is a named export. Default is `false`
+ * @property {string}   importCustomLink.hrefProp - What the custom href prop of the link component is to map href value to ( e.g. href, to, etc. )
+ * @property {string}   importCustomLink.propsNamedImport - What the custom link prop import is. This is used to provide type safety
+ *
+ * @property {object}   generate
+ * @property {boolean}  [generate.linkComponent] - Whether a link component should be generated. Default is `false`
+ * @property {boolean}  [generate.redirectComponent] - Whether a redirect component should be generated. Requires @route-codegen/react. Default is `false`
+ * @property {boolean}  [generate.useRedirect] - Whether a useRedirect react hook should be generated. Default is `false`
+ * @property {boolean}  [generate.useParams] - Whether a useParams react hook should be generated. Default is `false`
+ *
+ * @property {enum}     mode - "strict" or "loose". Default is "loose"
+ */
+
+/**
+ * typescript-react-router-5 is a plugin for internal routes
+ * This will be used on routes marked as internals i.e. handled by react-router
+ * and the default behaviour is client-side routing
+ *
+ * @name    typescript-react-router-5 plugin
+ * @kind    function
+ * @param   {TypescriptRouteConfigPluginConfig}
+ * @returns {TemplateFile[]} Array of generated TemplateFile. This can be manipulated by the `generate` config
+ */
 export const plugin: GeneralCodegenPlugin<ExtraConfig> = {
   type: "route-internal",
   generate: (config) => {
