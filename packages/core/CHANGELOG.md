@@ -1,5 +1,12 @@
 # @route-codegen/core
 
+## 0.5.5
+
+### Patch Changes
+
+- 26abb62: Update TypescriptRouteConfigPlugin to handle cases without component config gracefully
+- 8ce33a9: Add docs using jsdoc2md. Bump node requirements to 14 to develop
+
 ## 0.5.4
 
 ### Patch Changes
