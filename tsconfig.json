@@ -26,5 +26,5 @@
     "noUnusedLocals": true
   },
   "include": ["packages"],
-  "exclude": ["node_modules", "sample/output", "**/jest.config.js", "**/dist", "**/*.test.*"]
+  "exclude": ["node_modules", "examples/outputs", "**/jest.config.js", "**/dist", "**/*.test.*"]
 }

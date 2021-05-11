@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@route-codegen/sample",
+  "name": "@route-codegen/examples",
   "version": "0.0.1",
   "scripts": {
     "route-codegen": "node ../node_modules/@route-codegen/core/dist/bin/route-codegen.js",

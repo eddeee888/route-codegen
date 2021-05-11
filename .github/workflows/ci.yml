@@ -46,11 +46,11 @@ jobs:
       - name: Check that docs are generated
         run: ./scripts/ci/check-docs.sh
 
-      - name: Check that samples are generated
-        run: ./scripts/ci/check-sample.sh
+      - name: Check that examples are generated
+        run: ./scripts/ci/check-examples.sh
 
-      - name: Check types of samples
-        run: yarn typecheck:sample
+      - name: Check types of examples
+        run: yarn typecheck:examples
 
   test-utils:
     name: "@route-codegen/utils tests"

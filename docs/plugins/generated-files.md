@@ -4,23 +4,23 @@ Note: this is a work in progress. Ideally, each plugin should create their own d
 
 ### Pattern file
 
-[Example](./sample/outputs/default/app/routes/user/patternUser.ts)
+[Example](./examples/outputs/default/app/routes/user/patternUser.ts)
 
 This file contains the pattern of a route and typescript interfaces that come with it.
 
 ### Generate URL file
 
-[Exampe](./sample/outputs/default/app/routes/user/generateUrlUser.ts)
+[Exampe](./examples/outputs/default/app/routes/user/generateUrlUser.ts)
 
 This file contains a function to generate the URL of a particular route. Interfaces from the pattern files are used here to ensure type safety. This function is used in other components / functions of the route module to ensure URLs are generated the same way.
 
 ### Link component
 
-[react-router v5 example](./sample/outputs/default/app/routes/user/LinkUser.tsx)
+[react-router v5 example](./examples/outputs/default/app/routes/user/LinkUser.tsx)
 
-[NextJS example](./sample/outputs/default/seo/routes/home/LinkHome.tsx)
+[NextJS example](./examples/outputs/default/seo/routes/home/LinkHome.tsx)
 
-[Default anchor example](./sample/outputs/default/app/routes/about/LinkAbout.tsx)
+[Default anchor example](./examples/outputs/default/app/routes/about/LinkAbout.tsx)
 
 Each routing framework has different API for their link. The generated `Link` component is an abstraction that handles:
 
@@ -59,6 +59,6 @@ Similar to the `Link` component but redirects the user when mounted. If this opt
 
 ### Other files
 
-- `useParams`: Get dynamic params in the URL. Available for `react-router` and `NextJS`. [Example](./sample/outputs/default/app/routes/user/useParamsUser.ts)
+- `useParams`: Get dynamic params in the URL. Available for `react-router` and `NextJS`. [Example](./examples/outputs/default/app/routes/user/useParamsUser.ts)
 
-- `useRedirect`: Creates a function to redirect the user to a route. [Example](./sample/outputs/default/app/routes/user/useRedirectUser.ts)
+- `useRedirect`: Creates a function to redirect the user to a route. [Example](./examples/outputs/default/app/routes/user/useRedirectUser.ts)
