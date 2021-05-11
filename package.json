@@ -11,7 +11,7 @@
   "private": true,
   "workspaces": [
     "packages/*",
-    "sample"
+    "examples"
   ],
   "scripts": {
     "test": "jest",
@@ -23,8 +23,8 @@
     "build:react": "yarn workspace @route-codegen/react build",
     "format": "prettier --config .prettierrc --write \"packages/**/*.{ts,tsx}\"",
     "lint": "eslint \"packages/**/src/**/*.ts\"",
-    "generate:sample": "yarn build && yarn workspace @route-codegen/sample generate",
-    "typecheck:sample": "yarn workspace @route-codegen/sample typecheck",
+    "generate:examples": "yarn build && yarn workspace @route-codegen/examples generate",
+    "typecheck:examples": "yarn workspace @route-codegen/examples typecheck",
     "generate:docs": "node scripts/docs/generate-docs.js",
     "release": "yarn build && yarn changeset publish"
   },
