@@ -12,12 +12,12 @@ Route Codegen is a library that generates Typescript functions, hooks and types 
 
 Route Codegen aims to simplify workflows by keeping apps' routes in one config file and generates the code to handle routing concerns.
 
-## Supports
+## 🤝 Supports
 
 - [Next.js](https://github.com/zeit/next.js/) v9.3.4^
 - [React router](https://github.com/ReactTraining/react-router) v5^
 
-## Installation
+## ⚡ Installation
 
 ```bash
 yarn add -D @route-codegen/core
@@ -33,7 +33,9 @@ npm i @route-codegen/utils
 npm i @route-codegen/react # Only if you use generate.redirectComponent option
 ```
 
-## Basic usage
+## 🛠️ Configuration
+
+### Basic config
 
 Add `route-codegen.yml` to your project root:
 
@@ -49,6 +51,9 @@ apps:
       - name: "typescript-pattern"
       - name: "typescript-generate-url"
       - name: "typescript-react-router-5"
+        config:
+          generate:
+            linkComponent: true
       - name: "typescript-root-index"
 ```
 
@@ -66,7 +71,67 @@ npx route-codegen
 
 You will get fully typed functions to generate URLs to login, logout and user routes. These files are accompanied by related types based on the app's main routing approach.
 
-### Advanced usage
+For example, if you are using `react-router`, can set up your route file like this:
+
+```jsx
+// src/App.tsx
+import { BrowserRouter, Switch, Route, Link, RouteComponentProps } from "react-router-dom";
+import { 
+  patternLogin, 
+  patternLogout, 
+  patternUser, 
+  LinkLogin, 
+  LinkUser, 
+  generateUrlLogout, 
+  PathParamsUser 
+} from "./routes";
+
+function App() {
+  return (
+    <BrowserRouter>
+      <ul>
+        <li>
+          <Link href="/login">Login</Link>
+          {/* 👆 Instead manually typing out href string */}
+          {/* 👇 Use LinkLogin it has href built-in */}
+          <LinkLogin>Login</Link>
+        </li>
+        <li>
+          <Link href="/logout">Login</Link>
+          {/* 👆 Instead manually typing out href string */}
+          {/* 👇 Use typed `generateUrl` functions ( if you still want to use react-router's Link) */}
+          <Link to={generateUrlLogout()}>Logout</Link>
+        </li>
+        <li>
+          <Link href="/user/100/pictures">User 100 pictures page</Login>
+          {/* 👆 Instead of using string for href which is error prone */}
+          {/* 👇 Use typed Link components */}
+          <LinkUser urlParams={{ path: { id: "100", subview: "pictures" } }}>
+            User 100 pictures page
+          </LinkUser>;
+        </li>
+      </ul>
+
+      <hr />
+
+      <Switch>
+        {/* 👇 pattern variables are directly pulled from config to minimise changes */}
+        <Route exact path={patternLogin}>
+          <Login />
+        </Route>
+        <Route exact path={patternLogout}>
+          <Logout />
+        </Route>
+        {/* 👇 Path params are converted to TypeScript interfaces that can be used to type props */}
+        <Route exact path={patternUser} 
+          render={(routeProps: RouteComponentProps<PathParamsUser>) => <User routeProps={routeProps} />} />
+      </Switch>
+    </BrowserRouter>
+  );
+}
+```
+
+### Advanced config
 
 If you have more than one app and want to manage all routes in one config file, you can use one config file to do so:
 
@@ -120,8 +185,6 @@ apps:
       externalAppHome: /
 ```
 
-## Configuration
-
 ### Path parameters
 
 Path parameter patterns are a subset of https://github.com/pillarjs/path-to-regexp:
@@ -131,14 +194,14 @@ Path parameter patterns are a subset of https://github.com/pillarjs/path-to-rege
 - `:path(enum1|enum2)`: This only matches if path value is `enum1` or `enum2` for React Router V5. For others, it matches any string.
 - `:path(enum1|enum2)?`: This only matches if path value is `enum1` or `enum2` for React Router V5. For others, it matches any string. This param is optional.
 
-### Plugins
-
-Checkout the [list of plugins](./packages/core/src/plugins). ( More docs coming soon! )
-
 ### Customising links
 
 If you have custom links ( e.g. to apply styling on top of underlying link components ), check out the [link options doc](./docs/plugins/link-options.md).
 
-## Development
+## 🔌 Plugins
+
+Checkout the [list of plugins](./packages/core/src/plugins). ( More docs coming soon! )
+
+## 🧑‍💻 Development
 
 If you want to see how the codegen works, check out the [development guide](./docs/general/development.md).
